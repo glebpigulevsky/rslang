@@ -1,9 +1,13 @@
 {
+  "presets": [
+    "@babel/preset-env"
+  ],   
   "plugins": [
     [
       "transform-es2015-for-of", {
         "loose": true
       }
-    ]
+    ],
+    ["@babel/transform-runtime"]
   ]
 }

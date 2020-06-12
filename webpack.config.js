@@ -7,20 +7,25 @@ module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'production',
   entry: {
-    main: ['./index.js'],
+    promo: ['./promo/promo.js'],
+    app: ['./app/app.js'],
   },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: './[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: './index.html',
+      template: './promo/index.html',
+      filename: './index.html'
+    }),
+    new HTMLWebpackPlugin({
+      template: './main/index.html',
+      filename: './app.html'
     }),
     new CleanWebpackPlugin(),
     new CopyPlugin([
       //{ from: './assets/img', to: './assets/img' },
-      
     ]),
   ],
   module: {
@@ -41,13 +46,33 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg|svg|gif)$/,
-        use: {
-          loader: 'url-loader',
+        test: /\.(mp3|wav)$/,
+        use: [{
+          loader: 'file-loader',
           options: {
-            outputPath: 'image',
+            outputPath: './assets/audio/',
           },
-        },
+        }],
+      },  
+      {
+        test: /\.(jpg|png|svg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: './assets/img/',
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                processive: true,
+                quality: 98,
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(ttf|woff|wooff2|eot)$/,
@@ -72,4 +97,11 @@ module.exports = {
       },
     ],
   },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 3000,
+    stats: 'errors-only',
+    clientLogLevel: 'none'
+  }
 };

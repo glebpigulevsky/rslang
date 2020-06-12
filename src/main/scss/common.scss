@@ -1,0 +1,115 @@
+html {
+  font-size: 16px;
+  font-family: Verdana, Helvetica, sans-serif;
+  font-weight: 400;
+
+  background: #d6eaf8;
+
+  user-select: none;
+}
+
+.body {
+  background: url('../assets/img/main_bg.png');
+}
+
+.centralizer {
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.list {
+  padding: 0;
+
+  list-style: none;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.active {
+  color: white;
+
+  background-color: lightcoral;
+}
+
+.disabled {
+  background-color: lightcoral;
+}
+
+.button-rounded {
+  font-family: Verdana, Helvetica, sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  padding: 15px 30px;
+  margin: 10px 20px;
+  border-radius: 50px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4),
+              0 0 40px 40px #00bf82 inset, 0 0 0 0 #00bf82;
+  // font-family: 'Montserrat', sans-serif;
+  font-weight: bold;
+  letter-spacing: 2px;
+  color: white;
+  transition: .05s ease-in;
+
+  &:focus,
+  &:hover,
+  &:active {
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4),
+                0 0 10px 0 #335e97 inset, 0 0 10px 4px #335e97;
+    color: #335e97;
+  }
+}
+
+.button {
+  text-decoration: none;
+  outline: none;
+  display: inline-block;
+  width: 140px;
+  height: 45px;
+  line-height: 45px;
+  border-radius: 45px;
+  margin: 10px 20px;
+  // font-family: 'Montserrat', sans-serif;
+  font-size: 11px;
+  text-transform: uppercase;
+  text-align: center;
+  letter-spacing: 3px;
+  font-weight: 600;
+  color: #524f4e;
+  background: white;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4);
+  transition: .3s;
+
+  &:focus,
+  &:hover,
+  &:active {
+    background: #2EE59D;
+    box-shadow: 0 15px 20px rgba(46,229,157,.4);
+    color: white;
+    transform: translateY(-7px);
+  }
+
+  &.disabled:focus,
+  &.disabled:hover,
+  &.disabled:active {
+    background: white;
+    box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4);
+    color: #524f4e;
+    transform: none;
+  }
+}

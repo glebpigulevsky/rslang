@@ -3,10 +3,13 @@
   "version": "1.0.0",
   "description": "Final task RSSchool 2020#1",
   "main": "index.js",
-  "dependencies": {},
+  "dependencies": {
+    "@babel/runtime": "^7.10.2"
+  },
   "devDependencies": {
     "@babel/cli": "^7.10.1",
     "@babel/core": "^7.10.2",
+    "@babel/plugin-transform-runtime": "^7.10.1",
     "@babel/preset-env": "^7.10.2",
     "babel-loader": "^8.1.0",
     "babel-plugin-transform-es2015-for-of": "^6.23.0",
@@ -29,9 +32,11 @@
     "stylelint-scss": "^3.17.2",
     "url-loader": "^4.1.0",
     "webpack": "^4.43.0",
-    "webpack-cli": "^3.3.11"
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
   },
   "scripts": {
+    "start": "webpack-dev-server --mode development --open",
     "dev": "webpack --mode development",
     "build": "webpack --mode production",
     "lint:fix": "eslint ./src --fix",
