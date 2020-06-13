@@ -1,49 +1,37 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
-
-const isDev = process.env.NODE_ENV === 'development';
-
-const jsLoaders = () => {
-  const loaders =[{
-    loader : 'babel-loader',
-    options: {
-            presets: [
-              '@babel/preset-env',
-            ],
-          }
-  }]
-  if (isDev) {
-    loaders.push('eslint-loader')
-  }
-  return loaders;
-}
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
-  mode: 'production',
+  mode: 'development',
   entry: {
-    promo: ['./promo/promo.js'],
-    app: ['./app/app.js'],
+    promo: ['./promo/promo.app.js'],
+    app: ['./app.js'], 
   },
   output: {
-    filename: './[name].bundle.js',
+    filename: './js/[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: './promo/index.html',
+      inject: false,
+      template: './promo/promo.index.html',
       filename: './index.html'
     }),
     new HTMLWebpackPlugin({
-      template: './main/index.html',
-      filename: './app.html'
+      inject: false,
+      template: './main/main.index.html',
+      filename: './main.index.html'
     }),
     new CleanWebpackPlugin(),
-    new CopyPlugin([
-      //{ from: './assets/img', to: './assets/img' },
-    ]),
+    new CopyWebpackPlugin([
+      {
+        from: './common/assets/favicon/',
+        to: './assets/favicon/',
+      },
+    ]), 
   ],
   module: {
     rules: [
@@ -96,14 +84,14 @@ module.exports = {
         use: {
           loader: 'file-loader',
           options: {
-            outputPath: 'fonts',
+            outputPath: './assets/fonts',
           },
         },
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
-        use: jsLoaders(),
+        enforce: 'pre',
+        use: ['source-map-loader'],
       },
     ],
   },
@@ -115,17 +103,3 @@ module.exports = {
     clientLogLevel: 'none'
   }
 };
-
-
-// {
-//   test: /\.js$/,
-//   exclude: /node_modules/,
-//   loader: {
-//     loader: 'babel-loader',
-//     options: {
-//       presets: [
-//         '@babel/preset-env',
-//       ],
-//     },
-//   },
-// },

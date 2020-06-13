@@ -22,5 +22,6 @@ module.exports = {
     "no-plusplus": "off",
     "default-case": "off",
     "no-multi-assign": "off"                                       
-  }, 
+  },
+  root: true
 };
