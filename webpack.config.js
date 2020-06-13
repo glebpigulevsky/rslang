@@ -3,6 +3,23 @@ const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
+const isDev = process.env.NODE_ENV === 'development';
+
+const jsLoaders = () => {
+  const loaders =[{
+    loader : 'babel-loader',
+    options: {
+            presets: [
+              '@babel/preset-env',
+            ],
+          }
+  }]
+  if (isDev) {
+    loaders.push('eslint-loader')
+  }
+  return loaders;
+}
+
 module.exports = {
   context: path.resolve(__dirname, 'src'),
   mode: 'production',
@@ -86,14 +103,7 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              '@babel/preset-env',
-            ],
-          },
-        },
+        use: jsLoaders(),
       },
     ],
   },
@@ -105,3 +115,17 @@ module.exports = {
     clientLogLevel: 'none'
   }
 };
+
+
+// {
+//   test: /\.js$/,
+//   exclude: /node_modules/,
+//   loader: {
+//     loader: 'babel-loader',
+//     options: {
+//       presets: [
+//         '@babel/preset-env',
+//       ],
+//     },
+//   },
+// },

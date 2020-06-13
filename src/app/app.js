@@ -6,6 +6,7 @@ import '../main/scss/main.scss';
 
 const model = new Model();
 const view = new View();
+
 const controller = new Controller(model, view);
 
 window.onload = () => {
@@ -13,3 +14,6 @@ window.onload = () => {
   model.init();
   controller.init();
 };
+
+
+
