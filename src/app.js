@@ -1,7 +1,9 @@
-import main from './main/main.app';
-import speakit from './speakit/speakit.app';
+import main from './components/main/main.app';
+import speakit from './components/speakit/speakit.app';
 
-console.log('Hello from app');
+import { APP_GREETINGS } from './common/common.constants';
+
+console.log(APP_GREETINGS);
 
 window.onload = () => {
   main.init();
