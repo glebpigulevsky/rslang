@@ -7,12 +7,12 @@ export default class Users {
   }
 
   async getUser({ id }) {
-    const res = await this.apiService.getResource({ url: `/users/${id}`, hasToken: false });
+    const res = await this.apiService.getResource({ url: `/users/${id}`, hasToken: true });
     return this.transformUser(res);
   }
 
   async editUser({ id, email, password }) {
-    const res = await this.apiService.putResourse({ url: `/users/${id}`, params: { email, password }, hasToken: false });
+    const res = await this.apiService.putResourse({ url: `/users/${id}`, params: { email, password }, hasToken: true });
     return this.transformUser(res);
   }
 
@@ -22,7 +22,7 @@ export default class Users {
   }
 
   async deleteUser({ id }) {
-    const res = await this.apiService.deleteResourse({ url: `/users/${id}`, hasToken: false });
+    const res = await this.apiService.deleteResourse({ url: `/users/${id}`, hasToken: true });
     return res;
   }
 
