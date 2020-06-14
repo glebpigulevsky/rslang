@@ -20,10 +20,5 @@ module.exports = {
     'default-case': 'off',
     'no-multi-assign': 'off',
   },
-  // settings: {
-  //   'import/extensions': [
-  //     '.js', '.jsx', '.ts', '.tsx',
-  //   ],
-  // },
   root: true,
 };

@@ -1,0 +1,78 @@
+.results__container {
+  display: none;
+}
+
+.result {
+  .main-card,
+  .game__controls,
+  .cards__container,
+  .introduction {
+    display: none;
+  }
+
+  .results__container {
+    display: block;
+  }
+}
+
+.button__container-results {
+  padding: 20px;
+}
+
+.correct__title,
+.errors__title,
+.time {
+  font-size: 25px;
+  line-height: 40px;
+  color: #335e97;
+  text-align: center;
+  margin: 0;
+}
+
+.time {
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
+
+.results__correct,
+.results__errors {
+  max-width: 70vw;
+  margin: 0 auto;
+}
+
+.errors__list,
+.correct__list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+
+  .cards__item {
+    margin: 10px;
+  }
+
+  .card__link {
+    min-height: 80px;
+    font-size: 16px;
+  }
+
+  .card__word,
+  .card__transcription {
+    margin: 0;
+    margin-bottom: 5px;
+  }
+
+  .card__translation {
+    margin: 0;
+  }
+}
+
+.correct,
+.correct__lead {
+  color: #00bf82;
+}
+
+.errors,
+.errors__lead {
+  color: lightcoral;
+}

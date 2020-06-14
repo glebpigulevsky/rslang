@@ -1,0 +1,37 @@
+@import '../../../scss/variables.scss';
+@import '../../../scss/mixins.scss';
+
+.status-bar {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+
+  min-height: 32px;
+  margin: 0;
+  margin-top: 5px;
+
+  @include media-tablet {
+    min-height: 26px;
+  }
+
+  @include media-mobile {
+    min-height: 20px;
+  }
+}
+
+.star {
+  width: 32px;
+  height: 32px;
+
+  flex-shrink: 0;
+
+  @include media-tablet {
+    width: 26px;
+    height: 26px;
+  }
+
+  @include media-mobile {
+    width: 20px;
+    height: 20px;
+  }
+}

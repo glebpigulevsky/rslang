@@ -7,8 +7,8 @@ console.log(APP_GREETINGS);
 
 window.onload = () => {
   main.init();
-  speakit.init();
-
   main.sayHello();
+
+  speakit.init();
   speakit.sayHello();
 };
