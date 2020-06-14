@@ -16,13 +16,12 @@ export default class ApiService {
       },
     });
     if (!res.ok) {
-      await this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
-    } else {
-      return res.json();
+       await this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
     }
+    return res.json();
   }
 
-  async postResourse({ url, params, hasToken }) {
+   async postResourse({ url, params, hasToken }) {
     const res = await fetch(`${this.baseUrl}${url}`, {
       method: 'POST',
       withCredentials: !!hasToken,
@@ -69,7 +68,7 @@ export default class ApiService {
     if (!res.ok) {
       await this.getError(res.status, res.statusText);
     }
-    if (res.status === 204) {
+    if (res.status === 204 || res.status === 200) {
       return true;
     }
     return false;
