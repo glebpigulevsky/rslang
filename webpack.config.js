@@ -1,27 +1,37 @@
 const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
   context: path.resolve(__dirname, 'src'),
-  mode: 'production',
+  mode: 'development',
   entry: {
-    main: ['./index.js'],
+    promo: ['./components/promo/promo.app.js'],
+    app: ['./app.js'], 
   },
   output: {
-    filename: '[name].[contenthash].js',
+    filename: './js/[name].bundle.js',
     path: path.resolve(__dirname, 'dist'),
   },
   plugins: [
     new HTMLWebpackPlugin({
-      template: './index.html',
+      inject: false,
+      template: './components/promo/promo.index.html',
+      filename: './index.html'
+    }),
+    new HTMLWebpackPlugin({
+      inject: false,
+      template: './components/main/main.index.html',
+      filename: './main.index.html'
     }),
     new CleanWebpackPlugin(),
-    new CopyPlugin([
-      //{ from: './assets/img', to: './assets/img' },
-      
-    ]),
+    new CopyWebpackPlugin([
+      {
+        from: './assets/favicon/',
+        to: './assets/favicon/',
+      },
+    ]), 
   ],
   module: {
     rules: [
@@ -41,35 +51,55 @@ module.exports = {
         ],
       },
       {
-        test: /\.(png|jpg|svg|gif)$/,
-        use: {
-          loader: 'url-loader',
+        test: /\.(mp3|wav)$/,
+        use: [{
+          loader: 'file-loader',
           options: {
-            outputPath: 'image',
+            outputPath: './assets/audio/',
           },
-        },
+        }],
+      },  
+      {
+        test: /\.(jpg|png|svg|gif)$/,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: './assets/img/',
+            },
+          },
+          {
+            loader: 'image-webpack-loader',
+            options: {
+              mozjpeg: {
+                processive: true,
+                quality: 98,
+              },
+            },
+          },
+        ],
       },
       {
         test: /\.(ttf|woff|wooff2|eot)$/,
         use: {
           loader: 'file-loader',
           options: {
-            outputPath: 'fonts',
+            outputPath: './assets/fonts',
           },
         },
       },
       {
         test: /\.js$/,
-        exclude: /node_modules/,
-        loader: {
-          loader: 'babel-loader',
-          options: {
-            presets: [
-              '@babel/preset-env',
-            ],
-          },
-        },
+        enforce: 'pre',
+        use: ['source-map-loader'],
       },
     ],
   },
+  devServer: {
+    contentBase: path.join(__dirname, 'dist'),
+    compress: true,
+    port: 3000,
+    stats: 'errors-only',
+    clientLogLevel: 'none'
+  }
 };

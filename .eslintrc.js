@@ -1,25 +1,29 @@
 module.exports = {
-  "env": {
-      "browser": true,
-      "es6": true
+  env: {
+    browser: true,
+    es6: true,
   },
-      "extends": [
-          "airbnb-base",
-          "prettier"
-      ],
-  "globals": {
-      "Atomics": "readonly",
-      "SharedArrayBuffer": "readonly"
+  extends: ['prettier', 'airbnb-base'],
+  globals: {
+    Atomics: 'readonly',
+    SharedArrayBuffer: 'readonly',
   },
-  "parserOptions": {
-      "ecmaVersion": 2018,
-      "sourceType": "module"
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
   },
-  "rules": {
+  rules: {
+    'import/prefer-default-export': 'off',
+    'class-methods-use-this': 'off',
+    'no-param-reassign': [2, { props: false }],
+    'no-plusplus': 'off',
+    'default-case': 'off',
+    'no-multi-assign': 'off',
   },
-  "settings": {
-      "import/extensions": [
-        ".js", ".jsx", ".ts", ".tsx"
-      ]
-  }
+  // settings: {
+  //   'import/extensions': [
+  //     '.js', '.jsx', '.ts', '.tsx',
+  //   ],
+  // },
+  root: true,
 };
