@@ -1,4 +1,4 @@
-const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTU1MDc1MmU2ZjgxMDAxNzI5NjUzMiIsImlhdCI6MTU5MjEzNTI5MiwiZXhwIjoxNTkyMTQ5NjkyfQ.5jfISQe3NNHvo3wScYaezZRY-gIqdkeiJRtkKlTNDJw';
+const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTU1MDc1MmU2ZjgxMDAxNzI5NjUzMiIsImlhdCI6MTU5MjE2NDQ2MywiZXhwIjoxNTkyMTc4ODYzfQ.VCnD4MySmiHT-MB1DhWL2CO-y5_RHsC3w38oym-vTAQ';
 
 export default class ApiService {
   constructor(baseUrl) {
@@ -16,9 +16,10 @@ export default class ApiService {
       },
     });
     if (!res.ok) {
-      this.getError(res.status, `Could not fetch: ${url}, API message: ${res.statusText}`);
+      await this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
+    } else {
+      return res.json();
     }
-    return res.json();
   }
 
   async postResourse({ url, params, hasToken }) {
@@ -33,7 +34,7 @@ export default class ApiService {
       body: JSON.stringify(params),
     });
     if (!res.ok) {
-      this.getError(res.status, res.statusText);
+      await this.getError(res.status, res.statusText);
     }
     return res.json();
   }
@@ -50,7 +51,7 @@ export default class ApiService {
       body: JSON.stringify(params),
     });
     if (!res.ok) {
-      this.getError(res.status, res.statusText);
+      await this.getError(res.status, res.statusText);
     }
     return res.json();
   }
@@ -66,7 +67,7 @@ export default class ApiService {
       },
     });
     if (!res.ok) {
-      this.getError(res.status, res.statusText);
+      await this.getError(res.status, res.statusText);
     }
     if (res.status === 204) {
       return true;
@@ -74,7 +75,7 @@ export default class ApiService {
     return false;
   }
 
-  getError(status, message) {
+  async getError(status, message) {
     console.info(message);
     switch (status) {
       case 400:
