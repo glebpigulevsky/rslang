@@ -88,7 +88,7 @@ export default class ApiService {
       case 410:
         throw new Error('410: Gone');
       case 422:
-        throw new Error('422: Incorrect E-mail or Password');
+        throw new Error('422: Incorrect request');
       default:
         throw new Error('Something Goes Wrong');
     }
