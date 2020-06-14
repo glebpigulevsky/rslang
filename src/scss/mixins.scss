@@ -1,18 +1,63 @@
+@mixin font ($size, $height: $size, $weight: bold, $style: normal) {
+  font-style: $style;
+  font-weight: $weight;
+  font-size: $size;
+  line-height: $height;
+}
+
+@mixin button ($color, $background, $width, $height, $radius) {
+  width: $width;
+  height: $height;
+
+  color: $color;
+
+  background: $background;
+  border-radius: $radius;
+}
+
+@mixin columns ($width) {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+
+@mixin border-radius($topLeft, $topRight, $bottomRight, $bottomLeft) {
+  border-radius: $topLeft $topRight $bottomRight $bottomLeft;
+}
+
+@mixin box-shadow($horizOffset, $vertOffset, $blur, $color) {
+  box-shadow: $horizOffset $vertOffset $blur $color;
+}
+
+@mixin pseudo($display: block, $pos: absolute, $content: "") {
+  content: $content;
+  position: $pos;
+
+  display: $display;
+}
+
+@mixin link ($link, $visit, $hover, $active) {
+  a {
+    color: $link;
+
+    &:visited {
+      color: $visit;
+    }
+
+    &:hover {
+      color: $hover;
+    }
+
+    &:active {
+      color: $active;
+    }
+  }
+}
+
 @mixin transition($time: 0.3s, $property: all, $method: ease-out) {
   transition: $time $property $method;
 }
 
-@mixin media-max-width($width) {
-  @media (max-width: $width) {
-    @content;
-  }
-}
-
-@mixin media-desktop {
-  @media (max-width: $desktop-width) {
-    @content;
-  }
-}
 
 @mixin media-tablet {
   @media (max-width: $tablet-width) {
@@ -21,7 +66,13 @@
 }
 
 @mixin media-mobile {
-  @media (max-width: $mobile-big-width) {
+  @media (max-width: $mobile-width) {
+    @content;
+  }
+}
+
+@mixin media-mobilesmall {
+  @media (max-width: $mobile-small-width) {
     @content;
   }
 }

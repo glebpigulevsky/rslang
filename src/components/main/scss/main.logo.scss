@@ -1,3 +1,13 @@
 .main__logo {
-  color: lightcoral;
+  color: $color-dark-blue;
+
+  @include font($size: 4.8rem, $weight: normal);
+}
+
+.btn {
+  padding: 5px 0;
+
+  text-align: center;
+
+  @include button($color: $color-light, $background: $color-btn, $width: 100px, $height: 30px, $radius: 30px);
 }
