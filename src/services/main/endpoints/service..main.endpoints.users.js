@@ -1,12 +1,13 @@
-import ApiService from '../common/service.common.apiService';
+import ApiService from '../../common/services.common.apiService';
+import { MAIN_API_URL } from '../../common/services.common.constants';
 
 export default class Users {
   constructor() {
-    this.apiService = new ApiService();
+    this.apiService = new ApiService(MAIN_API_URL);
   }
 
   async getUser({ id }) {
-    const res = await this.apiService.getResource({ url: `/users/${id}`, hasToken });
+    const res = await this.apiService.getResource({ url: `/users/${id}`, hasToken: false });
     return this.transformUser(res);
   }
 

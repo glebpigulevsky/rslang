@@ -1,8 +1,8 @@
 const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTU1MDc1MmU2ZjgxMDAxNzI5NjUzMiIsImlhdCI6MTU5MjEzNTI5MiwiZXhwIjoxNTkyMTQ5NjkyfQ.5jfISQe3NNHvo3wScYaezZRY-gIqdkeiJRtkKlTNDJw';
 
 export default class ApiService {
-  constructor() {
-    this.baseUrl = 'https://afternoon-falls-25894.herokuapp.com';
+  constructor(baseUrl) {
+    this.baseUrl = baseUrl;
   }
 
   async getResource({ url, hasToken }) {

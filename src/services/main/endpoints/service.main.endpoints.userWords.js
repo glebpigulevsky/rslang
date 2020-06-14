@@ -1,8 +1,9 @@
-import ApiService from '../common/service.common.apiService';
+import ApiService from '../../common/services.common.apiService';
+import { MAIN_API_URL } from '../../common/services.common.constants';
 
 export default class UserWords {
   constructor() {
-    this.apiService = new ApiService();
+    this.apiService = new ApiService(MAIN_API_URL);
   }
 
   async createUserWord({
