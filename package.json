@@ -13,6 +13,7 @@
     "eslint": "^7.2.0",
     "eslint-config-airbnb": "^18.1.0",
     "eslint-config-prettier": "^6.11.0",
+    "eslint-loader": "^4.0.2",
     "eslint-plugin-import": "^2.21.2",
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
@@ -37,7 +38,7 @@
     "lint:fix": "eslint ./src --fix",
     "lint": "eslint ./src",
     "watch": "webpack --mode development --watch",
-    "prettier": "prettier --single-quote --write './src/**/*.{js, scss}'",
+    "prettier": "prettier --single-quote --write ./src/**/*.js ./src/**/*.scss",
     "stylelint": "stylelint ./src",
     "stylelint:fix": "stylelint ./src --fix"
   },

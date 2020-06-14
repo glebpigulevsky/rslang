@@ -11,4 +11,4 @@ window.onload = () => {
 
   main.sayHello();
   speakit.sayHello();
-}
+};
