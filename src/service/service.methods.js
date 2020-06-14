@@ -5,9 +5,9 @@ import UserWords from './endpoints/service.endpoints.userWords';
 import Words from './endpoints/service.endpoints.words';
 
 export {
-    Settings,
-    Statistics,
-    Users,
-    UserWords,
-    Words
-}
+  Settings,
+  Statistics,
+  Users,
+  UserWords,
+  Words,
+};

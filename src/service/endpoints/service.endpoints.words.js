@@ -1,97 +1,103 @@
-export default class UserWords {
-    constructor() {
-        this._apiService = new ApiService();
+import ApiService from '../common/service.common.apiService';
+
+const WORDS_REQUEST = { Group: { min: 0, max: 5 }, Page: { min: 0, max: 29 } };
+
+export default class Words {
+  constructor() {
+    this.apiService = new ApiService();
+  }
+
+  async getWordsCollection({
+    group, page, wordsPerExampleSentence = null, wordsPerPage = null,
+  }) {
+    await this.wordsGroupValidator(group);
+    await this.wordsPageValidator(page);
+    await this.wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
+
+    let url = `/words?group=${group}&page=${page}`;
+    if (wordsPerExampleSentence !== null) {
+      url += `&wordsPerExampleSentenceLTE=${wordsPerExampleSentence}`;
     }
-
-    async getWordsCollection({group, page, wordsPerExampleSentence = null, wordsPerPage = null}) {
-        await this._wordsGroupValidator(group);
-        await this._wordsPageValidator(page);
-        await this._wordsPerPageValidator({wordsPerExampleSentence, wordsPerPage});
-
-        let url = `/words?group=${group}&page=${page}`;
-        if (wordsPerExampleSentence !== null) {
-            url += `&wordsPerExampleSentenceLTE=${wordsPerExampleSentence}`;
-        }
-        if (wordsPerPage !== null) {
-            url += `&wordsPerPage=${wordsPerPage}`;
-        }
-        const res = await this._apiService.getResource({url: url, hasToken: false});
-        return res.map(this._transformWord);
+    if (wordsPerPage !== null) {
+      url += `&wordsPerPage=${wordsPerPage}`;
     }
+    const res = await this.apiService.getResource({ url, hasToken: false });
+    return res.map(this.transformWord);
+  }
 
-    async getWordsCount({group, wordsPerExampleSentence = null, wordsPerPage = null}) {
-        await this._wordsGroupValidator(group);
-        await this._wordsPerPageValidator({wordsPerExampleSentence, wordsPerPage});
+  async getWordsCount({ group, wordsPerExampleSentence = null, wordsPerPage = null }) {
+    await this.wordsGroupValidator(group);
+    await this.wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
 
-        let url = `/words/count?group=${group}`;
-        if (wordsPerExampleSentence !== null) {
-        url += `&wordsPerExampleSentenceLTE=${wordsPerExampleSentence}`;
-        }
-        if (wordsPerPage !== null) {
-            url += `&wordsPerPage=${wordsPerPage}`;
-        }
-        const res = await this._apiService.getResource({url: url, hasToken: false});
-        return this._transformWordsCount(res);
+    let url = `/words/count?group=${group}`;
+    if (wordsPerExampleSentence !== null) {
+      url += `&wordsPerExampleSentenceLTE=${wordsPerExampleSentence}`;
     }
-
-    async getWord({id}) {
-        const res = await this._apiService.getResource({url: `/words/${id}`, hasToken: false});
-        return this._transformWord(res);
+    if (wordsPerPage !== null) {
+      url += `&wordsPerPage=${wordsPerPage}`;
     }
+    const res = await this.apiService.getResource({ url, hasToken: false });
+    return this.transformWordsCount(res);
+  }
 
-    async _wordsGroupValidator(group) {
-        const isErrorGroup = (group < WORDS_REQUEST.Group.min || group > WORDS_REQUEST.Group.max);
-        if (isErrorGroup) {
-        console.info(`Words: 'group' must be in range (${WORDS_REQUEST.Group.min}, ${WORDS_REQUEST.Group.max})`);
-        }
-    }
+  async getWord({ id }) {
+    const res = await this.apiService.getResource({ url: `/words/${id}`, hasToken: false });
+    return this.transformWord(res);
+  }
 
-    async _wordsPageValidator(page) {
-        const isErrorPage = (page < WORDS_REQUEST.Page.min || page > WORDS_REQUEST.Page.max);
-        if (isErrorPage) {
-            console.info(`Words: 'page' must be in range (${WORDS_REQUEST.Page.min}, ${WORDS_REQUEST.Page.max})`);
-        } 
+  async wordsGroupValidator(group) {
+    const isErrorGroup = (group < WORDS_REQUEST.Group.min || group > WORDS_REQUEST.Group.max);
+    if (isErrorGroup) {
+      console.info(`Words: 'group' must be in range (${WORDS_REQUEST.Group.min}, ${WORDS_REQUEST.Group.max})`);
     }
+  }
 
-    async _wordsPerPageValidator({wordsPerExampleSentence, wordsPerPage}) {
-        if (wordsPerExampleSentence < 1 && wordsPerPage > 0) {
-            console.info(`Words: 'wordsPerPage' works if 'wordsPerExampleSentenceLTE' is specified`);
-        }
+  async wordsPageValidator(page) {
+    const isErrorPage = (page < WORDS_REQUEST.Page.min || page > WORDS_REQUEST.Page.max);
+    if (isErrorPage) {
+      console.info(`Words: 'page' must be in range (${WORDS_REQUEST.Page.min}, ${WORDS_REQUEST.Page.max})`);
     }
+  }
 
-    _transformWord({
-        id, 
-        word, 
-        image, 
-        audio, 
-        audioMeaning, 
-        audioExample, 
-        textMeaning, 
-        textExample, 
-        transcription, 
-        wordTranslate, 
-        textMeaningTranslate, 
-        textExampleTranslate
-        }) {
-        return  {
-            "id": id,
-            "word": word,
-            "image": image,
-            "audio": audio,
-            "audioMeaning": audioMeaning,
-            "audioExample": audioExample,
-            "textMeaning": textMeaning,
-            "textExample": textExample,
-            "transcription": transcription,
-            "wordTranslate": wordTranslate,
-            "textMeaningTranslate": textMeaningTranslate,
-            "textExampleTranslate": textExampleTranslate
-        }
+  async wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage }) {
+    if (wordsPerExampleSentence < 1 && wordsPerPage > 0) {
+      console.info('Words: \'wordsPerPage\' works if \'wordsPerExampleSentenceLTE\' is specified');
     }
+  }
 
-    _transformWordsCount({count}) {
-        return {
-            count
-        }
-    }
+  transformWord({
+    id,
+    word,
+    image,
+    audio,
+    audioMeaning,
+    audioExample,
+    textMeaning,
+    textExample,
+    transcription,
+    wordTranslate,
+    textMeaningTranslate,
+    textExampleTranslate,
+  }) {
+    return {
+      id,
+      word,
+      image,
+      audio,
+      audioMeaning,
+      audioExample,
+      textMeaning,
+      textExample,
+      transcription,
+      wordTranslate,
+      textMeaningTranslate,
+      textExampleTranslate,
+    };
+  }
+
+  transformWordsCount({ count }) {
+    return {
+      count,
+    };
+  }
 }

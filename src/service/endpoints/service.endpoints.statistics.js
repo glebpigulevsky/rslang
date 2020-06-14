@@ -1,27 +1,29 @@
+import ApiService from '../common/service.common.apiService';
+
 export default class Statistics {
-    constructor() {
-        this._apiService = new ApiService();
-    }
+  constructor() {
+    this.apiService = new ApiService();
+  }
 
-    async getUserStatistics({userId}) {
-        const res = await this._apiService.getResource({url: `/users/${userId}/statistics`, hasToken: true});
-        return this._transformUserStatistics(res);
-    }
+  async getUserStatistics({ userId }) {
+    const res = await this.apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true });
+    return this.transformUserStatistics(res);
+  }
 
-    async updateUserStatistics({userId, learnedWords, optional = {}}) {
-        const res = await this._apiService.putResourse({
-            url: `/users/${userId}/statistics`, 
-            params: {'learnedWords': learnedWords, 'optional': optional}, 
-            hasToken: true
-        });
-        return this._transformUserStatistics(res);
-    }
+  async updateUserStatistics({ userId, learnedWords, optional = {} }) {
+    const res = await this.apiService.putResourse({
+      url: `/users/${userId}/statistics`,
+      params: { learnedWords, optional },
+      hasToken: true,
+    });
+    return this.transformUserStatistics(res);
+  }
 
-    _transformUserStatistics({id, learnedWords, optional}) {
-        return {
-            id,
-            learnedWords,
-            optional
-        }
-    }
+  transformUserStatistics({ id, learnedWords, optional }) {
+    return {
+      id,
+      learnedWords,
+      optional,
+    };
+  }
 }
