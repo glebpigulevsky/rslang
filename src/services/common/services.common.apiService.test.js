@@ -12,11 +12,31 @@ describe('get request any site with token', () => {
   });
 });
 
+describe('get request any site', () => {
+  it('should return error', async () => {
+    try {
+      await service.getResource({ url: '/get/error', hasToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTRmODI3MmU2ZjgxMDAxNzI5NjNiNyIsImlhdCI6MTU5MjA2NDExMiwiZXhwIjoxNTkyMDc4NTEyfQ.cRDXnE67EZnYor03vrBhPDVMbzXf8YPBVWQQ4qc1SzY' });
+    } catch (e) {
+      expect(e.message).toEqual('404: Not Found');
+    }
+  });
+});
+
 describe('post request any site with token', () => {
   it('should return correct response', async () => {
     const res = await service.postResourse({ url: '/post/json', params: { login: 'login', password: 'password' }, hasToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTRmODI3MmU2ZjgxMDAxNzI5NjNiNyIsImlhdCI6MTU5MjA2NDExMiwiZXhwIjoxNTkyMDc4NTEyfQ.cRDXnE67EZnYor03vrBhPDVMbzXf8YPBVWQQ4qc1SzY' });
     expect(res).toBeDefined();
     expect(res.success).toBe('true');
+  });
+});
+
+describe('post request any site', () => {
+  it('should return error', async () => {
+    try {
+      await service.postResourse({ url: '/post/error', hasToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTRmODI3MmU2ZjgxMDAxNzI5NjNiNyIsImlhdCI6MTU5MjA2NDExMiwiZXhwIjoxNTkyMDc4NTEyfQ.cRDXnE67EZnYor03vrBhPDVMbzXf8YPBVWQQ4qc1SzY' });
+    } catch (e) {
+      expect(e.message).toEqual('404: Not Found');
+    }
   });
 });
 
@@ -28,6 +48,16 @@ describe('put request any site with token', () => {
   });
 });
 
+describe('put request any site', () => {
+  it('should return error', async () => {
+    try {
+      await service.putResourse({ url: '/put/error', hasToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTRmODI3MmU2ZjgxMDAxNzI5NjNiNyIsImlhdCI6MTU5MjA2NDExMiwiZXhwIjoxNTkyMDc4NTEyfQ.cRDXnE67EZnYor03vrBhPDVMbzXf8YPBVWQQ4qc1SzY' });
+    } catch (e) {
+      expect(e.message).toEqual('404: Not Found');
+    }
+  });
+});
+
 describe('delete request any site with token', () => {
   it('should return correct response', async () => {
     const res = await service.deleteResourse({ url: '/delete/json', hasToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTRmODI3MmU2ZjgxMDAxNzI5NjNiNyIsImlhdCI6MTU5MjA2NDExMiwiZXhwIjoxNTkyMDc4NTEyfQ.cRDXnE67EZnYor03vrBhPDVMbzXf8YPBVWQQ4qc1SzY' });
@@ -36,24 +66,12 @@ describe('delete request any site with token', () => {
   });
 });
 
-/* describe('get request any site', () => {
+describe('delete request any site', () => {
   it('should return error', async () => {
     try {
-      await service.getResource('https://www.omdbapi.com', '/error');
+      await service.deleteResourse({ url: '/delete/error', hasToken: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTRmODI3MmU2ZjgxMDAxNzI5NjNiNyIsImlhdCI6MTU5MjA2NDExMiwiZXhwIjoxNTkyMDc4NTEyfQ.cRDXnE67EZnYor03vrBhPDVMbzXf8YPBVWQQ4qc1SzY' });
     } catch (e) {
-      expect(e.message).toEqual('404');
+      expect(e.message).toEqual('404: Not Found');
     }
   });
 });
-
-describe('get page imdb', () => {
-  it('should return the array of ids', async () => {
-    const { ids, totalResReq, page } = await service
-      .getPage({ searchBy: 'conan the', curPage: 1 });
-    expect(totalResReq).toBeDefined();
-    expect(Number(totalResReq)).toBeGreaterThanOrEqual(40);
-    expect(ids).toBeInstanceOf(Array);
-    expect(ids.length).toEqual(20);
-    expect(page).toEqual(2);
-  });
-}); */
