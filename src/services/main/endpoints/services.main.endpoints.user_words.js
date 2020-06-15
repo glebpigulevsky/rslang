@@ -1,7 +1,7 @@
 import ApiService from '../../common/services.common.api_service';
 import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
 
-export default class UserWords {
+export default class UserWordsApi {
   constructor() {
     this.apiService = new ApiService(MAIN_API_URL, TOKEN);
   }

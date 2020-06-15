@@ -1,11 +1,11 @@
 /* eslint-disable no-undef */
 import 'isomorphic-fetch';
-import Settings from './services.main.endpoints.settings';
+import SettingsApi from './services.main.endpoints.settings';
 import User from './services.main.endpoints.users';
 import { MAIN_API_URL } from '../../common/services.common.constants';
 import ApiService from '../../common/services.common.api_service';
 
-const settings = new Settings();
+const settings = new SettingsApi();
 const user = new User();
 
 const userDefault = {

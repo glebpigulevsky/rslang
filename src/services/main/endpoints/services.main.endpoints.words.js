@@ -3,7 +3,7 @@ import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
 
 const WORDS_REQUEST = { Group: { min: 0, max: 5 }, Page: { min: 0, max: 29 } };
 
-export default class Words {
+export default class WordsApi {
   constructor() {
     this.apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
