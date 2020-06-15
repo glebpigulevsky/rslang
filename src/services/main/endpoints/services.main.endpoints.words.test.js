@@ -14,7 +14,7 @@ describe('get word by Id', () => {
   });
 });
 
-describe('get word', () => {
+describe('get word by Id', () => {
   it('should return correct object', async () => {
     const res = await wordsApi.getWord({ id: '5e9f5ee35eb9e72bc21af4b4' });
     expect(res).toBeDefined();
@@ -38,17 +38,7 @@ describe('get word', () => {
   });
 });
 
-describe('get word by Id', () => {
-  it('should return error', async () => {
-    try {
-      await wordsApi.getWord({ id: '1' });
-    } catch (e) {
-      expect(e.message).toEqual('Something Goes Wrong');
-    }
-  });
-});
-
-describe('get words count', () => {
+describe('get words count with group, wordsPerExampleSentence, wordsPerPage', () => {
   it('should return correct object', async () => {
     const res = await wordsApi.getWordsCount({ group: 5, wordsPerExampleSentence: 5, wordsPerPage: 2 });
     expect(res).toBeDefined();
@@ -58,8 +48,8 @@ describe('get words count', () => {
   });
 });
 
-describe('get words count', () => {
-  it('should return correct object', async () => {
+describe('get words collection with group and page', () => {
+  it('should return correct array', async () => {
     const res = await wordsApi.getWordsCollection({ group: 0, page: 1 });
     expect(res).toBeDefined();
     expect(res.length).toBe(20);
@@ -86,16 +76,16 @@ describe('get words count', () => {
   });
 });
 
-describe('get words count', () => {
-  it('should return correct object', async () => {
+describe('get words collection with group, page, wordsPerExampleSentence', () => {
+  it('should return empty array', async () => {
     const res = await wordsApi.getWordsCollection({ group: 1, page: 3, wordsPerExampleSentence: 5 });
     expect(res).toBeDefined();
     expect(res).toStrictEqual([]);
   });
 });
 
-describe('get words count', () => {
-  it('should return correct object', async () => {
+describe('get words collection with group, page, wordsPerExampleSentence', () => {
+  it('should return correct array', async () => {
     const res = await wordsApi.getWordsCollection({
       group: 5, page: 1, wordsPerExampleSentence: 7, wordsPerPage: 2,
     });
