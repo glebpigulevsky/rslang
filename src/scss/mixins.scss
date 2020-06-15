@@ -1,11 +1,11 @@
-@mixin font ($size, $height: $size, $weight: bold, $style: normal) {
+@mixin font($size, $height: $size, $weight: bold, $style: normal) {
   font-style: $style;
   font-weight: $weight;
   font-size: $size;
   line-height: $height;
 }
 
-@mixin button ($color, $background, $width, $height, $radius) {
+@mixin button($color, $background, $width, $height, $radius) {
   width: $width;
   height: $height;
 
@@ -15,7 +15,7 @@
   border-radius: $radius;
 }
 
-@mixin columns ($width) {
+@mixin columns($width) {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
@@ -29,14 +29,14 @@
   box-shadow: $horizOffset $vertOffset $blur $color;
 }
 
-@mixin pseudo($display: block, $pos: absolute, $content: "") {
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
   content: $content;
   position: $pos;
 
   display: $display;
 }
 
-@mixin link ($link, $visit, $hover, $active) {
+@mixin link($link, $visit, $hover, $active) {
   a {
     color: $link;
 
@@ -57,7 +57,6 @@
 @mixin transition($time: 0.3s, $property: all, $method: ease-out) {
   transition: $time $property $method;
 }
-
 
 @mixin media-tablet {
   @media (max-width: $tablet-width) {
