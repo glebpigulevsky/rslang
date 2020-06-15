@@ -6,7 +6,7 @@ export default class Settings {
     this.apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
 
-  async getSettins({ userId }) {
+  async getSettings({ userId }) {
     const res = await this.apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true });
     return this.transformUserSettings(res);
   }
@@ -31,7 +31,7 @@ export default class Settings {
     return {
       id,
       wordsPerDay,
-      optional,
+      optional: optional || null,
     };
   }
 }
