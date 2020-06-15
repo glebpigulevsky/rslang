@@ -8,7 +8,9 @@ export default class WordsApi {
     this.apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
 
-  async getWordsCollection({ group, page, wordsPerExampleSentence = null, wordsPerPage = null }) {
+  async getWordsCollection({
+    group, page, wordsPerExampleSentence = null, wordsPerPage = null,
+  }) {
     await this.wordsGroupValidator(group);
     await this.wordsPageValidator(page);
     await this.wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
@@ -64,8 +66,16 @@ export default class WordsApi {
     }
   }
 
+  async wordsPerPageCountValidator({ wordsPerExampleSentence, wordsPerPage }) {
+    if (wordsPerExampleSentence < 1 && wordsPerPage > 0) {
+      console.info("Words: 'wordsPerPage' works if 'wordsPerExampleSentenceLTE' is specified");
+    }
+  }
+
   transformWord({
     id,
+    group,
+    page,
     word,
     image,
     audio,
@@ -74,12 +84,15 @@ export default class WordsApi {
     textMeaning,
     textExample,
     transcription,
-    wordTranslate,
     textMeaningTranslate,
     textExampleTranslate,
+    wordTranslate,
+    wordsPerExampleSentence,
   }) {
     return {
       id,
+      group,
+      page,
       word,
       image,
       audio,
@@ -88,9 +101,10 @@ export default class WordsApi {
       textMeaning,
       textExample,
       transcription,
-      wordTranslate,
       textMeaningTranslate,
       textExampleTranslate,
+      wordTranslate,
+      wordsPerExampleSentence,
     };
   }
 

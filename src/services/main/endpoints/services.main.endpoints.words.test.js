@@ -1,0 +1,123 @@
+/* eslint-disable no-undef */
+import 'isomorphic-fetch';
+import WordsApi from './services.main.endpoints.words';
+
+const wordsApi = new WordsApi();
+
+describe('get word by Id', () => {
+  it('should return error', async () => {
+    try {
+      await wordsApi.getWord({ id: '1' });
+    } catch (e) {
+      expect(e.message).toEqual('Something Goes Wrong');
+    }
+  });
+});
+
+describe('get word', () => {
+  it('should return correct object', async () => {
+    const res = await wordsApi.getWord({ id: '5e9f5ee35eb9e72bc21af4b4' });
+    expect(res).toBeDefined();
+    expect(res).toStrictEqual({
+      id: '5e9f5ee35eb9e72bc21af4b4',
+      group: 0,
+      page: 1,
+      word: 'adventure',
+      image: 'files/02_0021.jpg',
+      audio: 'files/02_0021.mp3',
+      audioMeaning: 'files/02_0021_meaning.mp3',
+      audioExample: 'files/02_0021_example.mp3',
+      textMeaning: 'An <i>adventure</i> is a fun or exciting thing that you do.',
+      textExample: 'Riding in the rough water was an <b>adventure</b>.',
+      transcription: '[ədvéntʃər]',
+      textExampleTranslate: 'Езда в бурной воде была приключением',
+      textMeaningTranslate: 'Приключение - это забавная или захватывающая вещь, которую ты делаешь',
+      wordTranslate: 'приключение',
+      wordsPerExampleSentence: 8,
+    });
+  });
+});
+
+describe('get word by Id', () => {
+  it('should return error', async () => {
+    try {
+      await wordsApi.getWord({ id: '1' });
+    } catch (e) {
+      expect(e.message).toEqual('Something Goes Wrong');
+    }
+  });
+});
+
+describe('get words count', () => {
+  it('should return correct object', async () => {
+    const res = await wordsApi.getWordsCount({ group: 5, wordsPerExampleSentence: 5, wordsPerPage: 2 });
+    expect(res).toBeDefined();
+    expect(res).toStrictEqual({
+      count: 2,
+    });
+  });
+});
+
+describe('get words count', () => {
+  it('should return correct object', async () => {
+    const res = await wordsApi.getWordsCollection({ group: 0, page: 1 });
+    expect(res).toBeDefined();
+    expect(res.length).toBe(20);
+    expect(res.find((x) => x.id === '5e9f5ee35eb9e72bc21af4b4'))
+      .toStrictEqual(
+        {
+          id: '5e9f5ee35eb9e72bc21af4b4',
+          group: 0,
+          page: 1,
+          word: 'adventure',
+          image: 'files/02_0021.jpg',
+          audio: 'files/02_0021.mp3',
+          audioMeaning: 'files/02_0021_meaning.mp3',
+          audioExample: 'files/02_0021_example.mp3',
+          textMeaning: 'An <i>adventure</i> is a fun or exciting thing that you do.',
+          textExample: 'Riding in the rough water was an <b>adventure</b>.',
+          transcription: '[ədvéntʃər]',
+          textExampleTranslate: 'Езда в бурной воде была приключением',
+          textMeaningTranslate: 'Приключение - это забавная или захватывающая вещь, которую ты делаешь',
+          wordTranslate: 'приключение',
+          wordsPerExampleSentence: 8,
+        },
+      );
+  });
+});
+
+describe('get words count', () => {
+  it('should return correct object', async () => {
+    const res = await wordsApi.getWordsCollection({ group: 1, page: 3, wordsPerExampleSentence: 5 });
+    expect(res).toBeDefined();
+    expect(res).toStrictEqual([]);
+  });
+});
+
+describe('get words count', () => {
+  it('should return correct object', async () => {
+    const res = await wordsApi.getWordsCollection({
+      group: 5, page: 1, wordsPerExampleSentence: 7, wordsPerPage: 2,
+    });
+    expect(res).toBeDefined();
+    expect(res.length).toBe(2);
+    expect(res.find((x) => x.id === '5e9f5ee35eb9e72bc21b00a0'))
+      .toStrictEqual({
+        id: '5e9f5ee35eb9e72bc21b00a0',
+        group: 5,
+        page: 3,
+        word: 'inland',
+        image: 'files/04_3073.jpg',
+        audio: 'files/04_3073.mp3',
+        audioMeaning: 'files/04_3073_meaning.mp3',
+        audioExample: 'files/04_3073_example.mp3',
+        textMeaning: 'If someone goes <i>inland</i>, they travel into the center of a country or land.',
+        textExample: 'The river curved <b>inland</b> near the campground.',
+        transcription: '[ínlənd]',
+        textExampleTranslate: 'Река изогнута внутри страны возле кемпинга',
+        textMeaningTranslate: 'Если кто-то отправляется вглубь страны, он путешествует в центр страны или земли',
+        wordTranslate: 'вглубь',
+        wordsPerExampleSentence: 7,
+      });
+  });
+});
