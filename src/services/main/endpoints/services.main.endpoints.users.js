@@ -1,9 +1,9 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL } from '../../common/services.common.constants';
+import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
 
 export default class Users {
   constructor() {
-    this.apiService = new ApiService(MAIN_API_URL);
+    this.apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
 
   async getUser({ id }) {

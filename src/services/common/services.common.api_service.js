@@ -1,8 +1,7 @@
-import { TOKEN } from './services.common.constants';
-
 export default class ApiService {
-  constructor(baseUrl) {
+  constructor(baseUrl, token) {
     this.baseUrl = baseUrl;
+    this.token = token;
   }
 
   async getResource({ url, hasToken }) {
@@ -10,7 +9,7 @@ export default class ApiService {
       method: 'GET',
       withCredentials: !!hasToken,
       headers: {
-        Authorization: hasToken ? `Bearer ${TOKEN}` : null,
+        Authorization: hasToken ? `Bearer ${this.token}` : null,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
@@ -26,7 +25,7 @@ export default class ApiService {
       method: 'POST',
       withCredentials: !!hasToken,
       headers: {
-        Authorization: hasToken ? `Bearer ${TOKEN}` : null,
+        Authorization: hasToken ? `Bearer ${this.token}` : null,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
@@ -43,7 +42,7 @@ export default class ApiService {
       method: 'PUT',
       withCredentials: !!hasToken,
       headers: {
-        Authorization: hasToken ? `Bearer ${TOKEN}` : null,
+        Authorization: hasToken ? `Bearer ${this.token}` : null,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
@@ -60,7 +59,7 @@ export default class ApiService {
       method: 'DELETE',
       withCredentials: !!hasToken,
       headers: {
-        Authorization: hasToken ? `Bearer ${TOKEN}` : null,
+        Authorization: hasToken ? `Bearer ${this.token}` : null,
         Accept: 'application/json',
         'Content-Type': 'application/json',
       },
