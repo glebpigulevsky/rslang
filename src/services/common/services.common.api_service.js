@@ -1,4 +1,4 @@
-const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTU1MDc1MmU2ZjgxMDAxNzI5NjUzMiIsImlhdCI6MTU5MjE2NDQ2MywiZXhwIjoxNTkyMTc4ODYzfQ.VCnD4MySmiHT-MB1DhWL2CO-y5_RHsC3w38oym-vTAQ';
+import { TOKEN } from './services.common.constants';
 
 export default class ApiService {
   constructor(baseUrl) {
@@ -16,12 +16,12 @@ export default class ApiService {
       },
     });
     if (!res.ok) {
-       await this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
+      await this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
     }
     return res.json();
   }
 
-   async postResourse({ url, params, hasToken }) {
+  async postResourse({ url, params, hasToken }) {
     const res = await fetch(`${this.baseUrl}${url}`, {
       method: 'POST',
       withCredentials: !!hasToken,
