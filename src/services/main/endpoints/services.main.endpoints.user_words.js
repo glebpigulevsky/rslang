@@ -17,7 +17,7 @@ export default class UserWords {
     return this.transformUserWord(res);
   }
 
-  async getUserWordsCollection({ userId }) {
+  async getAllUserWords({ userId }) {
     const res = await this.apiService.getResource({ url: `/users/${userId}/words`, hasToken: true });
     return res.map(this.transformUserWord);
   }

@@ -6,12 +6,12 @@ export default class Settings {
     this.apiService = new ApiService(MAIN_API_URL);
   }
 
-  async getUserSettings({ userId }) {
+  async getSettins({ userId }) {
     const res = await this.apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true });
     return this.transformUserSettings(res);
   }
 
-  async updateUserSettings({ userId, wordsPerDay, optional = {} }) {
+  async updateSettings({ userId, wordsPerDay, optional = {} }) {
     this.wordsPerDayValidator(wordsPerDay);
     const res = await this.apiService.putResourse({
       url: `/users/${userId}/settings`,

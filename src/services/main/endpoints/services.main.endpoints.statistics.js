@@ -6,12 +6,12 @@ export default class Statistics {
     this.apiService = new ApiService(MAIN_API_URL);
   }
 
-  async getUserStatistics({ userId }) {
+  async getStatictics({ userId }) {
     const res = await this.apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true });
     return this.transformUserStatistics(res);
   }
 
-  async updateUserStatistics({ userId, learnedWords, optional = {} }) {
+  async updateStatistics({ userId, learnedWords, optional = {} }) {
     const res = await this.apiService.putResourse({
       url: `/users/${userId}/statistics`,
       params: { learnedWords, optional },
