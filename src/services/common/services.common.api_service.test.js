@@ -2,7 +2,8 @@
 import 'isomorphic-fetch';
 import ApiService from './services.common.api_service';
 
-const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTRmODI3MmU2ZjgxMDAxNzI5NjNiNyIsImlhdCI6MTU5MjA2NDExMiwiZXhwIjoxNTkyMDc4NTEyfQ.cRDXnE67EZnYor03vrBhPDVMbzXf8YPBVWQQ4qc1SzY';
+const token =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTRmODI3MmU2ZjgxMDAxNzI5NjNiNyIsImlhdCI6MTU5MjA2NDExMiwiZXhwIjoxNTkyMDc4NTEyfQ.cRDXnE67EZnYor03vrBhPDVMbzXf8YPBVWQQ4qc1SzY';
 const service = new ApiService('https://reqbin.com/sample', token);
 
 describe('get request any site with token', () => {
@@ -25,7 +26,11 @@ describe('get request any site', () => {
 
 describe('post request any site with token', () => {
   it('should return correct response', async () => {
-    const res = await service.postResourse({ url: '/post/json', params: { login: 'login', password: 'password' }, hasToken: true });
+    const res = await service.postResourse({
+      url: '/post/json',
+      params: { login: 'login', password: 'password' },
+      hasToken: true,
+    });
     expect(res).toBeDefined();
     expect(res.success).toBe('true');
   });
@@ -43,7 +48,11 @@ describe('post request any site', () => {
 
 describe('put request any site with token', () => {
   it('should return correct response', async () => {
-    const res = await service.putResourse({ url: '/put/json', params: { login: 'login2', password: 'password' }, hasToken: true });
+    const res = await service.putResourse({
+      url: '/put/json',
+      params: { login: 'login2', password: 'password' },
+      hasToken: true,
+    });
     expect(res).toBeDefined();
     expect(res.success).toBe('true');
   });

@@ -4,10 +4,4 @@ import Users from './main/endpoints/services.main.endpoints.users';
 import UserWords from './main/endpoints/services.main.endpoints.user_words';
 import Words from './main/endpoints/services.main.endpoints.words';
 
-export {
-  Settings,
-  Statistics,
-  Users,
-  UserWords,
-  Words,
-};
+export { Settings, Statistics, Users, UserWords, Words };

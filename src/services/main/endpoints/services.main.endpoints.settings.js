@@ -23,7 +23,7 @@ export default class Settings {
 
   wordsPerDayValidator({ wordsPerDay }) {
     if (wordsPerDay < 1) {
-      console.info('\'wordsPerDay\' should be greather then 0');
+      console.info("'wordsPerDay' should be greather then 0");
     }
   }
 

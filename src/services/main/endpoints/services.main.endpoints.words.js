@@ -8,9 +8,7 @@ export default class Words {
     this.apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
 
-  async getWordsCollection({
-    group, page, wordsPerExampleSentence = null, wordsPerPage = null,
-  }) {
+  async getWordsCollection({ group, page, wordsPerExampleSentence = null, wordsPerPage = null }) {
     await this.wordsGroupValidator(group);
     await this.wordsPageValidator(page);
     await this.wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
@@ -47,14 +45,14 @@ export default class Words {
   }
 
   async wordsGroupValidator(group) {
-    const isErrorGroup = (group < WORDS_REQUEST.Group.min || group > WORDS_REQUEST.Group.max);
+    const isErrorGroup = group < WORDS_REQUEST.Group.min || group > WORDS_REQUEST.Group.max;
     if (isErrorGroup) {
       console.info(`Words: 'group' must be in range (${WORDS_REQUEST.Group.min}, ${WORDS_REQUEST.Group.max})`);
     }
   }
 
   async wordsPageValidator(page) {
-    const isErrorPage = (page < WORDS_REQUEST.Page.min || page > WORDS_REQUEST.Page.max);
+    const isErrorPage = page < WORDS_REQUEST.Page.min || page > WORDS_REQUEST.Page.max;
     if (isErrorPage) {
       console.info(`Words: 'page' must be in range (${WORDS_REQUEST.Page.min}, ${WORDS_REQUEST.Page.max})`);
     }
@@ -62,7 +60,7 @@ export default class Words {
 
   async wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage }) {
     if (wordsPerExampleSentence < 1 && wordsPerPage > 0) {
-      console.info('Words: \'wordsPerPage\' works if \'wordsPerExampleSentenceLTE\' is specified');
+      console.info("Words: 'wordsPerPage' works if 'wordsPerExampleSentenceLTE' is specified");
     }
   }
 
