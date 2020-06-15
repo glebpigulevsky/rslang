@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
-import ApiService from './services.common.apiService';
 import 'isomorphic-fetch';
+import ApiService from './services.common.api_service';
 
 const service = new ApiService('https://reqbin.com/sample');
 

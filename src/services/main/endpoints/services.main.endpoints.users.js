@@ -1,4 +1,4 @@
-import ApiService from '../../common/services.common.apiService';
+import ApiService from '../../common/services.common.api_service';
 import { MAIN_API_URL } from '../../common/services.common.constants';
 
 export default class Users {

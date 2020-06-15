@@ -1,4 +1,4 @@
-import ApiService from '../../common/services.common.apiService';
+import ApiService from '../../common/services.common.api_service';
 import { MAIN_API_URL } from '../../common/services.common.constants';
 
 const WORDS_REQUEST = { Group: { min: 0, max: 5 }, Page: { min: 0, max: 29 } };
