@@ -98,6 +98,8 @@ class DragAndDropController {
       return;
     }
 
+    const targetContainer = this.targetCell.closest('.game__field_container');
+
     // this.cloneCell.classList.add('hidden');
     // this.belowElement = document.elementFromPoint(evt.clientX, evt.clientY).closest('.drop__place');
     // this.cloneCell.classList.remove('hidden');
@@ -160,9 +162,15 @@ class DragAndDropController {
     this.cloneCell = null;
     this.isDragging = false;
 
-    if (!view.getCountElementsInDataDropZone()) {
-      menuController.nextRound();
+    if (!view.getCountElementsInDataDropZone()) { // todo повторение метода
+      view.showCheckButton();
+      view.hideIDontKnowButton();
+      // menuController.nextRound();
+    } else {
+      view.hideCheckButton();
+      view.showIDontKnowButton();
     }
+    // menuController.nextRound();
     // this.animatedSwapCells(emptyElement, this.cloneCell);
   }
 
@@ -224,8 +232,14 @@ class DragAndDropController {
     this.cloneCell = null;
     this.isDragging = false;
 
-    if (!view.getCountElementsInDataDropZone()) {
-      menuController.nextRound();
+    debugger;
+    if (!view.getCountElementsInDataDropZone()) { // todo повторение метода
+      view.showCheckButton();
+      view.hideIDontKnowButton();
+      // menuController.nextRound();
+    } else {
+      view.hideCheckButton();
+      view.showIDontKnowButton();
     }
   }
 

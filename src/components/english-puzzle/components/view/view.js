@@ -16,7 +16,13 @@ import {
   DATA_PATH,
 } from '../data/helper';
 
-import { setActiveState, createStar, shuffleArray } from '../data/utils';
+import {
+  setActiveState,
+  createStar,
+  shuffleArray,
+  hideElement,
+  showElement,
+} from '../data/utils';
 
 import PageList from './components/pageList/pageList';
 import ResultsList from './components/resultsList/resultsList';
@@ -215,6 +221,26 @@ class View {
     this.ELEMENTS.BUTTONS.INTRODUCTION.addEventListener(EVENTS.CLICK, onIntroButtonClick);
   }
 
+  initCheckButton(onCheckButtonClick) {
+    this.ELEMENTS.BUTTONS.CHECK.addEventListener(EVENTS.CLICK, onCheckButtonClick);
+  }
+
+  hideCheckButton() {
+    hideElement(this.ELEMENTS.BUTTONS.CHECK);
+  }
+
+  showCheckButton() {
+    showElement(this.ELEMENTS.BUTTONS.CHECK);
+  }
+
+  hideIDontKnowButton() {
+    hideElement(this.ELEMENTS.BUTTONS.I_DONT_KNOW);
+  }
+
+  showIDontKnowButton() {
+    showElement(this.ELEMENTS.BUTTONS.I_DONT_KNOW);
+  }
+
   init() {
     this.renderDOM();
 
@@ -236,6 +262,8 @@ class View {
         // RESULTS_NEW_GAME: document.querySelector('.game__button-results_new'),
         // RESULTS_RESUME_GAME: document.querySelector('.game__button-results_return'),
         INTRODUCTION: document.querySelector('.introduction__button'),
+        I_DONT_KNOW: document.querySelector('.game__button-dont_know'),
+        CHECK: document.querySelector('.game__button-check'),
       },
     };
 
@@ -328,6 +356,11 @@ class View {
                   <span class="dragable d5">5</span> -->
                 </div>
               </div>
+            </div>
+
+            <div class="game__controls">
+              <button class="game__button game__button-dont_know button-rounded">I don\`t know</button>
+              <button class="game__button game__button-check button-rounded hidden">Check</button>
             </div>
   
             <div class="results__container">

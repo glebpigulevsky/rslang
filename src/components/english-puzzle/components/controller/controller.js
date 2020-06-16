@@ -38,6 +38,8 @@ class Controller {
     this.ELEMENTS = null;
 
     this.onIntroButtonClickBinded = this.onIntroButtonClick.bind(this);
+    this.onCheckButtonClickBinded = this.onCheckButtonClick.bind(this);
+
     this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
 
     // this.onPageCardClick = this.onPageCardClick.bind(this);
@@ -195,6 +197,14 @@ class Controller {
   //   audio.play();
   // }
 
+  onIDontKnowButtonClickHandler() {
+
+  }
+
+  onCheckButtonClick() {
+
+  }
+
   beforeUnloadHandler() {
     if (this.isGameStarts) model.saveResults(this.guessedList);
     window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
@@ -219,6 +229,7 @@ class Controller {
 
   init() {
     view.initIntroButton(this.onIntroButtonClickBinded);
+    view.initCheckButton(this.onCheckButtonClickBinded);
 
     this.ELEMENTS = {
       CENTRALIZER: document.querySelector('.centralizer'),

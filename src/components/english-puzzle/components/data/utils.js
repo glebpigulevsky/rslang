@@ -33,6 +33,8 @@ export const setActiveState = (target) => {
   target.classList.add(CLASS_NAMES.ACTIVE);
 };
 
+export const toggleHiddenState = (element) => element.classList.toggle(CLASS_NAMES.HIDDEN);
+
 export const togglePageState = (className) => document.body.classList.toggle(className);
 
 export const getClosestLink = ({ target }) => target.closest(`.${CLASS_NAMES.LINK}`);
@@ -106,3 +108,6 @@ export const createStar = (starSrc) => {
 export const hideSpinner = () => document.querySelector('.spinner').classList.add(CLASS_NAMES.HIDDEN);
 
 export const showSpinner = () => document.querySelector('.spinner').classList.remove(CLASS_NAMES.HIDDEN);
+
+export const hideElement = (element) => element.classList.add(CLASS_NAMES.HIDDEN);
+export const showElement = (element) => element.classList.remove(CLASS_NAMES.HIDDEN);
