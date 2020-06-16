@@ -9,8 +9,6 @@ class Speakit {
   }
 
   sayHello() {
-    console.log(this.logo);
-
     const speakitLogo = document.createElement('h2');
     speakitLogo.className = SPEAKIT_CLASS_NAMES.LOGO;
     speakitLogo.textContent = this.logo;
