@@ -18,6 +18,7 @@
     "file-loader": "^6.0.0",
     "html-webpack-plugin": "^4.3.0",
     "image-webpack-loader": "^6.0.0",
+    "jest": "^26.0.1",
     "node-sass": "^4.14.1",
     "prettier": "2.0.5",
     "sass": "^1.26.5",
@@ -39,7 +40,8 @@
     "watch": "webpack --mode development --watch",
     "prettier": "prettier --single-quote --write ./src/**/*.js ./src/**/*.scss",
     "stylelint": "stylelint ./src",
-    "stylelint:fix": "stylelint ./src --fix"
+    "stylelint:fix": "stylelint ./src --fix",
+    "test": "jest"
   },
   "keywords": [
     "RSSchool",
