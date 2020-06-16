@@ -232,7 +232,6 @@ class DragAndDropController {
     this.cloneCell = null;
     this.isDragging = false;
 
-    debugger;
     if (!view.getCountElementsInDataDropZone()) { // todo повторение метода
       view.showCheckButton();
       view.hideIDontKnowButton();

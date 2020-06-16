@@ -35,10 +35,13 @@ class Controller {
 
     // this.currentSentence = null;
 
+    this.sentenceGuessFail = null;
+
     this.ELEMENTS = null;
 
     this.onIntroButtonClickBinded = this.onIntroButtonClick.bind(this);
     this.onCheckButtonClickBinded = this.onCheckButtonClick.bind(this);
+    this.onIDontKnowButtonClickHandlerBinded = this.onIDontKnowButtonClickHandler.bind(this);
 
     this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
 
@@ -198,11 +201,33 @@ class Controller {
   // }
 
   onIDontKnowButtonClickHandler() {
+    Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle) => {
+      puzzle.remove();
+    });
 
+    Array.from(menuController.canvasElements[menuController.currentSentence].querySelectorAll('*')).forEach((puzzle) => {
+      const clonePuzzle = puzzle.cloneNode(true);
+      clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
+      view.resultDropZone.append(clonePuzzle);
+    });
   }
 
   onCheckButtonClick() {
+    // debugger;
+    this.sentenceGuessFail = false;
 
+    Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle, index) => {
+      puzzle.classList.remove(CLASS_NAMES.DRAGABLE);
+
+      if (+puzzle.dataset.item.slice(-1) === index + 1) {
+        puzzle.classList.add(CLASS_NAMES.PUZZLE.CORRECT);
+      } else {
+        puzzle.classList.add(CLASS_NAMES.PUZZLE.WRONG);
+        this.sentenceGuessFail = true;
+      }
+    });
+
+    if (this.sentenceGuessFail) view.showIDontKnowButton();
   }
 
   beforeUnloadHandler() {
@@ -230,6 +255,7 @@ class Controller {
   init() {
     view.initIntroButton(this.onIntroButtonClickBinded);
     view.initCheckButton(this.onCheckButtonClickBinded);
+    view.initIDontKnowButton(this.onIDontKnowButtonClickHandlerBinded);
 
     this.ELEMENTS = {
       CENTRALIZER: document.querySelector('.centralizer'),

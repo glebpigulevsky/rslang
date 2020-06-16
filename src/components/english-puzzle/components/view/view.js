@@ -9,6 +9,7 @@ import './scss/card.scss';
 import './scss/controls.scss';
 import './scss/status-bar.scss';
 import './scss/drag-and-drop.scss';
+import './scss/puzzle.scss';
 
 import {
   CLASS_NAMES,
@@ -39,6 +40,7 @@ class View {
 
     this.menu = null;
     this.dataDropZone = null;
+    this.resultDropZone = null;
 
     this.correctSound = new Audio(correctSound);
     this.successSound = new Audio(successSound);
@@ -186,10 +188,13 @@ class View {
     return this.dataDropZone.querySelectorAll('*').length;
   }
 
-  renderInputSentence(currentSentense) {
-    shuffleArray(Array.from(currentSentense)).forEach((puzzle) => {
-      puzzle.classList.add('dragable');
-      document.querySelector('.data__container').querySelector('.drop__place').append(puzzle);
+  renderInputSentence(currentSentensePuzzles) {
+    shuffleArray(Array.from(currentSentensePuzzles)).forEach((puzzle) => {
+      const clonePuzzle = puzzle.cloneNode(true); // todo повторение будет в рендеринге правильной последовательности
+      clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
+      clonePuzzle.classList.add('dragable');
+
+      document.querySelector('.data__container').querySelector('.drop__place').append(clonePuzzle);
     });
 
     // shuffleArray(currentSentense.split(' ')).forEach((word) => {
@@ -223,6 +228,10 @@ class View {
 
   initCheckButton(onCheckButtonClick) {
     this.ELEMENTS.BUTTONS.CHECK.addEventListener(EVENTS.CLICK, onCheckButtonClick);
+  }
+
+  initIDontKnowButton(onIDontKnowButtonClick) {
+    this.ELEMENTS.BUTTONS.I_DONT_KNOW.addEventListener(EVENTS.CLICK, onIDontKnowButtonClick);
   }
 
   hideCheckButton() {

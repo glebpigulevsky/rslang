@@ -30,6 +30,11 @@ export const CLASS_NAMES = {
     ITEM: 'slider__item',
     ACTIVE: 'slider__active',
   },
+  DRAGABLE: 'dragable',
+  PUZZLE: {
+    CORRECT: 'correct__puzzle',
+    WRONG: 'wrong__puzzle',
+  },
 };
 
 // export const ELEMENTS = {
