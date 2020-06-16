@@ -40,7 +40,9 @@ export default class UserWordsApi {
 
   async deleteUserWord({ userId, wordId }) {
     const res = await this.apiService.deleteResourse({ url: `/users/${userId}/words/${wordId}`, hasToken: true });
-    return res;
+    return { 
+      isDeleted: res,
+     };
   }
 
   transformUserWord({
@@ -50,7 +52,7 @@ export default class UserWordsApi {
       id,
       wordId,
       difficulty,
-      optional,
+      optional: optional || null,
     };
   }
 }

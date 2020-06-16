@@ -24,7 +24,7 @@ export default class StatisticsApi {
     return {
       id,
       learnedWords,
-      optional,
+      optional: optional || null,
     };
   }
 }
