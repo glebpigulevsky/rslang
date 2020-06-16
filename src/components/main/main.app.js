@@ -7,6 +7,10 @@ class Main {
   constructor() {
     this.logoContent = null;
     this.logoElement = null;
+
+    this.gameButtons = {
+      englishPuzzle: null,
+    };
   }
 
   sayHello() {
