@@ -1,3 +1,5 @@
+import { ERRORS_DESCRIPTION } from './services.common.constants';
+
 export default class ApiService {
   constructor(baseUrl, token) {
     this.baseUrl = baseUrl;
@@ -77,19 +79,19 @@ export default class ApiService {
     console.info(message);
     switch (status) {
       case 400:
-        throw new Error('400: Bad Request');
+        throw new Error(ERRORS_DESCRIPTION[400]);
       case 401:
-        throw new Error('401: Access Token Is Missing or Invalid');
+        throw new Error(ERRORS_DESCRIPTION[401]);
       case 404:
-        throw new Error('404: Not Found');
+        throw new Error(ERRORS_DESCRIPTION[404]);
       case 408:
-        throw new Error('408: Request Time-out');
+        throw new Error(ERRORS_DESCRIPTION[408]);
       case 410:
-        throw new Error('410: Gone');
+        throw new Error(ERRORS_DESCRIPTION[410]);
       case 422:
-        throw new Error('422: Incorrect request');
+        throw new Error(ERRORS_DESCRIPTION[422]);
       default:
-        throw new Error('Something Goes Wrong');
+        throw new Error(ERRORS_DESCRIPTION.DEFAULT);
     }
   }
 }
