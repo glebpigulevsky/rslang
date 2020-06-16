@@ -21,8 +21,6 @@ class Main {
   }
 
   sayHello() {
-    console.log(this.logoContent);
-
     this.logoElement.textContent = this.logoContent;
   }
 

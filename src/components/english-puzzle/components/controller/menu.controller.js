@@ -54,9 +54,9 @@ class MenuController {
     view.clearDropZones();
 
     // try {
-      // this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
+    // this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
     // } catch (err) {
-      this.fetchedRoundData = JSON.parse(localStorage.getItem('data'));
+    this.fetchedRoundData = JSON.parse(localStorage.getItem('data'));
     // }
     // localStorage.setItem('data', JSON.stringify(this.fetchedRoundData));
 
@@ -94,9 +94,9 @@ class MenuController {
 
     showSpinner(); //* кандидаты в отдельную функцию
     // try {
-      // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
+    // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
     // } catch (err) {
-      this.maxRoundInLevel = 40;
+    this.maxRoundInLevel = 40;
     // }
     view.menu.renderRoundSelector(this.maxRoundInLevel);
     this.newRound(this.currentLevel, this.currentRound);
