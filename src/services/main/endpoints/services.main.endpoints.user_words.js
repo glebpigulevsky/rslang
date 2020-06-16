@@ -40,9 +40,9 @@ export default class UserWordsApi {
 
   async deleteUserWord({ userId, wordId }) {
     const res = await this.apiService.deleteResourse({ url: `/users/${userId}/words/${wordId}`, hasToken: true });
-    return { 
+    return {
       isDeleted: res,
-     };
+    };
   }
 
   transformUserWord({
