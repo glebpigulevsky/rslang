@@ -31,6 +31,14 @@ module.exports = {
         from: './assets/favicon/',
         to: './assets/favicon/',
       },
+      {
+        from: './components/promo/assets/',
+        to: './assets/promo/',
+      },
+      {
+        from: './components/main/assets/',
+        to: './assets/main/',
+      },
     ]), 
   ],
   module: {
@@ -85,6 +93,7 @@ module.exports = {
           loader: 'file-loader',
           options: {
             outputPath: './assets/fonts',
+            name: '[name].[ext]',
           },
         },
       },
