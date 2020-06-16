@@ -1,5 +1,3 @@
-import addMd from './components/addMd/addMd';
-
 import { CLASS_NAMES } from '../../common/common.constants';
 import { MAIN_GREETINGS, GAME_BLOCK, TEMPLATE_MAIN_GAME } from './common/main.constants';
 
@@ -12,7 +10,6 @@ class Main {
   }
 
   sayHello() {
-    console.log(this.logoContent);
     this.logoElement.textContent = this.logoContent;
   }
 
