@@ -9,11 +9,6 @@ class DragAndDropController {
     // this.beforeUnloadHandler = this.beforeUnloadHandler.bind(this);
   }
 
-  // beforeUnloadHandler() {
-  //   if (this.isGameStarts) model.saveResults(this.guessedList);
-  //   window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
-  // }
-
   // swapCells(firstValue, secondValue) {
   //   const { field } = this;
 
@@ -197,10 +192,13 @@ class DragAndDropController {
     const clone = this.targetCell.cloneNode(true);
     this.targetCell.classList.add('hidden');
     clone.classList.add('moveable');
+    clone.getContext('2d').drawImage(this.targetCell, 0, 0);
     document.body.append(clone);
     this.cloneCell = document.body.querySelector('.moveable');
-    this.cloneCell.style.width = `${this.targetCell.getBoundingClientRect().width}px`;
-    this.cloneCell.style.height = `${this.targetCell.getBoundingClientRect().height}px`;
+    // this.cloneCell.style.width = `${this.targetCell.getBoundingClientRect().width}px`;
+    // this.cloneCell.style.width = this.targetCell.width;
+    // this.cloneCell.style.height = `${this.targetCell.getBoundingClientRect().height}px`;
+    // this.cloneCell.style.height = this.targetCell.height;
     this.moveAt(
       this.cloneCell,
       this.coordinates.startX,
@@ -230,6 +228,11 @@ class DragAndDropController {
       menuController.nextRound();
     }
   }
+
+  // beforeUnloadHandler() {
+  //   if (this.isGameStarts) model.saveResults(this.guessedList);
+  //   window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
+  // }
 
   init() {
     // window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);

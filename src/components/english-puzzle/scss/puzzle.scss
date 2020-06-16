@@ -1,0 +1,12 @@
+.canvas-item:not(:first-child) {
+  margin-left: -8px;
+}
+
+.canvas-item {
+  height: 48px;
+  cursor: pointer;
+}
+
+.group-words {
+  display: flex;
+}

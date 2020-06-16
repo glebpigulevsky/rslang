@@ -1,3 +1,6 @@
 .main__logo {
-  color: lightcoral;
+  font-family: "Poppins";
+  color: red;
+
+  @include font($size: 4.8rem, $weight: normal);
 }

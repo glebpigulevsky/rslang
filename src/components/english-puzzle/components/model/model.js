@@ -37,11 +37,19 @@ class Model {
   // }
 
   fetchCardsPage(difficult, page) {
-    return CARDS_API.fetchCardsPageWithMaxTenWordsSentences(difficult, page);
+    try {
+      return CARDS_API.fetchCardsPageWithMaxTenWordsSentences(difficult, page);
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   fetchMaxPagesInDifficultCategory(difficult) {
-    return CARDS_API.fetchMaxPagesCountInDifficultCategory(difficult);
+    try {
+      return CARDS_API.fetchMaxPagesCountInDifficultCategory(difficult);
+    } catch (err) {
+      throw new Error(err);
+    }
   }
 
   isWordGuessed(word) {

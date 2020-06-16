@@ -1,6 +1,10 @@
 import model from '../model/model';
 import view from '../view/view';
 
+import createCanvasElements from '../../common/english-puzzle.utils';
+
+import image from '../../assets/img/9th_wave.jpg';
+
 import {
   showSpinner,
   hideSpinner,
@@ -11,6 +15,8 @@ class MenuController {
     this.currentLevel = null;
     this.currentRound = null;
     this.maxRoundInLevel = null;
+
+    this.currentSentence = null;
 
     this.onLevelChangeHandlerBinded = this.onLevelChangeHandler.bind(this);
     this.onRoundChangeHandlerBinded = this.onRoundChangeHandler.bind(this);
@@ -25,22 +31,45 @@ class MenuController {
   }
 
   async onLevelChangeHandler(evt) {
-    showSpinner();
-    // const newLevel = view.menu.elements.select.level.value;
+    // const newLevel = view.menu.elements.selector.level.value;
     this.setCurrentLevel(evt.target.value);
     this.setCurrentRound();
 
+    showSpinner(); //* кандидаты в отдельную функцию
     this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
-    view.menu.elements.select.round.remove();
-    view.menu.renderRoundSelect(this.maxRoundInLevel);
+    view.menu.elements.selectors.round.remove(); //*
+    view.menu.renderRoundSelector(this.maxRoundInLevel); //*
+    this.newRound(this.currentLevel, this.currentRound); //*
+  }
+
+  onRoundChangeHandler(evt) {
+    showSpinner();
+    // const newLevel = view.menu.elements.selector.level.value;
+    this.setCurrentRound(evt.target.value);
+    console.log('New round: ', this.currentRound);
     this.newRound(this.currentLevel, this.currentRound);
   }
 
   async newRound(currentLevel, currentRound) {
-    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
     view.clearDropZones();
+
+    // try {
+      // this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
+    // } catch (err) {
+      this.fetchedRoundData = JSON.parse(localStorage.getItem('data'));
+    // }
+    // localStorage.setItem('data', JSON.stringify(this.fetchedRoundData));
+
+    const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
+
+    this.canvasElements = await createCanvasElements({
+      src: image,
+      wordsList: sentences,
+    });
+
     this.currentSentence = 0;
-    view.renderInputSentence(this.fetchedRoundData[this.currentSentence].textExample);
+    // view.renderInputSentence(this.fetchedRoundData[this.currentSentence].textExample);
+    view.renderInputSentence(this.canvasElements[this.currentSentence].querySelectorAll('*'));
     hideSpinner();
   }
 
@@ -54,15 +83,7 @@ class MenuController {
     }
 
     view.renderNextResultDropZone();
-    view.renderInputSentence(this.fetchedRoundData[this.currentSentence].textExample);
-  }
-
-  onRoundChangeHandler(evt) {
-    showSpinner();
-    // const newLevel = view.menu.elements.select.level.value;
-    this.setCurrentRound(evt.target.value);
-    console.log('New round: ', this.currentRound);
-    this.newRound(this.currentLevel, this.currentRound);
+    view.renderInputSentence(this.canvasElements[this.currentSentence].querySelectorAll('*'));
   }
 
   async init(startLevel = 0, startRound = 0) {
@@ -71,9 +92,13 @@ class MenuController {
     this.setCurrentLevel(startLevel);
     this.setCurrentRound(startRound);
 
-    showSpinner();
-    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
-    view.menu.renderRoundSelect(this.maxRoundInLevel);
+    showSpinner(); //* кандидаты в отдельную функцию
+    // try {
+      // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
+    // } catch (err) {
+      this.maxRoundInLevel = 40;
+    // }
+    view.menu.renderRoundSelector(this.maxRoundInLevel);
     this.newRound(this.currentLevel, this.currentRound);
   }
 }

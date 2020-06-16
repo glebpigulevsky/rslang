@@ -1,4 +1,4 @@
-import englishPuzzleRender from '../english-puzzle/english-puzzle.render';
+// import englishPuzzleRender from '../english-puzzle/english-puzzle.render';
 import englishPuzzleAppInit from '../english-puzzle/english-puzzle.app';
 
 import { CLASS_NAMES } from '../../common/common.constants';
@@ -16,6 +16,8 @@ class Main {
     };
 
     this.onEnglishButtonClickHandlerBinded = this.onEnglishButtonClickHandler.bind(this);
+
+    this.init();
   }
 
   sayHello() {
@@ -26,7 +28,6 @@ class Main {
 
   onEnglishButtonClickHandler() {
     this.gameButtons.englishPuzzle.removeEventListener('click', this.onEnglishButtonClickHandlerBinded);
-    englishPuzzleRender();
     englishPuzzleAppInit();
   }
 

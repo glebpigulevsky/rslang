@@ -1,10 +1,10 @@
-import Select from '../select/select';
+import Selector from '../selector/selector';
 
 export default class Menu {
   constructor(onLevelChangeHandler, onRoundChangeHandler) {
     this.elements = {
       menu: null,
-      select: {
+      selectors: {
         level: null,
         round: null,
       },
@@ -18,26 +18,26 @@ export default class Menu {
     this.init();
   }
 
-  renderSelect(valuesCount, containerClass, name) {
+  renderSelector(valuesCount, containerClass, name) {
     const container = this.elements.menu.querySelector(`.${containerClass}`);
 
     const values = new Array(valuesCount).fill(0).map((item, index) => index);
     const contents = values.map((item) => item + 1);
-    this.elements.select[name] = new Select(values, contents, [{ event: 'change', handler: this.onChangHandlers[name] }], [`navigation__${name}`, name, 'select'], name);
-    container.append(this.elements.select[name].render());
+    this.elements.selectors[name] = new Selector(values, contents, [{ event: 'change', handler: this.onChangHandlers[name] }], [`navigation__${name}`, name, 'selector'], name);
+    container.append(this.elements.selectors[name].render());
   }
 
-  renderLevelSelect(levelsCount = 6) {
-    this.renderSelect(levelsCount, 'navigation__box_left', 'level');
+  renderLevelSelector(levelsCount = 6) {
+    this.renderSelector(levelsCount, 'navigation__box_left', 'level');
   }
 
-  renderRoundSelect(roundsCount = 60) {
-    this.renderSelect(roundsCount, 'navigation__box_right', 'round');
+  renderRoundSelector(roundsCount = 60) {
+    this.renderSelector(roundsCount, 'navigation__box_right', 'round');
   }
 
   init() {
     this.elements.menu = document.querySelector('.navigation');
 
-    this.renderLevelSelect();
+    this.renderLevelSelector();
   }
 }
