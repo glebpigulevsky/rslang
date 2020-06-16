@@ -1,8 +1,30 @@
-@mixin font($size, $height: $size, $weight: bold, $style: normal) {
-  font-style: $style;
+@mixin segoe-title ($color) {
+  font-weight: 600;
+  font-size: 2.2rem;
+  font-family: "Segoe";
+  color: $color;
+  letter-spacing: 0.04rem;
+}
+
+@mixin segoe-subtitle ($color, $weight) {
   font-weight: $weight;
-  font-size: $size;
-  line-height: $height;
+  font-size: 1.3rem;
+  font-family: "Segoe";
+  color: $color;
+}
+
+@mixin segoe-additional ($color, $weight) {
+  font-weight: $weight;
+  font-size: 1.125rem;
+  font-family: "Segoe";
+  color: $color;
+}
+
+@mixin segoe-desc ($color, $weight) {
+  font-weight: $weight;
+  font-size: 0.875rem;
+  font-family: "Segoe";
+  color: $color;
 }
 
 @mixin button($color, $background, $width, $height, $radius) {
@@ -29,7 +51,7 @@
   box-shadow: $horizOffset $vertOffset $blur $color;
 }
 
-@mixin pseudo($display: block, $pos: absolute, $content: '') {
+@mixin pseudo($display: block, $pos: absolute, $content: "") {
   content: $content;
   position: $pos;
 
