@@ -2,7 +2,7 @@
 import 'isomorphic-fetch';
 import UserWordsApi from './services.main.endpoints.user_words';
 import UsersApi from './services.main.endpoints.users';
-import { MAIN_API_URL } from '../../common/services.common.constants';
+import { MAIN_API_URL, GET_RANDOM } from '../../common/services.common.constants';
 import ApiService from '../../common/services.common.api_service';
 
 const userWords = new UserWordsApi();
@@ -116,19 +116,13 @@ describe('get user word', () => {
   });
 });
 
-const getRandom = (min, max) => {
-  const x = Math.ceil(min);
-  const y = Math.floor(max);
-  return Math.floor(Math.random() * (y - x + 1)) + x;
-};
-
 describe('update user word', () => {
   const userDefault = {
     email: 'jest_userwords_five@mail.com',
     password: '12345678Aa@',
     id: '5ee8bb8712daba0017bdc996',
   };
-  const randomVal = getRandom(1, 10).toString();
+  const randomVal = GET_RANDOM(1, 10).toString();
   it('should return correct object', async () => {
     const auth = await user.authenticateUser({
       email: userDefault.email,
@@ -163,7 +157,12 @@ describe('delete user word', () => {
       password: userDefault.password,
     });
     userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
-    await userWords.createUserWord({ userId: userDefault.id, wordId, difficulty: 'easy' });
+    userWords
+      .getUserWord({ userId: userDefault.id, wordId })
+      .catch(() => {
+        userWords.createUserWord({ userId: userDefault.id, wordId, difficulty: 'easy' });
+      });
+
     const res = await userWords.deleteUserWord({ userId: userDefault.id, wordId });
     expect(res).toBeDefined();
     expect(res).toMatchObject({

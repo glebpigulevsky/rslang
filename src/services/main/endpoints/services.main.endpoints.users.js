@@ -11,7 +11,7 @@ export default class UsersApi {
     return this.transformUser(res);
   }
 
-  async editUser({ id, email, password }) {
+  async updateUser({ id, email, password }) {
     const res = await this.apiService.putResourse({ url: `/users/${id}`, params: { email, password }, hasToken: true });
     return this.transformUser(res);
   }
@@ -23,7 +23,9 @@ export default class UsersApi {
 
   async deleteUser({ id }) {
     const res = await this.apiService.deleteResourse({ url: `/users/${id}`, hasToken: true });
-    return res;
+    return { 
+      isDeleted: res,
+    }
   }
 
   async authenticateUser({ email, password }) {

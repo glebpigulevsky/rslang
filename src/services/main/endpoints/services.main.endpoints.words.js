@@ -11,9 +11,9 @@ export default class WordsApi {
   async getWordsCollection({
     group, page, wordsPerExampleSentence = null, wordsPerPage = null,
   }) {
-    await this.wordsGroupValidator(group);
-    await this.wordsPageValidator(page);
-    await this.wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
+    this.wordsGroupValidator(group);
+    this.wordsPageValidator(page);
+    this.wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
 
     let url = `/words?group=${group}&page=${page}`;
     if (wordsPerExampleSentence !== null) {
@@ -27,8 +27,8 @@ export default class WordsApi {
   }
 
   async getWordsCount({ group, wordsPerExampleSentence = null, wordsPerPage = null }) {
-    await this.wordsGroupValidator(group);
-    await this.wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
+    this.wordsGroupValidator(group);
+    this.wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
 
     let url = `/words/count?group=${group}`;
     if (wordsPerExampleSentence !== null) {
@@ -46,27 +46,27 @@ export default class WordsApi {
     return this.transformWord(res);
   }
 
-  async wordsGroupValidator(group) {
+  wordsGroupValidator(group) {
     const isErrorGroup = group < WORDS_REQUEST.Group.min || group > WORDS_REQUEST.Group.max;
     if (isErrorGroup) {
       console.info(`Words: 'group' must be in range (${WORDS_REQUEST.Group.min}, ${WORDS_REQUEST.Group.max})`);
     }
   }
 
-  async wordsPageValidator(page) {
+  wordsPageValidator(page) {
     const isErrorPage = page < WORDS_REQUEST.Page.min || page > WORDS_REQUEST.Page.max;
     if (isErrorPage) {
       console.info(`Words: 'page' must be in range (${WORDS_REQUEST.Page.min}, ${WORDS_REQUEST.Page.max})`);
     }
   }
 
-  async wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage }) {
+  wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage }) {
     if (wordsPerExampleSentence < 1 && wordsPerPage > 0) {
       console.info("Words: 'wordsPerPage' works if 'wordsPerExampleSentenceLTE' is specified");
     }
   }
 
-  async wordsPerPageCountValidator({ wordsPerExampleSentence, wordsPerPage }) {
+  wordsPerPageCountValidator({ wordsPerExampleSentence, wordsPerPage }) {
     if (wordsPerExampleSentence < 1 && wordsPerPage > 0) {
       console.info("Words: 'wordsPerPage' works if 'wordsPerExampleSentenceLTE' is specified");
     }

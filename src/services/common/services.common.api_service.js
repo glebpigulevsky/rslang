@@ -15,7 +15,7 @@ export default class ApiService {
       },
     });
     if (!res.ok) {
-      await this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
+      this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
     }
     return res.json();
   }
@@ -32,7 +32,7 @@ export default class ApiService {
       body: JSON.stringify(params),
     });
     if (!res.ok) {
-      await this.getError(res.status, res.statusText);
+      this.getError(res.status, res.statusText);
     }
     return res.json();
   }
@@ -49,7 +49,7 @@ export default class ApiService {
       body: JSON.stringify(params),
     });
     if (!res.ok) {
-      await this.getError(res.status, res.statusText);
+      this.getError(res.status, res.statusText);
     }
     return res.json();
   }
@@ -65,7 +65,7 @@ export default class ApiService {
       },
     });
     if (!res.ok) {
-      await this.getError(res.status, res.statusText);
+      this.getError(res.status, res.statusText);
     }
     if (res.status === 204 || res.status === 200) {
       return true;
@@ -73,7 +73,7 @@ export default class ApiService {
     return false;
   }
 
-  async getError(status, message) {
+  getError(status, message) {
     console.info(message);
     switch (status) {
       case 400:

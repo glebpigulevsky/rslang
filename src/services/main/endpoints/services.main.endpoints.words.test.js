@@ -40,7 +40,11 @@ describe('get word by Id', () => {
 
 describe('get words count with group, wordsPerExampleSentence, wordsPerPage', () => {
   it('should return correct object', async () => {
-    const res = await wordsApi.getWordsCount({ group: 5, wordsPerExampleSentence: 5, wordsPerPage: 2 });
+    const res = await wordsApi.getWordsCount({
+      group: 5,
+      wordsPerExampleSentence: 5,
+      wordsPerPage: 2,
+    });
     expect(res).toBeDefined();
     expect(res).toStrictEqual({
       count: 2,
@@ -78,7 +82,11 @@ describe('get words collection with group and page', () => {
 
 describe('get words collection with group, page, wordsPerExampleSentence', () => {
   it('should return empty array', async () => {
-    const res = await wordsApi.getWordsCollection({ group: 1, page: 3, wordsPerExampleSentence: 5 });
+    const res = await wordsApi.getWordsCollection({
+      group: 1,
+      page: 3,
+      wordsPerExampleSentence: 5,
+    });
     expect(res).toBeDefined();
     expect(res).toStrictEqual([]);
   });
