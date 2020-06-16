@@ -9,6 +9,6 @@ window.onload = () => {
   main.init();
   speakit.init();
 
-  main.sayHello();
-  speakit.sayHello();
+  // main.sayHello();
+  // speakit.sayHello();
 };

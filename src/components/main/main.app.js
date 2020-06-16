@@ -1,7 +1,7 @@
-import someComponent from './components/some_component/some_component';
+import addMd from './components/addMd/addMd';
 
 import { CLASS_NAMES } from '../../common/common.constants';
-import MAIN_GREETINGS from './common/main.constants';
+import { MAIN_GREETINGS, GAME_BLOCK, TEMPLATE_MAIN_GAME } from './common/main.constants';
 
 import './scss/main.styles.scss';
 
@@ -13,13 +13,18 @@ class Main {
 
   sayHello() {
     console.log(this.logoContent);
-
     this.logoElement.textContent = this.logoContent;
+  }
+
+  addMdStartScreen() {
+    GAME_BLOCK.innerHTML = '';
+    GAME_BLOCK.append(TEMPLATE_MAIN_GAME.content.cloneNode(true));
   }
 
   init() {
     this.logoElement = document.querySelector(`.${CLASS_NAMES.MAIN.LOGO}`);
     this.logoContent = MAIN_GREETINGS;
+    this.addMdStartScreen();
   }
 }
 
