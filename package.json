@@ -1,0 +1,50 @@
+{
+  "name": "rslang",
+  "version": "1.0.0",
+  "description": "Final task RSSchool 2020#1",
+  "main": "index.js",
+  "dependencies": {
+    "source-map-loader": "^1.0.0"
+  },
+  "devDependencies": {
+    "clean-webpack-plugin": "^3.0.0",
+    "copy-webpack-plugin": "^5.1.1",
+    "css-loader": "^3.5.3",
+    "eslint": "^7.2.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.21.2",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.3.0",
+    "image-webpack-loader": "^6.0.0",
+    "node-sass": "^4.14.1",
+    "prettier": "2.0.5",
+    "sass": "^1.26.5",
+    "sass-loader": "^8.0.2",
+    "style-loader": "^1.2.1",
+    "stylelint": "^13.6.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.17.2",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11",
+    "webpack-dev-server": "^3.11.0"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --mode development --open",
+    "dev": "webpack --mode development",
+    "build": "webpack --mode production",
+    "lint:fix": "eslint ./src --fix",
+    "lint": "eslint ./src",
+    "watch": "webpack --mode development --watch",
+    "prettier": "prettier --single-quote --write ./src/**/*.js ./src/**/*.scss",
+    "stylelint": "stylelint ./src",
+    "stylelint:fix": "stylelint ./src --fix"
+  },
+  "keywords": [
+    "RSSchool",
+    "JavaScript"
+  ],
+  "author": "pulya10c as mentor <sergienya.oleg@yandex.ru>, Musmen <musmen@tut.by>, danger1000 <375297789229@yandex.by>, nixon2105 <vanya.radivilov@gmail.com>, Asiliia <asylia.t@gmail.com>, CasperCarver <pigulevsky.gleb@ya.ru>, MaxShelepen <maxshelepen25@gmail.com>",
+  "license": "ISC"
+}
