@@ -14,7 +14,6 @@
   background-color: $color-light-grey;
 
   transition: 0.5s ease-out;
-  ;
 }
 
 .navigation__list {
@@ -68,7 +67,7 @@
   &:hover {
     background-color: $color-hovered;
 
-@include transition($time: 0.3s, $property: all, $method: ease-out);
+    @include transition($time: 0.3s, $property: all, $method: ease-out);
 
     & .navigation__link span {
       color: #ffffff;
@@ -76,6 +75,18 @@
     .icon {
       fill: #ffffff;
     }
+  }
+}
+
+.navigation__item.active {
+  background-color: $color-hovered;
+
+  @include transition($time: 0.3s, $property: all, $method: ease-out);
+  span {
+    color: #ffffff;
+  }
+  .icon {
+    fill: #ffffff;
   }
 }
 
@@ -94,7 +105,3 @@
     fill: currentColor;
   }
 }
-
-
-
-
