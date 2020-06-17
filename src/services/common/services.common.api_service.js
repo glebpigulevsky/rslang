@@ -1,7 +1,6 @@
 import { ERRORS_DESCRIPTION } from './services.common.constants';
 import { ApiError } from './services.common.api_service.helper';
 
-
 export default class ApiService {
   constructor(baseUrl, token) {
     this.baseUrl = baseUrl;
@@ -23,9 +22,9 @@ export default class ApiService {
         this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
       }
       return res.json();
-    }
-    catch (e) {
+    } catch (e) {
       this.errorHandler(e);
+      return null;
     }
   }
 
@@ -45,9 +44,9 @@ export default class ApiService {
         this.getError(res.status, res.statusText);
       }
       return res.json();
-    }
-    catch (e) {
+    } catch (e) {
       this.errorHandler(e);
+      return null;
     }
   }
 
@@ -69,30 +68,31 @@ export default class ApiService {
       return res.json();
     } catch (e) {
       this.errorHandler(e);
+      return null;
     }
   }
 
   async deleteResourse({ url, hasToken }) {
     try {
-  const res = await fetch(`${this.baseUrl}${url}`, {
-      method: 'DELETE',
-      withCredentials: !!hasToken,
-      headers: {
-        Authorization: hasToken ? `Bearer ${this.token}` : null,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!res.ok) {
-      this.getError(res.status, res.statusText);
-    }
-    if (res.status === 204 || res.status === 200) {
-      return true;
-    }
-    return false;
-    }
-    catch (e) {
+      const res = await fetch(`${this.baseUrl}${url}`, {
+        method: 'DELETE',
+        withCredentials: !!hasToken,
+        headers: {
+          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!res.ok) {
+        this.getError(res.status, res.statusText);
+      }
+      if (res.status === 204 || res.status === 200) {
+        return true;
+      }
+      return false;
+    } catch (e) {
       this.errorHandler(e);
+      return null;
     }
   }
 

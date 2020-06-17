@@ -23,9 +23,9 @@ export default class UsersApi {
 
   async deleteUser({ id }) {
     const res = await this.apiService.deleteResourse({ url: `/users/${id}`, hasToken: true });
-    return { 
+    return {
       isDeleted: res,
-    }
+    };
   }
 
   async authenticateUser({ email, password }) {

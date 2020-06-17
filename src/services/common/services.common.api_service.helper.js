@@ -1,8 +1,8 @@
 class ApiError extends Error {
   constructor(message) {
     super(message);
-    this.name = "ApiError";
- }
+    this.name = 'ApiError';
+  }
 }
 
-export { ApiError }
+export { ApiError };
