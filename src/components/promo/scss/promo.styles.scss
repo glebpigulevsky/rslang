@@ -1,7 +1,34 @@
-.promo__logo {
-  color: red;
+@import '../../../scss/fonts.css';
 
-  .logo__word {
-    color: green;
-  }
-}
+@import '../../../scss/normalize.scss';
+@import '../../../scss/mixins.scss';
+@import '../../../scss/constants.scss';
+@import '../../../scss/wrapper.scss';
+
+@import '../../../scss/common.scss';
+
+
+//Layouts
+
+@import "layouts/promo";
+
+//Base
+@import "base/base";
+@import "base/buttons";
+@import "base/logo";
+@import "base/icons";
+@import "base/column";
+
+//Components
+@import "components/capabilities";
+@import "components/games";
+@import "components/collection";
+@import "components/settings";
+
+
+
+
+
+
+
+

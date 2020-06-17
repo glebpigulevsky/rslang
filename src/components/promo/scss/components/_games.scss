@@ -1,0 +1,17 @@
+
+.games__content {
+    @include flex-center;
+    flex-direction: column;
+    padding: 100px 0;
+}
+
+
+
+.games__title {
+    
+}
+
+.layout-3-columns {
+   @include columns(90%);
+   align-items: center;
+}

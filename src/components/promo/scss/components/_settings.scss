@@ -1,0 +1,15 @@
+.settings__content {
+    @include flex-center;
+    justify-content: space-around;
+}
+
+
+
+.settings__description {
+    width: 40%;
+}
+.settings__description-text {
+ @include segoe-additional (black, 200);
+font-size:  px-to-rem(20px);
+line-height: px-to-rem(20px);
+}

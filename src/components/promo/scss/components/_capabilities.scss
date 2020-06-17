@@ -1,0 +1,18 @@
+
+
+.title__content {
+    @include flex-center;
+}
+
+.title {
+    margin: 0 10px;
+}
+
+.title__text {
+    width: 80%;
+    margin: auto;
+    line-height: 41px;
+    letter-spacing: 0.41px;
+    text-align: center;
+    font-size: 24px;
+}

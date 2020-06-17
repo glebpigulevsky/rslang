@@ -1,0 +1,34 @@
+.promo {
+    position: relative;
+    overflow: hidden;
+    height: 1335.84px;
+    &:before {
+    content: '';
+    display: block;
+    position: absolute;
+    z-index: 1;
+    width: 100%;
+    height: 1335.84px;
+    background-image: url('../assets/img/background__main.png');
+    background-repeat: no-repeat;
+    background-position: top right;
+    }
+    &:after {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 1335.84px;
+        background-image: url('../assets/img/backgroundOne__main.png');
+        background-repeat: no-repeat;
+        background-position: top left;
+        }
+}
+
+
+.promo-content {
+    position: absolute;
+    top: 30%;
+    left: 30%;
+}

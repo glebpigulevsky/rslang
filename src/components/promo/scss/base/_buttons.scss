@@ -1,0 +1,7 @@
+
+
+.login__submitBtn {
+    @include button(black, $color-orange, 300px, 55px, 30px);
+    border: none; 
+    cursor: pointer;
+}
