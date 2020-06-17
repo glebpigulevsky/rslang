@@ -61,15 +61,69 @@
     align-self: stretch;
     align-items: center;
     padding-top: 3rem;
+    margin-bottom: 1rem;
 
     .card-main {
         width: 35rem;
         max-width: 35rem;
         height: 20rem;
         flex: 1 1 auto;
+        padding: 0 2.5rem;
+        align-self: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        @include segoe-subtitle ($color-text, 400);
         background-color: #f8f2ee;
         @include box-shadow(0, 3px, .5rem, $color-light-grey);
         @include border-radius(.75rem, .75rem,.75rem,.75rem);
+        .learn-content{
+            height: 6rem;
+            margin-bottom: 1rem;
+            .learn-content__container{
+                position: relative;
+                display: flex;
+                flex-wrap: wrap;
+                .word{
+                    margin-right: 5px;
+                };
+                .input-container{
+                    position: relative;
+                    padding: 0.25rem;
+                    .answer-input{
+                        position: absolute;
+                        top: -2px;
+                        left: 0;
+                        color: #338c99;
+                        margin: 0;
+                        width: 93%;
+                        height: 77%;
+                        border-radius: 0.25rem;
+                    }
+                    
+                }
+                
+                .opacityhidden{
+                    visibility: hidden;
+                } 
+            }
+            
+            
+        }
+
+        .learn-content__translation{
+            display: flex;
+            color: $color-text-additional;
+            margin: 0 auto;
+            opacity: 1;
+            width: 100%;
+            height: auto;
+            padding: .125rem 0 0;
+            border-top: 1px solid #efe6e1;
+            box-sizing: border-box;
+            align-self: center;
+            cursor: default;
+        }
     }
 
     .navigate {
@@ -86,4 +140,15 @@
     .hidden {
         display: none;
     }
+    .dotBlock{
+        
+    }
+}
+
+.card-helper{
+    margin: 0 auto;
+    width: 35rem;
+    display: flex;
+    justify-content: flex-start;
+    @include segoe-title ($color-text-additional)
 }
