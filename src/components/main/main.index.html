@@ -7,27 +7,47 @@
   <title>Main</title>
 </head>
 <body>
-<<<<<<< HEAD
   <h1 class="main__logo logo"></h1>
   <div class="main__game"></div>
 
- <template id="template-main__game">
+ <template id="template-main__game-intro">
     <div class="main__game-start">
       <div class="main__game-start__description">"English words" game.<br><span>Based on russian</span></div>
       <button class="main__game-start__button">Start lesson</button>
     </div>
     <div class="main__game-stat">
-      <div class="main__game-stat__today"></div>
-      <div class="main__game-stat__week"></div>
+      <div class="main__game-stat__today">Today</div>
+      <div class="main__game-stat__week">Еженедельный прогресс</div>
     </div>
  </template>
+
+ <template id="template-main__game">
+    <div class="card-container">
+      <div class="navigate prev hidden"></div>
+
+      <div class="card">
+        <div class="card-header"></div>
+        <div class="card-main">
+          <div class="learn-content">
+            <div class="learn-content__container">
+              
+            </div>
+          </div>
+          <div class="learn-content__translition"></div>
+        </div>
+        <div class="card-footer"></div>
+      </div>
+
+      <div class="navigate next"></div>
+
+    </div>
+    <div class="card-helper"></div>
+ </template>
   
-=======
     <div class="wrapper">
         <h1 class="main__logo logo"></h1>
         <button class="btn">button</button>
     </div>
->>>>>>> develop
   <script src="./js/app.bundle.js"></script>
 </body>
 </html>
