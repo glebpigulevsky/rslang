@@ -4,9 +4,14 @@
   "description": "Final task RSSchool 2020#1",
   "main": "index.js",
   "dependencies": {
+    "es6-promise": "^4.2.8",
+    "isomorphic-fetch": "^2.2.1",
     "source-map-loader": "^1.0.0"
   },
   "devDependencies": {
+    "@babel/plugin-transform-runtime": "^7.10.1",
+    "@babel/preset-env": "^7.10.2",
+    "babel-jest": "^26.0.1",
     "clean-webpack-plugin": "^3.0.0",
     "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.5.3",
@@ -31,6 +36,19 @@
     "webpack-cli": "^3.3.11",
     "webpack-dev-server": "^3.11.0"
   },
+  "babel": {
+    "presets": [
+      "@babel/preset-env"
+    ],
+    "plugins": [
+      [
+        "@babel/plugin-transform-runtime",
+        {
+          "regenerator": true
+        }
+      ]
+    ]
+  },
   "scripts": {
     "start": "webpack-dev-server --mode development --open",
     "dev": "webpack --mode development",
@@ -39,8 +57,8 @@
     "lint": "eslint ./src",
     "watch": "webpack --mode development --watch",
     "prettier": "prettier --single-quote --write ./src/**/*.js ./src/**/*.scss",
-    "stylelint": "stylelint './src/*/*.scss'",
-    "stylelint:fix": "stylelint './src/*/*.scss' --fix",
+    "stylelint": "stylelint './src/**/*.scss'",
+    "stylelint:fix": "stylelint './src/**/*.scss' --fix",
     "test": "jest"
   },
   "keywords": [

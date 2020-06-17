@@ -20,6 +20,7 @@ class Main {
     GAME_BLOCK.innerHTML = '';
     GAME_BLOCK.append(TEMPLATE_MAIN_GAMEINTRO.content.cloneNode(true));
     this.initMainGame();
+    game.init();
   }
 
   onMainGameStartClickHandler() {
