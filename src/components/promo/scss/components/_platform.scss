@@ -1,0 +1,46 @@
+
+.platfrom {
+    @include background-section;
+}
+
+.platform__content {
+    @include padding-between-pages;
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        z-index: 1;
+        width: 100%;
+        height: 578.93px;
+        background-image: url('../assets/img/image-cloud.png');
+        background-repeat: no-repeat;
+        background-position: 30% 10%;
+    }
+}
+.platform__description-container {
+    display: flex;
+    align-items: flex-end;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: px-to-rem(160px) 0;
+}
+.platform__image {
+    z-index: 2;
+}
+.description__container {
+    width: 40%;
+    margin-left: px-to-rem(30px);
+}
+
+.platform__description-text {
+    @include segoe-additional ($color-text, 600);
+    font-size:  px-to-rem(12px);
+    line-height: px-to-rem(20px);
+}
+.platform__description-icon {
+    display: flex;
+}
+
+.platform__icon {
+    padding: 0 5px;
+}

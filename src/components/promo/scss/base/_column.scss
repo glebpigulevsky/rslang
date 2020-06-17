@@ -6,4 +6,7 @@
     display: flex;
     align-items: center;
     margin: 20px 0;
+    @include segoe-subtitle (black, 600);
+    font-size:  px-to-rem(12px);
+    line-height: px-to-rem(20px);
 }

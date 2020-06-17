@@ -1,7 +1,31 @@
 
 
-.login__submitBtn {
-    @include button(black, $color-orange, 300px, 55px, 30px);
-    border: none; 
-    cursor: pointer;
-}
+.login__submitBtn  {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: px-to-rem(65px) auto;
+    padding: 0 40px;
+    text-decoration: none;
+    vertical-align: center;
+    text-transform: uppercase;
+  
+    box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
+  
+    @include button($color: $color-text, $background: $color-orange, $width: 300px, $height: 55px, $radius: 30px);
+  
+    @include segoe-additional($color: $color-text, $weight: bold);
+    font-size:  px-to-rem(16px);
+    line-height: px-to-rem(20px);
+  
+    &:focus {
+      outline: none;
+    }
+  
+    &:hover {
+      background-color: $color-dark-orange;
+      border-color: transparent;
+  
+      @include transition($time: 0.4s, $property: all, $method: ease-out);
+    }
+  }

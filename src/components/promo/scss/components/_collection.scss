@@ -1,4 +1,5 @@
 .collection__content {
+    @include padding-between-pages;
     position: relative;
     display: flex;
     align-items: center;
@@ -39,7 +40,7 @@
 
 
 .collection__infoText {
-    @include segoe-additional (black, bold);
+    @include segoe-additional ($color-text, bold);
     font-size:  px-to-rem(21px);
     line-height: px-to-rem(20px);
 }

@@ -1,14 +1,19 @@
 
+.games {
+    @include background-section;
+}
 .games__content {
     @include flex-center;
     flex-direction: column;
-    padding: 100px 0;
+    @include padding-between-pages;
 }
 
 
 
 .games__title {
-    
+    @include segoe-subtitle ($color-text, 600);
+    font-size:  px-to-rem(16px);
+    line-height: px-to-rem(20px);
 }
 
 .layout-3-columns {

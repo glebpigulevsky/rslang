@@ -1,11 +1,17 @@
 
-
+.capabilities {
+    @include background-section;
+}
+.capabilities__container {
+    @include padding-between-pages;
+}
 .title__content {
     @include flex-center;
 }
 
 .title {
-    margin: 0 10px;
+    margin: 0 30px;
+    color: $color-text;
 }
 
 .title__text {
@@ -15,4 +21,5 @@
     letter-spacing: 0.41px;
     text-align: center;
     font-size: 24px;
+    color: $color-text;
 }
