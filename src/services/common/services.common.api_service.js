@@ -1,4 +1,6 @@
 import { ERRORS_DESCRIPTION } from './services.common.constants';
+import { ApiError } from './services.common.api_service.helper';
+
 
 export default class ApiService {
   constructor(baseUrl, token) {
@@ -7,57 +9,72 @@ export default class ApiService {
   }
 
   async getResource({ url, hasToken }) {
-    const res = await fetch(`${this.baseUrl}${url}`, {
-      method: 'GET',
-      withCredentials: !!hasToken,
-      headers: {
-        Authorization: hasToken ? `Bearer ${this.token}` : null,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-    });
-    if (!res.ok) {
-      this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
+    try {
+      const res = await fetch(`${this.baseUrl}${url}`, {
+        method: 'GET',
+        withCredentials: !!hasToken,
+        headers: {
+          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+      });
+      if (!res.ok) {
+        this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
+      }
+      return res.json();
     }
-    return res.json();
+    catch (e) {
+      this.errorHandler(e);
+    }
   }
 
   async postResourse({ url, params, hasToken }) {
-    const res = await fetch(`${this.baseUrl}${url}`, {
-      method: 'POST',
-      withCredentials: !!hasToken,
-      headers: {
-        Authorization: hasToken ? `Bearer ${this.token}` : null,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(params),
-    });
-    if (!res.ok) {
-      this.getError(res.status, res.statusText);
+    try {
+      const res = await fetch(`${this.baseUrl}${url}`, {
+        method: 'POST',
+        withCredentials: !!hasToken,
+        headers: {
+          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+      });
+      if (!res.ok) {
+        this.getError(res.status, res.statusText);
+      }
+      return res.json();
     }
-    return res.json();
+    catch (e) {
+      this.errorHandler(e);
+    }
   }
 
   async putResourse({ url, params, hasToken }) {
-    const res = await fetch(`${this.baseUrl}${url}`, {
-      method: 'PUT',
-      withCredentials: !!hasToken,
-      headers: {
-        Authorization: hasToken ? `Bearer ${this.token}` : null,
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(params),
-    });
-    if (!res.ok) {
-      this.getError(res.status, res.statusText);
+    try {
+      const res = await fetch(`${this.baseUrl}${url}`, {
+        method: 'PUT',
+        withCredentials: !!hasToken,
+        headers: {
+          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(params),
+      });
+      if (!res.ok) {
+        this.getError(res.status, res.statusText);
+      }
+      return res.json();
+    } catch (e) {
+      this.errorHandler(e);
     }
-    return res.json();
   }
 
   async deleteResourse({ url, hasToken }) {
-    const res = await fetch(`${this.baseUrl}${url}`, {
+    try {
+  const res = await fetch(`${this.baseUrl}${url}`, {
       method: 'DELETE',
       withCredentials: !!hasToken,
       headers: {
@@ -73,25 +90,36 @@ export default class ApiService {
       return true;
     }
     return false;
+    }
+    catch (e) {
+      this.errorHandler(e);
+    }
   }
 
   getError(status, message) {
     console.info(message);
     switch (status) {
       case 400:
-        throw new Error(ERRORS_DESCRIPTION[400]);
+        throw new ApiError(ERRORS_DESCRIPTION[400]);
       case 401:
-        throw new Error(ERRORS_DESCRIPTION[401]);
+        throw new ApiError(ERRORS_DESCRIPTION[401]);
       case 404:
-        throw new Error(ERRORS_DESCRIPTION[404]);
+        throw new ApiError(ERRORS_DESCRIPTION[404]);
       case 408:
-        throw new Error(ERRORS_DESCRIPTION[408]);
+        throw new ApiError(ERRORS_DESCRIPTION[408]);
       case 410:
-        throw new Error(ERRORS_DESCRIPTION[410]);
+        throw new ApiError(ERRORS_DESCRIPTION[410]);
       case 422:
-        throw new Error(ERRORS_DESCRIPTION[422]);
+        throw new ApiError(ERRORS_DESCRIPTION[422]);
       default:
-        throw new Error(ERRORS_DESCRIPTION.DEFAULT);
+        throw new ApiError(ERRORS_DESCRIPTION.DEFAULT);
     }
+  }
+
+  errorHandler(e) {
+    if (e instanceof ApiError) {
+      throw new Error(e.message);
+    }
+    throw new Error(ERRORS_DESCRIPTION.DEFAULT);
   }
 }

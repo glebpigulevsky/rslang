@@ -1,5 +1,5 @@
 const MAIN_API_URL = 'https://afternoon-falls-25894.herokuapp.com';
-const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTRmODI3MmU2ZjgxMDAxNzI5NjNiNyIsImlhdCI6MTU5MjIzMDUzNiwiZXhwIjoxNTkyMjQ0OTM2fQ.ea1lTt3VX9R5JjUOgq6E4Ppb08kQhkWjAKuDbqy2ZKg';
+const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTdhM2FjNDM5YzQ3MDAxN2M0ZTYzMCIsImlhdCI6MTU5MjM1MjMwMywiZXhwIjoxNTkyMzY2NzAzfQ.OakuZlZUBRUlZKtvRdvLl5-w7YLSMY2esQCjsPxImcs';
 const ERRORS_DESCRIPTION = {
   400: '400: Bad Request',
   401: '401: Access Token Is Missing or Invalid',

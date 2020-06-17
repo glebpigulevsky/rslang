@@ -2,7 +2,7 @@
 import 'isomorphic-fetch';
 import UserWordsApi from './services.main.endpoints.user_words';
 import UsersApi from './services.main.endpoints.users';
-import { MAIN_API_URL, GET_RANDOM } from '../../common/services.common.constants';
+import { MAIN_API_URL, GET_RANDOM, ERRORS_DESCRIPTION } from '../../common/services.common.constants';
 import ApiService from '../../common/services.common.api_service';
 
 const userWords = new UserWordsApi();

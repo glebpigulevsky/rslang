@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import 'isomorphic-fetch';
 import ApiService from './services.common.api_service';
+import { ERRORS_DESCRIPTION } from './services.common.constants';
 
 const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTRmODI3MmU2ZjgxMDAxNzI5NjNiNyIsImlhdCI6MTU5MjA2NDExMiwiZXhwIjoxNTkyMDc4NTEyfQ.cRDXnE67EZnYor03vrBhPDVMbzXf8YPBVWQQ4qc1SzY';
 const service = new ApiService('https://reqbin.com/sample', token);
@@ -40,7 +41,7 @@ describe('post request any site', () => {
     try {
       await service.postResourse({ url: '/post/error', hasToken: true });
     } catch (e) {
-      expect(e.message).toEqual('404: Not Found');
+      expect(e.message).toEqual(ERRORS_DESCRIPTION[404]);
     }
   });
 });
@@ -62,7 +63,7 @@ describe('put request any site', () => {
     try {
       await service.putResourse({ url: '/put/error', hasToken: true });
     } catch (e) {
-      expect(e.message).toEqual('404: Not Found');
+      expect(e.message).toEqual(ERRORS_DESCRIPTION[404]);
     }
   });
 });
@@ -80,7 +81,7 @@ describe('delete request any site', () => {
     try {
       await service.deleteResourse({ url: '/delete/error', hasToken: true });
     } catch (e) {
-      expect(e.message).toEqual('404: Not Found');
+      expect(e.message).toEqual(ERRORS_DESCRIPTION[404]);
     }
   });
 });

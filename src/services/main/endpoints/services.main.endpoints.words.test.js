@@ -1,6 +1,7 @@
 /* eslint-disable no-undef */
 import 'isomorphic-fetch';
 import WordsApi from './services.main.endpoints.words';
+import { ERRORS_DESCRIPTION } from '../../common/services.common.constants';
 
 const wordsApi = new WordsApi();
 
@@ -9,7 +10,7 @@ describe('get word by Id', () => {
     try {
       await wordsApi.getWord({ id: '1' });
     } catch (e) {
-      expect(e.message).toEqual('Something Goes Wrong');
+      expect(e.message).toEqual(ERRORS_DESCRIPTION.DEFAULT);
     }
   });
 });

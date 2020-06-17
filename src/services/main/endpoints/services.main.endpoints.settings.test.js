@@ -2,7 +2,7 @@
 import 'isomorphic-fetch';
 import SettingsApi from './services.main.endpoints.settings';
 import UsersApi from './services.main.endpoints.users';
-import { MAIN_API_URL } from '../../common/services.common.constants';
+import { MAIN_API_URL, ERRORS_DESCRIPTION } from '../../common/services.common.constants';
 import ApiService from '../../common/services.common.api_service';
 
 const settings = new SettingsApi();
@@ -23,7 +23,7 @@ describe('get settings if settings was not updated early', () => {
       settings.apiService = new ApiService(MAIN_API_URL, auth.token);
       await settings.getSettings({ userId: userDefault.id });
     } catch (e) {
-      expect(e.message).toEqual('404: Not Found');
+      expect(e.message).toEqual(ERRORS_DESCRIPTION[404]);
     }
   });
 });
@@ -62,11 +62,10 @@ describe('update settings', () => {
       password: userDefault.password,
     });
     settings.apiService = new ApiService(MAIN_API_URL, auth.token);
-    const res = await settings.updateSettings({ userId: userDefault.id, wordsPerDay: 100, optional: { score: '1000' } });
+    const res = await settings.updateSettings({ userId: userDefault.id, wordsPerDay: 1 });
     expect(res).toMatchObject({
       // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
-      wordsPerDay: 100,
-      optional: { score: '1000' },
+      wordsPerDay: 1,
     });
   });
 });

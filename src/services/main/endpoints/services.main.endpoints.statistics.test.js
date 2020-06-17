@@ -2,7 +2,7 @@
 import 'isomorphic-fetch';
 import StatisticsApi from './services.main.endpoints.statistics';
 import UsersApi from './services.main.endpoints.users';
-import { MAIN_API_URL } from '../../common/services.common.constants';
+import { MAIN_API_URL, ERRORS_DESCRIPTION } from '../../common/services.common.constants';
 import ApiService from '../../common/services.common.api_service';
 
 const statistics = new StatisticsApi();
@@ -23,7 +23,7 @@ describe('get statistics if statistics was not updated early', () => {
       statistics.apiService = new ApiService(MAIN_API_URL, auth.token);
       await statistics.getStatictics({ userId: userDefault.id });
     } catch (e) {
-      expect(e.message).toEqual('404: Not Found');
+      expect(e.message).toEqual(ERRORS_DESCRIPTION[404]);
     }
   });
 });
