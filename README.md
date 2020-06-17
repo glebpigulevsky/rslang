@@ -17,4 +17,9 @@ To run build in dist:
 $ npm run dev
 ```
 
+To run tests:
+```sh
+$ npm test
+```
+
 Make code in ```/src``` folder

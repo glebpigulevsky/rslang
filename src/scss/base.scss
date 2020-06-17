@@ -1,0 +1,9 @@
+html {
+  font-size: 10px;
+}
+
+body {
+  @extend %font-prim;
+
+  @include font($size: 1.6rem, $weight: normal);
+}

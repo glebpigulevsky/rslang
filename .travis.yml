@@ -1,0 +1,14 @@
+language: node_js
+node_js:
+  - "10"
+install:
+  - npm install
+stages:
+  - "Quality gates"
+jobs:
+  include:
+    - stage: "Quality gates Linter"
+      name: "Linter"
+      script: npm run lint
+    - script: npm run test
+      name: "Unit Tests"
