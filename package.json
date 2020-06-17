@@ -57,8 +57,8 @@
     "lint": "eslint ./src",
     "watch": "webpack --mode development --watch",
     "prettier": "prettier --single-quote --write ./src/**/*.js ./src/**/*.scss",
-    "stylelint": "stylelint ./src",
-    "stylelint:fix": "stylelint ./src --fix",
+    "stylelint": "stylelint './src/**/*.scss'",
+    "stylelint:fix": "stylelint './src/**/*.scss' --fix",
     "test": "jest"
   },
   "keywords": [

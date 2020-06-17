@@ -1,9 +1,9 @@
 html {
-  font-size: 10px;
+    font-size: 10px;
 }
 
 body {
-  @extend %font-prim;
+    @extend %font-prim;
 
-  @include font($size: 1.6rem, $weight: normal);
+    @include font($size: 1.6rem, $weight: normal);
 }

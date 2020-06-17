@@ -19,5 +19,5 @@ const GET_RANDOM = (min, max) => {
 };
 const MEDIA_LINK = 'https://raw.githubusercontent.com/irinainina/rslang-data/master/';
 export {
-  MAIN_API_URL, TOKEN, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK
+  MAIN_API_URL, TOKEN, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK,
 };
