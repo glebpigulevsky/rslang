@@ -1,99 +1,96 @@
 @mixin segoe-title ($color) {
-  font-weight: 600;
-  font-size: 2.2rem;
-  font-family: "Segoe";
-  color: $color;
-  letter-spacing: 0.04rem;
+    font-weight: 600;
+    font-size: 2.2rem;
+    font-family: "Segoe", sans-serif;
+    color: $color;
+    letter-spacing: .04rem;
 }
 
 @mixin segoe-subtitle ($color, $weight) {
-  font-weight: $weight;
-  font-size: 1.3rem;
-  font-family: "Segoe";
-  color: $color;
+    font-weight: $weight;
+    font-size: 1.3rem;
+    font-family: "Segoe", sans-serif;
+    color: $color;
 }
 
 @mixin segoe-additional ($color, $weight) {
-  font-weight: $weight;
-  font-size: 1.125rem;
-  font-family: "Segoe";
-  color: $color;
+    font-weight: $weight;
+    font-size: 1.125rem;
+    font-family: "Segoe", sans-serif;
+    color: $color;
 }
 
 @mixin segoe-desc ($color, $weight) {
-  font-weight: $weight;
-  font-size: 0.875rem;
-  font-family: "Segoe";
-  color: $color;
+    font-weight: $weight;
+    font-size: .875rem;
+    font-family: "Segoe", sans-serif;
+    color: $color;
 }
 
 @mixin button($color, $background, $width, $height, $radius) {
-  width: $width;
-  height: $height;
-
-  color: $color;
-
-  background: $background;
-  border-radius: $radius;
+    width: $width;
+    height: $height;
+    color: $color;
+    background: $background;
+    border-radius: $radius;
 }
 
 @mixin columns($width) {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
 }
 
 @mixin border-radius($topLeft, $topRight, $bottomRight, $bottomLeft) {
-  border-radius: $topLeft $topRight $bottomRight $bottomLeft;
+    border-radius: $topLeft $topRight $bottomRight $bottomLeft;
 }
 
 @mixin box-shadow($horizOffset, $vertOffset, $blur, $color) {
-  box-shadow: $horizOffset $vertOffset $blur $color;
+    box-shadow: $horizOffset $vertOffset $blur $color;
 }
 
 @mixin pseudo($display: block, $pos: absolute, $content: "") {
-  content: $content;
-  position: $pos;
-
-  display: $display;
+    content: $content;
+    position: $pos;
+    display: $display;
 }
 
 @mixin link($link, $visit, $hover, $active) {
-  a {
-    color: $link;
+    a {
+        color: $link;
 
-    &:visited {
-      color: $visit;
-    }
+        &:visited {
+            color: $visit;
+        }
 
-    &:hover {
-      color: $hover;
-    }
+        &:hover {
+            color: $hover;
+        }
 
-    &:active {
-      color: $active;
+        &:active {
+            color: $active;
+        }
     }
-  }
 }
 
-@mixin transition($time: 0.3s, $property: all, $method: ease-out) {
-  transition: $time $property $method;
+@mixin transition($time: .3s, $property: all, $method: ease-out) {
+    transition: $time $property $method;
 }
 
 @mixin media-tablet {
-  @media (max-width: $tablet-width) {
-    @content;
-  }
+    @media (max-width: $tablet-width) {
+        @content;
+    }
 }
 
 @mixin media-mobile {
-  @media (max-width: $mobile-width) {
-    @content;
-  }
+    @media (max-width: $mobile-width) {
+        @content;
+    }
 }
 
 @mixin media-mobilesmall {
-  @media (max-width: $mobile-small-width) {
-    @content;
-  }
+    @media (max-width: $mobile-small-width) {
+        @content;
+    }
 }
