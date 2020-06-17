@@ -2,6 +2,7 @@ import correctSound from './assets/audio/correct.mp3';
 import successSound from './assets/audio/success.mp3';
 import starWin from './assets/img/star-win.svg';
 import logo from './assets/img/logo.jpg';
+import image from '../../assets/img/9th_wave.jpg';
 
 import './scss/introduction.scss';
 import './scss/spinner.scss';
@@ -234,6 +235,10 @@ class View {
     this.ELEMENTS.BUTTONS.I_DONT_KNOW.addEventListener(EVENTS.CLICK, onIDontKnowButtonClick);
   }
 
+  initContinueButton(onContinueButtonClick) {
+    this.ELEMENTS.BUTTONS.CONTINUE.addEventListener(EVENTS.CLICK, onContinueButtonClick);
+  }
+
   hideCheckButton() {
     hideElement(this.ELEMENTS.BUTTONS.CHECK);
   }
@@ -250,6 +255,32 @@ class View {
     showElement(this.ELEMENTS.BUTTONS.I_DONT_KNOW);
   }
 
+  hideContinueButton() {
+    hideElement(this.ELEMENTS.BUTTONS.CONTINUE);
+  }
+
+  showContinueButton() {
+    showElement(this.ELEMENTS.BUTTONS.CONTINUE);
+  }
+
+  showPicture() {
+    this.ELEMENTS.CONTAINERS.FIELD.classList.add(CLASS_NAMES.BG_PICTURE);
+    this.ELEMENTS.CONTAINERS.FIELD.style.backgroundImage = `url(${image})`;
+  }
+
+  hidePicture() {
+    this.ELEMENTS.CONTAINERS.FIELD.classList.remove(CLASS_NAMES.BG_PICTURE);
+    this.ELEMENTS.CONTAINERS.FIELD.style.backgroundImage = '';
+  }
+
+  resetPuzzlesStates(currentSentence) {
+    Array.from(document.querySelectorAll(`.canvas-row-${currentSentence + 1}`))
+      .forEach((puzzle) => puzzle.classList.remove(
+        CLASS_NAMES.PUZZLE.CORRECT,
+        CLASS_NAMES.PUZZLE.WRONG,
+      ));
+  }
+
   init() {
     this.renderDOM();
 
@@ -262,6 +293,10 @@ class View {
       RESULT: {
         CONTAINER: document.body.querySelector('.gallery'),
       },
+      CONTAINERS: {
+        FIELD: document.body.querySelector('.field__container'), // todo
+        DATA: document.body.querySelector('.data__container'), // todo
+      },
       BUTTONS: {
         // NEW: document.querySelector('.game__button-new'),
         // GAME: document.querySelector('.game__button-start'),
@@ -273,6 +308,7 @@ class View {
         INTRODUCTION: document.querySelector('.introduction__button'),
         I_DONT_KNOW: document.querySelector('.game__button-dont_know'),
         CHECK: document.querySelector('.game__button-check'),
+        CONTINUE: document.querySelector('.game__button-continue'),
       },
     };
 
@@ -319,7 +355,7 @@ class View {
           <main class="main">
             <div class="game__controls">
               <div class="buttons__wrapper">
-                <div class="difficulties">
+            <!--<div class="difficulties">
                   <span class="difficult__description">Level:</span>
                   <button class="game__difficult game__difficult-1 button-rounded active">1</button>
                   <button class="game__difficult game__difficult-2 button-rounded">2</button>
@@ -333,7 +369,7 @@ class View {
                   <button class="game__button game__button-start button-rounded">Start game</button>
                   <button class="game__button game__button-stop button-rounded">Stop game</button>
                   <button class="game__button game__button-results button-rounded">Results</button>
-                </div>
+                </div> -->
               </div>
               <p class="status-bar"></p>
             </div>
@@ -368,8 +404,9 @@ class View {
             </div>
 
             <div class="game__controls">
-              <button class="game__button game__button-dont_know button-rounded">I don\`t know</button>
               <button class="game__button game__button-check button-rounded hidden">Check</button>
+              <button class="game__button game__button-dont_know button-rounded">I don\`t know</button>
+              <button class="game__button game__button-continue button-rounded hidden">Continue</button>
             </div>
   
             <div class="results__container">

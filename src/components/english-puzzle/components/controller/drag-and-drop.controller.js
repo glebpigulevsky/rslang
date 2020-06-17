@@ -185,6 +185,8 @@ class DragAndDropController {
     // if (!isNeighbor(this.field, this.size, evt.target) || this.isAnimation) return;
     if (!evt.target.classList.contains('dragable') || !evt.target.closest('.drop__place')) return;
 
+    view.resetPuzzlesStates(menuController.currentSentence);
+
     this.targetCell = evt.target;
     this.targetCell.ondragstart = () => false;
 

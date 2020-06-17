@@ -42,6 +42,7 @@ class Controller {
     this.onIntroButtonClickBinded = this.onIntroButtonClick.bind(this);
     this.onCheckButtonClickBinded = this.onCheckButtonClick.bind(this);
     this.onIDontKnowButtonClickHandlerBinded = this.onIDontKnowButtonClickHandler.bind(this);
+    this.onContinueButtonClickHandlerBinded = this.onContinueButtonClickHandler.bind(this);
 
     this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
 
@@ -201,6 +202,10 @@ class Controller {
   // }
 
   onIDontKnowButtonClickHandler() {
+    view.hideIDontKnowButton();
+    view.hideCheckButton();
+    view.showContinueButton();
+
     Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle) => {
       puzzle.remove();
     });
@@ -217,9 +222,9 @@ class Controller {
     this.sentenceGuessFail = false;
 
     Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle, index) => {
-      puzzle.classList.remove(CLASS_NAMES.DRAGABLE);
+      // puzzle.classList.remove(CLASS_NAMES.DRAGABLE);
 
-      if (+puzzle.dataset.item.slice(-1) === index + 1) {
+      if (+puzzle.dataset.item.slice(-1) === index + 1) { // todo -2
         puzzle.classList.add(CLASS_NAMES.PUZZLE.CORRECT);
       } else {
         puzzle.classList.add(CLASS_NAMES.PUZZLE.WRONG);
@@ -227,7 +232,17 @@ class Controller {
       }
     });
 
-    if (this.sentenceGuessFail) view.showIDontKnowButton();
+    if (this.sentenceGuessFail) {
+      view.showIDontKnowButton();
+      view.hideContinueButton();
+    } else {
+      view.hideCheckButton();
+      view.showContinueButton();
+    }
+  }
+
+  onContinueButtonClickHandler() {
+    menuController.nextRound();
   }
 
   beforeUnloadHandler() {
@@ -256,6 +271,7 @@ class Controller {
     view.initIntroButton(this.onIntroButtonClickBinded);
     view.initCheckButton(this.onCheckButtonClickBinded);
     view.initIDontKnowButton(this.onIDontKnowButtonClickHandlerBinded);
+    view.initContinueButton(this.onContinueButtonClickHandlerBinded);
 
     this.ELEMENTS = {
       CENTRALIZER: document.querySelector('.centralizer'),

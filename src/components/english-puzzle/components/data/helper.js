@@ -35,6 +35,8 @@ export const CLASS_NAMES = {
     CORRECT: 'correct__puzzle',
     WRONG: 'wrong__puzzle',
   },
+  BG_PICTURE: 'background-picture',
+  COMPLETED_ROUND: 'completed',
 };
 
 // export const ELEMENTS = {

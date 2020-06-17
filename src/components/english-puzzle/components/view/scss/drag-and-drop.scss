@@ -6,8 +6,14 @@
 .data__container {
   width: 100%;
   margin-bottom: 20px;
+}
 
-  background-color: black;
+.background-picture {
+  min-height: 800px;
+
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
 }
 
 .data__container {

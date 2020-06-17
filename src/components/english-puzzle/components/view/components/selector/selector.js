@@ -1,12 +1,14 @@
-// import { CLASS_NAMES } from '../../../data/helper';
+import { CLASS_NAMES } from '../../../data/helper';
 
 export default class Select {
-  constructor(valueList, contentList, listenersList, classList, name) {
+  constructor(valueList, contentList, listenersList, classList, name, visitedOptions) {
     this.selectElement = null;
 
     this.valueList = valueList;
     this.contentList = contentList;
     this.listenersList = listenersList;
+
+    this.visitedOptions = visitedOptions;
 
     this.createElement(classList, name);
   }
@@ -35,6 +37,7 @@ export default class Select {
       const optionElement = document.createElement('option');
       optionElement.value = value;
       optionElement.textContent = this.contentList[index];
+      if (this.visitedOptions && this.visitedOptions.includes(index)) optionElement.classList.add(CLASS_NAMES.COMPLETED_ROUND);
       this.selectElement.append(optionElement);
     });
 
