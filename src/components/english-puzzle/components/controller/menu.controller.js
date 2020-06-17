@@ -19,7 +19,7 @@ class MenuController {
     this.currentSentence = null;
     this.isPictureShown = null;
 
-    this.completedRoundsByLevels = new Array(6).fill([]);
+    this.completedRoundsByLevels = [];
 
     this.onLevelChangeHandlerBinded = this.onLevelChangeHandler.bind(this);
     this.onRoundChangeHandlerBinded = this.onRoundChangeHandler.bind(this);
@@ -41,7 +41,7 @@ class MenuController {
 
   async onLevelChangeHandler(evt) {
     // const newLevel = view.menu.elements.selector.level.value;
-    this.setCurrentLevel(evt.target.value);
+    this.setCurrentLevel(+evt.target.value);
     this.setCurrentRound();
 
     showSpinner(); //* кандидаты в отдельную функцию
@@ -54,7 +54,7 @@ class MenuController {
   onRoundChangeHandler(evt) {
     showSpinner();
     // const newLevel = view.menu.elements.selector.level.value;
-    this.setCurrentRound(evt.target.value);
+    this.setCurrentRound(+evt.target.value);
     console.log('New round: ', this.currentRound);
     this.newRound(this.currentLevel, this.currentRound);
   }
@@ -93,11 +93,12 @@ class MenuController {
     view.hideCheckButton();
 
     if (this.currentSentence === 9) {
-      debugger;
-      this.completedRounds[this.currentLevel].push(this.currentRound);
       view.clearGameField();
       if (!this.isPictureShown) {
-        this.completedRoundsByLevels[this.currentLevel].push(this.currentRound); // todo тут надо записывать на бек пройденный раунд
+        if (!this.completedRoundsByLevels[this.currentLevel].includes(this.currentRound)) this.completedRoundsByLevels[this.currentLevel].push(this.currentRound);
+        // todo тут надо записывать на бек пройденный раунд
+        view.menu.elements.selectors.round.remove(); //* кандидаты на отдельную функцию
+        view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[[this.currentLevel]]);
 
         const completedRoundsData = {
           completedRoundsByLevels: this.completedRoundsByLevels,
@@ -133,28 +134,19 @@ class MenuController {
     view.initMenu(this.onLevelChangeHandlerBinded, this.onRoundChangeHandlerBinded);
 
     const completedRoundsData = this.loadCompletedRoundsByLevels();
-    // this.completedRoundsByLevels = completedRoundsData.completedRoundsByLevels;
-    this.completedRoundsByLevels = [
-      [0, 1, 2],
-      [],
-      [],
-      [],
-      [],
-      [],
-    ];
-    // this.setCurrentLevel(completedRoundsData.lastLevelWithLastCompletedRound);
-    this.setCurrentLevel(0);
-    // this.setCurrentRound(completedRoundsData.lastCompletedRound);
-    this.setCurrentRound(0);
+    this.completedRoundsByLevels = (completedRoundsData && completedRoundsData.completedRoundsByLevels) || new Array(6).fill('').map(() => []);
 
     showSpinner(); //* кандидаты в отдельную функцию
     // try {
+    this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
     this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
+    this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);
     // } catch (err) {
     // this.maxRoundInLevel = 40;
     // }
 
-    view.menu.renderRoundSelector(this.maxRoundInLevel, this.completedRoundsByLevels[this.currentLevel]);
+    view.menu.renderLevelSelector(this.currentLevel);
+    view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
     this.newRound(this.currentLevel, this.currentRound);
   }
 }
