@@ -1,10 +1,12 @@
-@import '../../../scss/fonts.css';
-@import '../../../scss/normalize.scss';
-@import '../../../scss/mixins.scss';
-@import '../../../scss/constants.scss';
-@import '../../../scss/wrapper.scss';
-@import '../../../scss/common.scss';
+@import "../../../scss/fonts.css";
+@import "../../../scss/normalize.scss";
+@import "../../../scss/mixins.scss";
+@import "../../../scss/constants.scss";
+@import "../../../scss/wrapper.scss";
+@import "../../../scss/common.scss";
 
-@import './main.header.scss';
-@import './main.hamburger.scss';
-@import './main.main.scss';
+@import "./layouts/main.header.scss";
+@import "./layouts/main.main.scss";
+@import "./component/main.hamburger.scss";
+@import "./component/main.navigation.scss";
+@import "./component/main.button.scss";

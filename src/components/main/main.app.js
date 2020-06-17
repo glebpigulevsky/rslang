@@ -20,3 +20,9 @@ class Main {
 }
 
 export default new Main();
+
+const toggleButton = document.querySelector('.hamburger-menu__button');
+const navBar = document.querySelector('.main-header__navigation');
+toggleButton.addEventListener('click', () => {
+  navBar.classList.toggle('toggle');
+});

@@ -1,0 +1,28 @@
+.main-button__start {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: px-to-rem(65px) auto;
+  padding: 0 68px;
+
+  vertical-align: center;
+  text-transform: uppercase;
+
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
+
+@include button($color: $color-light, $background: $color-btn, $width: 300px, $height: 55px, $radius: 30px);
+
+@include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+@include transition($time: 0.4s, $property: all, $method: ease-out);
+  }
+}
