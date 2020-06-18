@@ -81,6 +81,7 @@
             height: 6rem;
             margin-bottom: 1rem;
             .learn-content__container{
+                
                 position: relative;
                 display: flex;
                 flex-wrap: wrap;
@@ -90,22 +91,41 @@
                 .input-container{
                     position: relative;
                     padding: 0.25rem;
+                    display: inline-block;
+                    .background{
+                        background: #e0ebef;
+                    }
+                    .word-container{
+                        position: absolute;
+                        left: 0;
+                        right: 0;
+                        top: 0;
+                        bottom: 0;
+                        transform-origin: 0 50%;
+                        padding-bottom: 2px;
+                        border-bottom: 2px solid transparent;
+                        user-select: none;
+                        span{
+                            visibility: visible;
+                            color: #338c99;
+                        }
+                    }
+                    
                     .answer-input{
+                        display: inline;
                         position: absolute;
                         top: -2px;
                         left: 0;
                         color: #338c99;
                         margin: 0;
-                        width: 93%;
-                        height: 77%;
+                        width: 95%;
+                        height: 88%;
                         border-radius: 0.25rem;
+                        border: none;
+                        
                     }
                     
                 }
-                
-                .opacityhidden{
-                    visibility: hidden;
-                } 
             }
             
             
