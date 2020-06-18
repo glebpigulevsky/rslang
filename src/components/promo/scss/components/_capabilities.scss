@@ -1,17 +1,26 @@
-
 .capabilities {
     @include background-section;
 }
+
 .capabilities__container {
     @include padding-between-pages;
 }
+
 .title__content {
     @include flex-center;
+
+    @include media-tablet {
+        flex-direction: column;
+    }
 }
 
 .title {
     margin: 0 30px;
+    text-align: center;
     color: $color-text;
+    @include segoe-subtitle ($color-text, bold);
+    font-size: px-to-rem(16px);
+    line-height: px-to-rem(20px);
 }
 
 .title__text {
@@ -22,4 +31,7 @@
     text-align: center;
     font-size: 24px;
     color: $color-text;
+    @include segoe-additional($color-text, 400);
+    font-size: px-to-rem(16px);
+    line-height: px-to-rem(20px);
 }

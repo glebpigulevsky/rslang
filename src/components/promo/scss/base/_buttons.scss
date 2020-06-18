@@ -1,6 +1,4 @@
-
-
-.login__submitBtn  {
+.login__submitBtn {
     display: flex;
     justify-content: space-around;
     align-items: center;
@@ -9,23 +7,30 @@
     text-decoration: none;
     vertical-align: center;
     text-transform: uppercase;
-  
+    border: none;
     box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
-  
+
     @include button($color: $color-text, $background: $color-orange, $width: 300px, $height: 55px, $radius: 30px);
-  
+
     @include segoe-additional($color: $color-text, $weight: bold);
-    font-size:  px-to-rem(16px);
+    font-size: px-to-rem(16px);
     line-height: px-to-rem(20px);
-  
+
     &:focus {
-      outline: none;
+        outline: none;
     }
-  
+
     &:hover {
-      background-color: $color-dark-orange;
-      border-color: transparent;
-  
-      @include transition($time: 0.4s, $property: all, $method: ease-out);
+        background-color: $color-dark-orange;
+        border-color: transparent;
+
+        @include transition($time: 0.4s, $property: all, $method: ease-out);
     }
-  }
+
+    @include media-tablet {
+        @include button($color: $color-text, $background: $color-orange, $width: 175px, $height: 55px, $radius: 30px);
+        font-size: px-to-rem(12px);
+        line-height: px-to-rem(20px);
+        padding: 0 25px;
+    }
+}

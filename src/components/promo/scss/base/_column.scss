@@ -1,12 +1,26 @@
-.layout-1-column , .layout-3-column {
- @include column();
+.layout-1-column,
+.layout-3-column {
+    @include column();
+    z-index: 2;
 }
+
+.layout-3-column {
+    @include media-tablet {}
+}
+
 
 .row {
     display: flex;
     align-items: center;
     margin: 20px 0;
     @include segoe-subtitle (black, 600);
-    font-size:  px-to-rem(12px);
+    font-size: px-to-rem(12px);
     line-height: px-to-rem(20px);
+}
+
+
+.line {
+    width: 100%;
+    height: 2px;
+    background: #D9D0E3;
 }

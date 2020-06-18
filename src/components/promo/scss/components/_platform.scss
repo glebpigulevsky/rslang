@@ -1,10 +1,10 @@
-
 .platfrom {
     @include background-section;
 }
 
 .platform__content {
     @include padding-between-pages;
+
     &:before {
         content: '';
         display: block;
@@ -15,8 +15,13 @@
         background-image: url('../assets/img/image-cloud.png');
         background-repeat: no-repeat;
         background-position: 30% 10%;
+
+        @include media-tablet {
+            display: none;
+        }
     }
 }
+
 .platform__description-container {
     display: flex;
     align-items: flex-end;
@@ -24,21 +29,37 @@
     flex-wrap: wrap;
     padding: px-to-rem(160px) 0;
 }
+
 .platform__image {
+    width: 55%;
     z-index: 2;
+
+    @include media-tablet {
+        width: 100%;
+    }
 }
+
 .description__container {
     width: 40%;
     margin-left: px-to-rem(30px);
+
+    @include media-tablet {
+        width: 90%;
+    }
 }
 
 .platform__description-text {
     @include segoe-additional ($color-text, 600);
-    font-size:  px-to-rem(12px);
+    font-size: px-to-rem(12px);
     line-height: px-to-rem(20px);
 }
+
 .platform__description-icon {
     display: flex;
+
+    @include media-tablet {
+        justify-content: center;
+    }
 }
 
 .platform__icon {
