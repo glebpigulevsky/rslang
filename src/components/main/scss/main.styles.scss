@@ -1,11 +1,18 @@
 @import '../../../scss/fonts.css';
-
 @import '../../../scss/normalize.scss';
 @import '../../../scss/mixins.scss';
 @import '../../../scss/constants.scss';
 @import '../../../scss/wrapper.scss';
 
+<<<<<<< HEAD
 @import '../../../scss/common.scss';
 
 
 
+=======
+@import './layouts/main.header.scss';
+@import './layouts/main.main.scss';
+@import './component/main.hamburger.scss';
+@import './component/main.navigation.scss';
+@import './component/main.button.scss';
+>>>>>>> develop
