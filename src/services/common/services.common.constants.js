@@ -17,6 +17,7 @@ const GET_RANDOM = (min, max) => {
   const y = Math.floor(max);
   return Math.floor(Math.random() * (y - x + 1)) + x;
 };
+const MEDIA_LINK = 'https://raw.githubusercontent.com/irinainina/rslang-data/master/';
 export {
-  MAIN_API_URL, TOKEN, GET_RANDOM, ERRORS_DESCRIPTION,
+  MAIN_API_URL, TOKEN, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK,
 };
