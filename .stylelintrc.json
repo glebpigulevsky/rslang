@@ -5,7 +5,7 @@
       ],
     "rules": {
         "max-nesting-depth": 4,
-        "indentation": 4,
+        "indentation": 2,
         "number-leading-zero": "never",
         "selector-pseudo-element-colon-notation": "single",
         "selector-pseudo-element-no-unknown": [
