@@ -1,4 +1,4 @@
-const createAnyDomElement = () => ({
+const createAnyDomElement = ({
   elem, classList = [], id = null, dataAttributeList = [], textContent = null,
 }) => {
   const item = document.createElement(elem);

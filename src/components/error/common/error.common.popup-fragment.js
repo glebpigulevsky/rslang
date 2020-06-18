@@ -1,5 +1,5 @@
 import { createAnyDomElement } from '../../../common/common.helper';
-import './scss/error.common.popup.scss';
+import './scss/error.common.popup.styles.scss';
 
 export default class ErrorPopupFragment {
   createPopup({ text }) {
@@ -48,7 +48,7 @@ export default class ErrorPopupFragment {
   createClose() {
     return createAnyDomElement({
       elem: 'span',
-      classList: ['close'],
+      classList: ['modal-header__close'],
       id: 'closePopupBtn',
     });
   }
@@ -70,6 +70,7 @@ export default class ErrorPopupFragment {
   createModalTextPhar({ text = '' }) {
     return createAnyDomElement({
       elem: 'p',
+      classList: ['modal-body__text'],
       textContent: text,
     });
   }
