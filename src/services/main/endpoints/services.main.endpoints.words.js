@@ -1,5 +1,9 @@
 import ApiService from '../../common/services.common.api_service';
+<<<<<<< HEAD
 import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
+=======
+import { MAIN_API_URL, TOKEN, MEDIA_LINK } from '../../common/services.common.constants';
+>>>>>>> develop
 
 const WORDS_REQUEST = { Group: { min: 0, max: 5 }, Page: { min: 0, max: 29 } };
 
@@ -94,10 +98,17 @@ export default class WordsApi {
       group,
       page,
       word,
+<<<<<<< HEAD
       image,
       audio,
       audioMeaning,
       audioExample,
+=======
+      image: `${MEDIA_LINK}${image}`,
+      audio: `${MEDIA_LINK}${audio}`,
+      audioMeaning: `${MEDIA_LINK}${audioMeaning}`,
+      audioExample: `${MEDIA_LINK}${audioExample}`,
+>>>>>>> develop
       textMeaning,
       textExample,
       transcription,

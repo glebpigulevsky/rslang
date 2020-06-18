@@ -1,7 +1,11 @@
 /* eslint-disable no-undef */
 import 'isomorphic-fetch';
 import WordsApi from './services.main.endpoints.words';
+<<<<<<< HEAD
 import { ERRORS_DESCRIPTION } from '../../common/services.common.constants';
+=======
+import { ERRORS_DESCRIPTION, MEDIA_LINK } from '../../common/services.common.constants';
+>>>>>>> develop
 
 const wordsApi = new WordsApi();
 
@@ -24,10 +28,17 @@ describe('get word by Id', () => {
       group: 0,
       page: 1,
       word: 'adventure',
+<<<<<<< HEAD
       image: 'files/02_0021.jpg',
       audio: 'files/02_0021.mp3',
       audioMeaning: 'files/02_0021_meaning.mp3',
       audioExample: 'files/02_0021_example.mp3',
+=======
+      image: `${MEDIA_LINK}${'files/02_0021.jpg'}`,
+      audio: `${MEDIA_LINK}${'files/02_0021.mp3'}`,
+      audioMeaning: `${MEDIA_LINK}${'files/02_0021_meaning.mp3'}`,
+      audioExample: `${MEDIA_LINK}${'files/02_0021_example.mp3'}`,
+>>>>>>> develop
       textMeaning: 'An <i>adventure</i> is a fun or exciting thing that you do.',
       textExample: 'Riding in the rough water was an <b>adventure</b>.',
       transcription: '[ədvéntʃər]',
@@ -65,10 +76,17 @@ describe('get words collection with group and page', () => {
           group: 0,
           page: 1,
           word: 'adventure',
+<<<<<<< HEAD
           image: 'files/02_0021.jpg',
           audio: 'files/02_0021.mp3',
           audioMeaning: 'files/02_0021_meaning.mp3',
           audioExample: 'files/02_0021_example.mp3',
+=======
+          image: `${MEDIA_LINK}${'files/02_0021.jpg'}`,
+          audio: `${MEDIA_LINK}${'files/02_0021.mp3'}`,
+          audioMeaning: `${MEDIA_LINK}${'files/02_0021_meaning.mp3'}`,
+          audioExample: `${MEDIA_LINK}${'files/02_0021_example.mp3'}`,
+>>>>>>> develop
           textMeaning: 'An <i>adventure</i> is a fun or exciting thing that you do.',
           textExample: 'Riding in the rough water was an <b>adventure</b>.',
           transcription: '[ədvéntʃər]',
@@ -106,10 +124,17 @@ describe('get words collection with group, page, wordsPerExampleSentence', () =>
         group: 5,
         page: 3,
         word: 'inland',
+<<<<<<< HEAD
         image: 'files/04_3073.jpg',
         audio: 'files/04_3073.mp3',
         audioMeaning: 'files/04_3073_meaning.mp3',
         audioExample: 'files/04_3073_example.mp3',
+=======
+        image: `${MEDIA_LINK}${'files/04_3073.jpg'}`,
+        audio: `${MEDIA_LINK}${'files/04_3073.mp3'}`,
+        audioMeaning: `${MEDIA_LINK}${'files/04_3073_meaning.mp3'}`,
+        audioExample: `${MEDIA_LINK}${'files/04_3073_example.mp3'}`,
+>>>>>>> develop
         textMeaning: 'If someone goes <i>inland</i>, they travel into the center of a country or land.',
         textExample: 'The river curved <b>inland</b> near the campground.',
         transcription: '[ínlənd]',

@@ -57,9 +57,19 @@
     "lint": "eslint ./src",
     "watch": "webpack --mode development --watch",
     "prettier": "prettier --single-quote --write ./src/**/*.js ./src/**/*.scss",
+<<<<<<< HEAD
     "stylelint": "stylelint './src/**/*.scss'",
     "stylelint:fix": "stylelint './src/**/*.scss' --fix",
+=======
+    "stylelint": "stylelint \"src/**/*.scss\"",
+    "stylelint:fix": "stylelint \"src/**/*.scss\" --fix",
+>>>>>>> develop
     "test": "jest"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.jsx?$": "babel-jest"
+    }
   },
   "keywords": [
     "RSSchool",

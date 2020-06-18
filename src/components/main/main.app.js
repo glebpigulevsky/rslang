@@ -1,8 +1,12 @@
+import Menu from './main_menu';
 import { CLASS_NAMES } from '../../common/common.constants';
 import { MAIN_GREETINGS, GAME_BLOCK, TEMPLATE_MAIN_GAMEINTRO } from './common/main.constants';
 import game from './components/mainGame/mainGame';
 
 import './scss/main.styles.scss';
+
+const burgerMenu = new Menu();
+burgerMenu.init();
 
 class Main {
   constructor() {
