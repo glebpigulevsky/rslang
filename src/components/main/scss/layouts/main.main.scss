@@ -1,9 +1,9 @@
 .main {
   padding: 0 12px;
 }
+
 .main__title {
   padding: px-to-rem(30px) 0 0;
-
   text-align: center;
 
   @include segoe-title($color: $color-text);
