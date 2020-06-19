@@ -62,7 +62,7 @@ export default class ErrorPopupFragment {
 
   createModalBody() {
     return createAnyDomElement({
-      elem: 'class',
+      elem: 'div',
       classList: ['modal-body'],
     });
   }
