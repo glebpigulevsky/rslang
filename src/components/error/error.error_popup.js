@@ -15,12 +15,12 @@ class ErrorPopup {
   }
 
   registerEventListener() {
-    this.closeBtn.addEventListener('click', this.closeListener);
+    this.closeBtn.addEventListener('click', this.closePopup);
   }
 
-  closeListener(e) {
+  closePopup(e) {
     document.body.removeChild(document.querySelector('#errorPopup'));
-    e.closeBtn.removeEventListener('click', this.closeListener);
+    e.closeBtn.removeEventListener('click', this.closePopup);
   }
 }
 
