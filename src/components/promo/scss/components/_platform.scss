@@ -2,30 +2,12 @@
   @include background-section;
 }
 
-.platform__content {
-  &:before {
-    content: '';
-    display: block;
-    position: absolute;
-    z-index: 1;
-    width: 70%;
-    height: 578.93px;
-    background-image: url('../assets/img/image-cloud.png');
-    background-repeat: no-repeat;
-    background-position: 15% 10%;
-
-    @include media-tablet {
-      display: none;
-    }
-  }
-}
-
 .platform__description-container {
   display: flex;
   align-items: flex-end;
   justify-content: center;
   flex-wrap: wrap;
-  padding-top: px-to-rem(160px);
+  padding-top: px-to-rem(80px);
   padding-bottom: px-to-rem(50px);
   @include media-tablet {
     text-align: center;
@@ -44,10 +26,12 @@
 
 .description__container {
   width: 40%;
+  text-align: left;
   margin-left: px-to-rem(15px);
 
   @include media-tablet {
     width: 90%;
+    margin-left: .1px;
   }
 }
 
