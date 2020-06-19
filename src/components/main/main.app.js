@@ -1,10 +1,14 @@
 // import englishPuzzleRender from '../english-puzzle/english-puzzle.render';
 import englishPuzzleAppInit from '../english-puzzle/english-puzzle.app';
 
+import Menu from './main_menu';
 import { CLASS_NAMES } from '../../common/common.constants';
 import MAIN_GREETINGS from './common/main.constants';
 
 import './scss/main.styles.scss';
+
+const burgerMenu = new Menu();
+burgerMenu.init();
 
 class Main {
   constructor() {
