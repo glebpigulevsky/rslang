@@ -5,24 +5,21 @@
 @import '../../../scss/constants.scss';
 @import '../../../scss/wrapper.scss';
 
-@import '../../../scss/common.scss';
-
-
 //Layouts
 
-@import "layouts/promo";
-@import "layouts/footer";
+@import 'layouts/promo';
+@import 'layouts/footer';
 
 //Base
-@import "base/buttons";
-@import "base/logo";
-@import "base/icons";
-@import "base/column";
+@import 'base/buttons';
+@import 'base/logo';
+@import 'base/icons';
+@import 'base/column';
 
 //Components
-@import "components/capabilities";
-@import "components/games";
-@import "components/collection";
-@import "components/settings";
-@import "components/platform";
-@import "components/prvideo";
+@import 'components/capabilities';
+@import 'components/games';
+@import 'components/collection';
+@import 'components/settings';
+@import 'components/platform';
+@import 'components/prvideo';

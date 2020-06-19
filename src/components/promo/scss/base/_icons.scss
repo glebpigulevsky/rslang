@@ -1,14 +1,15 @@
-
 .icon-fire-1 {
-    @include media-tablet {
-       display: none;
-    }
+  @include media-tablet {
+    display: none;
+  }
 }
+
 .icon-fire-2 {
-    @include media-tablet {
-       padding: 20px 0;
-    }
+  @include media-tablet {
+    padding: 20px 0;
+  }
 }
+
 .game-icon {
-margin-right: 20px;
+  margin-right: 20px;
 }

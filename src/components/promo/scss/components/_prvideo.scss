@@ -1,11 +1,11 @@
 .prvideo {
-    @include background-section;
+  @include background-section;
 }
 
 .prvideo__container {
-    @include padding-between-pages;
+  @include padding-between-pages;
 }
 
 .prvideo__image {
-    width: 100%;
+  width: 100%;
 }

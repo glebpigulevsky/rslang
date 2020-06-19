@@ -1,28 +1,30 @@
 .settings {
-    @include background-section;
+  @include background-section;
 }
 
 .settings__content {
-    @include flex-center;
-    @include padding-between-pages;
-    justify-content: space-around;
+  @include flex-center;
+  @include padding-between-pages;
 
-    @include media-tablet {
-        flex-direction: column-reverse;
-    }
+  justify-content: space-around;
+
+  @include media-tablet {
+    flex-direction: column-reverse;
+  }
 }
 
 .settings__description {
-    text-align: center;
-    width: 40%;
+  text-align: center;
+  width: 40%;
 
-    @include media-tablet {
-        width: 70%;
-    }
+  @include media-tablet {
+    width: 70%;
+  }
 }
 
 .settings__description-text {
-    @include segoe-additional ($color-text, 200);
-    font-size: px-to-rem(20px);
-    line-height: px-to-rem(20px);
+  @include segoe-additional($color-text, 200);
+
+  font-size: px-to-rem(20px);
+  line-height: px-to-rem(20px);
 }

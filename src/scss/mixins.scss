@@ -1,7 +1,7 @@
 @mixin segoe-title($color) {
   font-weight: 600;
   font-size: 2.2rem;
-  font-family: "Segoe", sans-serif;
+  font-family: 'Segoe', sans-serif;
   color: $color;
   letter-spacing: .04rem;
 }
@@ -9,21 +9,21 @@
 @mixin segoe-subtitle($color, $weight) {
   font-weight: $weight;
   font-size: 1.3rem;
-  font-family: "Segoe", sans-serif;
+  font-family: 'Segoe', sans-serif;
   color: $color;
 }
 
 @mixin segoe-additional($color, $weight) {
   font-weight: $weight;
   font-size: 1.125rem;
-  font-family: "Segoe", sans-serif;
+  font-family: 'Segoe', sans-serif;
   color: $color;
 }
 
 @mixin segoe-desc($color, $weight) {
   font-weight: $weight;
   font-size: .875rem;
-  font-family: "Segoe", sans-serif;
+  font-family: 'Segoe', sans-serif;
   color: $color;
 }
 
@@ -57,8 +57,6 @@
   align-items: center;
 }
 
-
-
 @mixin border-radius($topLeft, $topRight, $bottomRight, $bottomLeft) {
   border-radius: $topLeft $topRight $bottomRight $bottomLeft;
 }
@@ -67,7 +65,7 @@
   box-shadow: $horizOffset $vertOffset $blur $color;
 }
 
-@mixin pseudo($display: block, $pos: absolute, $content: "") {
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
   content: $content;
   position: $pos;
   display: $display;
@@ -113,16 +111,15 @@
   }
 }
 
-
 @function px-to-rem($px) {
   @return $px / $base-font-size * 1rem;
 }
 
 @mixin padding-between-pages {
-  padding: 100px 0px;
+  padding: 100px 0;
 }
 
 @mixin background-section {
   width: 100%;
-  background: #ffffff;
+  background: #fff;
 }

@@ -1,26 +1,22 @@
 .layout-1-column,
 .layout-3-column {
-    @include column();
-    z-index: 2;
-}
+  @include column();
 
-.layout-3-column {
-    @include media-tablet {}
+  z-index: 2;
 }
-
 
 .row {
-    display: flex;
-    align-items: center;
-    margin: 20px 0;
-    @include segoe-subtitle (black, 600);
-    font-size: px-to-rem(12px);
-    line-height: px-to-rem(20px);
+  display: flex;
+  align-items: center;
+  margin: 20px 0;
+  @include segoe-subtitle(black, 600);
+
+  font-size: px-to-rem(12px);
+  line-height: px-to-rem(20px);
 }
 
-
 .line {
-    width: 100%;
-    height: 2px;
-    background: #D9D0E3;
+  width: 100%;
+  height: 2px;
+  background: #d9d0e3;
 }
