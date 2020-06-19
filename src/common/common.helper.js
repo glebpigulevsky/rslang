@@ -17,6 +17,4 @@ const createAnyDomElement = ({
   return item;
 };
 
-export {
-  createAnyDomElement,
-};
+export { createAnyDomElement };
