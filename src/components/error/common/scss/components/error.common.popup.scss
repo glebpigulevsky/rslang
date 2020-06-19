@@ -20,7 +20,7 @@
   animation-name: animatetop;
   animation-duration: 0.4s;
   box-shadow: 0px 4px 22px rgba(0, 0, 0, 0.5);
-  border-radius: 0.6rem;
+  border-radius: px-to-rem(6px);
 }
 
 .modal-header {
@@ -28,6 +28,7 @@
   background-color: $color-dark-blue;
   color: $color-light;
   border-radius: px-to-rem(5px) px-to-rem(5px) 0 0;
+  @include segoe-subtitle($color: $color-text, $weight: 400);
 }
 
 .modal-header__close {
@@ -45,7 +46,8 @@
 }
 
 .modal-body {
-  padding: 0.7rem 1rem
+  padding: 0.7rem 1rem;
+  border-radius: px-to-rem(5px) px-to-rem(5px) 0 0;
 }
 
 .modal-body__text {
