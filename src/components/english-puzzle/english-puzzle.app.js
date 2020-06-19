@@ -1,5 +1,4 @@
 import './scss/main.scss';
-import './scss/puzzle.scss';
 
 import model from './components/model/model';
 import view from './components/view/view';

@@ -1,5 +1,6 @@
 import menuController from './menu.controller';
 import view from '../view/view';
+import controller from './controller';
 
 class DragAndDropController {
   constructor() { // todo описать структуру this
@@ -185,7 +186,15 @@ class DragAndDropController {
     // if (!isNeighbor(this.field, this.size, evt.target) || this.isAnimation) return;
     if (!evt.target.classList.contains('dragable') || !evt.target.closest('.drop__place')) return;
 
-    view.resetPuzzlesStates(menuController.currentSentence);
+    // view.resetPuzzlesStates(menuController.currentSentence);
+    view.resetPuzzlesStates(
+      menuController.currentSentence,
+      menuController.getCanvasElement({
+        currentSentence: menuController.currentSentence,
+        isImage: controller.isBgImage,
+        isRegular: true,
+      }),
+    );
 
     this.targetCell = evt.target;
     this.targetCell.ondragstart = () => false;

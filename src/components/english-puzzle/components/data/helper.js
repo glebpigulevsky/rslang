@@ -69,6 +69,8 @@ export const EVENTS = {
   CHANGE: 'change',
   INPUT: 'input',
   BEFORE_UNLOAD: 'beforeunload',
+  LOAD: 'load',
+  ERROR: 'error',
 };
 
 export const DATA_PATH = 'https://raw.githubusercontent.com/musmen/rslang-data/master/data/';

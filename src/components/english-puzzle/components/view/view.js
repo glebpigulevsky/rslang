@@ -46,7 +46,6 @@ class View {
     this.correctSound = new Audio(correctSound);
     this.successSound = new Audio(successSound);
 
-    this.renderTranslation = this.renderTranslation.bind(this);
     // this.renderSpeechInput = this.renderSpeechInput.bind(this);
   }
 
@@ -109,12 +108,16 @@ class View {
   //   this.currentList.remove();
   // }
 
-  renderPicture(imageSrc = logo) {
-    this.ELEMENTS.PICTURE.src = imageSrc;
+  // renderPicture(imageSrc = logo) {
+  //   this.ELEMENTS.PICTURE.src = imageSrc;
+  // }
+
+  showTranslation(translation = '') {
+    this.ELEMENTS.DESCRIPTION.TRANSLATION.innerText = translation;
   }
 
-  renderTranslation(translation = '') {
-    this.ELEMENTS.TRANSLATION.innerText = translation;
+  hideTranslation() {
+    this.showTranslation();
   }
 
   // renderSpeechInput(speechInput = '') {
@@ -190,7 +193,8 @@ class View {
   }
 
   renderInputSentence(currentSentensePuzzles) {
-    shuffleArray(Array.from(currentSentensePuzzles)).forEach((puzzle) => {
+    // shuffleArray(Array.from(currentSentensePuzzles)).forEach((puzzle) => {
+    shuffleArray((currentSentensePuzzles)).forEach((puzzle) => {
       const clonePuzzle = puzzle.cloneNode(true); // todo повторение будет в рендеринге правильной последовательности
       clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
       clonePuzzle.classList.add('dragable');
@@ -239,6 +243,18 @@ class View {
     this.ELEMENTS.BUTTONS.CONTINUE.addEventListener(EVENTS.CLICK, onContinueButtonClick);
   }
 
+  initHintBgButton(onHintBgButtonClick, isBgImage) {
+    this.ELEMENTS.BUTTONS.HINTS.BG.addEventListener(EVENTS.CLICK, onHintBgButtonClick);
+
+    if (isBgImage) this.ELEMENTS.BUTTONS.HINTS.BG.classList.add(CLASS_NAMES.ACTIVE);
+  }
+
+  initHintTranslationButton(onHintTranslationButtonClick, isTranslationEnabled) {
+    this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.addEventListener(EVENTS.CLICK, onHintTranslationButtonClick);
+
+    if (isTranslationEnabled) this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.classList.add(CLASS_NAMES.ACTIVE);
+  }
+
   hideCheckButton() {
     hideElement(this.ELEMENTS.BUTTONS.CHECK);
   }
@@ -263,22 +279,39 @@ class View {
     showElement(this.ELEMENTS.BUTTONS.CONTINUE);
   }
 
-  showPicture() {
-    this.ELEMENTS.CONTAINERS.FIELD.classList.add(CLASS_NAMES.BG_PICTURE);
-    this.ELEMENTS.CONTAINERS.FIELD.style.backgroundImage = `url(${image})`;
+  showPicture(finalImagePuzzles) {
+    // this.ELEMENTS.CONTAINERS.FIELD.classList.add(CLASS_NAMES.BG_PICTURE);
+    // this.ELEMENTS.CONTAINERS.FIELD.style.backgroundImage = `url(${image})`;
+
+    Array.from(document.querySelectorAll('.canvas-item')).forEach((puzzle, index) => {
+      // puzzle.getContext('2d').drawImage(finalImagePuzzles[+puzzle.dataset.item.slice(0, 1) - 1][index], 0, 0);
+      puzzle.getContext('2d').drawImage(finalImagePuzzles[index], 0, 0);
+    });
   }
 
   hidePicture() {
-    this.ELEMENTS.CONTAINERS.FIELD.classList.remove(CLASS_NAMES.BG_PICTURE);
-    this.ELEMENTS.CONTAINERS.FIELD.style.backgroundImage = '';
+    // this.ELEMENTS.CONTAINERS.FIELD.classList.remove(CLASS_NAMES.BG_PICTURE);
+    // this.ELEMENTS.CONTAINERS.FIELD.style.backgroundImage = '';
+    this.clearGameField();
   }
 
-  resetPuzzlesStates(currentSentence) {
+  showImageDescription(imageDescription = '') {
+    this.ELEMENTS.DESCRIPTION.IMAGE.innerHTML = imageDescription;
+  }
+
+  clearImageDescription() {
+    this.showImageDescription();
+  }
+
+  resetPuzzlesStates(currentSentence, regularPuzzlesWithImage) {
     Array.from(document.querySelectorAll(`.canvas-row-${currentSentence + 1}`))
-      .forEach((puzzle) => puzzle.classList.remove(
-        CLASS_NAMES.PUZZLE.CORRECT,
-        CLASS_NAMES.PUZZLE.WRONG,
-      ));
+      .forEach((puzzle) => {
+      //  puzzle.classList.remove(
+        // CLASS_NAMES.PUZZLE.CORRECT,
+        // CLASS_NAMES.PUZZLE.WRONG,
+      // ));
+        puzzle.getContext('2d').drawImage(regularPuzzlesWithImage[+puzzle.dataset.item.slice(-2).replace('-', '') - 1], 0, 0);
+      });
   }
 
   init() {
@@ -309,6 +342,14 @@ class View {
         I_DONT_KNOW: document.querySelector('.game__button-dont_know'),
         CHECK: document.querySelector('.game__button-check'),
         CONTINUE: document.querySelector('.game__button-continue'),
+        HINTS: {
+          BG: document.querySelector('.game__hints-bg'),
+          TRANSLATION: document.querySelector('.game__hints-translation'),
+        },
+      },
+      DESCRIPTION: {
+        IMAGE: document.querySelector('.image__description'),
+        TRANSLATION: document.querySelector('.translation__description'),
       },
     };
 
@@ -355,6 +396,8 @@ class View {
           <main class="main">
             <div class="game__controls">
               <div class="buttons__wrapper">
+                <button class="game__hints game__hints-bg button-rounded">Bg hint</button>
+                <button class="game__hints game__hints-translation button-rounded">Translate</button>
             <!--<div class="difficulties">
                   <span class="difficult__description">Level:</span>
                   <button class="game__difficult game__difficult-1 button-rounded active">1</button>
@@ -386,6 +429,8 @@ class View {
   
             <div class="cards__container">
             </div>
+
+            <p class="translation__description description"></p>
   
             <div class="game__field">
               <div class="field__container game__field_container">
@@ -402,6 +447,8 @@ class View {
                 </div>
               </div>
             </div>
+
+            <p class="image__description description"></p>
 
             <div class="game__controls">
               <button class="game__button game__button-check button-rounded hidden">Check</button>

@@ -77,3 +77,11 @@
 .completed {
   color: red;
 }
+
+.game__hints-bg.active,
+.game__hints-translation.active {
+  color: white;
+
+  background-color: lightcoral;
+  box-shadow: none;
+}

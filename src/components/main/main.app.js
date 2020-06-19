@@ -13,11 +13,10 @@ class Main {
 
     this.gameButtons = {
       englishPuzzle: null,
+      audioCall: null,
     };
 
     this.onEnglishButtonClickHandlerBinded = this.onEnglishButtonClickHandler.bind(this);
-
-    this.init();
   }
 
   sayHello() {

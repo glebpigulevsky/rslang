@@ -35,12 +35,17 @@ class Controller {
 
     // this.currentSentence = null;
 
-    this.sentenceGuessFail = null;
+    this.isBgImage = null;
+    // this.sentenceGuessFail = null;
+    this.sentenceGuessSuccess = null;
+    this.isTranslationEnabled = null;
 
     this.ELEMENTS = null;
 
     this.onIntroButtonClickBinded = this.onIntroButtonClick.bind(this);
     this.onCheckButtonClickBinded = this.onCheckButtonClick.bind(this);
+    this.onHintBgButtonClickHandlerBinded = this.onHintBgButtonClickHandler.bind(this);
+    this.onHintTranslationButtonClickHandlerBinded = this.onHintTranslationButtonClickHandler.bind(this);
     this.onIDontKnowButtonClickHandlerBinded = this.onIDontKnowButtonClickHandler.bind(this);
     this.onContinueButtonClickHandlerBinded = this.onContinueButtonClickHandler.bind(this);
 
@@ -210,39 +215,125 @@ class Controller {
       puzzle.remove();
     });
 
-    Array.from(menuController.canvasElements[menuController.currentSentence].querySelectorAll('*')).forEach((puzzle) => {
+    menuController.getCanvasElement({
+      currentSentence: menuController.currentSentence,
+      isImage: true,
+      isRegular: true,
+    }).forEach((puzzle) => {
       const clonePuzzle = puzzle.cloneNode(true);
       clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
       view.resultDropZone.append(clonePuzzle);
     });
+
+    view.showTranslation('It is sentence translation');
+    this.sentenceGuessSuccess = true;
   }
 
   onCheckButtonClick() {
     // debugger;
-    this.sentenceGuessFail = false;
+    // this.sentenceGuessFail = false;
+    this.sentenceGuessSuccess = true;
 
     Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle, index) => {
       // puzzle.classList.remove(CLASS_NAMES.DRAGABLE);
+      if (+puzzle.dataset.item.slice(-2).replace('-', '') === index + 1) { // todo -2
+        // puzzle.classList.add(CLASS_NAMES.PUZZLE.CORRECT);
+        // puzzle.remove();
 
-      if (+puzzle.dataset.item.slice(-1) === index + 1) { // todo -2
-        puzzle.classList.add(CLASS_NAMES.PUZZLE.CORRECT);
+        const correctPuzzle = menuController.getCanvasElement({
+          currentSentence: menuController.currentSentence,
+          isImage: this.isBgImage,
+          isRegular: false,
+          isCorrect: true,
+        })[index];
+
+        puzzle.getContext('2d').drawImage(correctPuzzle, 0, 0);
       } else {
-        puzzle.classList.add(CLASS_NAMES.PUZZLE.WRONG);
-        this.sentenceGuessFail = true;
+        // puzzle.classList.add(CLASS_NAMES.PUZZLE.WRONG);
+        // this.sentenceGuessFail = true;
+        this.sentenceGuessSuccess = false;
+
+        const wrongPuzzle = menuController.getCanvasElement({
+          currentSentence: menuController.currentSentence,
+          isImage: this.isBgImage,
+          isRegular: false,
+          isCorrect: false,
+        })[+puzzle.dataset.item.slice(-2).replace('-', '') - 1];
+
+        puzzle.getContext('2d').drawImage(wrongPuzzle, 0, 0);
       }
     });
 
-    if (this.sentenceGuessFail) {
+    // if (this.sentenceGuessFail) {
+    if (!this.sentenceGuessSuccess) {
       view.showIDontKnowButton();
       view.hideContinueButton();
     } else {
       view.hideCheckButton();
       view.showContinueButton();
+
+      Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle, index) => {
+        const correctPuzzle = menuController.getCanvasElement({
+          currentSentence: menuController.currentSentence,
+          isImage: true,
+          isRegular: false,
+          isCorrect: true,
+        })[index];
+
+        puzzle.getContext('2d').drawImage(correctPuzzle, 0, 0);
+      });
+
+      view.showTranslation('It is sentence translation');
     }
+
+    // Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle) => {
+    //   puzzle.remove();
+    // });
+
+    // menuController.getCanvasElement({
+    //   currentSentence: menuController.currentSentence,
+    //   isImage: true,
+    //   isRegular: false,
+    //   isCorrect: true,
+    // }).forEach((puzzle) => {
+    //   const clonePuzzle = puzzle.cloneNode(true);
+    //   clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
+    //   view.resultDropZone.append(clonePuzzle);
+    // });
+  // }
   }
 
   onContinueButtonClickHandler() {
+    this.sentenceGuessSuccess = false;
     menuController.nextRound();
+  }
+
+  onHintBgButtonClickHandler({ target }) {
+    this.isBgImage = !this.isBgImage;
+    target.classList.toggle(CLASS_NAMES.ACTIVE);
+
+    Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}.dragable`)).forEach((puzzle) => {
+      const newPuzzle = menuController.getCanvasElement({
+        currentSentence: menuController.currentSentence,
+        isImage: this.isBgImage,
+        isRegular: true,
+      })[+puzzle.dataset.item.slice(-2).replace('-', '') - 1];
+
+      puzzle.getContext('2d').drawImage(newPuzzle, 0, 0);
+    });
+  }
+
+  onHintTranslationButtonClickHandler({ target }) {
+    this.isTranslationEnabled = !this.isTranslationEnabled;
+    target.classList.toggle(CLASS_NAMES.ACTIVE);
+
+    if (menuController.isPictureShown || this.sentenceGuessSuccess) return;
+
+    if (this.isTranslationEnabled) {
+      view.showTranslation('It is sentence translation');
+    } else {
+      view.hideTranslation();
+    }
   }
 
   beforeUnloadHandler() {
@@ -268,10 +359,16 @@ class Controller {
   }
 
   init() {
+    this.isBgImage = true; // todo берем из бека или локал сторейдж
+    this.isTranslationEnabled = true;
+
     view.initIntroButton(this.onIntroButtonClickBinded);
     view.initCheckButton(this.onCheckButtonClickBinded);
     view.initIDontKnowButton(this.onIDontKnowButtonClickHandlerBinded);
     view.initContinueButton(this.onContinueButtonClickHandlerBinded);
+
+    view.initHintBgButton(this.onHintBgButtonClickHandlerBinded, this.isBgImage);
+    view.initHintTranslationButton(this.onHintTranslationButtonClickHandlerBinded, this.isTranslationEnabled);
 
     this.ELEMENTS = {
       CENTRALIZER: document.querySelector('.centralizer'),

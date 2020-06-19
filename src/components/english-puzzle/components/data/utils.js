@@ -1,3 +1,5 @@
+import DEFAULT_BG_IMAGE from '../../assets/img/9th_wave.jpg';
+
 import {
   CLASS_NAMES,
   ELEMENTS,
@@ -111,3 +113,27 @@ export const showSpinner = () => document.querySelector('.spinner').classList.re
 
 export const hideElement = (element) => element.classList.add(CLASS_NAMES.HIDDEN);
 export const showElement = (element) => element.classList.remove(CLASS_NAMES.HIDDEN);
+
+function onSuccessLoadImage() {
+  this.resolve(this);
+  this.removeEventListener(EVENTS.LOAD, onSuccessLoadImage);
+}
+
+function onErrorLoadImage() {
+  this.src = DEFAULT_BG_IMAGE;
+  this.resolve(this);
+  this.removeEventListener(EVENTS.ERROR, onErrorLoadImage);
+}
+
+const loadImage = (url) => new Promise((resolve) => {
+  const img = new Image();
+  img.resolve = resolve;
+  img.addEventListener(EVENTS.LOAD, onSuccessLoadImage);
+  img.addEventListener(EVENTS.ERROR, onErrorLoadImage);
+  img.src = url;
+});
+
+export const getPreloadedImage = async (url) => {
+  const preloadedImg = await loadImage(url);
+  return preloadedImg;
+};
