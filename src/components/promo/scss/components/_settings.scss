@@ -28,3 +28,15 @@
   font-size: px-to-rem(20px);
   line-height: px-to-rem(20px);
 }
+
+.settings__image {
+  width: 50%;
+
+  @include media-tablet {
+    width: 80%;
+  }
+
+  @include media-mobile {
+    width: 100%;
+  }
+}
