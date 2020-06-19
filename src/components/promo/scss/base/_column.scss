@@ -5,6 +5,14 @@
   z-index: 2;
 }
 
+.layout-1-column {
+  padding-left: 20px;
+}
+
+.layout-3-column {
+  padding-right: 20px;
+}
+
 .row {
   display: flex;
   align-items: center;
