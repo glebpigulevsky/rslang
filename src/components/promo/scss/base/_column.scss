@@ -7,10 +7,18 @@
 
 .layout-1-column {
   padding-left: 20px;
+
+  @include media-tablet {
+    padding-left: 0;
+  }
 }
 
 .layout-3-column {
   padding-right: 20px;
+
+  @include media-tablet {
+    padding-right: 0;
+  }
 }
 
 .row {

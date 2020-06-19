@@ -3,8 +3,6 @@
 }
 
 .platform__content {
-  @include padding-between-pages;
-
   &:before {
     content: '';
     display: block;
