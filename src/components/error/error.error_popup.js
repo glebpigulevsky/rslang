@@ -2,25 +2,24 @@ import ErrorPopupFragment from './common/error.common.popup-fragment';
 
 class ErrorPopup {
   constructor() {
-    this.modal = null;
     this.closeBtn = null;
   }
 
   openPopup({ text }) {
     const errorPopupFragment = new ErrorPopupFragment();
-    this.modal = errorPopupFragment.createPopup({ text });
-    this.closeBtn = this.modal.querySelector('#closePopupBtn');
-    document.body.appendChild(this.modal);
+    const modal = errorPopupFragment.createPopup({ text });
+    this.closeBtn = modal.querySelector('#closePopupBtn');
+    document.body.appendChild(modal);
     this.registerEventListener();
   }
 
   registerEventListener() {
-    this.closeBtn.addEventListener('click', this.closePopup);
+    this.closeBtn.addEventListener('click', this.closeListener);
   }
 
-  closePopup(e) {
+  closeListener(e) {
     document.body.removeChild(document.querySelector('#errorPopup'));
-    e.closeBtn.removeEventListener('click', this.closePopup);
+    e.currentTarget.removeEventListener('click', this.closeListener);
   }
 }
 
