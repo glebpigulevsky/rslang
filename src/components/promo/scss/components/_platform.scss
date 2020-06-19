@@ -12,7 +12,7 @@
     height: 578.93px;
     background-image: url('../assets/img/image-cloud.png');
     background-repeat: no-repeat;
-    background-position: 30% 10%;
+    background-position: 15% 10%;
 
     @include media-tablet {
       display: none;
@@ -25,9 +25,11 @@
   align-items: flex-end;
   justify-content: center;
   flex-wrap: wrap;
-  padding: px-to-rem(160px) 0;
+  padding-top: px-to-rem(160px);
+  padding-bottom: px-to-rem(50px);
   @include media-tablet {
-    padding: px-to-rem(50px) 0;
+    text-align: center;
+    padding-top: px-to-rem(50px);
   }
 }
 
@@ -42,7 +44,7 @@
 
 .description__container {
   width: 40%;
-  margin-left: px-to-rem(30px);
+  margin-left: px-to-rem(15px);
 
   @include media-tablet {
     width: 90%;
