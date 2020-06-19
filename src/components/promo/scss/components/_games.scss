@@ -27,6 +27,7 @@
 
 .games__title {
   text-align: center;
+  margin: 0 25px;
   @include segoe-subtitle($color-text, bold);
 
   font-size: px-to-rem(16px);
@@ -34,12 +35,18 @@
 }
 
 .layout-3-columns {
-  @include columns(90%);
+  @include columns(100%);
 
   align-items: center;
   padding: 70px 0;
 
   @include media-tablet {
     flex-direction: column;
+  }
+}
+
+.column-1-row {
+  @include media-tablet {
+    margin-right: 45px;
   }
 }
