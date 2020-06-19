@@ -12,7 +12,6 @@ import {
   getPreloadedImage,
 } from '../data/utils';
 
-
 class MenuController {
   constructor() {
     this.currentLevel = null;
@@ -62,8 +61,8 @@ class MenuController {
     this.setCurrentRound();
 
     showSpinner(); //* кандидаты в отдельную функцию
-    // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
-    this.maxRoundInLevel = 40;
+    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
+    // this.maxRoundInLevel = 40;
     view.menu.elements.selectors.round.remove(); //*
     this.setCurrentRound(0);
     view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]); //*
@@ -108,26 +107,27 @@ class MenuController {
     view.hideContinueButton();
 
     // try {
-    // this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
+    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
+    debugger;
     // } catch (err) {
-    this.fetchedRoundData = JSON.parse(localStorage.getItem('data'));
+    // this.fetchedRoundData = JSON.parse(localStorage.getItem('data'));
     // }
     localStorage.setItem('data', JSON.stringify(this.fetchedRoundData));
 
-    // const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
+    const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
 
-    const sentences = [
-      'The students agree they have too much homework',
-      'I a`m going to study',
-      'It is difficult situation for me',
-      'The are a lot of interesting things',
-      'We are going to do it together',
-      'It is very hot summer',
-      'This situation is not very good',
-      'Every morning he does his physical exercises',
-      'It is nine sentence',
-      'First level and first round',
-    ];
+    // const sentences = [
+    //   'The students agree they have too much homework',
+    //   'I a`m going to study',
+    //   'It is difficult situation for me',
+    //   'The are a lot of interesting things',
+    //   'We are going to do it together',
+    //   'It is very hot summer',
+    //   'This situation is not very good',
+    //   'Every morning he does his physical exercises',
+    //   'It is nine sentence',
+    //   'First level and first round',
+    // ];
 
     const preloadeImg = await getPreloadedImage(imageSrc);
 
@@ -243,7 +243,7 @@ class MenuController {
       view.hidePicture();
       view.clearImageDescription();
       this.isPictureShown = false;
-      debugger
+      debugger;
       this.setCurrentRound(this.currentRound + 1);
       this.newRound(this.currentLevel, this.currentRound);
       return;
@@ -279,9 +279,9 @@ class MenuController {
     showSpinner(); //* кандидаты в отдельную функцию
     // try {
     this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
-    // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
+    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
     // } catch (err) {
-    this.maxRoundInLevel = 40;
+    // this.maxRoundInLevel = 40;
     // }
     this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);
 

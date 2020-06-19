@@ -10,7 +10,6 @@ import './scss/card.scss';
 import './scss/controls.scss';
 import './scss/status-bar.scss';
 import './scss/drag-and-drop.scss';
-import './scss/puzzle.scss';
 
 import {
   CLASS_NAMES,

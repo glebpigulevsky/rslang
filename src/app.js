@@ -3,8 +3,6 @@ import speakit from './components/speakit/speakit.app';
 
 window.onload = () => {
   main.init();
-  main.sayHello();
 
   speakit.init();
-  speakit.sayHello();
 };
