@@ -9,7 +9,6 @@ import imageSrc from '../../assets/img/9th_wave.jpg';
 import {
   showSpinner,
   hideSpinner,
-  getPreloadedImage,
 } from '../data/utils';
 
 class MenuController {
@@ -35,7 +34,6 @@ class MenuController {
   setCurrentRound(round = 0) {
     if (round >= this.maxRoundInLevel) {
       this.setCurrentLevel(this.currentLevel + 1);
-      debugger;
       this.currentRound = 0;
 
       if (view.menu.elements.selectors.level) {
@@ -56,7 +54,6 @@ class MenuController {
 
   async onLevelChangeHandler(evt) {
     // const newLevel = view.menu.elements.selector.level.value;
-    debugger;
     this.setCurrentLevel(+evt.target.value);
     this.setCurrentRound();
 
@@ -108,7 +105,6 @@ class MenuController {
 
     // try {
     this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
-    debugger;
     // } catch (err) {
     // this.fetchedRoundData = JSON.parse(localStorage.getItem('data'));
     // }
@@ -129,7 +125,8 @@ class MenuController {
     //   'First level and first round',
     // ];
 
-    const preloadeImg = await getPreloadedImage(imageSrc);
+    this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound);
+    const preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
 
     // this.canvasElements = createCanvasElements({
     //   img: preloadeImg,
@@ -139,43 +136,43 @@ class MenuController {
     this.canvasElements = {
       withImage: {
         regular: createCanvasElements({
-          img: preloadeImg,
+          img: preloadedPicture,
           wordsList: sentences,
           colorBorder: 'gray',
         }),
         correct: createCanvasElements({
-          img: preloadeImg,
+          img: preloadedPicture,
           wordsList: sentences,
           colorBorder: 'green',
         }),
         error: createCanvasElements({
-          img: preloadeImg,
+          img: preloadedPicture,
           wordsList: sentences,
           colorBorder: 'red',
         }),
       },
       withOutImage: {
         regular: createCanvasElements({
-          img: preloadeImg,
+          img: preloadedPicture,
           wordsList: sentences,
           colorBorder: 'gray',
           fillColor: 'brown',
         }),
         correct: createCanvasElements({
-          img: preloadeImg,
+          img: preloadedPicture,
           wordsList: sentences,
           colorBorder: 'green',
           fillColor: 'brown',
         }),
         error: createCanvasElements({
-          img: preloadeImg,
+          img: preloadedPicture,
           wordsList: sentences,
           colorBorder: 'red',
           fillColor: 'brown',
         }),
       },
       finalImage: createCanvasElements({
-        img: preloadeImg,
+        img: preloadedPicture,
         wordsList: sentences,
         colorBorder: 'transparent',
         hasText: false,
@@ -243,7 +240,6 @@ class MenuController {
       view.hidePicture();
       view.clearImageDescription();
       this.isPictureShown = false;
-      debugger;
       this.setCurrentRound(this.currentRound + 1);
       this.newRound(this.currentLevel, this.currentRound);
       return;

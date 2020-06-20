@@ -1,5 +1,11 @@
-import { shuffleArray, translateWord, CARDS_API } from '../data/utils';
+import { WordsApi } from '../../../../services/services.methods';
+import levels from '../../data/levelsData';
+import { shuffleArray, CARDS_API, getPreloadedImage } from '../data/utils';
 import { CLASS_NAMES, MAX_WORDS_COUNT } from '../data/helper';
+
+const PICTURE_URL = 'https://raw.githubusercontent.com/caspercarver/rslang_data_paintings/master/';
+
+const wordsAPI = new WordsApi();
 
 class Model {
   constructor() {
@@ -37,19 +43,38 @@ class Model {
   // }
 
   fetchCardsPage(difficult, page) {
-    try {
-      return CARDS_API.fetchCardsPageWithMaxTenWordsSentences(difficult, page);
-    } catch (err) {
-      throw new Error(err);
-    }
+    // try {
+    //   return CARDS_API.fetchCardsPageWithMaxTenWordsSentences(difficult, page);
+    // } catch (err) {
+    //   throw new Error(err);
+    // }
+    return wordsAPI.getWordsCollection({
+      group: difficult,
+      page,
+      wordsPerExampleSentence: 10,
+      wordsPerPage: 10,
+    });
   }
 
   fetchMaxPagesInDifficultCategory(difficult) {
-    try {
-      return CARDS_API.fetchMaxPagesCountInDifficultCategory(difficult);
-    } catch (err) {
-      throw new Error(err);
-    }
+    // try {
+    //   return CARDS_API.fetchMaxPagesCountInDifficultCategory(difficult);
+    // } catch (err) {
+    //   throw new Error(err);
+    // }
+    return wordsAPI.getWordsCount({
+      group: difficult,
+      wordsPerExampleSentence: 10,
+      wordsPerPage: 10,
+    }).then((response) => response.count);
+  }
+
+  getCurrentPictureDescription(difficult, page) {
+    return levels[difficult][page];
+  }
+
+  getPreloadedCurrentPicture(difficult, page) {
+    return getPreloadedImage(`${PICTURE_URL}${levels[difficult][page].imageSrc}`);
   }
 
   isWordGuessed(word) {
