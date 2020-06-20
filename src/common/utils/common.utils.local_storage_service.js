@@ -4,18 +4,18 @@ class LocalStorageService {
   }
 
   setUserInfo({ userId, token, expiredTime }) {
-    this.setLocalStorageData(this.keyUserInfo, { userId, token, expiredTime });
+    this._setLocalStorageData(this.keyUserInfo, { userId, token, expiredTime });
     return this.getUserInfo();
   }
 
   getUserInfo() {
-    return this.getFromLocalStorage(this.keyUserInfo);
+    return this._getFromLocalStorage(this.keyUserInfo);
   }
 
   _setLocalStorageData(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
 
   _getFromLocalStorage(key) {
-    return (localStorage.getItem(key)) ? JSON.parse(localStorage.getItem(key)) : null;
+    return JSON.parse(localStorage.getItem(key));
   }
 
   _deleteFromLocalStorage(key) {

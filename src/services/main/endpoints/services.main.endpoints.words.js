@@ -11,9 +11,9 @@ export default class WordsApi {
   async getWordsCollection({
     group, page, wordsPerExampleSentence = null, wordsPerPage = null,
   }) {
-    this.wordsGroupValidator(group);
-    this.wordsPageValidator(page);
-    this.wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
+    this._wordsGroupValidator(group);
+    this._wordsPageValidator(page);
+    this._wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
 
     let url = `/words?group=${group}&page=${page}`;
     if (wordsPerExampleSentence !== null) {
@@ -23,12 +23,12 @@ export default class WordsApi {
       url += `&wordsPerPage=${wordsPerPage}`;
     }
     const res = await this.apiService.getResource({ url, hasToken: false });
-    return res.map(this.transformWord);
+    return res.map(this._transformWord);
   }
 
   async getWordsCount({ group, wordsPerExampleSentence = null, wordsPerPage = null }) {
-    this.wordsGroupValidator(group);
-    this.wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
+    this._wordsGroupValidator(group);
+    this._wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
 
     let url = `/words/count?group=${group}`;
     if (wordsPerExampleSentence !== null) {
@@ -38,12 +38,12 @@ export default class WordsApi {
       url += `&wordsPerPage=${wordsPerPage}`;
     }
     const res = await this.apiService.getResource({ url, hasToken: false });
-    return this.transformWordsCount(res);
+    return this._transformWordsCount(res);
   }
 
   async getWord({ id }) {
     const res = await this.apiService.getResource({ url: `/words/${id}`, hasToken: false });
-    return this.transformWord(res);
+    return this._transformWord(res);
   }
 
   _wordsGroupValidator(group) {

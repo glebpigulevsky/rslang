@@ -8,17 +8,17 @@ export default class SettingsApi {
 
   async getSettings({ userId }) {
     const res = await this.apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true });
-    return this.transformUserSettings(res);
+    return this._transformUserSettings(res);
   }
 
   async updateSettings({ userId, wordsPerDay, optional = {} }) {
-    this.wordsPerDayValidator(wordsPerDay);
+    this._wordsPerDayValidator(wordsPerDay);
     const res = await this.apiService.putResourse({
       url: `/users/${userId}/settings`,
       params: { wordsPerDay, optional },
       hasToken: true,
     });
-    return this.transformUserSettings(res);
+    return this._transformUserSettings(res);
   }
 
   _wordsPerDayValidator({ wordsPerDay }) {

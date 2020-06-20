@@ -14,17 +14,17 @@ export default class UserWordsApi {
       params: { difficulty, optional },
       hasToken: true,
     });
-    return this.transformUserWord(res);
+    return this._transformUserWord(res);
   }
 
   async getAllUserWords({ userId }) {
     const res = await this.apiService.getResource({ url: `/users/${userId}/words`, hasToken: true });
-    return res.map(this.transformUserWord);
+    return res.map(this._transformUserWord);
   }
 
   async getUserWord({ userId, wordId }) {
     const res = await this.apiService.getResource({ url: `/users/${userId}/words/${wordId}`, hasToken: true });
-    return this.transformUserWord(res);
+    return this._transformUserWord(res);
   }
 
   async updateUserWord({
@@ -35,7 +35,7 @@ export default class UserWordsApi {
       params: { difficulty, optional },
       hasToken: true,
     });
-    return this.transformUserWord(res);
+    return this._transformUserWord(res);
   }
 
   async deleteUserWord({ userId, wordId }) {

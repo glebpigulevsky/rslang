@@ -8,17 +8,17 @@ export default class UsersApi {
 
   async getUser({ id }) {
     const res = await this.apiService.getResource({ url: `/users/${id}`, hasToken: true });
-    return this.transformUser(res);
+    return this._transformUser(res);
   }
 
   async updateUser({ id, email, password }) {
     const res = await this.apiService.putResourse({ url: `/users/${id}`, params: { email, password }, hasToken: true });
-    return this.transformUser(res);
+    return this._transformUser(res);
   }
 
   async createUser({ email, password }) {
     const res = await this.apiService.postResourse({ url: '/users', params: { email, password }, hasToken: false });
-    return this.transformUser(res);
+    return this._transformUser(res);
   }
 
   async deleteUser({ id }) {
@@ -30,7 +30,7 @@ export default class UsersApi {
 
   async authenticateUser({ email, password }) {
     const res = await this.apiService.postResourse({ url: '/signin', params: { email, password } });
-    return this.transformAuthentication(res);
+    return this._transformAuthentication(res);
   }
 
   _transformUser({ id, email }) {

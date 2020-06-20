@@ -8,17 +8,17 @@ export default class StatisticsApi {
 
   async getStatictics({ userId }) {
     const res = await this.apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true });
-    return this.transformUserStatistics(res);
+    return this._transformUserStatistics(res);
   }
 
   async updateStatistics({ userId, learnedWords, optional = {} }) {
-    this.learnedWordsValidator({ learnedWords });
+    this._learnedWordsValidator({ learnedWords });
     const res = await this.apiService.putResourse({
       url: `/users/${userId}/statistics`,
       params: { learnedWords, optional },
       hasToken: true,
     });
-    return this.transformUserStatistics(res);
+    return this._transformUserStatistics(res);
   }
 
   _learnedWordsValidator({ learnedWords }) {
