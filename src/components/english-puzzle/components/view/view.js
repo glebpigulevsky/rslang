@@ -30,6 +30,8 @@ import ResultsList from './components/resultsList/resultsList';
 import Slider from './components/slider/slider';
 import Menu from './components/menu/menu';
 
+
+
 class View {
   constructor() {
     this.ELEMENTS = null;
@@ -44,6 +46,10 @@ class View {
 
     this.correctSound = new Audio(correctSound);
     this.successSound = new Audio(successSound);
+
+    this.audio = null;
+
+    this.onEndSpellingHandlerBinded = this.onEndSpellingHandler.bind(this);
 
     // this.renderSpeechInput = this.renderSpeechInput.bind(this);
   }
@@ -178,6 +184,28 @@ class View {
     this.successSound.play();
   }
 
+  playSentenceSpelling(src) {
+    if (this.audio && !this.audio.ended) {
+      this.audio.pause();
+      this.onEndSpellingHandlerBinded();
+    }
+
+    this.audio = new Audio(src);
+    this.audio.play();
+
+    this.audio.addEventListener(EVENTS.ENDED, this.onEndSpellingHandlerBinded);
+    this.toggleSpellingAnimation();
+  }
+
+  toggleSpellingAnimation() {
+    this.ELEMENTS.BUTTONS.REPEAT_SPELLING.classList.toggle(CLASS_NAMES.ANIMATED);
+  }
+
+  onEndSpellingHandler() {
+    this.audio.removeEventListener(EVENTS.ENDED, this.onEndSpellingHandlerBinded);
+    this.toggleSpellingAnimation();
+  }
+
   clearStatusBar() {
     this.ELEMENTS.STATUS_BAR.innerHTML = '';
   }
@@ -252,6 +280,22 @@ class View {
     this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.addEventListener(EVENTS.CLICK, onHintTranslationButtonClick);
 
     if (isTranslationEnabled) this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.classList.add(CLASS_NAMES.ACTIVE);
+  }
+
+  initHintSpellingButton(onHintSpellingButtonClick, isSpellingEnabled) {
+    this.ELEMENTS.BUTTONS.HINTS.SPELLING.addEventListener(EVENTS.CLICK, onHintSpellingButtonClick);
+
+    if (isSpellingEnabled) this.ELEMENTS.BUTTONS.HINTS.SPELLING.classList.add(CLASS_NAMES.ACTIVE);
+  }
+
+  initHintAutoSpellingButton(onHintAutoSpellingButtonClick, isAutoSpellingEnabled) {
+    this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING.addEventListener(EVENTS.CLICK, onHintAutoSpellingButtonClick);
+
+    if (isAutoSpellingEnabled) this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING.classList.add(CLASS_NAMES.ACTIVE);
+  }
+
+  initRepeatSpellingButton(onRepeatSpellingButtonClick) {
+    this.ELEMENTS.BUTTONS.REPEAT_SPELLING.addEventListener(EVENTS.CLICK, onRepeatSpellingButtonClick);
   }
 
   hideCheckButton() {
@@ -344,7 +388,10 @@ class View {
         HINTS: {
           BG: document.querySelector('.game__hints-bg'),
           TRANSLATION: document.querySelector('.game__hints-translation'),
+          SPELLING: document.querySelector('.game__hints-spelling'),
+          AUTO_SPELLING: document.querySelector('.game__hints-auto-spelling'),
         },
+        REPEAT_SPELLING: document.querySelector('.button-repeat-spelling'),
       },
       DESCRIPTION: {
         IMAGE: document.querySelector('.image__description'),
@@ -395,8 +442,11 @@ class View {
           <main class="main">
             <div class="game__controls">
               <div class="buttons__wrapper">
+                <button class="button-repeat-spelling button-rounded" type="button">Sound</button>
                 <button class="game__hints game__hints-bg button-rounded">Bg hint</button>
                 <button class="game__hints game__hints-translation button-rounded">Translate</button>
+                <button class="game__hints game__hints-spelling button-rounded">Spelling</button>
+                <button class="game__hints game__hints-auto-spelling button-rounded">AutoSpelling</button>
             <!--<div class="difficulties">
                   <span class="difficult__description">Level:</span>
                   <button class="game__difficult game__difficult-1 button-rounded active">1</button>

@@ -37,6 +37,7 @@ export const CLASS_NAMES = {
   },
   BG_PICTURE: 'background-picture',
   COMPLETED_ROUND: 'completed',
+  ANIMATED: 'animated',
 };
 
 // export const ELEMENTS = {
@@ -71,6 +72,7 @@ export const EVENTS = {
   BEFORE_UNLOAD: 'beforeunload',
   LOAD: 'load',
   ERROR: 'error',
+  ENDED: 'ended',
 };
 
 export const DATA_PATH = 'https://raw.githubusercontent.com/musmen/rslang-data/master/data/';

@@ -39,6 +39,7 @@ class Controller {
     // this.sentenceGuessFail = null;
     this.sentenceGuessSuccess = null;
     this.isTranslationEnabled = null;
+    this.isSpellingEnabled = null;
 
     this.ELEMENTS = null;
 
@@ -46,8 +47,11 @@ class Controller {
     this.onCheckButtonClickBinded = this.onCheckButtonClick.bind(this);
     this.onHintBgButtonClickHandlerBinded = this.onHintBgButtonClickHandler.bind(this);
     this.onHintTranslationButtonClickHandlerBinded = this.onHintTranslationButtonClickHandler.bind(this);
+    this.onHintSpellingButtonClickHandlerBinded = this.onHintSpellingButtonClickHandler.bind(this);
+    this.onHintAutoSpellingButtonClickHandlerBinded = this.onHintAutoSpellingButtonClickHandler.bind(this);
     this.onIDontKnowButtonClickHandlerBinded = this.onIDontKnowButtonClickHandler.bind(this);
     this.onContinueButtonClickHandlerBinded = this.onContinueButtonClickHandler.bind(this);
+    this.onRepeatSpellingButtonClickBinded = this.onRepeatSpellingButtonClick.bind(this);
 
     this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
 
@@ -225,7 +229,10 @@ class Controller {
       view.resultDropZone.append(clonePuzzle);
     });
 
-    view.showTranslation('It is sentence translation');
+    view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
+    if (!this.isSpellingEnabled) {
+      view.playSentenceSpelling(menuController.fetchedRoundData[menuController.currentSentence].audioExample);
+    }
     this.sentenceGuessSuccess = true;
   }
 
@@ -283,7 +290,11 @@ class Controller {
         puzzle.getContext('2d').drawImage(correctPuzzle, 0, 0);
       });
 
-      view.showTranslation('It is sentence translation');
+      view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
+      
+      if (!this.isSpellingEnabled) {
+        view.playSentenceSpelling(menuController.fetchedRoundData[menuController.currentSentence].audioExample);
+      }
     }
 
     // Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle) => {
@@ -330,10 +341,42 @@ class Controller {
     if (menuController.isPictureShown || this.sentenceGuessSuccess) return;
 
     if (this.isTranslationEnabled) {
-      view.showTranslation('It is sentence translation');
+      view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
     } else {
       view.hideTranslation();
     }
+  }
+
+  onHintSpellingButtonClickHandler({ target }) {
+    this.isSpellingEnabled = !this.isSpellingEnabled;
+    target.classList.toggle(CLASS_NAMES.ACTIVE);
+
+    // if (menuController.isPictureShown || this.sentenceGuessSuccess) return;
+
+    // if (this.isTranslationEnabled) {
+    //   view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
+    // } else {
+    //   view.hideTranslation();
+    // }
+  }
+
+  onHintAutoSpellingButtonClickHandler({ target }) {
+    this.isAutoSpellingEnabled = !this.isAutoSpellingEnabled;
+    target.classList.toggle(CLASS_NAMES.ACTIVE);
+
+    // if (menuController.isPictureShown || this.sentenceGuessSuccess) return;
+
+    // if (this.isTranslationEnabled) {
+    //   view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
+    // } else {
+    //   view.hideTranslation();
+    // }
+  }
+
+  onRepeatSpellingButtonClick() {
+    if (!this.isSpellingEnabled) return;
+
+    view.playSentenceSpelling(menuController.fetchedRoundData[menuController.currentSentence].audioExample);
   }
 
   beforeUnloadHandler() {
@@ -359,8 +402,10 @@ class Controller {
   }
 
   init() {
-    this.isBgImage = true; // todo берем из бека или локал сторейдж
+    this.isBgImage = false; // todo берем из бека или локал сторейдж
     this.isTranslationEnabled = true;
+    this.isSpellingEnabled = true;
+    this.isAutoSpellingEnabled = true;
 
     view.initIntroButton(this.onIntroButtonClickBinded);
     view.initCheckButton(this.onCheckButtonClickBinded);
@@ -369,6 +414,9 @@ class Controller {
 
     view.initHintBgButton(this.onHintBgButtonClickHandlerBinded, this.isBgImage);
     view.initHintTranslationButton(this.onHintTranslationButtonClickHandlerBinded, this.isTranslationEnabled);
+    view.initHintSpellingButton(this.onHintSpellingButtonClickHandlerBinded, this.isSpellingEnabled);
+    view.initHintAutoSpellingButton(this.onHintAutoSpellingButtonClickHandlerBinded, this.isAutoSpellingEnabled);
+    view.initRepeatSpellingButton(this.onRepeatSpellingButtonClickBinded);
 
     this.ELEMENTS = {
       CENTRALIZER: document.querySelector('.centralizer'),

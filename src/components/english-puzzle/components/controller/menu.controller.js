@@ -196,9 +196,13 @@ class MenuController {
     view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
 
     if (controller.isTranslationEnabled) {
-      view.showTranslation('It is sentence translation');
+      view.showTranslation(this.fetchedRoundData[this.currentSentence].textExampleTranslate);
     } else {
       view.hideTranslation();
+    }
+
+    if (controller.isAutoSpellingEnabled && controller.isSpellingEnabled) {
+      view.playSentenceSpelling(this.fetchedRoundData[this.currentSentence].audioExample);
     }
 
     hideSpinner();
@@ -232,7 +236,7 @@ class MenuController {
 
         this.isPictureShown = true;
         view.showPicture(this.canvasElements.finalImage.flat(Infinity));
-        view.showImageDescription('It is image description');
+        view.showImageDescription(`Author: ${this.fetchedPictureData.author.replace(',', ' ')}, Name: ${this.fetchedPictureData.name}, Date: ${this.fetchedPictureData.year}`);
         view.hideTranslation();
         return;
       }
@@ -256,9 +260,13 @@ class MenuController {
     }));
 
     if (controller.isTranslationEnabled) {
-      view.showTranslation('It is sentence translation');
+      view.showTranslation(this.fetchedRoundData[this.currentSentence].textExampleTranslate);
     } else {
       view.hideTranslation();
+    }
+
+    if (controller.isAutoSpellingEnabled && controller.isSpellingEnabled) {
+      view.playSentenceSpelling(this.fetchedRoundData[this.currentSentence].audioExample);
     }
   }
 
