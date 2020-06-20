@@ -1,10 +1,10 @@
 import main from './components/main/main.app';
-import speakit from './components/speakit/speakit.app';
+import speakIt from './components/speakit/speakit.app';
 
 window.onload = () => {
   main.init();
-  speakit.init();
+  speakIt.init();
 
   main.sayHello();
-  speakit.sayHello();
+  speakIt.sayHello();
 };

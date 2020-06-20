@@ -3,17 +3,17 @@ import { SPEAKIT_CLASS_NAMES, SPEAKIT_GREETINGS } from './common/speakit.constan
 
 import './scss/speakit.styles.scss';
 
-class Speakit {
+class SpeakIt {
   constructor() {
     this.logo = null;
   }
 
   sayHello() {
-    const speakitLogo = document.createElement('h2');
-    speakitLogo.className = SPEAKIT_CLASS_NAMES.LOGO;
-    speakitLogo.textContent = this.logo;
+    const speakItLogo = document.createElement('h2');
+    speakItLogo.className = SPEAKIT_CLASS_NAMES.LOGO;
+    speakItLogo.textContent = this.logo;
 
-    document.querySelector(`.${CLASS_NAMES.MAIN.LOGO}`).after(speakitLogo);
+    document.querySelector(`.${CLASS_NAMES.MAIN.LOGO}`).after(speakItLogo);
   }
 
   init() {
@@ -21,4 +21,4 @@ class Speakit {
   }
 }
 
-export default new Speakit();
+export default new SpeakIt();
