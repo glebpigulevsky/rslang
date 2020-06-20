@@ -6,18 +6,6 @@ import {
   EVENTS,
 } from './helper';
 
-export const createCard = ({
-  word,
-  image,
-  audio,
-  transcription,
-}) => `
-  <a class="card__link link" href="#" data-word="${word}" data-audio="${audio.slice(6)}" data-image="${image.slice(6)}">
-    <p class="card__word">${word}</p>
-    <p class="card__transcription">${transcription}</p>
-  </a>
-`;
-
 export const createCardWithTranslation = ({
   word,
   image,

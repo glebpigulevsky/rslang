@@ -3,10 +3,12 @@
 }
 
 .result {
-  .main-card,
-  .game__controls,
-  .cards__container,
-  .introduction {
+  // .main-card,
+  // .game__controls,
+  // .cards__container,
+  // .introduction,
+  .header,
+  .main-game__container {
     display: none;
   }
 

@@ -60,7 +60,7 @@ class Controller {
     // this.onStopButtonClick = this.onStopButtonClick.bind(this);
     // this.onDifficultChange = this.onDifficultChange.bind(this);
     // this.onNewButtonClick = this.onNewButtonClick.bind(this);
-    // this.onResultButtonClick = this.onResultButtonClick.bind(this);
+    this.onResultsButtonClickBinded = this.onResultsButtonClick.bind(this);
     // this.onResultCardClick = this.onResultCardClick.bind(this);
     // this.onResultsNewGameButtonClick = this.onResultsNewGameButtonClick.bind(this);
     // this.onResultsResumeGameButtonClick = this.onResultsResumeGameButtonClick.bind(this);
@@ -181,36 +181,37 @@ class Controller {
   //   if (this.recognition) this.recognition.start();
   // }
 
-  // onResultButtonClick() {
-  //   togglePageState(CLASS_NAMES.RESULT.PAGE);
+  onResultsButtonClick() {
+    togglePageState(CLASS_NAMES.STATISTIC.PAGE);
 
-  //   view.renderResultsList(
-  //     model.pageData,
-  //     [{
-  //       event: EVENTS.CLICK,
-  //       handler: this.onResultCardClick,
-  //     }],
-  //     model.translationsMap,
-  //     this.guessedList,
-  //     model.results,
-  //   );
+    view.renderResultsList(
+      menuController.fetchedRoundData,
+      [{
+        event: EVENTS.CLICK,
+        handler: this.onResultCardClick,
+      }],
+      // model.translationsMap,
+      this.IDontKnowList,
+      model.results,
+    );
 
-  //   if (this.recognition) this.recognition.abort();
-  // }
+    // if (this.recognition) this.recognition.abort();
+  }
 
-  // onResultCardClick(event) {
-  //   const selectedCard = getClosestLink(event);
-  //   if (!selectedCard) return;
-  //   event.preventDefault();
+  onResultCardClick(event) {
+    const selectedCard = getClosestLink(event);
+    if (!selectedCard) return;
+    event.preventDefault();
 
-  //   view.resetResultsLinksStates(selectedCard);
+    view.resetResultsLinksStates(selectedCard);
 
-  //   const audioSrc = selectedCard.dataset.audio;
-  //   const audio = new Audio(`${DATA_PATH}${audioSrc}`);
-  //   audio.play();
-  // }
+    const audio = new Audio(selectedCard.dataset.audio);
+    audio.play();
+  }
 
   onIDontKnowButtonClickHandler() {
+    this.IDontKnowList.push(menuController.fetchedRoundData[menuController.currentSentence]);
+
     view.hideIDontKnowButton();
     view.hideCheckButton();
     view.showContinueButton();
@@ -291,7 +292,7 @@ class Controller {
       });
 
       view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
-      
+
       if (!this.isSpellingEnabled) {
         view.playSentenceSpelling(menuController.fetchedRoundData[menuController.currentSentence].audioExample);
       }
@@ -315,6 +316,7 @@ class Controller {
   }
 
   onContinueButtonClickHandler() {
+    view.hideResultButton();
     this.sentenceGuessSuccess = false;
     menuController.nextRound();
   }
@@ -422,9 +424,9 @@ class Controller {
       CENTRALIZER: document.querySelector('.centralizer'),
       INTRODUCTION: document.querySelector('.introduction'),
       SPINNER: document.querySelector('.spinner'),
-      BUTTONS: {
-        DIFFICULTIES: document.querySelector('.difficulties'),
-      },
+      // BUTTONS: {
+      //   DIFFICULTIES: document.querySelector('.difficulties'),
+      // },
     };
 
     window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
@@ -436,7 +438,7 @@ class Controller {
     // view.initStopButton(this.onStopButtonClick);
     // view.initDifficulties(this.onDifficultChange);
     // view.initNewButton(this.onNewButtonClick);
-    // view.initResultButton(this.onResultButtonClick);
+    view.initResultsButton(this.onResultsButtonClickBinded);
     // view.initResultsNewGameButton(this.onResultsNewGameButtonClick);
     // view.initResultsResumeGameButton(this.onResultsResumeGameButtonClick);
 

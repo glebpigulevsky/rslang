@@ -93,6 +93,8 @@ class MenuController {
   async newRound(currentLevel, currentRound) {
     showSpinner();
 
+    controller.IDontKnowList = [];
+
     view.hidePicture();
     view.clearImageDescription();
 
@@ -237,6 +239,7 @@ class MenuController {
         this.isPictureShown = true;
         view.showPicture(this.canvasElements.finalImage.flat(Infinity));
         view.showImageDescription(`Author: ${this.fetchedPictureData.author.replace(',', ' ')}, Name: ${this.fetchedPictureData.name}, Date: ${this.fetchedPictureData.year}`);
+        view.showResultButton();
         view.hideTranslation();
         return;
       }

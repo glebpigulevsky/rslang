@@ -82,7 +82,7 @@ class Model {
   }
 
   loadResults() {
-    this.results = JSON.parse(localStorage.getItem(CLASS_NAMES.RESULT.PAGE)) || [];
+    this.results = JSON.parse(localStorage.getItem(CLASS_NAMES.STATISTIC.PAGE)) || [];
   }
 
   saveResults(guessedList) {

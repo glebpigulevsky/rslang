@@ -25,12 +25,9 @@ import {
   showElement,
 } from '../data/utils';
 
-import PageList from './components/pageList/pageList';
-import ResultsList from './components/resultsList/resultsList';
+import StatisticList from './components/statisticList/statisticList';
 import Slider from './components/slider/slider';
 import Menu from './components/menu/menu';
-
-
 
 class View {
   constructor() {
@@ -59,37 +56,36 @@ class View {
   //   this.currentList.render();
   // }
 
-  // renderResultsList(pageData, listenersList, translationData, guessedList, results) {
-  //   this.resultList = new ResultsList(
-  //     this.ELEMENTS.RESULT.CONTAINER,
-  //     pageData,
-  //     listenersList,
-  //     Array.from(translationData),
-  //     guessedList,
-  //     new Date().toLocaleString(),
-  //     CLASS_NAMES.SLIDER.ACTIVE,
-  //   );
-  //   this.resultList.render();
+  renderResultsList(roundData, listenersList, IDontKnowList, results) {
+    debugger;
+    this.resultList = new StatisticList(
+      this.ELEMENTS.CONTAINERS.STATISTICS.CURRENT,
+      roundData,
+      listenersList,
+      IDontKnowList,
+      new Date().toLocaleString(),
+    );
+    this.resultList.render();
 
-  //   results.forEach((result) => {
-  //     new ResultsList(
-  //       this.ELEMENTS.RESULT.CONTAINER,
-  //       result.pageData,
-  //       listenersList,
-  //       result.translations,
-  //       result.guessedList,
-  //       result.time,
-  //     ).render();
-  //   });
+    // results.forEach((result) => {
+    //   new ResultsList(
+    //     this.ELEMENTS.RESULT.CONTAINER,
+    //     result.pageData,
+    //     listenersList,
+    //     // result.translations,
+    //     result.guessedList,
+    //     result.time,
+    //   ).render();
+    // });
 
-  //   this.slider = new Slider();
-  //   this.slider.init();
-  // }
+    // this.slider = new Slider();
+    // this.slider.init();
+  }
 
-  // removeActiveStates(container = this.ELEMENTS.CARDS_CONTAINER) {
-  //   container.querySelectorAll(`.${CLASS_NAMES.ACTIVE}`)
-  //     .forEach((item) => item.classList.remove(CLASS_NAMES.ACTIVE));
-  // }
+  removeActiveStates(container) {
+    container.querySelectorAll(`.${CLASS_NAMES.ACTIVE}`)
+      .forEach((item) => item.classList.remove(CLASS_NAMES.ACTIVE));
+  }
 
   // setLinkActiveStateByWord(speechInputValue) {
   //   const card = Array.from(this.ELEMENTS.CARDS_CONTAINER.querySelectorAll(`.${CLASS_NAMES.LINK}`))
@@ -104,10 +100,10 @@ class View {
   //   setActiveState(target);
   // }
 
-  // resetResultsLinksStates(target) {
-  //   this.removeActiveStates(this.ELEMENTS.RESULT.CONTAINER);
-  //   setActiveState(target);
-  // }
+  resetResultsLinksStates(target) {
+    this.removeActiveStates(this.ELEMENTS.CONTAINERS.STATISTICS.CURRENT);
+    setActiveState(target);
+  }
 
   // removeCurrentList() {
   //   this.currentList.remove();
@@ -157,9 +153,9 @@ class View {
   //   this.ELEMENTS.BUTTONS.DIFFICULTIES.addEventListener(EVENTS.CLICK, onDifficultChange);
   // }
 
-  // initResultButton(onResultButtonClick) {
-  //   this.ELEMENTS.BUTTONS.RESULTS.addEventListener(EVENTS.CLICK, onResultButtonClick);
-  // }
+  initResultsButton(onResultsButtonClick) {
+    this.ELEMENTS.BUTTONS.RESULTS.addEventListener(EVENTS.CLICK, onResultsButtonClick);
+  }
 
   // initResultsNewGameButton(onResultsNewGameButtonClick) {
   //   this.ELEMENTS.BUTTONS.RESULTS_NEW_GAME
@@ -322,6 +318,14 @@ class View {
     showElement(this.ELEMENTS.BUTTONS.CONTINUE);
   }
 
+  hideResultButton() {
+    hideElement(this.ELEMENTS.BUTTONS.RESULTS);
+  }
+
+  showResultButton() {
+    showElement(this.ELEMENTS.BUTTONS.RESULTS);
+  }
+
   showPicture(finalImagePuzzles) {
     // this.ELEMENTS.CONTAINERS.FIELD.classList.add(CLASS_NAMES.BG_PICTURE);
     // this.ELEMENTS.CONTAINERS.FIELD.style.backgroundImage = `url(${image})`;
@@ -372,12 +376,16 @@ class View {
       CONTAINERS: {
         FIELD: document.body.querySelector('.field__container'), // todo
         DATA: document.body.querySelector('.data__container'), // todo
+        STATISTICS: {
+          CURRENT: document.body.querySelector('.current-statistics__container'),
+          LONG: document.body.querySelector('.long-statistics__container'),
+        },
       },
       BUTTONS: {
         // NEW: document.querySelector('.game__button-new'),
         // GAME: document.querySelector('.game__button-start'),
         // STOP: document.querySelector('.game__button-stop'),
-        // RESULTS: document.querySelector('.game__button-results'),
+        RESULTS: document.querySelector('.game__button-results'),
         // DIFFICULTIES: document.querySelector('.difficulties'),
         // RESULTS_NEW_GAME: document.querySelector('.game__button-results_new'),
         // RESULTS_RESUME_GAME: document.querySelector('.game__button-results_return'),
@@ -438,93 +446,102 @@ class View {
               </div>
             </nav>
           </header>
-  
+    
           <main class="main">
-            <div class="game__controls">
-              <div class="buttons__wrapper">
-                <button class="button-repeat-spelling button-rounded" type="button">Sound</button>
-                <button class="game__hints game__hints-bg button-rounded">Bg hint</button>
-                <button class="game__hints game__hints-translation button-rounded">Translate</button>
-                <button class="game__hints game__hints-spelling button-rounded">Spelling</button>
-                <button class="game__hints game__hints-auto-spelling button-rounded">AutoSpelling</button>
-            <!--<div class="difficulties">
-                  <span class="difficult__description">Level:</span>
-                  <button class="game__difficult game__difficult-1 button-rounded active">1</button>
-                  <button class="game__difficult game__difficult-2 button-rounded">2</button>
-                  <button class="game__difficult game__difficult-3 button-rounded">3</button>
-                  <button class="game__difficult game__difficult-4 button-rounded">4</button>
-                  <button class="game__difficult game__difficult-5 button-rounded">5</button>
-                  <button class="game__difficult game__difficult-6 button-rounded">6</button>
+            <div class="main-game__container">
+              <div class="game__controls">
+                <div class="buttons__wrapper">
+                  <button class="button-repeat-spelling button-rounded" type="button">Sound</button>
+                  <button class="game__hints game__hints-bg button-rounded">Bg hint</button>
+                  <button class="game__hints game__hints-translation button-rounded">Translate</button>
+                  <button class="game__hints game__hints-spelling button-rounded">Spelling</button>
+                  <button class="game__hints game__hints-auto-spelling button-rounded">AutoSpelling</button>
+                <!--<div class="difficulties">
+                    <span class="difficult__description">Level:</span>
+                    <button class="game__difficult game__difficult-1 button-rounded active">1</button>
+                    <button class="game__difficult game__difficult-2 button-rounded">2</button>
+                    <button class="game__difficult game__difficult-3 button-rounded">3</button>
+                    <button class="game__difficult game__difficult-4 button-rounded">4</button>
+                    <button class="game__difficult game__difficult-5 button-rounded">5</button>
+                    <button class="game__difficult game__difficult-6 button-rounded">6</button>
+                  </div>
+                  <div class="button__container">
+                    <button class="game__button game__button-new button-rounded">New game</button>
+                    <button class="game__button game__button-start button-rounded">Start game</button>
+                    <button class="game__button game__button-stop button-rounded">Stop game</button>
+                    <button class="game__button game__button-results button-rounded">Results</button>
+                  </div> -->
                 </div>
-                <div class="button__container">
-                  <button class="game__button game__button-new button-rounded">New game</button>
-                  <button class="game__button game__button-start button-rounded">Start game</button>
-                  <button class="game__button game__button-stop button-rounded">Stop game</button>
-                  <button class="game__button game__button-results button-rounded">Results</button>
-                </div> -->
+                <p class="status-bar"></p>
               </div>
-              <p class="status-bar"></p>
-            </div>
-  
-            <div class="main-card">
-              <div>
-                <p class="main-card__translation"></p>
-                <input class="main-card__speech-input input" type="text" readonly> <!-- readonly -->
-              </div>
-              <div class="picture__container">
-                <img class="main-card__picture" alt="current word picture">
-              </div>
-            </div>
-  
-            <div class="cards__container">
-            </div>
-
-            <p class="translation__description description"></p>
-  
-            <div class="game__field">
-              <div class="field__container game__field_container">
-                <div class="drop__place sentence"></div>
-              </div>
-  
-              <div class="data__container game__field_container">
-                <div class="drop__place sentence">
-                  <!-- <span class="dragable d1">1</span>
-                  <span class="dragable d2">2</span>
-                  <span class="dragable d3">3</span>
-                  <span class="dragable d4">4</span>
-                  <span class="dragable d5">5</span> -->
+    
+              <div class="main-card">
+                <div>
+                  <p class="main-card__translation"></p>
+                  <input class="main-card__speech-input input" type="text" readonly> <!-- readonly -->
+                </div>
+                <div class="picture__container">
+                  <img class="main-card__picture" alt="current word picture">
                 </div>
               </div>
-            </div>
+    
+              <div class="cards__container">
+              </div>
 
-            <p class="image__description description"></p>
+              <p class="translation__description description"></p>
+    
+              <div class="game__field">
+                <div class="field__container game__field_container">
+                  <div class="drop__place sentence"></div>
+                </div>
+    
+                <div class="data__container game__field_container">
+                  <div class="drop__place sentence">
+                    <!-- <span class="dragable d1">1</span>
+                    <span class="dragable d2">2</span>
+                    <span class="dragable d3">3</span>
+                    <span class="dragable d4">4</span>
+                    <span class="dragable d5">5</span> -->
+                  </div>
+                </div>
+              </div>
 
-            <div class="game__controls">
-              <button class="game__button game__button-check button-rounded hidden">Check</button>
-              <button class="game__button game__button-dont_know button-rounded">I don\`t know</button>
-              <button class="game__button game__button-continue button-rounded hidden">Continue</button>
+              <p class="image__description description"></p>
+
+              <div class="game__controls">
+                <button class="game__button game__button-check button-rounded hidden">Check</button>
+                <button class="game__button game__button-dont_know button-rounded">I don\`t know</button>
+                <button class="game__button game__button-continue button-rounded hidden">Continue</button>
+                <button class="game__button game__button-results button-rounded hidden">Results</button>
+              </div>
             </div>
   
             <div class="results__container">
               <div class="button__container-results">
-                <button class="game__button game__button-results_return button-rounded">Return</button>
-                <button class="game__button game__button-results_new button-rounded">New game</button>
+                <button class="game__button game__button-results_continue button-rounded">Continue</button>
+                <button class="game__button game__button-results_toggle button-rounded">Statistics</button>
+              </div>
+
+              <div class="current-statistics__container">
+              </div>
+
+              <div class="long-statistics__container">
               </div>
   
-              <div class="slider__wrapper wrapper">
-                <div class="button__container-slider button__container_left">
-                  <button class="slider__button slider__button_previous">
-                    <span class="slider__button-icon"></span>
-                  </button>
-                </div>
-                <div class="button__container-slider button__container_right">
-                  <button class="slider__button slider__button_next">
-                    <span class="slider__button-icon"></span>
-                  </button>
-                </div>
-  
-                <div class="gallery">
-                </div>
+                  <!-- <div class="slider__wrapper wrapper">
+                    <div class="button__container-slider button__container_left">
+                      <button class="slider__button slider__button_previous">
+                        <span class="slider__button-icon"></span>
+                      </button>
+                    </div>
+                    <div class="button__container-slider button__container_right">
+                      <button class="slider__button slider__button_next">
+                        <span class="slider__button-icon"></span>
+                      </button>
+                    </div>
+      
+                    <div class="gallery">
+                    </div> -->
               </div>
             </div>
           </main>
@@ -551,19 +568,19 @@ class View {
           </div>
         </div>
   
-        <template class="slider__item-template">
-          <div class="slider__item">
+        <template class="statistic-template">
+          <div class="statistic__container">
             <p class="time"></p>
-            <div class="results__correct">
+            <div class="correct__container">
               <p class="correct__title">
-                <span class="correct__lead">Guessed:
+                <span class="correct__lead">I know:
                   <span class="correct"></span>
                 </span>
               </p>
             </div>
-            <div class="results__errors">
+            <div class="errors__container">
               <p class="errors__title">
-                <span class="errors__lead">Errors:
+                <span class="errors__lead">I don\`t know:
                   <span class="errors"></span>
                 </span>
               </p>
