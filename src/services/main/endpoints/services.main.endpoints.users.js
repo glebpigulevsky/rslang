@@ -33,14 +33,14 @@ export default class UsersApi {
     return this.transformAuthentication(res);
   }
 
-  transformUser({ id, email }) {
+  _transformUser({ id, email }) {
     return {
       id,
       email,
     };
   }
 
-  transformAuthentication({ message, token, userId }) {
+  _transformAuthentication({ message, token, userId }) {
     return {
       message,
       token,

@@ -46,33 +46,33 @@ export default class WordsApi {
     return this.transformWord(res);
   }
 
-  wordsGroupValidator(group) {
+  _wordsGroupValidator(group) {
     const isErrorGroup = group < WORDS_REQUEST.Group.min || group > WORDS_REQUEST.Group.max;
     if (isErrorGroup) {
       console.info(`Words: 'group' must be in range (${WORDS_REQUEST.Group.min}, ${WORDS_REQUEST.Group.max})`);
     }
   }
 
-  wordsPageValidator(page) {
+  _wordsPageValidator(page) {
     const isErrorPage = page < WORDS_REQUEST.Page.min || page > WORDS_REQUEST.Page.max;
     if (isErrorPage) {
       console.info(`Words: 'page' must be in range (${WORDS_REQUEST.Page.min}, ${WORDS_REQUEST.Page.max})`);
     }
   }
 
-  wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage }) {
+  _wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage }) {
     if (wordsPerExampleSentence < 1 && wordsPerPage > 0) {
       console.info("Words: 'wordsPerPage' works if 'wordsPerExampleSentenceLTE' is specified");
     }
   }
 
-  wordsPerPageCountValidator({ wordsPerExampleSentence, wordsPerPage }) {
+  _wordsPerPageCountValidator({ wordsPerExampleSentence, wordsPerPage }) {
     if (wordsPerExampleSentence < 1 && wordsPerPage > 0) {
       console.info("Words: 'wordsPerPage' works if 'wordsPerExampleSentenceLTE' is specified");
     }
   }
 
-  transformWord({
+  _transformWord({
     id,
     group,
     page,
@@ -108,7 +108,7 @@ export default class WordsApi {
     };
   }
 
-  transformWordsCount({ count }) {
+  _transformWordsCount({ count }) {
     return {
       count,
     };

@@ -21,13 +21,13 @@ export default class SettingsApi {
     return this.transformUserSettings(res);
   }
 
-  wordsPerDayValidator({ wordsPerDay }) {
+  _wordsPerDayValidator({ wordsPerDay }) {
     if (wordsPerDay < 1) {
       console.info("'wordsPerDay' should be greather then 0");
     }
   }
 
-  transformUserSettings({ id, wordsPerDay, optional }) {
+  _transformUserSettings({ id, wordsPerDay, optional }) {
     return {
       id,
       wordsPerDay,

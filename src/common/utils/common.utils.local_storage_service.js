@@ -12,13 +12,13 @@ class LocalStorageService {
     return this.getFromLocalStorage(this.keyUserInfo);
   }
 
-  setLocalStorageData(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+  _setLocalStorageData(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
 
-  getFromLocalStorage(key) {
+  _getFromLocalStorage(key) {
     return (localStorage.getItem(key)) ? JSON.parse(localStorage.getItem(key)) : null;
   }
 
-  deleteFromLocalStorage(key) {
+  _deleteFromLocalStorage(key) {
     localStorage.removeItem(key);
   }
 }

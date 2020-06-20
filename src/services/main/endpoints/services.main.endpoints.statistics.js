@@ -21,13 +21,13 @@ export default class StatisticsApi {
     return this.transformUserStatistics(res);
   }
 
-  learnedWordsValidator({ learnedWords }) {
+  _learnedWordsValidator({ learnedWords }) {
     if (!Number.isInteger(learnedWords)) {
       console.info("Statictics: 'learnedWords' should be integer (equal or greater then 0)");
     }
   }
 
-  transformUserStatistics({ id, learnedWords, optional }) {
+  _transformUserStatistics({ id, learnedWords, optional }) {
     return {
       id,
       learnedWords,
