@@ -11,6 +11,8 @@ const game = {
     next: null,
     prev: null,
   },
+  settings: null,
+
   currentCard: {},
   previousCard: {},
   collection: [],
@@ -22,20 +24,22 @@ const game = {
     GAME_BLOCK.innerHTML = '';
     GAME_BLOCK.append(TEMPLATE_MAIN_GAME.content.cloneNode(true));
     await this.fetchWords();
+    console.log(this.settings);
     this.playMode(this.indexCard);
   },
 
   async fetchWords() {
     this.collection = await wordsApi.getWordsCollection({ group: 5, page: 1 });
     this.currentCard = this.collection[this.indexCard];
-    console.log(this.currentCard.textMeaning);
+    console.log(this.currentCard.textExample);
   },
 
-  init() {
+  init(settings) {
+    this.settings = settings;
     this.addMdGameScreen();
   },
 
-  playMode(queryIndex) {
+  async playMode(queryIndex) {
     this.gameButtons.next = document.querySelector('.next');
     this.gameButtons.next.addEventListener('click', inputModeArrowBinded);
     this.gameButtons.prev = document.querySelector('.prev');
@@ -43,22 +47,26 @@ const game = {
       this.gameButtons.prev.classList.remove('hidden');
     }
     this.gameButtons.prev.addEventListener('click', inputModeArrowPrevBinded);
-    this.currentCard = this.collection[queryIndex];
-    this.currentCard.textMeaning = this.currentCard.textMeaning.replace(/<\/?[a-zA-Z]+>/gi, '');
-    this.currentCard.textMeaning = this.currentCard.textMeaning.replace(',', ' ,').toLowerCase();
-    const wordsArr = this.currentCard.textMeaning.split(' ');
+    //this.addSettingsButton(this.settings);
+    this.currentCard = await this.collection[queryIndex];
+    this.currentCard.textExample = this.currentCard.textExample.replace(/<\/?[a-zA-Z]+>/gi, '');
+    this.currentCard.textExample = this.currentCard.textExample.replace(',', ' ,').toLowerCase();
+    const wordsArr = await this.currentCard.textExample.split(' ');
+    if (wordsArr.indexOf(this.currentCard.word) === -1) {
+      this.indexCard += 1;
+      game.playMode(this.indexCard);
+    }
     wordsArr[wordsArr.length - 1] = wordsArr[wordsArr.length - 1].slice(0, -1);
     wordsArr.find((element, index) => {
       if (element === this.currentCard.word) {
         wordsArr[index] = '';
-        if (index === 0){
-          this.currentCard.word = this.currentCard.word[0].toUpperCase() + this.currentCard.word.slice(1);
-          console.log(this.currentCard);
+        if (index === 0) {
+          this.currentCard.word = this.currentCard.word[0]
+            .toUpperCase() + this.currentCard.word.slice(1);
         }
       }
     });
     document.querySelector('.learn-content__container').innerHTML = '';
-    
     wordsArr.map((element, index) => {
       if (index === 0 && element !== '') {
         element = element[0].toUpperCase() + element.slice(1);
@@ -74,7 +82,7 @@ const game = {
         const wordContainer = document.createElement('span');
         spanBg.classList.add('background');
         inputDiv.classList.add('input-container');
-        wordContainer.classList.add('word-container')
+        wordContainer.classList.add('word-container');
         const wordLetter = this.currentCard.word.split('');
         inputDiv.innerHTML = '';
         console.log(this.collection);
@@ -84,6 +92,18 @@ const game = {
           wordContainer.innerHTML += `<span index=${index} class="opacityhidden">${element}</span>`;
         });
         const inputWord = document.createElement('input');
+        if (this.settings.optional.isTranscription === 'true') {
+          document.querySelector('.transcription').innerHTML = '';
+          document.querySelector('.transcription').innerHTML = this.currentCard.transcription;
+        }
+        if (this.settings.optional.isTranslation === 'true') {
+          document.querySelector('.learn-content__meaning').innerHTML = '';
+          document.querySelector('.learn-content__meaning').innerHTML = this.currentCard.textMeaning;
+        }
+        if (this.settings.optional.isPicture === 'true') {
+          document.querySelector('.card-image').innerHTML = '';
+          document.querySelector('.card-image').innerHTML = `<img src="${this.currentCard.image}"></img>`;
+        }
         inputWord.classList.add('answer-input');
         inputDiv.append(spanBg);
         inputDiv.append(wordContainer);
@@ -97,9 +117,13 @@ const game = {
     dotBlock.innerHTML = '.';
     document.querySelector('.learn-content__container').append(dotBlock);
     document.querySelector('.learn-content__translation').innerHTML = '';
-    document.querySelector('.learn-content__translation').innerHTML = this.currentCard.textMeaningTranslate;
-    document.querySelector('.card-helper').innerHTML = this.currentCard.wordTranslate;
+    document.querySelector('.learn-content__translation').innerHTML = this.currentCard.textExampleTranslate;
+    document.querySelector('.translate').innerHTML = this.currentCard.wordTranslate;
     document.addEventListener('keypress', inputModeEnterBinded);
+  },
+
+  addSettingsButton(settings) {
+    
   },
 
 };
@@ -110,19 +134,18 @@ function inputModeEnter(e) {
   if (e.key === 'Enter') {
     if (this.inputArea.value === this.currentCard.word) {
       document.removeEventListener('keypress', () => {});
-      playAudioBinded(this.currentCard.audioMeaning);
+      playAudioBinded(this.currentCard.audioExample);
     }
   }
-};
+}
 
 function inputModeArrow() {
   this.inputArea = document.querySelector('.answer-input');
   if (this.inputArea.value === this.currentCard.word) {
-    playAudioBinded(this.currentCard.audioMeaning);
-    console.log('yesarrow');
+    playAudioBinded(this.currentCard.audioExample);
   } else {
     const audio = new Audio();
-    audio.src = this.url + this.currentCard.audio;
+    audio.src = this.currentCard.audio;
     audio.autoplay = true;
   }
 }
@@ -137,7 +160,7 @@ function inputModeArrowPrev() {
 
 function playAudio(path) {
   const audio = new Audio();
-  audio.src = this.url + path;
+  audio.src = path;
   audio.autoplay = true;
   audio.addEventListener('ended', () => {
     this.indexCard += 1;
