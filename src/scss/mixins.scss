@@ -40,9 +40,21 @@
 }
 
 @mixin columns($width) {
+  width: $width;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
+}
+
+@mixin column() {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 @mixin border-radius($topLeft, $topRight, $bottomRight, $bottomLeft) {
@@ -97,4 +109,17 @@
   @media (max-width: $mobile-small-width) {
     @content;
   }
+}
+
+@function px-to-rem($px) {
+  @return $px / $base-font-size * 1rem;
+}
+
+@mixin padding-between-pages {
+  padding: 50px 0;
+}
+
+@mixin background-section {
+  width: 100%;
+  background: #fff;
 }
