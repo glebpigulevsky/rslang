@@ -56,13 +56,14 @@ class View {
   //   this.currentList.render();
   // }
 
-  renderStatisticList(lastGameRoundData, listenersList, iDontKnowList, lastGameFinalTime, results) {
+  renderStatisticList(lastGameRoundData, listenersList, iDontKnowList, lastGameFinalTime, pictureData, results) {
     this.statisticList = new StatisticList(
       this.ELEMENTS.CONTAINERS.STATISTIC,
       lastGameRoundData,
       listenersList,
       iDontKnowList,
       lastGameFinalTime,
+      pictureData,
       results,
     );
     this.statisticList.render();

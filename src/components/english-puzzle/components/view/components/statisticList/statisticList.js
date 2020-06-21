@@ -11,18 +11,23 @@ export default class StatisticList {
     listenersList,
     iDontKnowList,
     lastGameFinalTime,
+    pictureData,
     results,
     additionalClass = null,
   ) {
+    debugger;
     this.container = container;
     this.lastGameRoundData = lastGameRoundData;
     this.listenersList = listenersList;
     this.iDontKnowList = iDontKnowList;
     this.lastGameFinalTime = lastGameFinalTime;
     this.additionalClass = additionalClass;
+    this.pictureData = pictureData;
     this.results = results;
 
-    this.sliderItem = null;
+    this.pictureContainer = null;
+
+    // this.sliderItem = null;
     this.correctContainer = null;
     this.errorsContainer = null;
     this.correctList = null;
@@ -47,6 +52,14 @@ export default class StatisticList {
   }
 
   render() {
+    this.pictureContainer.insertAdjacentHTML('afterbegin', `
+      <a class="picture__link" target="_blank" href="${this.pictureData.preloadedPicture.src}">
+        <img class="statistic__picture" src="${this.pictureData.preloadedPicture.src}" alt="Round picture">
+      </a>
+      <p class="picture__description">Author: ${this.pictureData.author.replace(',', ' ')}, Name: ${this.pictureData.name}, Date: ${this.pictureData.year}</p>
+    `);
+    this.statisticsContainer.append(this.pictureContainer);
+
     this.lastGameRoundData.forEach((wordData) => {
       let card;
       if (this.iDontKnowList.includes(wordData)) {
@@ -86,6 +99,9 @@ export default class StatisticList {
   init() {
     this.statisticsContainer = document.querySelector(`.${CLASS_NAMES.STATISTIC.TEMPLATE}`).content.cloneNode(true).querySelector(`.${CLASS_NAMES.STATISTIC.CONTAINERS.CURRENT}`);
     if (this.additionalClass) this.statisticsContainer.classList.add(this.additionalClass);
+
+    this.pictureContainer = document.createElement('div');
+    this.pictureContainer.className = 'picture__container'; // todo
 
     this.statisticsContainer.querySelector(`.${CLASS_NAMES.STATISTIC.TIME}`).innerText = this.lastGameFinalTime;
 

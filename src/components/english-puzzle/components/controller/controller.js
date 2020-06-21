@@ -172,7 +172,6 @@ class Controller {
   // }
 
   onStatisticLongStatisticButtonClick() {
-    debugger;
     view.ELEMENTS.CONTAINERS.STATISTIC.classList.toggle('long-statistic');
     // togglePageState(CLASS_NAMES.STATISTIC.PAGE);
     // view.statisticList.remove();
@@ -205,6 +204,7 @@ class Controller {
       }],
       this.iDontKnowList,
       menuController.lastGameFinalTime,
+      menuController.fetchedPictureData,
       model.results, // todo
     );
   }

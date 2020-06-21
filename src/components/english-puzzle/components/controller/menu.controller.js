@@ -127,9 +127,10 @@ class MenuController {
     //   'First level and first round',
     // ];
 
-    this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound);
-    const preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
 
+    this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound);
+    this.fetchedPictureData.preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
+    debugger;
     // this.canvasElements = createCanvasElements({
     //   img: preloadeImg,
     //   wordsList: sentences,
@@ -138,43 +139,43 @@ class MenuController {
     this.canvasElements = {
       withImage: {
         regular: createCanvasElements({
-          img: preloadedPicture,
+          img: this.fetchedPictureData.preloadedPicture,
           wordsList: sentences,
           colorBorder: 'gray',
         }),
         correct: createCanvasElements({
-          img: preloadedPicture,
+          img: this.fetchedPictureData.preloadedPicture,
           wordsList: sentences,
           colorBorder: 'green',
         }),
         error: createCanvasElements({
-          img: preloadedPicture,
+          img: this.fetchedPictureData.preloadedPicture,
           wordsList: sentences,
           colorBorder: 'red',
         }),
       },
       withOutImage: {
         regular: createCanvasElements({
-          img: preloadedPicture,
+          img: this.fetchedPictureData.preloadedPicture,
           wordsList: sentences,
           colorBorder: 'gray',
           fillColor: 'brown',
         }),
         correct: createCanvasElements({
-          img: preloadedPicture,
+          img: this.fetchedPictureData.preloadedPicture,
           wordsList: sentences,
           colorBorder: 'green',
           fillColor: 'brown',
         }),
         error: createCanvasElements({
-          img: preloadedPicture,
+          img: this.fetchedPictureData.preloadedPicture,
           wordsList: sentences,
           colorBorder: 'red',
           fillColor: 'brown',
         }),
       },
       finalImage: createCanvasElements({
-        img: preloadedPicture,
+        img: this.fetchedPictureData.preloadedPicture,
         wordsList: sentences,
         colorBorder: 'transparent',
         hasText: false,
