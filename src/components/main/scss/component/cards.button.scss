@@ -1,0 +1,36 @@
+.cards__btn {
+  margin: 20px 0;
+
+  font-size: 1rem;
+  text-transform: uppercase;
+
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
+
+@include button($color: $color-light, $background: $color-btn, $width: 100px, $height: 30px, $radius: 30px);
+
+@include segoe-desc($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+@include transition($time: 0.4s, $property: all, $method: ease-out);
+  }
+}
+
+.btn__icon {
+  display: flex;
+  justify-content: space-between;
+
+  .icon-btn {
+    padding-left: 12px;
+  }
+  .btn__title {
+    padding: 2px 11px 2px 0;
+  }
+}

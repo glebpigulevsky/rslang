@@ -1,29 +1,29 @@
 @mixin segoe-title($color) {
   font-weight: 600;
   font-size: 2.2rem;
-  font-family: "Segoe", sans-serif;
+  font-family: 'Segoe', sans-serif;
   color: $color;
-  letter-spacing: .04rem;
+  letter-spacing: 0.04rem;
 }
 
 @mixin segoe-subtitle($color, $weight) {
   font-weight: $weight;
   font-size: 1.3rem;
-  font-family: "Segoe", sans-serif;
+  font-family: 'Segoe', sans-serif;
   color: $color;
 }
 
 @mixin segoe-additional($color, $weight) {
   font-weight: $weight;
   font-size: 1.125rem;
-  font-family: "Segoe", sans-serif;
+  font-family: 'Segoe', sans-serif;
   color: $color;
 }
 
 @mixin segoe-desc($color, $weight) {
   font-weight: $weight;
-  font-size: .875rem;
-  font-family: "Segoe", sans-serif;
+  font-size: 0.875rem;
+  font-family: 'Segoe', sans-serif;
   color: $color;
 }
 
@@ -53,7 +53,7 @@
   box-shadow: $horizOffset $vertOffset $blur $color;
 }
 
-@mixin pseudo($display: block, $pos: absolute, $content: "") {
+@mixin pseudo($display: block, $pos: absolute, $content: '') {
   content: $content;
   position: $pos;
   display: $display;
@@ -77,7 +77,7 @@
   }
 }
 
-@mixin transition($time: .3s, $property: all, $method: ease-out) {
+@mixin transition($time: 0.3s, $property: all, $method: ease-out) {
   transition: $time $property $method;
 }
 

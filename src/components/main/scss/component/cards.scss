@@ -1,0 +1,34 @@
+.dictionary__title {
+  padding: px-to-rem(10px) 0 0;
+
+  text-align: center;
+
+@include segoe-title($color: $color-text);
+}
+
+.cards__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 30px 100px 30px 100px;
+}
+
+.cards__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  background-color: $color-light-grey;
+  border-radius: 10px;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.5);
+  .cards__img {
+    width: 180px;
+  }
+}
+
+.cards__name {
+  text-align: center;
+  text-transform: uppercase;
+
+@include segoe-additional($color: $color-text, $weight: bold);
+}
