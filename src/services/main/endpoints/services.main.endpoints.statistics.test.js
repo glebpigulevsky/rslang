@@ -64,7 +64,11 @@ describe('update settings', () => {
       password: userDefault.password,
     });
     statistics.apiService = new ApiService(MAIN_API_URL, auth.token);
-    const res = await statistics.updateStatistics({ userId: userDefault.id, learnedWords: 1, optional: { score: '100', langs: 'en' } });
+    const res = await statistics.updateStatistics({
+      userId: userDefault.id,
+      learnedWords: 1,
+      optional: { score: '100', langs: 'en' },
+    });
     expect(res).toMatchObject({
       // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
       learnedWords: 1,
