@@ -12,13 +12,12 @@ const ERRORS_DESCRIPTION = {
   PASSWORD_ERROR:
     'Password must contain as many as 6 characters including lower-case, upper-case and numeric characters',
 };
-// const GET_RANDOM = (min, max) => {
-//   const x = Math.ceil(min);
-//   const y = Math.floor(max);
-//   return Math.floor(Math.random() * (y - x + 1)) + x;
-// };
-
-const MEDIA_LINK = 'https://raw.githubusercontent.com/irinainina/rslang-data/master/';
+const GET_RANDOM = (min, max) => {
+  const x = Math.ceil(min);
+  const y = Math.floor(max);
+  return Math.floor(Math.random() * (y - x + 1)) + x;
+};
+const MEDIA_LINK = 'https://raw.githubusercontent.com/caspercarver/rslang-data/master/';
 export {
   MAIN_API_URL, TOKEN, ERRORS_DESCRIPTION, MEDIA_LINK,
 };

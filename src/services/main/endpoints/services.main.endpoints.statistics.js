@@ -3,31 +3,31 @@ import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
 
 export default class StatisticsApi {
   constructor() {
-    this.apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
 
   async getStatictics({ userId }) {
-    const res = await this.apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true });
-    return this.transformUserStatistics(res);
+    const res = await this._apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true });
+    return this._transformUserStatistics(res);
   }
 
   async updateStatistics({ userId, learnedWords, optional = {} }) {
-    this.learnedWordsValidator({ learnedWords });
-    const res = await this.apiService.putResourse({
+    this._learnedWordsValidator({ learnedWords });
+    const res = await this._apiService.putResourse({
       url: `/users/${userId}/statistics`,
       params: { learnedWords, optional },
       hasToken: true,
     });
-    return this.transformUserStatistics(res);
+    return this._transformUserStatistics(res);
   }
 
-  learnedWordsValidator({ learnedWords }) {
+  _learnedWordsValidator({ learnedWords }) {
     if (!Number.isInteger(learnedWords)) {
       console.info("Statictics: 'learnedWords' should be integer (equal or greater then 0)");
     }
   }
 
-  transformUserStatistics({ id, learnedWords, optional }) {
+  _transformUserStatistics({ id, learnedWords, optional }) {
     return {
       id,
       learnedWords,
