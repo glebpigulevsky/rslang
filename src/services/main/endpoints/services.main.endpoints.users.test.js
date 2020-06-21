@@ -60,6 +60,7 @@ describe('update user', () => {
   };
   it('should return correct object', async () => {
     const auth = await user.authenticateUser({ email: userDefault.email, password: userDefault.password });
+    console.log("!!!!!!!!!!!!!!!!!!!!" + auth.userId);
     user.apiService.token = auth.token;
     const newEmail = `jest_user_threeTEST@mail.com`;
     const res = await user.updateUser({ 

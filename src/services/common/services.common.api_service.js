@@ -41,7 +41,10 @@ export default class ApiService {
         body: JSON.stringify(params),
       });
       if (!res.ok) {
-        this.getError(res.status, res.statusText);
+        const errorRes = await res.json();
+        const errorDescription = (errorRes.error !== undefined) ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
+        const status = (errorRes.error !== undefined) ? 0 : res.status;
+        this.getError(status, errorDescription, res.statusText);
       }
       return res.json();
     } catch (e) {
@@ -96,9 +99,11 @@ export default class ApiService {
     }
   }
 
-  getError(status, message) {
-    console.info(message);
+  getError(status, apiMessage, techMessage) {
+    console.info(techMessage);
     switch (status) {
+      case 0:
+        throw new ApiError(apiMessage);
       case 400:
         throw new ApiError(ERRORS_DESCRIPTION[400]);
       case 401:
