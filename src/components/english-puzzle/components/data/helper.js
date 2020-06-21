@@ -18,7 +18,10 @@ export const CLASS_NAMES = {
     TEMPLATE: 'statistic-template',
     TIME: 'time',
     PAGE: 'result',
-    CONTAINER: 'statistic__container',
+    CONTAINERS: {
+      CURRENT: 'current-statistic__container',
+      LONG: 'long-statistic__container',
+    },
     CORRECT: {
       CONTAINER: 'correct__container',
       LIST: 'correct__list list',
@@ -30,6 +33,11 @@ export const CLASS_NAMES = {
       LIST: 'errors__list list',
       CORRECT__ITEM: 'errors__item',
       COUNT: 'errors',
+    },
+    LONG_STATISTIC: {
+      LIST: 'long-statistic__list list',
+      // CORRECT__ITEM: 'errors__item',
+      // COUNT: 'errors',
     },
   },
   // SLIDER: {

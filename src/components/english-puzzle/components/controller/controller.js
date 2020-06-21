@@ -41,6 +41,10 @@ class Controller {
     this.isTranslationEnabled = null;
     this.isSpellingEnabled = null;
 
+    this.statisticAudio = null;
+
+    this.iDontKnowList = null;
+
     this.ELEMENTS = null;
 
     this.onIntroButtonClickBinded = this.onIntroButtonClick.bind(this);
@@ -61,8 +65,8 @@ class Controller {
     // this.onDifficultChange = this.onDifficultChange.bind(this);
     // this.onNewButtonClick = this.onNewButtonClick.bind(this);
     this.onResultsButtonClickBinded = this.onResultsButtonClick.bind(this);
-    // this.onResultCardClick = this.onResultCardClick.bind(this);
-    // this.onResultsNewGameButtonClick = this.onResultsNewGameButtonClick.bind(this);
+    this.onStatisticContinueButtonClickBinded = this.onStatisticContinueButtonClick.bind(this);
+    this.onStatisticLongStatisticButtonClickBinded = this.onStatisticLongStatisticButtonClick.bind(this);
     // this.onResultsResumeGameButtonClick = this.onResultsResumeGameButtonClick.bind(this);
   }
 
@@ -167,12 +171,21 @@ class Controller {
   //   this.newGame(this.difficult);
   // }
 
-  // onResultsNewGameButtonClick() {
-  //   togglePageState(CLASS_NAMES.RESULT.PAGE);
-  //   view.resultList.remove();
+  onStatisticLongStatisticButtonClick() {
+    debugger;
+    view.ELEMENTS.CONTAINERS.STATISTIC.classList.toggle('long-statistic');
+    // togglePageState(CLASS_NAMES.STATISTIC.PAGE);
+    // view.statisticList.remove();
 
-  //   this.onNewButtonClick();
-  // }
+    // this.onContinueButtonClickHandler();
+  }
+
+  onStatisticContinueButtonClick() {
+    togglePageState(CLASS_NAMES.STATISTIC.PAGE);
+    view.statisticList.remove();
+
+    this.onContinueButtonClickHandler();
+  }
 
   // onResultsResumeGameButtonClick() {
   //   togglePageState(CLASS_NAMES.RESULT.PAGE);
@@ -184,33 +197,31 @@ class Controller {
   onResultsButtonClick() {
     togglePageState(CLASS_NAMES.STATISTIC.PAGE);
 
-    view.renderResultsList(
+    view.renderStatisticList(
       menuController.fetchedRoundData,
       [{
         event: EVENTS.CLICK,
-        handler: this.onResultCardClick,
+        handler: this.onStatisticCardClick,
       }],
-      // model.translationsMap,
-      this.IDontKnowList,
-      model.results,
+      this.iDontKnowList,
+      menuController.lastGameFinalTime,
+      model.results, // todo
     );
-
-    // if (this.recognition) this.recognition.abort();
   }
 
-  onResultCardClick(event) {
+  onStatisticCardClick(event) {
     const selectedCard = getClosestLink(event);
     if (!selectedCard) return;
     event.preventDefault();
+    view.resetStatisticLinksStates(selectedCard);
 
-    view.resetResultsLinksStates(selectedCard);
-
-    const audio = new Audio(selectedCard.dataset.audio);
-    audio.play();
+    if (this.statisticAudio) this.statisticAudio.pause();
+    this.statisticAudio = new Audio(selectedCard.dataset.audio);
+    this.statisticAudio.play();
   }
 
   onIDontKnowButtonClickHandler() {
-    this.IDontKnowList.push(menuController.fetchedRoundData[menuController.currentSentence]);
+    this.iDontKnowList.push(menuController.fetchedRoundData[menuController.currentSentence]);
 
     view.hideIDontKnowButton();
     view.hideCheckButton();
@@ -439,8 +450,8 @@ class Controller {
     // view.initDifficulties(this.onDifficultChange);
     // view.initNewButton(this.onNewButtonClick);
     view.initResultsButton(this.onResultsButtonClickBinded);
-    // view.initResultsNewGameButton(this.onResultsNewGameButtonClick);
-    // view.initResultsResumeGameButton(this.onResultsResumeGameButtonClick);
+    view.initStatisticContinueButton(this.onStatisticContinueButtonClickBinded);
+    view.initStatisticLongStatisticButton(this.onStatisticLongStatisticButtonClickBinded);
 
     // TODO Old code to delete
     // document.querySelector('.game__field').addEventListener('mousedown', dragAndDropController.onFieldMouseDownHandlerBinded);

@@ -16,7 +16,9 @@ export default class StatisticCard {
   renderCardContent({ textExample, audioExample }) {
     return `
       <a class="card__link link" href="#" data-audio="${audioExample}">
-        <p class="card__content">${textExample}</p>
+        <p class="card__content">
+          <span>${textExample}</span>
+        </p>
       </a>
     `;
   }

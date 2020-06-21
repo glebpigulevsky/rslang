@@ -50,11 +50,12 @@
   align-items: center;
 
   .cards__item {
+    width: 260px;
     margin: 10px;
   }
 
   .card__link {
-    min-height: 80px;
+    min-height: 100px;
     font-size: 16px;
   }
 
@@ -67,6 +68,13 @@
   .card__translation {
     margin: 0;
   }
+
+  .card__content {
+    padding-right: 10px;
+    padding-left: 40px;
+
+    text-align: center;
+  }
 }
 
 .correct,
@@ -77,4 +85,18 @@
 .errors,
 .errors__lead {
   color: lightcoral;
+}
+
+.long-statistic__container {
+  display: none;
+}
+
+.long-statistic {
+  .current-statistic__container {
+    display: none;
+  }
+
+  .long-statistic__container {
+    display: block;
+  }
 }

@@ -34,7 +34,7 @@ class View {
     this.ELEMENTS = null;
 
     // this.currentList = null;
-    // this.resultList = null;
+    this.statisticList = null;
     this.slider = null;
 
     this.menu = null;
@@ -56,16 +56,16 @@ class View {
   //   this.currentList.render();
   // }
 
-  renderResultsList(roundData, listenersList, IDontKnowList, results) {
-    debugger;
-    this.resultList = new StatisticList(
-      this.ELEMENTS.CONTAINERS.STATISTICS.CURRENT,
-      roundData,
+  renderStatisticList(lastGameRoundData, listenersList, iDontKnowList, lastGameFinalTime, results) {
+    this.statisticList = new StatisticList(
+      this.ELEMENTS.CONTAINERS.STATISTIC,
+      lastGameRoundData,
       listenersList,
-      IDontKnowList,
-      new Date().toLocaleString(),
+      iDontKnowList,
+      lastGameFinalTime,
+      results,
     );
-    this.resultList.render();
+    this.statisticList.render();
 
     // results.forEach((result) => {
     //   new ResultsList(
@@ -100,8 +100,8 @@ class View {
   //   setActiveState(target);
   // }
 
-  resetResultsLinksStates(target) {
-    this.removeActiveStates(this.ELEMENTS.CONTAINERS.STATISTICS.CURRENT);
+  resetStatisticLinksStates(target) {
+    this.removeActiveStates(this.ELEMENTS.CONTAINERS.STATISTIC);
     setActiveState(target);
   }
 
@@ -294,6 +294,14 @@ class View {
     this.ELEMENTS.BUTTONS.REPEAT_SPELLING.addEventListener(EVENTS.CLICK, onRepeatSpellingButtonClick);
   }
 
+  initStatisticContinueButton(onStatisticContinueButtonClick) {
+    this.ELEMENTS.BUTTONS.STATISTICS.CONTINUE.addEventListener(EVENTS.CLICK, onStatisticContinueButtonClick);
+  }
+
+  initStatisticLongStatisticButton(onStatisticLongStatisticClick) {
+    this.ELEMENTS.BUTTONS.STATISTICS.LONG_STATISTIC.addEventListener(EVENTS.CLICK, onStatisticLongStatisticClick);
+  }
+
   hideCheckButton() {
     hideElement(this.ELEMENTS.BUTTONS.CHECK);
   }
@@ -370,22 +378,23 @@ class View {
       TRANSLATION: document.querySelector('.main-card__translation'),
       // SPEECH_INPUT: document.querySelector('.main-card__speech-input'),
       // STATUS_BAR: document.querySelector('.status-bar'),
-      RESULT: {
-        CONTAINER: document.body.querySelector('.gallery'),
-      },
+      // RESULT: {
+      //   CONTAINER: document.body.querySelector('.gallery'),
+      // },
       CONTAINERS: {
         FIELD: document.body.querySelector('.field__container'), // todo
         DATA: document.body.querySelector('.data__container'), // todo
-        STATISTICS: {
-          CURRENT: document.body.querySelector('.current-statistics__container'),
-          LONG: document.body.querySelector('.long-statistics__container'),
-        },
+        STATISTIC: document.body.querySelector('.statistics__container'),
       },
       BUTTONS: {
         // NEW: document.querySelector('.game__button-new'),
         // GAME: document.querySelector('.game__button-start'),
         // STOP: document.querySelector('.game__button-stop'),
         RESULTS: document.querySelector('.game__button-results'),
+        STATISTICS: {
+          CONTINUE: document.querySelector('.game__button-results_continue'),
+          LONG_STATISTIC: document.querySelector('.game__button-results_statistic'),
+        },
         // DIFFICULTIES: document.querySelector('.difficulties'),
         // RESULTS_NEW_GAME: document.querySelector('.game__button-results_new'),
         // RESULTS_RESUME_GAME: document.querySelector('.game__button-results_return'),
@@ -519,13 +528,10 @@ class View {
             <div class="results__container">
               <div class="button__container-results">
                 <button class="game__button game__button-results_continue button-rounded">Continue</button>
-                <button class="game__button game__button-results_toggle button-rounded">Statistics</button>
+                <button class="game__button game__button-results_statistic button-rounded">Statistics</button>
               </div>
 
-              <div class="current-statistics__container">
-              </div>
-
-              <div class="long-statistics__container">
+              <div class="statistics__container">
               </div>
   
                   <!-- <div class="slider__wrapper wrapper">
@@ -569,7 +575,7 @@ class View {
         </div>
   
         <template class="statistic-template">
-          <div class="statistic__container">
+          <div class="current-statistic__container">
             <p class="time"></p>
             <div class="correct__container">
               <p class="correct__title">
@@ -585,6 +591,8 @@ class View {
                 </span>
               </p>
             </div>
+          </div>
+          <div class="long-statistic__container">
           </div>
         </template>
       </div>

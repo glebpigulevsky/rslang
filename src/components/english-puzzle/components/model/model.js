@@ -82,21 +82,32 @@ class Model {
   }
 
   loadResults() {
-    this.results = JSON.parse(localStorage.getItem(CLASS_NAMES.STATISTIC.PAGE)) || [];
+    this.results = JSON.parse(localStorage.getItem('results')) || [];
   }
 
-  saveResults(guessedList) {
+  saveResults(iDontKnowList, finalTime) {
     const currentResult = {
-      pageData: this.pageData,
-      translations: Array.from(this.translationsMap),
-      guessedList,
-      time: new Date().toLocaleString(),
+      iDontKnowList,
+      finalTime,
     };
 
     this.results.push(currentResult);
 
-    localStorage.setItem(CLASS_NAMES.RESULT.PAGE, JSON.stringify(this.results));
+    localStorage.setItem('results', JSON.stringify(this.results));
   }
+
+  // saveResults(guessedList) {
+  //   const currentResult = {
+  //     pageData: this.pageData,
+  //     translations: Array.from(this.translationsMap),
+  //     guessedList,
+  //     time: new Date().toLocaleString(),
+  //   };
+
+  //   this.results.push(currentResult);
+
+  //   localStorage.setItem(CLASS_NAMES.RESULT.PAGE, JSON.stringify(this.results));
+  // }
 
   init() {
     this.loadResults();

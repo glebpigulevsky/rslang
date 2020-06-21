@@ -93,7 +93,7 @@ class MenuController {
   async newRound(currentLevel, currentRound) {
     showSpinner();
 
-    controller.IDontKnowList = [];
+    controller.iDontKnowList = [];
 
     view.hidePicture();
     view.clearImageDescription();
@@ -235,6 +235,9 @@ class MenuController {
           lastCompletedRound: this.currentRound,
         };
         localStorage.setItem('completedRoundsData', JSON.stringify(completedRoundsData));
+
+        this.lastGameFinalTime = new Date().toLocaleString();
+        model.saveResults(controller.iDontKnowList, this.lastGameFinalTime);
 
         this.isPictureShown = true;
         view.showPicture(this.canvasElements.finalImage.flat(Infinity));
