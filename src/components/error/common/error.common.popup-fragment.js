@@ -1,17 +1,16 @@
-import { createAnyDomElement } from '../../../common/common.helper';
 import './scss/error.common.popup.styles.scss';
 
 export default class ErrorPopupFragment {
   createPopup({ text }) {
     const fragment = document.createDocumentFragment();
-    const modal = this.createModal();
-    const modalContent = this.createModalContent();
-    const modalHeader = this.createModalHeader();
-    const modalCloseBtn = this.createClose();
+    const modal = this._createModal();
+    const modalContent = this._createModalContent();
+    const modalHeader = this._createModalHeader();
+    const modalCloseBtn = this._createClose();
     modalCloseBtn.innerHTML = '&times;';
-    const modalTitle = this.createModalTitle();
-    const modalBody = this.createModalBody();
-    const modalTextPhar = this.createModalTextPhar({ text });
+    const modalTitle = this._createModalTitle();
+    const modalBody = this._createModalBody();
+    const modalTextPhar = this._createModalTextPhar({ text });
 
     fragment.appendChild(modal);
     modal.appendChild(modalContent);
@@ -23,55 +22,74 @@ export default class ErrorPopupFragment {
     return fragment;
   }
 
-  createModal() {
-    return createAnyDomElement({
+  _createModal() {
+    return this._createAnyDomElement({
       elem: 'div',
       classList: ['modal'],
       id: 'errorPopup',
     });
   }
 
-  createModalContent() {
-    return createAnyDomElement({
+  _createModalContent() {
+    return this._createAnyDomElement({
       elem: 'div',
       classList: ['modal-content'],
     });
   }
 
-  createModalHeader() {
-    return createAnyDomElement({
+  _createModalHeader() {
+    return this._createAnyDomElement({
       elem: 'div',
       classList: ['modal-header'],
     });
   }
 
-  createClose() {
-    return createAnyDomElement({
+  _createClose() {
+    return this._createAnyDomElement({
       elem: 'span',
       classList: ['modal-header__close'],
       id: 'closePopupBtn',
     });
   }
 
-  createModalTitle() {
-    return createAnyDomElement({
+  _createModalTitle() {
+    return this._createAnyDomElement({
       elem: 'h2',
       textContent: 'Error',
     });
   }
 
-  createModalBody() {
-    return createAnyDomElement({
+  _createModalBody() {
+    return this._createAnyDomElement({
       elem: 'div',
       classList: ['modal-body'],
     });
   }
 
-  createModalTextPhar({ text = '' }) {
-    return createAnyDomElement({
+  _createModalTextPhar({ text = '' }) {
+    return this._createAnyDomElement({
       elem: 'p',
       classList: ['modal-body__text'],
       textContent: text,
     });
+  }
+
+  _createAnyDomElement({
+    elem, classList = [], id = null, dataAttributeList = [], textContent = null,
+  }) {
+    const item = document.createElement(elem);
+    if (classList.length > 0) {
+      item.classList.add(...classList);
+    }
+    if (dataAttributeList.length > 0) {
+      dataAttributeList.map((x) => item.setAttribute(x.name, x.value));
+    }
+    if (id !== null) {
+      item.id = id;
+    }
+    if (textContent !== null) {
+      item.textContent = textContent;
+    }
+    return item;
   }
 }
