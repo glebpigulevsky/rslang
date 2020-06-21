@@ -1,0 +1,55 @@
+.platfrom {
+  @include background-section;
+}
+
+.platform__description-container {
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding-top: px-to-rem(80px);
+  padding-bottom: px-to-rem(50px);
+  @include media-tablet {
+    text-align: center;
+    padding-top: px-to-rem(50px);
+  }
+}
+
+.platform__image {
+  width: 55%;
+  z-index: 2;
+
+  @include media-tablet {
+    width: 100%;
+  }
+}
+
+.description__container {
+  width: 40%;
+  text-align: left;
+  margin-left: px-to-rem(15px);
+
+  @include media-tablet {
+    width: 90%;
+    margin-left: .1px;
+  }
+}
+
+.platform__description-text {
+  @include segoe-additional($color-text, 600);
+
+  font-size: px-to-rem(12px);
+  line-height: px-to-rem(20px);
+}
+
+.platform__description-icon {
+  display: flex;
+
+  @include media-tablet {
+    justify-content: center;
+  }
+}
+
+.platform__icon {
+  padding: 0 5px;
+}

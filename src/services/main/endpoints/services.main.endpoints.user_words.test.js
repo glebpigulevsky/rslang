@@ -157,11 +157,9 @@ describe('delete user word', () => {
       password: userDefault.password,
     });
     userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
-    userWords
-      .getUserWord({ userId: userDefault.id, wordId })
-      .catch(() => {
-        userWords.createUserWord({ userId: userDefault.id, wordId, difficulty: 'easy' });
-      });
+    userWords.getUserWord({ userId: userDefault.id, wordId }).catch(() => {
+      userWords.createUserWord({ userId: userDefault.id, wordId, difficulty: 'easy' });
+    });
 
     const res = await userWords.deleteUserWord({ userId: userDefault.id, wordId });
     expect(res).toBeDefined();
