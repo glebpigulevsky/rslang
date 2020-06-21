@@ -1,5 +1,5 @@
 export const errorPageComponent = {
-    render: () => `
+  render: () => `
         <p><span>404</span>Not found</p>
     `,
 };

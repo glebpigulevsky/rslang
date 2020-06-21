@@ -1,5 +1,5 @@
 export const statisticsPageComponent = {
   render: () => `
-        <h1>statistics</h1>
+        <h1 style="text-align:center">statistics</h1>
     `,
 };

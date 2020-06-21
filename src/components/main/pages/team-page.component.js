@@ -1,5 +1,5 @@
 export const teamPageComponent = {
   render: () => `
-        <h1>team</h1>
+        <h1 style="text-align:center">team</h1>
     `,
 };

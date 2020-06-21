@@ -3,7 +3,7 @@
 
   text-align: center;
 
-@include segoe-title($color: $color-text);
+  @include segoe-title($color: $color-text);
 }
 
 .cards__inner {
@@ -11,6 +11,17 @@
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 30px 100px 30px 100px;
+
+  @include media-tablet {
+    padding: 30px 50px 30px 50px;
+  }
+
+  @include media-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 50px 0 50px;
+  }
 }
 
 .cards__item {
@@ -21,8 +32,16 @@
   background-color: $color-light-grey;
   border-radius: 10px;
   box-shadow: 0 4px 22px rgba(0, 0, 0, 0.5);
+
+  @include media-mobile {
+    margin-bottom: 25px;
+  }
   .cards__img {
-    width: 180px;
+    width: 220px;
+
+    @include media-tablet {
+      width: 190px;
+    }
   }
 }
 
@@ -30,5 +49,5 @@
   text-align: center;
   text-transform: uppercase;
 
-@include segoe-additional($color: $color-text, $weight: bold);
+  @include segoe-additional($color: $color-text, $weight: bold);
 }
