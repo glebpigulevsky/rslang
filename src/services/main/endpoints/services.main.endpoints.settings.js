@@ -3,17 +3,17 @@ import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
 
 export default class SettingsApi {
   constructor() {
-    this.apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
 
   async getSettings({ userId }) {
-    const res = await this.apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true });
+    const res = await this._apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true });
     return this._transformUserSettings(res);
   }
 
   async updateSettings({ userId, wordsPerDay, optional = {} }) {
     this._wordsPerDayValidator(wordsPerDay);
-    const res = await this.apiService.putResourse({
+    const res = await this._apiService.putResourse({
       url: `/users/${userId}/settings`,
       params: { wordsPerDay, optional },
       hasToken: true,
