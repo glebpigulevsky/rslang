@@ -1,182 +1,46 @@
 import model from '../model/model';
 import view from '../view/view';
 
-import menuController from './menu.controller';
+import gameController from './game.controller';
 import dragAndDropController from './drag-and-drop.controller';
 
-// import { shuffleArray } from '../data/utils';
-
 import {
-  initIntroButton,
   toggleDocumentScroll,
   getClosestLink,
-  // loadCardsJSON,
-  isButtonClicked,
   togglePageState,
-  hideSpinner,
-  showSpinner,
 } from '../data/utils';
 
 import {
-  LANGUAGE,
-  MAX_WORDS_COUNT,
-  // ELEMENTS,
   EVENTS,
-  DATA_PATH,
   CLASS_NAMES,
 } from '../data/helper';
 
 class Controller {
   constructor() {
-    // this.difficult = 0;
-    // this.recognition = null;
-    // this.isGameStarts = false;
-    // this.guessedList = null;
-
-    // this.currentSentence = null;
-
-    this.isBgImage = null;
-    // this.sentenceGuessFail = null;
-    this.sentenceGuessSuccess = null;
-    this.isTranslationEnabled = null;
-    this.isSpellingEnabled = null;
-
-    this.statisticAudio = null;
-
-    this.iDontKnowList = null;
-
     this.ELEMENTS = null;
+    this.sentenceGuessSuccess = null;
+    this.statisticAudio = null;
 
     this.onIntroButtonClickBinded = this.onIntroButtonClick.bind(this);
     this.onCheckButtonClickBinded = this.onCheckButtonClick.bind(this);
+    this.onIDontKnowButtonClickHandlerBinded = this.onIDontKnowButtonClickHandler.bind(this);
+    this.onContinueButtonClickHandlerBinded = this.onContinueButtonClickHandler.bind(this);
+
     this.onHintBgButtonClickHandlerBinded = this.onHintBgButtonClickHandler.bind(this);
     this.onHintTranslationButtonClickHandlerBinded = this.onHintTranslationButtonClickHandler.bind(this);
     this.onHintSpellingButtonClickHandlerBinded = this.onHintSpellingButtonClickHandler.bind(this);
     this.onHintAutoSpellingButtonClickHandlerBinded = this.onHintAutoSpellingButtonClickHandler.bind(this);
-    this.onIDontKnowButtonClickHandlerBinded = this.onIDontKnowButtonClickHandler.bind(this);
-    this.onContinueButtonClickHandlerBinded = this.onContinueButtonClickHandler.bind(this);
     this.onRepeatSpellingButtonClickBinded = this.onRepeatSpellingButtonClick.bind(this);
 
-    this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
-
-    // this.onPageCardClick = this.onPageCardClick.bind(this);
-    // this.onGameButtonClick = this.onGameButtonClick.bind(this);
-    // this.onStopButtonClick = this.onStopButtonClick.bind(this);
-    // this.onDifficultChange = this.onDifficultChange.bind(this);
-    // this.onNewButtonClick = this.onNewButtonClick.bind(this);
     this.onResultsButtonClickBinded = this.onResultsButtonClick.bind(this);
     this.onStatisticContinueButtonClickBinded = this.onStatisticContinueButtonClick.bind(this);
     this.onStatisticLongStatisticButtonClickBinded = this.onStatisticLongStatisticButtonClick.bind(this);
-    // this.onResultsResumeGameButtonClick = this.onResultsResumeGameButtonClick.bind(this);
+
+    this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
   }
-
-  // loadPage(data) {
-  //   model.loadPage(data);
-  // }
-
-  // setPage(difficult) {
-  //   model.setPage(difficult);
-  // }
-
-  // setDifficult(difficult) {
-  //   this.difficult = difficult;
-  // }
-
-  // addPageList() {
-  //   view.renderPageList(model.pageData, [{
-  //     event: EVENTS.CLICK,
-  //     handler: this.onPageCardClick,
-  //   }]);
-  // }
-
-  // newGame(difficult = 0) {
-  //   this.onStopButtonClick();
-  //   this.guessedList = [];
-  //   this.setDifficult(difficult);
-  //   // this.newPage();
-  //   view.clearStatusBar();
-  //   view.renderPicture();
-  //   view.renderTranslation();
-  //   view.renderSpeechInput();
-  // }
-
-  // newPage() {
-  // loadCardsJSON(this.difficult, (cardsData) => {
-  //   if (view.currentList) view.removeCurrentList();
-  //   model.loadPage(cardsData);
-  //   this.addPageList();
-  //   hideSpinner();
-  // });
-  // }
-
-  // onPageCardClick(event) {
-  //   const selectedCard = getClosestLink(event);
-  //   if (!selectedCard) return;
-  //   event.preventDefault();
-
-  //   if (this.isGameStarts) return;
-  //   view.resetLinksStates(selectedCard);
-
-  //   const { word } = selectedCard.dataset;
-  //   const translation = model.translationsMap.get(word);
-  //   view.renderTranslation(translation);
-
-  //   const imageSrc = selectedCard.dataset.image;
-  //   view.renderPicture(`${DATA_PATH}${imageSrc}`);
-
-  //   const audioSrc = selectedCard.dataset.audio;
-  //   const audio = new Audio(`${DATA_PATH}${audioSrc}`);
-  //   audio.play();
-  // }
-
-  // onGameButtonClick() {
-  //   if (this.isGameStarts) return;
-  //   this.isGameStarts = true;
-  //   if (!this.guessedList.length) view.removeActiveStates();
-  //   view.toggleGameButtonState();
-  //   view.renderPicture();
-  //   view.renderTranslation();
-  // }
-
-  // onStopButtonClick() {
-  //   if (!this.isGameStarts) return;
-
-  //   model.saveResults(this.guessedList);
-
-  //   this.isGameStarts = false;
-  //   view.toggleGameButtonState();
-
-  //   view.clearStatusBar();
-  //   view.renderPicture();
-  //   this.guessedList = [];
-  //   view.renderSpeechInput();
-  //   view.removeActiveStates();
-  // }
-
-  // onDifficultChange(event) {
-  //   const button = event.target;
-  //   if (!isButtonClicked(event)) return;
-
-  //   view.removeActiveStates(this.ELEMENTS.BUTTONS.DIFFICULTIES);
-  //   button.classList.add(CLASS_NAMES.ACTIVE);
-
-  //   const newDifficult = +button.innerText - 1;
-  //   if (newDifficult === this.difficult) return;
-  //   showSpinner();
-  //   this.newGame(newDifficult);
-  // }
-
-  // onNewButtonClick() {
-  //   showSpinner();
-  //   this.newGame(this.difficult);
-  // }
 
   onStatisticLongStatisticButtonClick() {
     view.ELEMENTS.CONTAINERS.STATISTIC.classList.toggle('long-statistic');
-    // togglePageState(CLASS_NAMES.STATISTIC.PAGE);
-    // view.statisticList.remove();
-
-    // this.onContinueButtonClickHandler();
   }
 
   onStatisticContinueButtonClick() {
@@ -186,26 +50,19 @@ class Controller {
     this.onContinueButtonClickHandler();
   }
 
-  // onResultsResumeGameButtonClick() {
-  //   togglePageState(CLASS_NAMES.RESULT.PAGE);
-  //   view.resultList.remove();
-
-  //   if (this.recognition) this.recognition.start();
-  // }
-
   onResultsButtonClick() {
     togglePageState(CLASS_NAMES.STATISTIC.PAGE);
 
     view.renderStatisticList(
-      menuController.fetchedRoundData,
+      gameController.fetchedRoundData,
       [{
         event: EVENTS.CLICK,
         handler: this.onStatisticCardClick,
       }],
-      this.iDontKnowList,
-      menuController.lastGameFinalTime,
-      menuController.fetchedPictureData,
-      model.results, // todo
+      model.errorsList,
+      gameController.lastGameFinalTime,
+      gameController.fetchedPictureData,
+      model.results,
     );
   }
 
@@ -221,18 +78,18 @@ class Controller {
   }
 
   onIDontKnowButtonClickHandler() {
-    this.iDontKnowList.push(menuController.fetchedRoundData[menuController.currentSentence]);
+    model.errorsList.push(gameController.fetchedRoundData[gameController.currentSentence]);
 
     view.hideIDontKnowButton();
     view.hideCheckButton();
     view.showContinueButton();
 
-    Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle) => {
+    Array.from(document.querySelectorAll(`.canvas-row-${gameController.currentSentence + 1}`)).forEach((puzzle) => {
       puzzle.remove();
     });
 
-    menuController.getCanvasElement({
-      currentSentence: menuController.currentSentence,
+    gameController.getCanvasElement({
+      currentSentence: gameController.currentSentence,
       isImage: true,
       isRegular: true,
     }).forEach((puzzle) => {
@@ -241,40 +98,32 @@ class Controller {
       view.resultDropZone.append(clonePuzzle);
     });
 
-    view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
-    if (!this.isSpellingEnabled) {
-      view.playSentenceSpelling(menuController.fetchedRoundData[menuController.currentSentence].audioExample);
+    view.showTranslation(gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate);
+    if (!gameController.hints.isSpellingEnabled) {
+      view.playSentenceSpelling(gameController.fetchedRoundData[gameController.currentSentence].audioExample);
     }
     this.sentenceGuessSuccess = true;
   }
 
   onCheckButtonClick() {
-    // debugger;
-    // this.sentenceGuessFail = false;
     this.sentenceGuessSuccess = true;
 
-    Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle, index) => {
-      // puzzle.classList.remove(CLASS_NAMES.DRAGABLE);
-      if (+puzzle.dataset.item.slice(-2).replace('-', '') === index + 1) { // todo -2
-        // puzzle.classList.add(CLASS_NAMES.PUZZLE.CORRECT);
-        // puzzle.remove();
-
-        const correctPuzzle = menuController.getCanvasElement({
-          currentSentence: menuController.currentSentence,
-          isImage: this.isBgImage,
+    Array.from(document.querySelectorAll(`.canvas-row-${gameController.currentSentence + 1}`)).forEach((puzzle, index) => {
+      if (+puzzle.dataset.item.slice(-2).replace('-', '') === index + 1) {
+        const correctPuzzle = gameController.getCanvasElement({
+          currentSentence: gameController.currentSentence,
+          isImage: gameController.hints.isBgImage,
           isRegular: false,
           isCorrect: true,
         })[index];
 
         puzzle.getContext('2d').drawImage(correctPuzzle, 0, 0);
       } else {
-        // puzzle.classList.add(CLASS_NAMES.PUZZLE.WRONG);
-        // this.sentenceGuessFail = true;
         this.sentenceGuessSuccess = false;
 
-        const wrongPuzzle = menuController.getCanvasElement({
-          currentSentence: menuController.currentSentence,
-          isImage: this.isBgImage,
+        const wrongPuzzle = gameController.getCanvasElement({
+          currentSentence: gameController.currentSentence,
+          isImage: gameController.hints.isBgImage,
           isRegular: false,
           isCorrect: false,
         })[+puzzle.dataset.item.slice(-2).replace('-', '') - 1];
@@ -283,7 +132,6 @@ class Controller {
       }
     });
 
-    // if (this.sentenceGuessFail) {
     if (!this.sentenceGuessSuccess) {
       view.showIDontKnowButton();
       view.hideContinueButton();
@@ -291,9 +139,9 @@ class Controller {
       view.hideCheckButton();
       view.showContinueButton();
 
-      Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle, index) => {
-        const correctPuzzle = menuController.getCanvasElement({
-          currentSentence: menuController.currentSentence,
+      Array.from(document.querySelectorAll(`.canvas-row-${gameController.currentSentence + 1}`)).forEach((puzzle, index) => {
+        const correctPuzzle = gameController.getCanvasElement({
+          currentSentence: gameController.currentSentence,
           isImage: true,
           isRegular: false,
           isCorrect: true,
@@ -302,44 +150,28 @@ class Controller {
         puzzle.getContext('2d').drawImage(correctPuzzle, 0, 0);
       });
 
-      view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
+      view.showTranslation(gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate);
 
-      if (!this.isSpellingEnabled) {
-        view.playSentenceSpelling(menuController.fetchedRoundData[menuController.currentSentence].audioExample);
+      if (!gameController.hints.isSpellingEnabled) {
+        view.playSentenceSpelling(gameController.fetchedRoundData[gameController.currentSentence].audioExample);
       }
     }
-
-    // Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}`)).forEach((puzzle) => {
-    //   puzzle.remove();
-    // });
-
-    // menuController.getCanvasElement({
-    //   currentSentence: menuController.currentSentence,
-    //   isImage: true,
-    //   isRegular: false,
-    //   isCorrect: true,
-    // }).forEach((puzzle) => {
-    //   const clonePuzzle = puzzle.cloneNode(true);
-    //   clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
-    //   view.resultDropZone.append(clonePuzzle);
-    // });
-  // }
   }
 
   onContinueButtonClickHandler() {
     view.hideResultButton();
     this.sentenceGuessSuccess = false;
-    menuController.nextRound();
+    gameController.nextRound();
   }
 
   onHintBgButtonClickHandler({ target }) {
-    this.isBgImage = !this.isBgImage;
+    gameController.hints.isBgImage = !gameController.hints.isBgImage;
     target.classList.toggle(CLASS_NAMES.ACTIVE);
 
-    Array.from(document.querySelectorAll(`.canvas-row-${menuController.currentSentence + 1}.dragable`)).forEach((puzzle) => {
-      const newPuzzle = menuController.getCanvasElement({
-        currentSentence: menuController.currentSentence,
-        isImage: this.isBgImage,
+    Array.from(document.querySelectorAll(`.canvas-row-${gameController.currentSentence + 1}.dragable`)).forEach((puzzle) => {
+      const newPuzzle = gameController.getCanvasElement({
+        currentSentence: gameController.currentSentence,
+        isImage: gameController.hints.isBgImage,
         isRegular: true,
       })[+puzzle.dataset.item.slice(-2).replace('-', '') - 1];
 
@@ -348,48 +180,32 @@ class Controller {
   }
 
   onHintTranslationButtonClickHandler({ target }) {
-    this.isTranslationEnabled = !this.isTranslationEnabled;
+    gameController.hints.isTranslationEnabled = !gameController.hints.isTranslationEnabled;
     target.classList.toggle(CLASS_NAMES.ACTIVE);
 
-    if (menuController.isPictureShown || this.sentenceGuessSuccess) return;
+    if (gameController.isPictureShown || this.sentenceGuessSuccess) return;
 
-    if (this.isTranslationEnabled) {
-      view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
+    if (gameController.hints.isTranslationEnabled) {
+      view.showTranslation(gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate);
     } else {
       view.hideTranslation();
     }
   }
 
   onHintSpellingButtonClickHandler({ target }) {
-    this.isSpellingEnabled = !this.isSpellingEnabled;
+    gameController.hints.isSpellingEnabled = !gameController.hints.isSpellingEnabled;
     target.classList.toggle(CLASS_NAMES.ACTIVE);
-
-    // if (menuController.isPictureShown || this.sentenceGuessSuccess) return;
-
-    // if (this.isTranslationEnabled) {
-    //   view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
-    // } else {
-    //   view.hideTranslation();
-    // }
   }
 
   onHintAutoSpellingButtonClickHandler({ target }) {
-    this.isAutoSpellingEnabled = !this.isAutoSpellingEnabled;
+    gameController.hints.isAutoSpellingEnabled = !gameController.hints.isAutoSpellingEnabled;
     target.classList.toggle(CLASS_NAMES.ACTIVE);
-
-    // if (menuController.isPictureShown || this.sentenceGuessSuccess) return;
-
-    // if (this.isTranslationEnabled) {
-    //   view.showTranslation(menuController.fetchedRoundData[menuController.currentSentence].textExampleTranslate);
-    // } else {
-    //   view.hideTranslation();
-    // }
   }
 
   onRepeatSpellingButtonClick() {
-    if (!this.isSpellingEnabled) return;
+    if (!gameController.hints.isSpellingEnabled) return;
 
-    view.playSentenceSpelling(menuController.fetchedRoundData[menuController.currentSentence].audioExample);
+    view.playSentenceSpelling(gameController.fetchedRoundData[gameController.currentSentence].audioExample);
   }
 
   beforeUnloadHandler() {
@@ -398,70 +214,40 @@ class Controller {
   }
 
   onIntroButtonClick({ target }) {
-    // model.loadResults(); - тут мы возьмем прошлые результаты игры, отрисуем их правильно.
+    // model.loadResults(); // todo тут мы возьмем прошлые результаты игры, отрисуем их правильно
 
-    menuController.init(0, 0); // startLevel = 0, startRound = 0
+    gameController.init(0, 0); // startLevel = 0, startRound = 0
     dragAndDropController.init();
+
+    view.initHintBgButton(this.onHintBgButtonClickHandlerBinded, gameController.hints.isBgImage);
+    view.initHintTranslationButton(this.onHintTranslationButtonClickHandlerBinded, gameController.hints.isTranslationEnabled);
+    view.initHintSpellingButton(this.onHintSpellingButtonClickHandlerBinded, gameController.hints.isSpellingEnabled);
+    view.initHintAutoSpellingButton(this.onHintAutoSpellingButtonClickHandlerBinded, gameController.hints.isAutoSpellingEnabled);
+    view.initRepeatSpellingButton(this.onRepeatSpellingButtonClickBinded);
 
     this.ELEMENTS.INTRODUCTION.classList.add(CLASS_NAMES.HIDDEN);
     this.ELEMENTS.CENTRALIZER.classList.remove(CLASS_NAMES.HIDDEN);
     toggleDocumentScroll();
-
-    // this.ELEMENTS.SPINNER.classList.remove(CLASS_NAMES.HIDDEN);
-    // showSpinner();
-
-    // this.newGame();
     target.removeEventListener(EVENTS.CLICK, this.onIntroButtonClickBinded);
   }
 
   init() {
-    this.isBgImage = false; // todo берем из бека или локал сторейдж
-    this.isTranslationEnabled = true;
-    this.isSpellingEnabled = true;
-    this.isAutoSpellingEnabled = true;
+    this.ELEMENTS = {
+      CENTRALIZER: document.querySelector('.centralizer'),
+      INTRODUCTION: document.querySelector('.introduction'),
+      SPINNER: document.querySelector('.spinner'),
+    };
 
     view.initIntroButton(this.onIntroButtonClickBinded);
     view.initCheckButton(this.onCheckButtonClickBinded);
     view.initIDontKnowButton(this.onIDontKnowButtonClickHandlerBinded);
     view.initContinueButton(this.onContinueButtonClickHandlerBinded);
 
-    view.initHintBgButton(this.onHintBgButtonClickHandlerBinded, this.isBgImage);
-    view.initHintTranslationButton(this.onHintTranslationButtonClickHandlerBinded, this.isTranslationEnabled);
-    view.initHintSpellingButton(this.onHintSpellingButtonClickHandlerBinded, this.isSpellingEnabled);
-    view.initHintAutoSpellingButton(this.onHintAutoSpellingButtonClickHandlerBinded, this.isAutoSpellingEnabled);
-    view.initRepeatSpellingButton(this.onRepeatSpellingButtonClickBinded);
-
-    this.ELEMENTS = {
-      CENTRALIZER: document.querySelector('.centralizer'),
-      INTRODUCTION: document.querySelector('.introduction'),
-      SPINNER: document.querySelector('.spinner'),
-      // BUTTONS: {
-      //   DIFFICULTIES: document.querySelector('.difficulties'),
-      // },
-    };
-
-    window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
-
-    // this.onIntroButtonClick();
-
-    // view.initGameButton(this.onGameButtonClick);
-    // view.initSpeechInput(this.onChangeSpeechInput);
-    // view.initStopButton(this.onStopButtonClick);
-    // view.initDifficulties(this.onDifficultChange);
-    // view.initNewButton(this.onNewButtonClick);
     view.initResultsButton(this.onResultsButtonClickBinded);
     view.initStatisticContinueButton(this.onStatisticContinueButtonClickBinded);
     view.initStatisticLongStatisticButton(this.onStatisticLongStatisticButtonClickBinded);
 
-    // TODO Old code to delete
-    // document.querySelector('.game__field').addEventListener('mousedown', dragAndDropController.onFieldMouseDownHandlerBinded);
-
-    // view.initMenu(menuController.onLevelChangeHandlerBinded, menuController.onRoundChangeHandlerBinded);
-    // menuController.init(0, 0);
-    // this.newRound(menuController.currentLevel, menuController.currentRound);
-    // debugger;
-    // view.menu.elements.select.level.addHandler({ event: 'change', handler: menuController.onChangeLevelHandler });
-    // view.menu.elements.select.round.addHandler({ event: 'change', handler: menuController.onChangeRoundHandler });
+    window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
   }
 }
 

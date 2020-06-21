@@ -14,18 +14,19 @@ export default class StatisticCard {
     this.container.append(card);
   }
 
-  renderCardContent(index, { iDontKnowList, finalTime }) {
+  renderCardContent(index, { errorsList, finalTime }) {
+    debugger;
     return `
       <p class="card__content">
         <span>${index + 1}. </span>
         <span class="time">${finalTime} </span>
         <span class="correct__title">
           <span class="correct__lead">I know: </span>
-          <span class="correct">${10 - iDontKnowList.length} </span>
+          <span class="correct">${10 - errorsList.length} </span>
         </span>
         <span class="errors__title">
           <span class="errors__lead">I don\`t know: </span>
-          <span class="errors">${iDontKnowList.length}</span>
+          <span class="errors">${errorsList.length}</span>
         </span>
       </p>
     `;

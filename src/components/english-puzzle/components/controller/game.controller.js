@@ -1,17 +1,14 @@
-import controller from './controller';
-import model from '../model/model';
 import view from '../view/view';
+import model from '../model/model';
 
 import createCanvasElements from '../../common/english-puzzle.utils';
-
-import imageSrc from '../../assets/img/9th_wave.jpg';
 
 import {
   showSpinner,
   hideSpinner,
 } from '../data/utils';
 
-class MenuController {
+class GameController {
   constructor() {
     this.currentLevel = null;
     this.currentRound = null;
@@ -19,15 +16,20 @@ class MenuController {
 
     this.currentSentence = null;
     this.isPictureShown = null;
-
     this.completedRoundsByLevels = [];
+
+    this.hints = {
+      isBgImage: null,
+      isTranslationEnabled: null,
+      isSpellingEnabled: null,
+      isAutoSpellingEnabled: null,
+    };
 
     this.onLevelChangeHandlerBinded = this.onLevelChangeHandler.bind(this);
     this.onRoundChangeHandlerBinded = this.onRoundChangeHandler.bind(this);
   }
 
   setCurrentLevel(level) {
-    // this.currentLevel = level < 5 ? level : 0;
     this.currentLevel = level % 6;
   }
 
@@ -36,13 +38,13 @@ class MenuController {
       this.setCurrentLevel(this.currentLevel + 1);
       this.currentRound = 0;
 
-      if (view.menu.elements.selectors.level) {
-        view.menu.elements.selectors.level.remove();
+      if (view.menu.ELEMENTS.SELECTORS.LEVEL) {
+        view.menu.ELEMENTS.SELECTORS.LEVEL.remove();
         view.menu.renderLevelSelector(this.currentLevel);
       }
 
-      if (view.menu.elements.selectors.round) {
-        view.menu.elements.selectors.round.remove();
+      if (view.menu.ELEMENTS.SELECTORS.ROUND) {
+        view.menu.ELEMENTS.SELECTORS.ROUND.remove();
         view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
       }
 
@@ -53,14 +55,13 @@ class MenuController {
   }
 
   async onLevelChangeHandler(evt) {
-    // const newLevel = view.menu.elements.selector.level.value;
     this.setCurrentLevel(+evt.target.value);
     this.setCurrentRound();
 
     showSpinner(); //* кандидаты в отдельную функцию
     this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
-    // this.maxRoundInLevel = 40;
-    view.menu.elements.selectors.round.remove(); //*
+    // this.maxRoundInLevel = 40; // todo заглушка без интернета
+    view.menu.ELEMENTS.SELECTORS.ROUND.ROUND.remove(); //*
     this.setCurrentRound(0);
     view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]); //*
     this.newRound(this.currentLevel, this.currentRound); //*
@@ -68,9 +69,7 @@ class MenuController {
 
   onRoundChangeHandler(evt) {
     showSpinner();
-    // const newLevel = view.menu.elements.selector.level.value;
     this.setCurrentRound(+evt.target.value);
-    console.log('New round: ', this.currentRound);
     this.newRound(this.currentLevel, this.currentRound);
   }
 
@@ -93,7 +92,7 @@ class MenuController {
   async newRound(currentLevel, currentRound) {
     showSpinner();
 
-    controller.iDontKnowList = [];
+    model.errorsList = [];
 
     view.hidePicture();
     view.clearImageDescription();
@@ -108,13 +107,13 @@ class MenuController {
     // try {
     this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
     // } catch (err) {
-    // this.fetchedRoundData = JSON.parse(localStorage.getItem('data'));
+    // this.fetchedRoundData = JSON.parse(localStorage.getItem('data')); // todo заглушка без интернета
     // }
     localStorage.setItem('data', JSON.stringify(this.fetchedRoundData));
 
     const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
 
-    // const sentences = [
+    // const sentences = [ // todo заглушка без интернета
     //   'The students agree they have too much homework',
     //   'I a`m going to study',
     //   'It is difficult situation for me',
@@ -127,14 +126,8 @@ class MenuController {
     //   'First level and first round',
     // ];
 
-
     this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound);
     this.fetchedPictureData.preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
-    debugger;
-    // this.canvasElements = createCanvasElements({
-    //   img: preloadeImg,
-    //   wordsList: sentences,
-    // });
 
     this.canvasElements = {
       withImage: {
@@ -182,29 +175,23 @@ class MenuController {
       }),
     };
 
-    // this.canvasElements = createCanvasElements({
-    //   img: preloadeImg,
-    //   wordsList: sentences,
-    // });
-
     this.currentSentence = 0;
-    // view.renderInputSentence(this.canvasElements[this.currentSentence]);
     view.renderInputSentence(this.getCanvasElement({
       currentSentence: this.currentSentence,
-      isImage: controller.isBgImage,
+      isImage: this.hints.isBgImage,
       isRegular: true,
     }));
 
-    view.menu.elements.selectors.round.remove(); //*
+    view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
     view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
 
-    if (controller.isTranslationEnabled) {
+    if (this.hints.isTranslationEnabled) {
       view.showTranslation(this.fetchedRoundData[this.currentSentence].textExampleTranslate);
     } else {
       view.hideTranslation();
     }
 
-    if (controller.isAutoSpellingEnabled && controller.isSpellingEnabled) {
+    if (this.hints.isAutoSpellingEnabled && this.hints.isSpellingEnabled) {
       view.playSentenceSpelling(this.fetchedRoundData[this.currentSentence].audioExample);
     }
 
@@ -223,11 +210,10 @@ class MenuController {
     view.hideCheckButton();
 
     if (this.currentSentence === 9) {
-      // view.clearGameField();
       if (!this.isPictureShown) {
         if (!this.completedRoundsByLevels[this.currentLevel].includes(this.currentRound)) this.completedRoundsByLevels[this.currentLevel].push(this.currentRound);
         // todo тут надо записывать на бек пройденный раунд
-        view.menu.elements.selectors.round.remove(); //* кандидаты на отдельную функцию
+        view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //* кандидаты на отдельную функцию
         view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[[this.currentLevel]]);
 
         const completedRoundsData = {
@@ -238,7 +224,7 @@ class MenuController {
         localStorage.setItem('completedRoundsData', JSON.stringify(completedRoundsData));
 
         this.lastGameFinalTime = new Date().toLocaleString();
-        model.saveResults(controller.iDontKnowList, this.lastGameFinalTime);
+        model.saveResults(model.errorsList, this.lastGameFinalTime);
 
         this.isPictureShown = true;
         view.showPicture(this.canvasElements.finalImage.flat(Infinity));
@@ -262,17 +248,17 @@ class MenuController {
     view.renderNextResultDropZone();
     view.renderInputSentence(this.getCanvasElement({
       currentSentence: this.currentSentence,
-      isImage: controller.isBgImage,
+      isImage: this.hints.isBgImage,
       isRegular: true,
     }));
 
-    if (controller.isTranslationEnabled) {
+    if (this.hints.isTranslationEnabled) {
       view.showTranslation(this.fetchedRoundData[this.currentSentence].textExampleTranslate);
     } else {
       view.hideTranslation();
     }
 
-    if (controller.isAutoSpellingEnabled && controller.isSpellingEnabled) {
+    if (this.hints.isAutoSpellingEnabled && this.hints.isSpellingEnabled) {
       view.playSentenceSpelling(this.fetchedRoundData[this.currentSentence].audioExample);
     }
   }
@@ -282,6 +268,11 @@ class MenuController {
   }
 
   async init(startLevel = 0, startRound = 0) {
+    this.hints.isBgImage = false; // todo берем из бека или локал сторейдж все эти стейты
+    this.hints.isTranslationEnabled = true;
+    this.hints.isSpellingEnabled = true;
+    this.hints.isAutoSpellingEnabled = true;
+
     view.initMenu(this.onLevelChangeHandlerBinded, this.onRoundChangeHandlerBinded);
 
     const completedRoundsData = this.loadCompletedRoundsByLevels();
@@ -292,7 +283,7 @@ class MenuController {
     this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
     this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
     // } catch (err) {
-    // this.maxRoundInLevel = 40;
+    // this.maxRoundInLevel = 40; // todo заглушка без Интернета
     // }
     this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);
 
@@ -302,4 +293,4 @@ class MenuController {
   }
 }
 
-export default new MenuController();
+export default new GameController();

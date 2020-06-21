@@ -15,7 +15,6 @@ export default class StatisticList {
     results,
     additionalClass = null,
   ) {
-    debugger;
     this.container = container;
     this.lastGameRoundData = lastGameRoundData;
     this.listenersList = listenersList;
@@ -27,7 +26,6 @@ export default class StatisticList {
 
     this.pictureContainer = null;
 
-    // this.sliderItem = null;
     this.correctContainer = null;
     this.errorsContainer = null;
     this.correctList = null;
