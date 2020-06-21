@@ -1,0 +1,42 @@
+.settings {
+  @include background-section;
+}
+
+.settings__content {
+  @include flex-center;
+  @include padding-between-pages;
+
+  justify-content: space-around;
+
+  @include media-tablet {
+    flex-direction: column-reverse;
+  }
+}
+
+.settings__description {
+  text-align: center;
+  width: 40%;
+
+  @include media-tablet {
+    width: 70%;
+  }
+}
+
+.settings__description-text {
+  @include segoe-additional($color-text, 200);
+
+  font-size: px-to-rem(20px);
+  line-height: px-to-rem(20px);
+}
+
+.settings__image {
+  width: 50%;
+
+  @include media-tablet {
+    width: 80%;
+  }
+
+  @include media-mobile {
+    width: 100%;
+  }
+}
