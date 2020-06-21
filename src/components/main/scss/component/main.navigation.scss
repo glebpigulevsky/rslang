@@ -73,7 +73,6 @@
 
 .navigation__item.active {
   background-color: $color-hovered;
-
   @include transition($time: .3s, $property: all, $method: ease-out);
 
   span {
