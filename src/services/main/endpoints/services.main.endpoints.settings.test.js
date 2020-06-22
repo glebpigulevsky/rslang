@@ -20,7 +20,7 @@ describe('get settings if settings was not updated early', () => {
         email: userDefault.email,
         password: userDefault.password,
       });
-      settings.apiService = new ApiService(MAIN_API_URL, auth.token);
+      settings._apiService = new ApiService(MAIN_API_URL, auth.token);
       await settings.getSettings({ userId: userDefault.id });
     } catch (e) {
       expect(e.message).toEqual(ERRORS_DESCRIPTION[404]);
@@ -39,7 +39,7 @@ describe('get settings', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    settings.apiService = new ApiService(MAIN_API_URL, auth.token);
+    settings._apiService = new ApiService(MAIN_API_URL, auth.token);
     const res = await settings.getSettings({ userId: userDefault.id });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
@@ -61,7 +61,7 @@ describe('update settings', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    settings.apiService = new ApiService(MAIN_API_URL, auth.token);
+    settings._apiService = new ApiService(MAIN_API_URL, auth.token);
     const res = await settings.updateSettings({ userId: userDefault.id, wordsPerDay: 1 });
     expect(res).toMatchObject({
       // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base

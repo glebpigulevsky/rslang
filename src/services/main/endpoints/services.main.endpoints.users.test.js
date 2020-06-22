@@ -27,7 +27,7 @@ describe('create user', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    user.apiService.token = auth.token;
+    user._apiService.token = auth.token;
     await user.deleteUser({ id: res.id });
   });
 });
@@ -43,7 +43,7 @@ describe('get user', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    user.apiService.token = auth.token;
+    user._apiService.token = auth.token;
     const res = await user.getUser({ id: userDefault.id });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
@@ -60,7 +60,7 @@ describe('update user', () => {
   };
   it('should return correct object', async () => {
     const auth = await user.authenticateUser({ email: userDefault.email, password: userDefault.password });
-    user.apiService.token = auth.token;
+    user._apiService.token = auth.token;
     const newEmail = `jest_user_threeTEST@mail.com`;
     const res = await user.updateUser({
       id: auth.userId,
@@ -99,7 +99,7 @@ describe('delete user', () => {
         password: userDefault.password,
       });
     }
-    user.apiService.token = auth.token;
+    user._apiService.token = auth.token;
     const res = await user.deleteUser({ id: auth.userId });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
