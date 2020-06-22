@@ -7,8 +7,8 @@ body {
 
 .base-timer {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 50px;
+  height: 50px;
   top: 5%;
   right: 10%;
 }
@@ -51,11 +51,11 @@ body {
 
 .base-timer__label {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 50px;
+  height: 50px;
   top: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 48px;
+  font-size: 24px;
 }

@@ -10,40 +10,59 @@ export default class GameSprint {
   getWords() {
     wordsAPI.getWordsCollection({ group: 0, page: 1 })
       .then((res) => {
-        this.createArrayWords(res);
+        this.createObjectWords(res);
       })
       .catch((err) => {
         console.log(err);
       });
   }
 
-  async createArrayWords(words) {
-    const arrayRandomEnWords = [];
-    const arrayRandomRusWords = [];
+  async createObjectWords(words) {
+    const objectEnglishWords = [];
 
-    const arrayWords = await words.map((el) => {
-      arrayRandomEnWords.push(el.word);
-      arrayRandomRusWords.push(el.wordTranslate);
+    const objectWords = await words.map((el, ind, array) => {
+      objectEnglishWords.push({
+        id: el.id,
+        word: el.word,
+        translate: el.wordTranslate,
+        wordTranslateRUS: this.createShuffledArray(array),
+      });
     });
-
-   const en = await this.currentPage(arrayRandomEnWords);
-    // this.randomSortArray(arrayRandomRusWords);
+    this.current(objectEnglishWords);
   }
 
-  randomSortArray(arr) {
-    console.log(arr);
-    return arr.sort(() => Math.random() - 0.5);
+  createShuffledArray(array) {
+    const arr = array;
+    arr.sort(() => Math.random() - 0.5);
+    const wordRandom = arr.map((el) => el.wordTranslate);
+    return wordRandom[0];
   }
 
-  currentPage(arr) {
-    const url = arr;
-    console.log(url);
-    return url;
+  shuffledArray(array) {
+    return array.sort(() => Math.random() - 0.5);
+  }
+
+  async current(wordsEn) {
+    const objectEN = await this.shuffledArray(wordsEn);
+    this.createWord(objectEN);
+    console.log(objectEN);
+  }
+
+  createWord(object) {
+    const field = document.getElementById('word-container');
+    const temp = object.map((el) => this.createTemplateWords(el));
+    field.insertAdjacentHTML('afterbegin', temp[0]);
+    console.log(temp);
+  }
+
+  createTemplateWords(word) {
+    return `<span class = 'word'>${word.word}</span>
+    <span class = 'word'>${word.wordTranslateRUS}</span>`;
   }
 
   init() {
     this.getWords();
-    this.createArrayWords();
-    this.currentPage();
+    this.createObjectWords();
+    this.current();
   }
 }
