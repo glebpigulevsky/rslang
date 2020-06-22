@@ -1,15 +1,15 @@
 class LocalStorageService {
   constructor() {
-    this.keyUserInfo = 'userInfo';
+    this._keyUserInfo = 'userInfo';
   }
 
   setUserInfo({ userId, token, expiredTime }) {
-    this._setLocalStorageData(this.keyUserInfo, { userId, token, expiredTime });
+    this._setLocalStorageData(this._keyUserInfo, { userId, token, expiredTime });
     return this.getUserInfo();
   }
 
   getUserInfo() {
-    return this._getFromLocalStorage(this.keyUserInfo);
+    return this._getFromLocalStorage(this._keyUserInfo);
   }
 
   _setLocalStorageData(key, value) { localStorage.setItem(key, JSON.stringify(value)); }

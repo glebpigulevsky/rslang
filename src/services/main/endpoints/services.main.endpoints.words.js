@@ -5,7 +5,7 @@ const WORDS_REQUEST = { Group: { min: 0, max: 5 }, Page: { min: 0, max: 29 } };
 
 export default class WordsApi {
   constructor() {
-    this.apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
 
   async getWordsCollection({
@@ -22,7 +22,7 @@ export default class WordsApi {
     if (wordsPerPage !== null) {
       url += `&wordsPerPage=${wordsPerPage}`;
     }
-    const res = await this.apiService.getResource({ url, hasToken: false });
+    const res = await this._apiService.getResource({ url, hasToken: false });
     return res.map(this._transformWord);
   }
 
@@ -37,12 +37,12 @@ export default class WordsApi {
     if (wordsPerPage !== null) {
       url += `&wordsPerPage=${wordsPerPage}`;
     }
-    const res = await this.apiService.getResource({ url, hasToken: false });
+    const res = await this._apiService.getResource({ url, hasToken: false });
     return this._transformWordsCount(res);
   }
 
   async getWord({ id }) {
-    const res = await this.apiService.getResource({ url: `/words/${id}`, hasToken: false });
+    const res = await this._apiService.getResource({ url: `/words/${id}`, hasToken: false });
     return this._transformWord(res);
   }
 

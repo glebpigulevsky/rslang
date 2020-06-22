@@ -3,17 +3,17 @@ import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
 
 export default class StatisticsApi {
   constructor() {
-    this.apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
 
   async getStatictics({ userId }) {
-    const res = await this.apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true });
+    const res = await this._apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true });
     return this._transformUserStatistics(res);
   }
 
   async updateStatistics({ userId, learnedWords, optional = {} }) {
     this._learnedWordsValidator({ learnedWords });
-    const res = await this.apiService.putResourse({
+    const res = await this._apiService.putResourse({
       url: `/users/${userId}/statistics`,
       params: { learnedWords, optional },
       hasToken: true,

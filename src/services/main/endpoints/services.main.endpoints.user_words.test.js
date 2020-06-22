@@ -19,7 +19,7 @@ describe('get user words if user words was not updated early', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
+    userWords._apiService = new ApiService(MAIN_API_URL, auth.token);
     const res = await userWords.getAllUserWords({ userId: userDefault.id });
     expect(res).toBeDefined();
     expect(res).toStrictEqual([]);
@@ -37,7 +37,7 @@ describe('get user words', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
+    userWords._apiService = new ApiService(MAIN_API_URL, auth.token);
     const res = await userWords.getAllUserWords({ userId: userDefault.id });
     expect(res).toBeDefined();
     expect(res).toMatchObject([
@@ -70,7 +70,7 @@ describe('create user word', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
+    userWords._apiService = new ApiService(MAIN_API_URL, auth.token);
     const res = await userWords.createUserWord({
       userId: userDefault.id,
       wordId,
@@ -98,7 +98,7 @@ describe('get user word', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
+    userWords._apiService = new ApiService(MAIN_API_URL, auth.token);
     const res = await userWords.getUserWord({
       userId: userDefault.id,
       wordId: '5e9f5ee35eb9e72bc21af4b4',
@@ -128,7 +128,7 @@ describe('update user word', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
+    userWords._apiService = new ApiService(MAIN_API_URL, auth.token);
     const res = await userWords.updateUserWord({
       userId: userDefault.id,
       wordId: '5e9f5ee35eb9e72bc21af4b4',
@@ -156,12 +156,10 @@ describe('delete user word', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
-    userWords
-      .getUserWord({ userId: userDefault.id, wordId })
-      .catch(() => {
-        userWords.createUserWord({ userId: userDefault.id, wordId, difficulty: 'easy' });
-      });
+    userWords._apiService = new ApiService(MAIN_API_URL, auth.token);
+    userWords.getUserWord({ userId: userDefault.id, wordId }).catch(() => {
+      userWords.createUserWord({ userId: userDefault.id, wordId, difficulty: 'easy' });
+    });
 
     const res = await userWords.deleteUserWord({ userId: userDefault.id, wordId });
     expect(res).toBeDefined();

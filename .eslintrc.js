@@ -20,7 +20,7 @@ module.exports = {
     'no-plusplus': 'off',
     'default-case': 'off',
     'no-multi-assign': 'off',
-    'no-console': ['error', { allow: ['info'] }],
+    'no-console': ['error', { allow: [ 'info'] }],
   },
   // settings: {
   //   'import/extensions': [
