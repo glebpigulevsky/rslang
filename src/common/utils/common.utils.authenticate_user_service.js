@@ -8,18 +8,29 @@ class AuthenticateUserService {
     this.userApi = new UsersApi();
   }
 
-  async createUser({ email, password }) {
-    const created = await this.userApi.createUser({ email, password });
-    if (created) {
-      const auth = await this.userApi.authenticateUser({ email, password });
-      return auth;
+  async loginUser({ email, password, hasSignUp }) {
+    if (hasSignUp) {
+      return this._signUpUser({ email, password });
     }
-    return null;
+    return this._loginUser({ email, password });
   }
 
-  async loginUser({ email, password }) {
-    const auth = await this.userApi.authenticateUser({ email, password });
-    return auth;
+  async _signUpUser({ email, password }) {
+    const created = await this.userApi.createUser({ email, password });
+    if (created) {
+      return this._loginUser({ email, password });
+    }
+    return false;
+  }
+
+  async _loginUser({ email, password }) {
+    const { token, userId, message } = await this.userApi.authenticateUser({ email, password });
+    if (message === 'Authenticated') {
+      this.localStorageService.setUserInfo({ userId, token, expiredTime: TOKEN_EXPIRES_MS() });
+      console.log(`message ${message}`);
+      return message;
+    }
+    return false;
   }
 }
 
