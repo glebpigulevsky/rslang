@@ -12,7 +12,11 @@ export default class UsersApi {
   }
 
   async updateUser({ id, email, password }) {
-    const res = await this._apiService.putResourse({ url: `/users/${id}`, params: { email, password }, hasToken: true });
+    const res = await this._apiService.putResourse({
+      url: `/users/${id}`,
+      params: { email, password },
+      hasToken: true,
+    });
     return this._transformUser(res);
   }
 

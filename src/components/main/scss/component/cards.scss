@@ -1,6 +1,5 @@
 .dictionary__title {
   padding: px-to-rem(10px) 0 0;
-
   text-align: center;
 
   @include segoe-title($color: $color-text);
@@ -28,14 +27,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
   background-color: $color-light-grey;
   border-radius: 10px;
-  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, .5);
 
   @include media-mobile {
     margin-bottom: 25px;
   }
+
   .cards__img {
     width: 220px;
 

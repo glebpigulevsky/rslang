@@ -19,6 +19,4 @@ const GET_RANDOM = (min, max) => {
   return Math.floor(Math.random() * (y - x + 1)) + x;
 };
 const MEDIA_LINK = 'https://raw.githubusercontent.com/caspercarver/rslang-data/master/';
-export {
-  MAIN_API_URL, TOKEN, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK,
-};
+export { MAIN_API_URL, TOKEN, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK };
