@@ -1,0 +1,10 @@
+.error {
+  margin-top: 100px;
+
+  text-align: center;
+
+@include segoe-title($color: $color-text);
+  span {
+    color: rgb(228, 50, 50);
+  }
+}
