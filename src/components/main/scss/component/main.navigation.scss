@@ -32,6 +32,7 @@
 .toggle {
   top: px-to-rem(45px);
   left: 0;
+  text-align: center;
   box-shadow: 1px 0 15px 2px rgba(0, 0, 0, .4);
 
   & .first {
