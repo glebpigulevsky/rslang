@@ -1,7 +1,8 @@
-const LoginComponent = `<div class="container" data-container="container-create">
+const LoginComponent = `<div class="login__container">
     <div>
 
       <form class="login">
+      <span class="login__close" id="closePopupBtn">×</span>
           <div class="login__title mb-3">Welcome</div>
           <div class="login__title_switch">
             <span class="login__mode login__mode_selected mb-3" id="switchLabelSignIn">Sign In</span>

@@ -1,6 +1,7 @@
 import { AuthenticateUserService } from '../../common/common.helper';
 import { LoginComponent } from './login_user.component';
-import './scss/login.scss';
+import { ErrorPopup } from '../error/error.error_popup'; 
+import './scss/login.styles.scss';
 
 // const CREATE_ACCOUNT_BTN = document.querySelector('#create_btn');
 // const CREATE_EMAIL_INPUT = document.querySelector('#inputEmail');
@@ -21,7 +22,11 @@ class LoginUser {
   }
 
   async showLoginPopup() {
+    //const x = new ErrorPopup();
+   // x.openPopup({ 'dddddd' });
     document.body.insertAdjacentHTML('afterend', LoginComponent);
+
+    document.querySelector('.login').oncontextmenu = () => false; //  Disable browser right-click (or double-click) menu.
 
     document.querySelector('#trainSwitch').addEventListener('click', (e) => {
       const hasSignUp = document.querySelector('#trainSwitch').checked;
