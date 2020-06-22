@@ -1,7 +1,5 @@
 class Menu {
   constructor() {
-    this.isOpen = false;
-
     this.onCloseClickHandlerBinded = this.onCloseClickHandler.bind(this);
     this.onBurgerIconClickHandlerBinded = this.onBurgerIconClickHandler.bind(this);
   }
