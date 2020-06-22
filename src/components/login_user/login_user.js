@@ -1,7 +1,6 @@
 import { AuthenticateUserService } from '../../common/common.helper';
 import { LoginComponent } from './login_user.component';
 import { LOGIN_BUTTONS_NAME, LOGIN_BUTTONS_COLOR_CLASS } from './common/login_user.common.constants';
-import { ErrorPopup } from '../error/error.error_popup';
 import './scss/login.styles.scss';
 
 class LoginUser {
@@ -15,13 +14,12 @@ class LoginUser {
     this._switchLabelSignIn = null;
     this._inputEmail = null;
     this._inputPassword = null;
+    this._loginContainer = null;
   }
 
   showLoginPopup() {
-    // const err = new ErrorPopup();
-    // err.openPopup({ text:'dddddd' });
     document.body.insertAdjacentHTML('afterend', LoginComponent);
-
+    this._loginContainer = document.querySelector('#js-login-container');
     this._closeBtn = document.querySelector('#js-loginCloseBtn');
     this._createBtn = document.querySelector('#js-loginCreateBtn');
     this._trainSwitch = document.querySelector('#js-trainSwitch');
@@ -32,25 +30,10 @@ class LoginUser {
     this._inputPassword = document.querySelector('#js-inputPassword');
 
     this._trainSwitch.addEventListener('click', () => this._trainSwitchHandler());
-
-    this._createBtn.addEventListener('click', (e) => {
-      e.preventDefault();
-      this._createInfo.textContent = '';
-      const email = this._inputEmail.value.toString();
-      const password = this._inputPassword.value.toString();
-      const hasSignUp = this._trainSwitch.checked;
-      this._authUserService
-        .loginUser({ email, password, hasSignUp })
-        .then((res) => {
-          console.log(`return creation ${res}`);
-        })
-        .catch((err) => {
-          console.log(`return error ${err}`);
-          this._createInfo.textContent = err;
-        });
-    });
+    this._createBtn.addEventListener('click', (e) => this._createBtnHandler(e));
+    this._closeBtn.addEventListener('click', () => this._closeLoginHandler());
   }
- 
+
   _trainSwitchHandler(e) {
     const hasSignUp = this._trainSwitch.checked;
     if (hasSignUp) {
@@ -62,6 +45,30 @@ class LoginUser {
       this._switchLabelSignIn.classList.add(LOGIN_BUTTONS_COLOR_CLASS);
       this._switchLabelSignUp.classList.remove(LOGIN_BUTTONS_COLOR_CLASS);
     }
+  }
+
+  _createBtnHandler(e) {
+    e.preventDefault();
+    this._createInfo.textContent = '';
+    const email = this._inputEmail.value.toString();
+    const password = this._inputPassword.value.toString();
+    const hasSignUp = this._trainSwitch.checked;
+    this._authUserService
+      .loginUser({ email, password, hasSignUp })
+      .then(() => {
+        this._closeLoginHandler();
+      })
+      .catch((err) => {
+        this._createInfo.textContent = err;
+      });
+  }
+
+  _closeLoginHandler() {
+    this._loginContainer.parentNode.removeChild(this._loginContainer);
+
+    this._trainSwitch.removeEventListener('click', () => this._trainSwitchHandler());
+    this._createBtn.removeEventListener('click', () => this._createBtnHandler());
+    this._closeBtn.removeEventListener('click', () => this._closeLoginHandler());
   }
 }
 

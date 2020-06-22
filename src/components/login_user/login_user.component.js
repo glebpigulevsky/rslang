@@ -1,4 +1,4 @@
-const LoginComponent = `<div class="login__container">
+const LoginComponent = `<div class="login__container" id="js-login-container">
     <div>
 
       <form class="login">
