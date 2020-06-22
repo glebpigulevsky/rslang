@@ -14,7 +14,7 @@ const appRoutes = [
   { path: '/learn', component: learnPageComponent },
   { path: '/dictionary', component: dictionaryPageComponent },
   { path: '/games', component: gamesPageComponent },
-  { path: '/statistics', component: statisticsPageComponent },
+  { path: '/statisticks', component: statisticsPageComponent },
   { path: '/team', component: teamPageComponent },
   { path: '/settings', component: settingsPageComponent },
 ];
@@ -27,12 +27,12 @@ class Main {
 export default new Main();
 
 const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
-const findComponentByPath = (path) => appRoutes.find((r) => r.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
+const findComponentByPath = (path) => appRoutes.find((route) => route.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
 
 const router = () => {
   const main = document.querySelector('.main');
   const path = parseLocation();
-  const { component = errorPageComponent } = findComponentByPath(path, appRoutes) || {};
+  const { component = errorPageComponent } = findComponentByPath(path) || {};
   main.innerHTML = component.render();
 };
 
