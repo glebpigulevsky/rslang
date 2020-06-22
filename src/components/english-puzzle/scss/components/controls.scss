@@ -1,0 +1,42 @@
+.buttons__wrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: baseline;
+  flex-wrap: wrap;
+}
+
+.game__button {
+  margin: 0 10px;
+}
+
+.game__controls {
+  display: flex;
+  justify-content: center;
+}
+
+.completed {
+  color: red;
+}
+
+.game__hints-bg.active,
+.game__hints-translation.active,
+.game__hints-spelling.active,
+.game__hints-auto-spelling.active {
+  color: white;
+
+  background-color: lightcoral;
+  box-shadow: none;
+}
+
+@keyframes resize {
+  40% {
+    transform: scale(0.9);
+    }
+  80% {
+    transform: scale(1.1);
+    }
+}
+
+.animated {
+  animation: resize 0.8s infinite linear;
+}  

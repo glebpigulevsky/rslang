@@ -8,12 +8,12 @@ import {
   toggleDocumentScroll,
   getClosestLink,
   togglePageState,
-} from '../data/utils';
+} from '../../common/english-puzzle.utils';
 
 import {
   EVENTS,
   CLASS_NAMES,
-} from '../data/helper';
+} from '../../common/english-puzzle.helper';
 
 class Controller {
   constructor() {
@@ -226,14 +226,14 @@ class Controller {
     view.initRepeatSpellingButton(this.onRepeatSpellingButtonClickBinded);
 
     this.ELEMENTS.INTRODUCTION.classList.add(CLASS_NAMES.HIDDEN);
-    this.ELEMENTS.CENTRALIZER.classList.remove(CLASS_NAMES.HIDDEN);
+    this.ELEMENTS.WRAPPER.classList.remove(CLASS_NAMES.HIDDEN);
     toggleDocumentScroll();
     target.removeEventListener(EVENTS.CLICK, this.onIntroButtonClickBinded);
   }
 
   init() {
     this.ELEMENTS = {
-      CENTRALIZER: document.querySelector('.centralizer'),
+      WRAPPER: document.querySelector('.wrapper'),
       INTRODUCTION: document.querySelector('.introduction'),
       SPINNER: document.querySelector('.spinner'),
     };

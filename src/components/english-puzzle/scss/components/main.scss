@@ -1,15 +1,17 @@
-html {
-  font-size: 16px;
-  font-family: Verdana, Helvetica, sans-serif;
-  font-weight: 400;
+.english-puzzle-body {
+  @include segoe-additional($color: $color-text, $weight: 400);
 
-  background: #d6eaf8;
+  font-size: px-to-rem(16px);
+  line-height: px-to-rem(20px);
+
+  // font-size: 16px;
+  // font-family: Verdana, Helvetica, sans-serif;
+  // font-weight: 400;
+
+  background: $color-light;
+  background: url('../assets/img/main_bg.png');
 
   user-select: none;
-}
-
-.body {
-  background: url('../assets/img/main_bg.png');
 }
 
 .centralizer {
@@ -112,4 +114,63 @@ html {
     color: #524f4e;
     transform: none;
   }
+}
+
+.translation__description {
+  min-height: 40px;
+  margin: 20px 20px;
+  margin-bottom: 10px;
+
+  overflow: hidden;
+
+  border-radius: 10px;
+
+  font-size: 25px;
+  text-align: center;
+  line-height: 40px;
+  color: #335e97;
+  background-color: white;
+  background-image: url('../components/view/assets/img/dictionary.png');
+  background-repeat: no-repeat;
+  background-position: 10px 50%;
+  background-size: 32px;
+
+  box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2), 3px 10px 20px 0 rgba(0, 0, 0, 0.4);
+}
+
+.card__link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  min-height: 60px;
+  padding: 5px;
+
+  font-size: 16px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4),
+              0 0 10px 5px #335e97 inset, 0 0 0 0 #335e97;
+  color: #335e97;
+  transition: .05s ease-in;
+
+  border-radius: 10px;
+
+  background-color: white;
+  background-image: url('../components/view/assets/img/audio.png');
+  background-repeat: no-repeat;
+  background-position: 10px, 0;
+  background-size: 32px;
+
+  &:focus,
+  &:hover,
+  &:active {
+    box-shadow: 0 0 10px 0 #335e97 inset, 0 0 10px 4px #335e97;
+    color: #335e97;
+  }
+}
+  
+.active.card__link {
+  color: white;
+  background-color: lightcoral;
+  box-shadow:  0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4),
+                0 0 10px 0 lightcoral inset, 0 0 10px 4px lightcoral;
 }

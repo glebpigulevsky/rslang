@@ -11,8 +11,8 @@ export default class Menu {
     };
 
     this.onChangeHandlers = {
-      level: onLevelChangeHandler,
-      round: onRoundChangeHandler,
+      LEVEL: onLevelChangeHandler,
+      ROUND: onRoundChangeHandler,
     };
 
     this.init();

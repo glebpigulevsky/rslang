@@ -1,12 +1,12 @@
 import view from '../view/view';
 import model from '../model/model';
 
-import createCanvasElements from '../../common/english-puzzle.utils';
+import getCanvasElementsCollection from '../../common/english-puzzle.puzzle.utils';
 
 import {
   showSpinner,
   hideSpinner,
-} from '../data/utils';
+} from '../../common/english-puzzle.utils';
 
 class GameController {
   constructor() {
@@ -114,7 +114,7 @@ class GameController {
     const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
 
     // const sentences = [ // todo заглушка без интернета
-    //   'The students agree they have too much homework',
+    //   'The students agree they have too much homework every day',
     //   'I a`m going to study',
     //   'It is difficult situation for me',
     //   'The are a lot of interesting things',
@@ -127,53 +127,12 @@ class GameController {
     // ];
 
     this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound);
+    // this.fetchedPictureData = {}; // todo заглушка без интернет
     this.fetchedPictureData.preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
+    // this.fetchedPictureData.preloadedPicture.width = 500;
 
-    this.canvasElements = {
-      withImage: {
-        regular: createCanvasElements({
-          img: this.fetchedPictureData.preloadedPicture,
-          wordsList: sentences,
-          colorBorder: 'gray',
-        }),
-        correct: createCanvasElements({
-          img: this.fetchedPictureData.preloadedPicture,
-          wordsList: sentences,
-          colorBorder: 'green',
-        }),
-        error: createCanvasElements({
-          img: this.fetchedPictureData.preloadedPicture,
-          wordsList: sentences,
-          colorBorder: 'red',
-        }),
-      },
-      withOutImage: {
-        regular: createCanvasElements({
-          img: this.fetchedPictureData.preloadedPicture,
-          wordsList: sentences,
-          colorBorder: 'gray',
-          fillColor: 'brown',
-        }),
-        correct: createCanvasElements({
-          img: this.fetchedPictureData.preloadedPicture,
-          wordsList: sentences,
-          colorBorder: 'green',
-          fillColor: 'brown',
-        }),
-        error: createCanvasElements({
-          img: this.fetchedPictureData.preloadedPicture,
-          wordsList: sentences,
-          colorBorder: 'red',
-          fillColor: 'brown',
-        }),
-      },
-      finalImage: createCanvasElements({
-        img: this.fetchedPictureData.preloadedPicture,
-        wordsList: sentences,
-        colorBorder: 'transparent',
-        hasText: false,
-      }),
-    };
+    const isSmallWindow = (document.documentElement.clientWidth < 800);
+    this.canvasElements = getCanvasElementsCollection(this.fetchedPictureData.preloadedPicture, sentences, isSmallWindow);
 
     this.currentSentence = 0;
     view.renderInputSentence(this.getCanvasElement({
@@ -182,7 +141,7 @@ class GameController {
       isRegular: true,
     }));
 
-    view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
+    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
     view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
 
     if (this.hints.isTranslationEnabled) {
@@ -269,9 +228,9 @@ class GameController {
 
   async init(startLevel = 0, startRound = 0) {
     this.hints.isBgImage = false; // todo берем из бека или локал сторейдж все эти стейты
-    this.hints.isTranslationEnabled = true;
-    this.hints.isSpellingEnabled = true;
-    this.hints.isAutoSpellingEnabled = true;
+    this.hints.isTranslationEnabled = false;
+    this.hints.isSpellingEnabled = false;
+    this.hints.isAutoSpellingEnabled = false;
 
     view.initMenu(this.onLevelChangeHandlerBinded, this.onRoundChangeHandlerBinded);
 
@@ -286,9 +245,8 @@ class GameController {
     // this.maxRoundInLevel = 40; // todo заглушка без Интернета
     // }
     this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);
-
     view.menu.renderLevelSelector(this.currentLevel);
-    view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
+    // view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
     this.newRound(this.currentLevel, this.currentRound);
   }
 }

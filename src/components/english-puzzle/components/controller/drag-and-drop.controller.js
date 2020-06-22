@@ -1,8 +1,7 @@
 import view from '../view/view';
-// import controller from './controller';
 import gameController from './game.controller';
 
-import { EVENTS } from '../data/helper';
+import { EVENTS } from '../../common/english-puzzle.helper';
 
 class DragAndDropController {
   constructor() {

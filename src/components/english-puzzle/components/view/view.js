@@ -6,14 +6,12 @@ import {
   shuffleArray,
   hideElement,
   showElement,
-} from '../data/utils';
+} from '../../common/english-puzzle.utils';
 
 import {
   CLASS_NAMES,
   EVENTS,
-} from '../data/helper';
-
-import './scss/view.styles.scss';
+} from '../../common/english-puzzle.helper';
 
 import image from '../../assets/img/9th_wave.jpg'; // todo default image
 
@@ -304,8 +302,8 @@ class View {
   renderDOM() {
     document.querySelector('body').innerHTML = '';
     document.querySelector('body').insertAdjacentHTML('afterbegin', `
-      <div class="body overflow-hidden">
-        <div class="centralizer hidden">
+      <div class="overflow-hidden english-puzzle-body">
+        <div class="wrapper hidden">
           <header class="header">
             <nav class="navigation">
               <div class="navigation__box navigation__box_left">

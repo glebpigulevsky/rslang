@@ -1,4 +1,4 @@
-import { CLASS_NAMES } from '../../../data/helper';
+import { CLASS_NAMES } from '../../../../common/english-puzzle.helper';
 
 export default class Select {
   constructor(

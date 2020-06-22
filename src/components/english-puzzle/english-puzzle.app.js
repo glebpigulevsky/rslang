@@ -1,4 +1,4 @@
-import './scss/main.scss';
+import './scss/english-puzzle.styles.scss';
 
 import model from './components/model/model';
 import view from './components/view/view';
