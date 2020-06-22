@@ -9,15 +9,15 @@ const createCanvasElements = (
     isSmallWindow = false,
   },
 ) => {
-  const extraWidthValue = 10;
-  const fontFamily = 'Arial';
-  const fontRatio = isSmallWindow ? 0.8 : 1;
+  const extraWidthValue = isSmallWindow ? 3 : 10;
+  const fontFamily = 'Segoe';
+  const fontRatio = isSmallWindow ? 0.9 : 1;
   const fontType = 'bold';
   const shadowPuzzle = 2;
   const borderText = 1;
   const shadowText = 10;
   const colorShadowBorder = 'rgb(255,255,250)';
-  const colorText = 'magenta';
+  const colorText = 'white';
   const colorShadowText = 'black';
   const solidTextColor = 'white';
   const fontStyle = 'fillText';
@@ -119,6 +119,7 @@ const createCanvasElements = (
         ctx.fillStyle = fillColor; // todo
         ctx.fill();
       } else {
+        // ctx.globalAlpha = 0.6;
         ctx.drawImage(
           img,
           startXPointCropImage,
@@ -130,6 +131,7 @@ const createCanvasElements = (
           canvasWidth + radius,
           canvasHeight,
         );
+        // ctx.globalAlpha = 1;
       }
 
       if (hasText) {

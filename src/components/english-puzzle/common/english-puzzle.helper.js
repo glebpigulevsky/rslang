@@ -20,7 +20,7 @@ export const CLASS_NAMES = {
   DISABLED: 'disabled',
   BUTTON_ROUNDED: 'button-rounded',
   CARD: 'cards__item',
-  HIDDEN: 'hidden',
+  DISPLAY_NONE: 'display-none',
   MAIN_LIST: 'cards__list list',
   OVERFLOW_HIDDEN: 'overflow-hidden',
   STATISTIC: {

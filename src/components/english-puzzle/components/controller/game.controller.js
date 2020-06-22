@@ -61,7 +61,7 @@ class GameController {
     showSpinner(); //* кандидаты в отдельную функцию
     this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
     // this.maxRoundInLevel = 40; // todo заглушка без интернета
-    view.menu.ELEMENTS.SELECTORS.ROUND.ROUND.remove(); //*
+    view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
     this.setCurrentRound(0);
     view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]); //*
     this.newRound(this.currentLevel, this.currentRound); //*
@@ -129,17 +129,23 @@ class GameController {
     this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound);
     // this.fetchedPictureData = {}; // todo заглушка без интернет
     this.fetchedPictureData.preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
-    // this.fetchedPictureData.preloadedPicture.width = 500;
-
     const isSmallWindow = (document.documentElement.clientWidth < 800);
+    if (isSmallWindow) this.fetchedPictureData.preloadedPicture.width = 800;
+
     this.canvasElements = getCanvasElementsCollection(this.fetchedPictureData.preloadedPicture, sentences, isSmallWindow);
 
     this.currentSentence = 0;
+    view.renderNewDataDropZone();
     view.renderInputSentence(this.getCanvasElement({
       currentSentence: this.currentSentence,
       isImage: this.hints.isBgImage,
       isRegular: true,
     }));
+
+    view.resultDropZone.style.width = `${view.dataDropZone.getBoundingClientRect().width + 10}px`;
+    view.dataDropZone.style.width = `${view.dataDropZone.getBoundingClientRect().width + 10}px`;
+    view.resultDropZone.style.height = `${view.dataDropZone.getBoundingClientRect().height + 1}px`;
+    view.dataDropZone.style.height = `${view.dataDropZone.getBoundingClientRect().height + 1}px`;
 
     if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
     view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);

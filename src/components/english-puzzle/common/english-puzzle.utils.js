@@ -25,11 +25,11 @@ export const shuffleArray = (array) => {
   return result;
 };
 
-export const hideSpinner = () => document.querySelector('.spinner').classList.add(CLASS_NAMES.HIDDEN);
-export const showSpinner = () => document.querySelector('.spinner').classList.remove(CLASS_NAMES.HIDDEN);
+export const hideSpinner = () => document.querySelector('.spinner').classList.add(CLASS_NAMES.DISPLAY_NONE);
+export const showSpinner = () => document.querySelector('.spinner').classList.remove(CLASS_NAMES.DISPLAY_NONE);
 
-export const hideElement = (element) => element.classList.add(CLASS_NAMES.HIDDEN);
-export const showElement = (element) => element.classList.remove(CLASS_NAMES.HIDDEN);
+export const hideElement = (element) => element.classList.add(CLASS_NAMES.DISPLAY_NONE);
+export const showElement = (element) => element.classList.remove(CLASS_NAMES.DISPLAY_NONE);
 
 function onSuccessLoadImage() {
   this.resolve(this);

@@ -2,10 +2,17 @@
   position: relative;
 }
 
-.field__container,
-.data__container {
+.game__field_container {
+  display: flex;
+  justify-content: center;
+
   width: 100%;
   margin-bottom: 20px;
+}
+
+.field__container {
+  flex-direction: column;
+  align-items: center;
 }
 
 .background-picture {
@@ -18,16 +25,18 @@
 
 .data__container {
   display: flex;
-  justify-content: space-evenly;
+  // justify-content: center;
 }
 
 .drop__place {
+  // padding-left: 30px;
+  // padding-right: 22px;
   // display: flex;
   // justify-content: flex-start;
 
   // width: 100%;
   // // width: 200px;
-  // min-height: 50px;
+  min-height: 48px;
 
   // background-color: lightgray;
   // border: 1px solid green;
@@ -46,13 +55,18 @@
 
 .sentence {
   display: flex;
-  justify-content: flex-start;
+  align-content: start;
+  flex-wrap: wrap;
+  // margin: 0 auto;
+  // justify-content: flex-start;
 
-  width: 100%;
-  min-height: 50px;
+  // min-height: 50px;
 
   background-color: lightgray;
-  border: 1px solid green;
+
+  @include media-mobile {
+    justify-content: center;
+  }
 }
 
 .moveable {

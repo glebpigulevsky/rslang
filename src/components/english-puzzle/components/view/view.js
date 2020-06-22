@@ -61,8 +61,16 @@ class View {
       clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
       clonePuzzle.classList.add('dragable');
 
-      document.querySelector('.data__container').querySelector('.drop__place').append(clonePuzzle);
+      this.dataDropZone.append(clonePuzzle);
     });
+  }
+
+  renderNewDataDropZone() {
+    this.dataDropZone.remove();
+    const div = document.createElement('div');
+    div.className = 'drop__place sentence';
+    document.querySelector('.data__container').append(div);
+    this.dataDropZone = div;
   }
 
   renderNextResultDropZone() {
@@ -71,6 +79,9 @@ class View {
     this.resultDropZone.classList.toggle('drop__place');
     this.resultDropZone.after(div);
     this.resultDropZone = div;
+
+    this.resultDropZone.style.width = `${this.dataDropZone.getBoundingClientRect().width}px`;
+    this.resultDropZone.style.height = `${this.dataDropZone.getBoundingClientRect().height}px`;
   }
 
   resetPuzzlesStates(currentSentence, regularPuzzlesWithImage) {
@@ -303,7 +314,7 @@ class View {
     document.querySelector('body').innerHTML = '';
     document.querySelector('body').insertAdjacentHTML('afterbegin', `
       <div class="overflow-hidden english-puzzle-body">
-        <div class="wrapper hidden">
+        <div class="wrapper display-none">
           <header class="header">
             <nav class="navigation">
               <div class="navigation__box navigation__box_left">
@@ -352,10 +363,10 @@ class View {
               </div>
 
               <div class="game__controls">
-                <button class="game__button game__button-check button-rounded hidden">Check</button>
+                <button class="game__button game__button-check button-rounded display-none">Check</button>
                 <button class="game__button game__button-dont_know button-rounded">I don\`t know</button>
-                <button class="game__button game__button-continue button-rounded hidden">Continue</button>
-                <button class="game__button game__button-results button-rounded hidden">Results</button>
+                <button class="game__button game__button-continue button-rounded display-none">Continue</button>
+                <button class="game__button game__button-results button-rounded display-none">Results</button>
               </div>
             </div>
   
@@ -371,7 +382,7 @@ class View {
           </main>
         </div>
   
-        <div class="spinner hidden">
+        <div class="spinner display-none">
           <div class="spinner__gear">
             <div class="spinner__inner">
               <div>

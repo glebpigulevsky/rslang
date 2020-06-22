@@ -225,8 +225,8 @@ class Controller {
     view.initHintAutoSpellingButton(this.onHintAutoSpellingButtonClickHandlerBinded, gameController.hints.isAutoSpellingEnabled);
     view.initRepeatSpellingButton(this.onRepeatSpellingButtonClickBinded);
 
-    this.ELEMENTS.INTRODUCTION.classList.add(CLASS_NAMES.HIDDEN);
-    this.ELEMENTS.WRAPPER.classList.remove(CLASS_NAMES.HIDDEN);
+    this.ELEMENTS.INTRODUCTION.classList.add(CLASS_NAMES.DISPLAY_NONE);
+    this.ELEMENTS.WRAPPER.classList.remove(CLASS_NAMES.DISPLAY_NONE);
     toggleDocumentScroll();
     target.removeEventListener(EVENTS.CLICK, this.onIntroButtonClickBinded);
   }
