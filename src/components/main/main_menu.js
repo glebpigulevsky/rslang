@@ -1,32 +1,45 @@
 export default class Menu {
   constructor() {
     this.isOpen = false;
+
+    this.onCloseClickHandlerBinded = this.onCloseClickHandler.bind(this);
+    this.onBurgerIconClickHandlerBinded = this.onBurgerIconClickHandler.bind(this);
   }
 
-  burgerMenuClickHandler() {
-    this.toggleButton = document.querySelector('.hamburger-menu__button');
-    this.navBar = document.querySelector('.main-header__navigation');
-    this.toggleButton.addEventListener('click', () => {
+  onBurgerIconClickHandler() {
+    this.navBar.classList.toggle('toggle');
+  }
+
+  addBurgerIconClickHandler() {
+    this.toggleButton.addEventListener('click', this.onBurgerIconClickHandlerBinded);
+  }
+
+  removeBurgerIconClickHandler() {
+    this.toggleButton.removeEventListener('click', this.onBurgerIconClickHandlerBinded);
+  }
+
+  onCloseClickHandler({ target }) {
+    const itsMenu = target === this.navBar || this.navBar.contains(target);
+    const itsBtnMenu = target === this.toggleButton;
+    const menuIsActive = this.navBar.classList.contains('toggle');
+    if (!itsMenu && !itsBtnMenu && menuIsActive) {
       this.navBar.classList.toggle('toggle');
-    });
+    }
   }
 
-  close() {
-    document.addEventListener('click', (e) => {
-      const toggleButton = document.querySelector('.hamburger-menu__button');
-      const navBar = document.querySelector('.main-header__navigation');
-      const { target } = e;
-      const itsMenu = target === navBar || navBar.contains(target);
-      const itsBtnMenu = target === toggleButton;
-      const menuIsActive = navBar.classList.contains('toggle');
-      if (!itsMenu && !itsBtnMenu && menuIsActive) {
-        this.navBar.classList.toggle('toggle');
-      }
-    });
+  addCloseButtonClickHandler() {
+    document.addEventListener('click', this.onCloseClickHandlerBinded);
+  }
+
+  removeCloseButtonClickHandler() {
+    document.removeEventListener('click', this.onCloseClickHandlerBinded);
   }
 
   init() {
-    this.burgerMenuClickHandler();
-    this.close();
+    this.toggleButton = document.querySelector('.hamburger-menu__button');
+    this.navBar = document.querySelector('.main-header__navigation');
+
+    this.addBurgerIconClickHandler();
+    this.addCloseButtonClickHandler();
   }
 }

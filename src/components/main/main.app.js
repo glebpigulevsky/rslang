@@ -1,25 +1,29 @@
 import Menu from './main_menu';
-import { CLASS_NAMES } from '../../common/common.constants';
-import MAIN_GREETINGS from './common/main.constants';
-
+import sprintGameInit from '../sprint/sprint.app';
 import './scss/main.styles.scss';
 
 const burgerMenu = new Menu();
-burgerMenu.init();
+// burgerMenu.init();
 
 class Main {
   constructor() {
-    this.logoContent = null;
-    this.logoElement = null;
+    this.gameButtons = {
+      sprint: null,
+    };
+    this.onSprintButtonClickHandlerBinded = this.onSprintButtonClickHandler.bind(this);
   }
 
-  sayHello() {
-    this.logoElement.textContent = this.logoContent;
+  onSprintButtonClickHandler() {
+    burgerMenu.removeBurgerIconClickHandler();
+    burgerMenu.removeBurgerIconClickHandler();
+    this.gameButtons.sprint.removeEventListener('click', this.onSprintButtonClickHandlerBinded);
+    sprintGameInit();
   }
 
   init() {
-    this.logoElement = document.querySelector(`.${CLASS_NAMES.MAIN.LOGO}`);
-    this.logoContent = MAIN_GREETINGS;
+    burgerMenu.init();
+    this.gameButtons.sprint = document.querySelector('.sprint-game');
+    this.gameButtons.sprint.addEventListener('click', this.onSprintButtonClickHandlerBinded);
   }
 }
 

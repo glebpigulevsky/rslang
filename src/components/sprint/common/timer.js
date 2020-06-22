@@ -26,29 +26,26 @@ export default class Timer {
 
   // eslint-disable-next-line class-methods-use-this
   addTemplateTimer() {
-    document.getElementById('app').innerHTML = `
-<div class="base-timer">
-  <svg class="base-timer__svg" viewBox="0 0 100 100" >
-    <g class="base-timer__circle">
-      <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
-      <path
-        id="base-timer-path-remaining"
-        stroke-dasharray="283"
-        class="base-timer__path-remaining ${this.remainingPathColor}"
-        d="
-          M 50, 50
-          m -45, 0
-          a 45,45 0 1,0 90,0
-          a 45,45 0 1,0 -90,0
-        "
-      ></path>
-    </g>
-  </svg>
-  <span id="base-timer-label" class="base-timer__label">
-  ${this.formatTimeLeft(this.timeLeft)}
-</span>
-</div>
-`;
+    const temp = `<div class="base-timer">
+    <svg class="base-timer__svg" viewBox="0 0 100 100" >
+      <g class="base-timer__circle">
+        <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
+        <path
+          id="base-timer-path-remaining"
+          stroke-dasharray="283"
+          class="base-timer__path-remaining ${this.remainingPathColor}"
+          d="
+            M 50, 50
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+        ></path>
+      </g>
+    </svg>
+    <span id="base-timer-label" class="base-timer__label">
+    ${this.formatTimeLeft(this.timeLeft)}  </span>  </div>  `;
+    document.getElementById('app').insertAdjacentHTML('afterbegin', temp);
   }
 
   // eslint-disable-next-line class-methods-use-this

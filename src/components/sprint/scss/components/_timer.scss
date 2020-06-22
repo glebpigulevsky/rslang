@@ -6,9 +6,11 @@ body {
 }
 
 .base-timer {
-  position: relative;
+  position: absolute;
   width: 300px;
   height: 300px;
+  top: 5%;
+  right: 10%;
 }
 
 .base-timer__svg {
