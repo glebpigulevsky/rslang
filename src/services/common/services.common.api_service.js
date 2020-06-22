@@ -41,14 +41,18 @@ export default class ApiService {
         body: JSON.stringify(params),
       });
       if (!res.ok) {
+        let status = '';
+        let errorDescription = '';
+
         try {
           const errorRes = await res.json();
-          const errorDescription = (errorRes.error !== undefined) ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
-          const status = (errorRes.error !== undefined) ? 0 : res.status;
-          this.getError(status, errorDescription, res.statusText);
+          errorDescription = (errorRes.error !== undefined) ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
+          status = (errorRes.error !== undefined) ? 0 : res.status;
         } catch (e) {
-          this.getError(res.status, '', res.statusText);
+          status = res.status;
+          errorDescription = '';
         }
+        this.getError(status, errorDescription, res.statusText);
       }
       return res.json();
     } catch (e) {

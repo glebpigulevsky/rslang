@@ -94,7 +94,6 @@
     cursor: pointer;
     color: #FFFCFC;
     border: 1px solid transparent;
-    oncontextmenu: false;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     }
   
@@ -130,6 +129,8 @@
     font-size: 28px;
     font-weight: bold;
     cursor: pointer;
+    align-self: flex-end;
+    padding-right: 1rem;
   }
   
   .switch {

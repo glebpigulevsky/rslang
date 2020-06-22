@@ -1,64 +1,67 @@
 import { AuthenticateUserService } from '../../common/common.helper';
 import { LoginComponent } from './login_user.component';
-import { ErrorPopup } from '../error/error.error_popup'; 
+import { LOGIN_BUTTONS_NAME, LOGIN_BUTTONS_COLOR_CLASS } from './common/login_user.common.constants';
+import { ErrorPopup } from '../error/error.error_popup';
 import './scss/login.styles.scss';
-
-// const CREATE_ACCOUNT_BTN = document.querySelector('#create_btn');
-// const CREATE_EMAIL_INPUT = document.querySelector('#inputEmail');
-// const CREATE_PASSWORD_INPUT = document.querySelector('#inputPassword');
-const CREATE_CONTAINER = document.querySelector('[data-container="container-create"]');
-const REGISTER_SWITCH = document.querySelector('#trainSwitch');
-const LOGIN_ACCOUNT_BTN = document.querySelector('#login_btn');
-const LOGIN_EMAIL_INPUT = document.querySelector('#inputEmailLogin');
-const LOGIN_PASSWORD_INPUT = document.querySelector('#inputPasswordLogin');
-const LOGIN_CONTAINER = document.querySelector('[data-container="container-login"]');
-const LOGIN_INFO = document.querySelector('#login_info');
-
-const START_CONTAINER = document.querySelector('[data-container="container-start"]');
 
 class LoginUser {
   constructor() {
-    this.authUserService = new AuthenticateUserService();
+    this._authUserService = new AuthenticateUserService();
+    this._closeBtn = null;
+    this._createBtn = null;
+    this._trainSwitch = null;
+    this._createInfo = null;
+    this._switchLabelSignUp = null;
+    this._switchLabelSignIn = null;
+    this._inputEmail = null;
+    this._inputPassword = null;
   }
 
-  async showLoginPopup() {
-    //const x = new ErrorPopup();
-   // x.openPopup({ 'dddddd' });
+  showLoginPopup() {
+    // const err = new ErrorPopup();
+    // err.openPopup({ text:'dddddd' });
     document.body.insertAdjacentHTML('afterend', LoginComponent);
 
-    document.querySelector('.login').oncontextmenu = () => false; //  Disable browser right-click (or double-click) menu.
+    this._closeBtn = document.querySelector('#js-loginCloseBtn');
+    this._createBtn = document.querySelector('#js-loginCreateBtn');
+    this._trainSwitch = document.querySelector('#js-trainSwitch');
+    this._createInfo = document.querySelector('#js-loginCreateInfo');
+    this._switchLabelSignUp = document.querySelector('#js-switchLabelSignUp');
+    this._switchLabelSignIn = document.querySelector('#js-switchLabelSignIn');
+    this._inputEmail = document.querySelector('#js-inputEmail');
+    this._inputPassword = document.querySelector('#js-inputPassword');
 
-    document.querySelector('#trainSwitch').addEventListener('click', (e) => {
-      const hasSignUp = document.querySelector('#trainSwitch').checked;
-      if (hasSignUp) {
-        document.querySelector('#create_btn').textContent = 'Sign Up';
-        document.querySelector('#switchLabelSignUp').classList.add('login__mode_selected');
-        document.querySelector('#switchLabelSignIn').classList.remove('login__mode_selected');
-      } else {
-        document.querySelector('#create_btn').textContent = 'Sign In';
-        document.querySelector('#switchLabelSignIn').classList.add('login__mode_selected');
-        document.querySelector('#create_btn').classList.remove('login__mode_selected');
-      }
-    });
+    this._trainSwitch.addEventListener('click', () => this._trainSwitchHandler());
 
-    document.querySelector('#create_btn').addEventListener('click', (e) => {
+    this._createBtn.addEventListener('click', (e) => {
       e.preventDefault();
-      document.querySelector('#create_info').textContent = '';
-      const email = document.querySelector('#inputEmail').value.toString();
-      const password = document.querySelector('#inputPassword').value.toString();
-      const hasSignUp = document.querySelector('#trainSwitch').checked;
-      console.log(`hasSignUp ${hasSignUp}`);
-      this.authUserService
+      this._createInfo.textContent = '';
+      const email = this._inputEmail.value.toString();
+      const password = this._inputPassword.value.toString();
+      const hasSignUp = this._trainSwitch.checked;
+      this._authUserService
         .loginUser({ email, password, hasSignUp })
         .then((res) => {
           console.log(`return creation ${res}`);
-          document.querySelector('#create_info').textContent = res;
         })
         .catch((err) => {
           console.log(`return error ${err}`);
-          document.querySelector('#create_info').textContent = err;
+          this._createInfo.textContent = err;
         });
     });
+  }
+ 
+  _trainSwitchHandler(e) {
+    const hasSignUp = this._trainSwitch.checked;
+    if (hasSignUp) {
+      this._createBtn.textContent = LOGIN_BUTTONS_NAME.SignUp;
+      this._switchLabelSignUp.classList.add(LOGIN_BUTTONS_COLOR_CLASS);
+      this._switchLabelSignIn.classList.remove(LOGIN_BUTTONS_COLOR_CLASS);
+    } else {
+      this._createBtn.textContent = LOGIN_BUTTONS_NAME.SignIn;
+      this._switchLabelSignIn.classList.add(LOGIN_BUTTONS_COLOR_CLASS);
+      this._switchLabelSignUp.classList.remove(LOGIN_BUTTONS_COLOR_CLASS);
+    }
   }
 }
 
