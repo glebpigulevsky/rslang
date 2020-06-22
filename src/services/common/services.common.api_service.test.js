@@ -20,7 +20,7 @@ describe('get request any site', () => {
     try {
       await service.getResource({ url: '/get/error', hasToken: true });
     } catch (e) {
-      expect(e.message).toEqual('404: Not Found');
+      expect(e.message).toEqual(ERRORS_DESCRIPTION[404]);
     }
   });
 });
