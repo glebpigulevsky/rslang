@@ -1,13 +1,75 @@
 import './scss/some_component.scss';
-import { GAME_BLOCK, TEMPLATE_MAIN_GAME, INPUT_AREA } from '../../common/main.constants';
+import { GAME_BLOCK, TEMPLATE_MAIN_GAME } from '../../common/main.constants';
 import {
-  SettingsApi, StatisticsApi, UsersApi, UserWordsApi, WordsApi,
+ StatisticsApi, UsersApi, UserWordsApi, WordsApi,
 } from '../../../../services/services.methods';
 import ErrorInput from '../errorInput/errorInput';
 import introMainGame from '../introMainGame/introMainGame';
 
 const errorInput = new ErrorInput();
 const wordsApi = new WordsApi();
+
+async function inputModeEnter(e) {
+  this.inputArea = document.querySelector('.answer-input');
+  if (e.key === 'Enter') {
+    if (this.settings.optional.isAudio === 'true') {
+      if (this.inputArea.value === this.currentCard.word) {
+        document.removeEventListener('keypress', () => {});
+        const audio = new Audio();
+        audio.src = this.currentCard.audio;
+        audio.autoplay = true;
+        audio.addEventListener('ended', () => {
+          playAudioBinded(this.currentCard.audioExample);
+        });
+      } else {
+        const audio = new Audio();
+        audio.src = this.currentCard.audio;
+        audio.autoplay = true;
+        await errorInput.init();
+      }
+    } else {
+      playAudioBinded(this.currentCard.audio);
+    }
+  }
+}
+
+function inputModeArrow() {
+  this.inputArea = document.querySelector('.answer-input');
+  if (this.inputArea.value === this.currentCard.word) {
+    playAudioBinded(this.currentCard.audioExample);
+  } else {
+    const audio = new Audio();
+    audio.src = this.currentCard.audio;
+    audio.autoplay = true;
+  }
+}
+
+function inputModeArrowPrev() {
+  this.indexCard -= 1;
+  game.playMode(this.indexCard);
+  if (this.indexCard === 0) {
+    game.gameButtons.prev.classList.add('hidden');
+  }
+}
+
+function playAudio(path) {
+  const audio = new Audio();
+  audio.src = path;
+  audio.autoplay = true;
+  audio.addEventListener('ended', () => {
+    if (this.indexCard === (this.collection.length - 1)) {
+      document.querySelector('.learn-content__meaning').innerHTML = '';
+      this.page += 1;
+      this.indexCard = 0;
+      this.addMdGameScreen();
+    } else {
+      document.querySelector('.learn-content__meaning').innerHTML = '';
+      this.indexCard += 1;
+      game.playMode(this.indexCard);
+    }
+  });
+}
+
 const game = {
 
   gameButtons: {
@@ -59,14 +121,10 @@ const game = {
       this.gameButtons.prev.classList.remove('hidden');
     }
     this.gameButtons.prev.addEventListener('click', inputModeArrowPrevBinded);
-    // this.addSettingsButton(this.settings);
     this.currentCard = await this.collection[queryIndex];
-    console.info(this.currentCard);
     this.currentCard.textExample = this.currentCard.textExample.replace(/<\/?[a-zA-Z]+>/gi, '');
-    // this.currentCard.textExample = this.currentCard.textExample.replace('.', ' .').toLowerCase();
     this.currentCard.textExample = this.currentCard.textExample.replace(',', ' ,').toLowerCase();
     const wordsArr = await this.currentCard.textExample.split(' ');
-    console.info(wordsArr);
     if (wordsArr.indexOf(this.currentCard.word) === -1) {
       if (this.indexCard === 19) {
         this.page += 1;
@@ -108,92 +166,79 @@ const game = {
           spanBg.innerHTML += `<span index=${index} class="opacityhidden errors">${element}</span>`;
         });
         const inputWord = document.createElement('input');
-        if (this.settings.isTranscription === 'true') {
-          document.querySelector('.transcription').innerHTML = '';
-          document.querySelector('.transcription').innerHTML = this.currentCard.transcription;
-        }
-        if (this.settings.isTranslation === 'true') {
-          document.querySelector('.learn-content__meaning').innerHTML = '';
-          document.querySelector('.learn-content__meaning').innerHTML = this.currentCard.textMeaning;
-        }
-        if (this.settings.isPicture === 'true') {
-          document.querySelector('.card-image').innerHTML = '';
-          document.querySelector('.card-image').innerHTML = `<img src="${this.currentCard.image}"></img>`;
-        }
+        this.buildCardSettings(this.settings);
         inputWord.classList.add('answer-input');
         inputDiv.append(spanBg);
-        //inputDiv.append(wordContainer);
         inputDiv.append(inputWord);
         document.querySelector('.learn-content__container').append(inputDiv);
       }
     });
-
     const dotBlock = document.createElement('span');
     dotBlock.classList.add('dotBlock');
     dotBlock.innerHTML = '.';
     document.querySelector('.learn-content__container').append(dotBlock);
-    document.querySelector('.learn-content__translation').innerHTML = '';
-    document.querySelector('.learn-content__translation').innerHTML = this.currentCard.textExampleTranslate;
     document.querySelector('.translate').innerHTML = this.currentCard.wordTranslate;
     document.addEventListener('keypress', inputModeEnterBinded);
+    document.querySelector('.answer-input').focus();
   },
 
-  addSettingsButton(settings) {
+  buildCardSettings(settings) {
+    if (settings.optional.isTranscription === 'true') {
+      document.querySelector('.transcription').innerHTML = '';
+      document.querySelector('.transcription').innerHTML = this.currentCard.transcription;
+    }
+    // if (settings.optional.isAddSentExplWord === 'true') {
+    //   document.querySelector('.learn-content__meaning').innerHTML = '';
+    //   document.querySelector('.learn-content__meaning').innerHTML = this.currentCard.textMeaning;
+    // }
+    if (this.settings.optional.isPicture === 'true') {
+      document.querySelector('.card-image').innerHTML = '';
+      document.querySelector('.card-image').innerHTML = `<img src="${this.currentCard.image}"></img>`;
+    }
+    if (this.settings.optional.isTranslation === 'true') {
+      document.querySelector('.learn-content__translation').innerHTML = '';
+      document.querySelector('.learn-content__translation').innerHTML = this.currentCard.textExampleTranslate;
+    }
+    // buttons
+    if (this.settings.optional.isShowAnswerButton === 'true') {
+      document.querySelector('.card-footer__answer-button').innerHTML = '';
+      document.querySelector('.card-footer__answer-button').innerHTML = '<button class="show__answer-button">Ответ</button>';
+      document.querySelector('.show__answer-button').addEventListener('click', this.showAnswerButton);
+    }
+    if (this.settings.optional.isShowDiffMoveButton === 'true') {
+      document.querySelector('.card-header__move-diff').innerHTML = '';
+      document.querySelector('.card-header__move-diff').innerHTML = '<button>Move D.</button>';
+    }
+    if (this.settings.optional.isShowDeleteButton === 'true') {
+      document.querySelector('.card-header__delete-word').innerHTML = '';
+      document.querySelector('.card-header__delete-word').innerHTML = '<button>Delete</button>';
+    }
+    if (this.settings.optional.isShowAgainButton === 'true') {
+      document.querySelector('.card-header__again-word').innerHTML = '';
+      document.querySelector('.card-header__again-word').innerHTML = '<button>Again</button>';
+    }
+    if (this.settings.optional.isShowDiffButton === 'true') {
+      document.querySelector('.card-header__diff-diff').innerHTML = '';
+      document.querySelector('.card-header__diff-diff').innerHTML = '<button>Difficult</button>';
+    }
+    if (this.settings.optional.isShowGoodButton === 'true') {
+      document.querySelector('.card-header__diff-good').innerHTML = '';
+      document.querySelector('.card-header__diff-good').innerHTML = '<button>Good</button>';
+    }
+    if (this.settings.optional.isShowEasyButton === 'true') {
+      document.querySelector('.card-header__diff-easy').innerHTML = '';
+      document.querySelector('.card-header__diff-easy').innerHTML = '<button>Easy</button>';
+    }
+  },
+
+  showAnswerButton() {
+    if (game.settings.optional.isAddSentExplWord === 'true') {
+      document.querySelector('.learn-content__meaning').innerHTML = '';
+      document.querySelector('.learn-content__meaning').innerHTML = game.currentCard.textMeaning;
+    }
   },
 
 };
-
-async function inputModeEnter(e) {
-  this.inputArea = document.querySelector('.answer-input');
-  if (e.key === 'Enter') {
-    if (this.inputArea.value === this.currentCard.word) {
-      document.removeEventListener('keypress', () => {});
-      playAudioBinded(this.currentCard.audioExample);
-    } else {
-      const audio = new Audio();
-      audio.src = this.currentCard.audio;
-      audio.autoplay = true;
-      await errorInput.init();
-    }
-  }
-}
-
-function inputModeArrow() {
-  this.inputArea = document.querySelector('.answer-input');
-  if (this.inputArea.value === this.currentCard.word) {
-    playAudioBinded(this.currentCard.audioExample);
-  } else {
-    const audio = new Audio();
-    audio.src = this.currentCard.audio;
-    audio.autoplay = true;
-    //errorInput.init();
-  }
-}
-
-function inputModeArrowPrev() {
-  this.indexCard -= 1;
-  game.playMode(this.indexCard);
-  if (this.indexCard === 0) {
-    game.gameButtons.prev.classList.add('hidden');
-  }
-}
-
-function playAudio(path) {
-  const audio = new Audio();
-  audio.src = path;
-  audio.autoplay = true;
-  audio.addEventListener('ended', () => {
-    console.log(this.indexCard, this.collection.length);
-    if (this.indexCard === (this.collection.length - 1)) {
-      this.page += 1;
-      this.indexCard = 0;
-      this.addMdGameScreen();
-    } else {
-      this.indexCard += 1;
-      game.playMode(this.indexCard);
-    }
-  });
-}
 
 let inputModeEnterBinded = inputModeEnter.bind(game);
 let inputModeArrowBinded = inputModeArrow.bind(game);

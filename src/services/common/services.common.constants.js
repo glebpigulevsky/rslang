@@ -1,5 +1,5 @@
 const MAIN_API_URL = 'https://afternoon-falls-25894.herokuapp.com';
-const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZ…zExfQ.jnZq1YG899erlqGrJywvES5BeJVqPQF1EYOUKYcVEuU';
+const TOKEN = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZ…DA4fQ.uV2HzzvgOkCGEJ3pPiPqWyOhoVKXevGJHwrhssjBIkc';
 const ERRORS_DESCRIPTION = {
   400: '400: Bad Request',
   401: '401: Access Token Is Missing or Invalid',
@@ -18,6 +18,22 @@ const GET_RANDOM = (min, max) => {
   return Math.floor(Math.random() * (y - x + 1)) + x;
 };
 const MEDIA_LINK = 'https://raw.githubusercontent.com/caspercarver/rslang-data/master/';
+const OPTIONAL_DEFAULT = {
+  cardsDay: '4',
+  isTranslation: 'true', // textExampleTranslate
+  isTranscription: 'true', // transcription
+  isPicture: 'true', // image
+  isAddSentExplWord: 'true', // textMeaning
+  isAddSentUsingWord: 'true', // ?
+  isShowAnswerButton: 'true', // +
+  isShowDiffMoveButton: 'true', // +
+  isShowDeleteButton: 'true', // +
+  isShowAgainButton: 'true', // +
+  isShowDiffButton: 'true', // +
+  isShowGoodButton: 'true', // +
+  isShowEasyButton: 'true', // +
+  isAudio: 'false',
+};
 export {
-  MAIN_API_URL, TOKEN, ERRORS_DESCRIPTION, MEDIA_LINK,
+  MAIN_API_URL, TOKEN, ERRORS_DESCRIPTION, MEDIA_LINK, OPTIONAL_DEFAULT,
 };
