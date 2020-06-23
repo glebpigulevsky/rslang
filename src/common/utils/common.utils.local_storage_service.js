@@ -9,7 +9,8 @@ class LocalStorageService {
   }
 
   getUserInfo() {
-    return this._getFromLocalStorage(this._keyUserInfo);
+    const res = this._getFromLocalStorage(this._keyUserInfo);
+    return this._transformUserInfo(res);
   }
 
   _setLocalStorageData(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
@@ -20,6 +21,10 @@ class LocalStorageService {
 
   _deleteFromLocalStorage(key) {
     localStorage.removeItem(key);
+  }
+
+  _transformUserInfo({ userId, token, expiredTime }) {
+    return { userId, token, expiredTime };
   }
 }
 
