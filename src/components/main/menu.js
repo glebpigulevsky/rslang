@@ -33,7 +33,7 @@ class Menu {
     document.removeEventListener('click', this.onCloseClickHandlerBinded);
   }
 
-  removeActiveStateLinks() {
+  changeActiveStateLinks() {
     const { navigation } = this;
 
     navigation.addEventListener('click', (e) => {
@@ -49,7 +49,7 @@ class Menu {
 
     this.addBurgerIconClickHandler();
     this.addCloseButtonClickHandler();
-    this.removeActiveStateLinks();
+    this.changeActiveStateLinks();
   }
 }
 
