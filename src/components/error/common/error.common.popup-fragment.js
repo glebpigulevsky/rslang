@@ -74,7 +74,9 @@ export default class ErrorPopupFragment {
     });
   }
 
-  _createAnyDomElement({ elem, classList = [], id = null, dataAttributeList = [], textContent = null }) {
+  _createAnyDomElement({
+    elem, classList = [], id = null, dataAttributeList = [], textContent = null,
+  }) {
     const item = document.createElement(elem);
     if (classList.length > 0) {
       item.classList.add(...classList);
