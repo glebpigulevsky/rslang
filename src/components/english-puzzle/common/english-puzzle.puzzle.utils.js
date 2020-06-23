@@ -6,12 +6,23 @@ const createCanvasElements = (
     fillColor = null,
     borderPuzzle = 5,
     hasText = true,
-    isSmallWindow = false,
+    windowSize = 1024,
   },
 ) => {
-  const extraWidthValue = isSmallWindow ? 3 : 10;
+  const imageToRender = img;
+  const extraWidthValue = 10;
   const fontFamily = 'Segoe';
-  const fontRatio = isSmallWindow ? 0.9 : 1;
+  let fontRatio;
+  if (windowSize >= 1024) {
+    fontRatio = 1;
+    imageToRender.width = 1200;
+  } else if (windowSize >= 768) {
+    fontRatio = 0.8;
+    imageToRender.width = 1000;
+  } else {
+    fontRatio = 0.6;
+    imageToRender.width = 768;
+  }
   const fontType = 'bold';
   const shadowPuzzle = 2;
   const borderText = 1;
@@ -115,8 +126,8 @@ const createCanvasElements = (
 
       ctx.clip();
 
-      if (fillColor) {
-        ctx.fillStyle = fillColor; // todo
+      if (fillColor || windowSize < 768) {
+        ctx.fillStyle = fillColor || 'lightgreen'; // todo
         ctx.fill();
       } else {
         // ctx.globalAlpha = 0.6;
@@ -165,25 +176,25 @@ const createCanvasElements = (
   return result;
 };
 
-const getCanvasElementsCollection = (preloadedPicture, sentences, isSmallWindow) => ({
+const getCanvasElementsCollection = (preloadedPicture, sentences, windowSize) => ({
   withImage: {
     regular: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
       colorBorder: 'gray',
-      isSmallWindow,
+      windowSize,
     }),
     correct: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
       colorBorder: 'green',
-      isSmallWindow,
+      windowSize,
     }),
     error: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
       colorBorder: 'red',
-      isSmallWindow,
+      windowSize,
     }),
   },
   withOutImage: {
@@ -192,21 +203,21 @@ const getCanvasElementsCollection = (preloadedPicture, sentences, isSmallWindow)
       wordsList: sentences,
       colorBorder: 'gray',
       fillColor: 'brown',
-      isSmallWindow,
+      windowSize,
     }),
     correct: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
       colorBorder: 'green',
       fillColor: 'brown',
-      isSmallWindow,
+      windowSize,
     }),
     error: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
       colorBorder: 'red',
       fillColor: 'brown',
-      isSmallWindow,
+      windowSize,
     }),
   },
   finalImage: createCanvasElements({
@@ -214,7 +225,7 @@ const getCanvasElementsCollection = (preloadedPicture, sentences, isSmallWindow)
     wordsList: sentences,
     colorBorder: 'transparent',
     hasText: false,
-    isSmallWindow,
+    windowSize,
   }),
 });
 

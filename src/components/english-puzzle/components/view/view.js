@@ -54,8 +54,8 @@ class View {
     return this.dataDropZone.querySelectorAll('*').length;
   }
 
-  renderInputSentence(currentSentensePuzzles) {
-    shuffleArray((currentSentensePuzzles)).forEach((puzzle) => {
+  renderInputSentence(currentSentencePuzzles) {
+    shuffleArray((currentSentencePuzzles)).forEach((puzzle) => {
       // todo повторение будет в рендеринге правильной последовательности
       const clonePuzzle = puzzle.cloneNode(true);
       clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);

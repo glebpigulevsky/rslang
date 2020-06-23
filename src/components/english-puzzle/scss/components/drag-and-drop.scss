@@ -56,7 +56,6 @@
 .sentence {
   display: flex;
   align-content: start;
-  flex-wrap: wrap;
   // margin: 0 auto;
   // justify-content: flex-start;
 
@@ -66,6 +65,9 @@
 
   @include media-mobile {
     justify-content: center;
+    flex-wrap: wrap;
+    
+    overflow: hidden;
   }
 }
 

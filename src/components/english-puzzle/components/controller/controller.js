@@ -78,7 +78,7 @@ class Controller {
   }
 
   onIDontKnowButtonClickHandler() {
-    model.errorsList.push(gameController.fetchedRoundData[gameController.currentSentence]);
+    // model.errorsList.push(gameController.fetchedRoundData[gameController.currentSentence]); // todo заглушка без интернета
 
     view.hideIDontKnowButton();
     view.hideCheckButton();
