@@ -16,6 +16,21 @@
       <div class="main__game-start__description">"English words" game.<br><span>Based on russian</span></div>
       <button class="main__game-start__button">Start lesson</button>
     </div>
+    <div class="main__game-level">
+      <div class="">Выберите свой уровень для тренировки:</div>
+      
+      <datalist id="levellist">
+        <option value="0" label="A0">
+        <option value="1" label="A1">
+        <option value="2" label="A2">
+        <option value="3" label="B1">
+        <option value="4" label="B2">
+        <option value="5" label="C1">
+     </datalist>
+      <input id="englishlevel" type="range" min="0" max="5" step="1" list="levellist">
+      
+      </div>
+    </div>
     <div class="main__game-stat">
       <div class="main__game-stat__today">Today</div>
       <div class="main__game-stat__week">Weekly progress</div>

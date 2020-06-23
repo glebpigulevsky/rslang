@@ -29,6 +29,25 @@
     }
 }
 
+.main__game-level{
+    width: 80%;
+    margin: 0 auto;
+    margin-top: 1rem;
+    @include segoe-subtitle($color-text, 400);
+    background-color: #f8f2ee;
+    border-radius: .75rem;
+    padding: 1rem;
+    border: 1px solid white;
+    #levellist{
+        display: flex;
+        width: 40%;
+        justify-content: space-between;
+    }
+    #englishlevel{
+        width: 40%;
+    }
+}
+
 .main__game-stat {
     @include segoe-subtitle($color-text, 400);
 
@@ -100,7 +119,11 @@
                         padding: 0.25rem;
                         display: inline-block;
                         .background{
-                            background: #e0ebef;
+                            position: relative;
+                            top: -3px;
+                            span{
+                                transition: opacity 1s ease;
+                            }
                         }
                         .word-container{
                             position: absolute;
@@ -115,6 +138,7 @@
                             span{
                                 visibility: visible;
                                 color: #338c99;
+                                transition: opacity 2s ease;
                             }
                         }
                         
@@ -226,3 +250,26 @@
 .hidden {
     display: none;
 }
+.opacity-hidden{
+    visibility: hidden;
+}
+.visually-hidden {
+    color: transparent;
+}
+
+.opacity {
+    opacity: 0;
+  }
+  .green {
+    color: green;
+  }
+  
+  .red {
+    color: red;
+  }
+  
+  .green,
+  .red {
+    position: relative;
+    z-index: 1;
+  }

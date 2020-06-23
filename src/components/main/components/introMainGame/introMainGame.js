@@ -15,6 +15,7 @@ const userDefault = {
   id: '5eeb987b98ffbf00174581a7',
 };
 const optional = {
+  wordsPerDay: '1',
   cardsDay: '4',
   isTranslation: 'true',
   isTranscription: 'true',
@@ -35,32 +36,49 @@ const introMainGame = {
     mainGameStart: null,
   },
 
+  englishLevel: null,
+
   async init() {
+    //this.englishLevel = document.getElementById('englishlevel').value;
     GAME_BLOCK.innerHTML = '';
     GAME_BLOCK.append(TEMPLATE_MAIN_GAMEINTRO.content.cloneNode(true));
-    const auth = await user.authenticateUser({
-      email: userDefault.email,
-      password: userDefault.password,
-    });
-    settings.apiService = new ApiService(MAIN_API_URL, auth.token);
-    settings.updateSettings({ userId: userDefault.id, wordsPerDay: 1, optional })
-      .then((res) => {
-        introMainGame.settings = res;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    introMainGame.settings = optional;
+    // const auth = await user.authenticateUser({
+    //   email: userDefault.email,
+    //   password: userDefault.password,
+    // });
+    // console.log(auth);
+    // settings = new ApiService(MAIN_API_URL, auth.token);
+    // settings.updateSettings({ userId: auth.userId, wordsPerDay: 1, optional })
+    //   .then((res) => {
+    //     console.log(res);
+    //     introMainGame.settings = res;
+    //   })
+    //   .catch((err, res) => {
+    //     console.log(res);
+    //     console.log(err);
+    //   });
     this.initMd();  //---- чтобы включить стартовый экран расскоментить и удалить следующую строку
     //game.init(introMainGame.settings);
   },
 
   initMd() {
+    this.englishLevel = document.getElementById('englishlevel').value;
+    this.changeRangeLevel();
     this.introButtons.mainGameStart = document.querySelector('.main__game-start__button');
     this.introButtons.mainGameStart.addEventListener('click', this.onMainGameStartClickHandler);
+    console.info(this.englishLevel);
+  },
+
+  changeRangeLevel() {
+    document.getElementById('englishlevel').addEventListener('change', () => {
+      this.englishLevel = document.getElementById('englishlevel').value;
+      console.info(this.englishLevel);
+    });
   },
 
   onMainGameStartClickHandler() {
-    game.init(introMainGame.settings);
+    game.init(optional, introMainGame.englishLevel);
   },
 
 };

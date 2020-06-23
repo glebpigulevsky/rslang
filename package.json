@@ -2,7 +2,7 @@
   "name": "rslang",
   "version": "1.0.0",
   "description": "Final task RSSchool 2020#1",
-  "main": "index.js",
+  "main": "app.js",
   "dependencies": {
     "es6-promise": "^4.2.8",
     "isomorphic-fetch": "^2.2.1",
