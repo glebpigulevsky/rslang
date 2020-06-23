@@ -17,6 +17,7 @@ class GameController {
     this.currentSentence = null;
     this.isPictureShown = null;
     this.completedRoundsByLevels = [];
+    this.windowSize = null;
 
     this.hints = {
       isBgImage: null,
@@ -59,8 +60,8 @@ class GameController {
     this.setCurrentRound();
 
     showSpinner(); //* кандидаты в отдельную функцию
-    // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
-    this.maxRoundInLevel = 40; // todo заглушка без интернета
+    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
+    // this.maxRoundInLevel = 40; // todo заглушка без интернета
     view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
     this.setCurrentRound(0);
     view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]); //*
@@ -103,36 +104,38 @@ class GameController {
     view.showIDontKnowButton();
     view.hideCheckButton();
     view.hideContinueButton();
+    view.hideResultButton();
+    this.isPictureShown = false;
 
     // try {
-    // this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
+    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
     // } catch (err) {
     // this.fetchedRoundData = JSON.parse(localStorage.getItem('data')); // todo заглушка без интернета
     // }
     localStorage.setItem('data', JSON.stringify(this.fetchedRoundData));
 
-    // const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
+    const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
 
-    const sentences = [ // todo заглушка без интернета
-      'The students agree they have too much homework every day',
-      'I a`m going to study',
-      'It is difficult situation for me',
-      'The are a lot of interesting things',
-      'We are going to do it together',
-      'It is very hot summer',
-      'This situation is not very good',
-      'Every morning he does his physical exercises',
-      'It is nine sentence',
-      'First level and first round',
-    ];
+    // const sentences = [ // todo заглушка без интернета
+    //   'The students agree they have too much homework every day',
+    //   'I a`m going to study',
+    //   'It is difficult situation for me',
+    //   'The are a lot of interesting things',
+    //   'We are going to do it together',
+    //   'It is very hot summer',
+    //   'This situation is not very good',
+    //   'Every morning he does his physical exercises',
+    //   'It is nine sentence',
+    //   'First level and first round',
+    // ];
 
-    // this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound);
-    this.fetchedPictureData = {}; // todo заглушка без интернет
+    this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound);
+    // this.fetchedPictureData = {}; // todo заглушка без интернет
     this.fetchedPictureData.preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
-    const windowSize = document.documentElement.clientWidth;
+    this.windowSize = document.documentElement.clientWidth;
     // if (isSmallWindow) this.fetchedPictureData.preloadedPicture.width = 768;
-    const widthGap = (windowSize >= 768) ? 10 : 0;
-    this.canvasElements = getCanvasElementsCollection(this.fetchedPictureData.preloadedPicture, sentences, windowSize);
+    const widthGap = (this.windowSize >= 768) ? 10 : 0;
+    this.canvasElements = getCanvasElementsCollection(this.fetchedPictureData.preloadedPicture, sentences, this.windowSize);
 
     this.currentSentence = 0;
     view.renderNewDataDropZone();
@@ -191,9 +194,16 @@ class GameController {
         this.lastGameFinalTime = new Date().toLocaleString();
         model.saveResults(model.errorsList, this.lastGameFinalTime);
 
+        view.resultDropZone.classList.remove('drop-place');
+        view.dataDropZone.remove();
+
         this.isPictureShown = true;
-        view.showPicture(this.canvasElements.finalImage.flat(Infinity));
-        view.showImageDescription(`Author: ${this.fetchedPictureData.author.replace(',', ' ')}, Name: ${this.fetchedPictureData.name}, Date: ${this.fetchedPictureData.year}`);
+
+        if (this.windowSize >= 768) {
+          view.clearSentencesBackground();
+          view.showPicture(this.canvasElements.finalImage.flat(Infinity));
+          view.showImageDescription(`Author: ${this.fetchedPictureData.author.replace(',', ' ')}, Name: ${this.fetchedPictureData.name}, Date: ${this.fetchedPictureData.year}`);
+        }
         view.showResultButton();
         view.hideTranslation();
         return;
@@ -207,10 +217,13 @@ class GameController {
       return;
     }
 
+    view.hideResultButton();
     view.showIDontKnowButton();
     view.hideContinueButton();
     this.currentSentence += 1;
-    view.renderNextResultDropZone();
+    if (this.windowSize < 768) {
+      view.resultDropZone.innerHTML = '';
+    } else view.renderNextResultDropZone();
     view.renderInputSentence(this.getCanvasElement({
       currentSentence: this.currentSentence,
       isImage: this.hints.isBgImage,
@@ -246,9 +259,9 @@ class GameController {
     showSpinner(); //* кандидаты в отдельную функцию
     // try {
     this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
-    // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
+    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
     // } catch (err) {
-    this.maxRoundInLevel = 40; // todo заглушка без Интернета
+    // this.maxRoundInLevel = 40; // todo заглушка без Интернета
     // }
     this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);
     view.menu.renderLevelSelector(this.currentLevel);

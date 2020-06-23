@@ -17,33 +17,12 @@
 .introduction__container {
   position: relative;
 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
   width: 100vw;
   height: 100vh;
 
   backdrop-filter: opacity(0.8) blur(2px) brightness(1.2);
-}
-
-
-.introduction__button {
-  position: absolute;
-  bottom: 100px;
-  left: 100px;
-
-  min-width: 20vw;
-  min-height: 50px;
-
-  font-size: 30px;
-  background-color: #00bf82;
-
-  box-shadow:  5px 10px 0 rgba(0, 0, 0, 0.2), 0px 5px 10px 0 rgba(0, 0, 0, 0.4),
-               0 0 40px 40px #335e97 inset, 0 0 0 0 #00bf82;
-  transition: .03s ease-in-out;
-
-  &:focus,
-  &:hover,
-  &:active {
-    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2), 0px 5px 10px 0 rgba(0, 0, 0, 0.4),
-                0 0 10px 0 #00bf82 inset, 0 0 10px 4px white;
-    color: white;
-  }
 }

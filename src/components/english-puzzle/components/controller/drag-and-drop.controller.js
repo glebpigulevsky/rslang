@@ -37,7 +37,7 @@ class DragAndDropController {
     const belowElement = document.elementFromPoint(evt.clientX, evt.clientY);
     this.cloneCell.classList.remove('hidden');
 
-    const dropAbleBelow = belowElement && belowElement.closest('.drop__place');
+    const dropAbleBelow = belowElement && belowElement.closest('.drop-place');
 
     if (dropAbleBelow) {
       this.belowElement = dropAbleBelow;
@@ -110,7 +110,7 @@ class DragAndDropController {
   }
 
   onFieldMouseDownHandler(evt) {
-    if (!evt.target.classList.contains('dragable') || !evt.target.closest('.drop__place')) return;
+    if (!evt.target.classList.contains('dragable') || !evt.target.closest('.drop-place')) return;
 
     view.resetPuzzlesStates(
       gameController.currentSentence,
@@ -157,7 +157,7 @@ class DragAndDropController {
       ? document.querySelector('.data__container')
       : document.querySelector('.field__container');
 
-    newContainer.querySelector('.drop__place').append(this.targetCell);
+    newContainer.querySelector('.drop-place').append(this.targetCell);
 
     this.targetCell.classList.remove('hidden'); // TODO повтор, смотри ниже
     this.cloneCell.remove();

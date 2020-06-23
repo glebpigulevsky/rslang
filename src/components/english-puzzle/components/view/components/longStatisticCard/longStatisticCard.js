@@ -15,7 +15,6 @@ export default class StatisticCard {
   }
 
   renderCardContent(index, { errorsList, finalTime }) {
-    debugger;
     return `
       <p class="card__content">
         <span>${index + 1}. </span>

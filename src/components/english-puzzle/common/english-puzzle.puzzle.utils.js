@@ -15,23 +15,23 @@ const createCanvasElements = (
   let fontRatio;
   if (windowSize >= 1024) {
     fontRatio = 1;
-    imageToRender.width = 1200;
   } else if (windowSize >= 768) {
     fontRatio = 0.8;
-    imageToRender.width = 1000;
+    if (imageToRender.width > 900) imageToRender.width = 900;
   } else {
     fontRatio = 0.6;
     imageToRender.width = 768;
   }
   const fontType = 'bold';
   const shadowPuzzle = 2;
-  const borderText = 1;
+  const borderText = 2;
   const shadowText = 10;
   const colorShadowBorder = 'rgb(255,255,250)';
   const colorText = 'white';
   const colorShadowText = 'black';
   const solidTextColor = 'white';
   const fontStyle = 'fillText';
+  // const fontStyle = 'strokeText';
 
   if (!wordsList || !Array.isArray(wordsList) || !wordsList.length || !wordsList.every((el) => typeof el === 'string')) {
     throw new TypeError('"wordsList" argument must be an array containing strings. Example: ["string"]');
@@ -181,7 +181,7 @@ const getCanvasElementsCollection = (preloadedPicture, sentences, windowSize) =>
     regular: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
-      colorBorder: 'gray',
+      colorBorder: 'darkgray',
       windowSize,
     }),
     correct: createCanvasElements({
@@ -201,7 +201,7 @@ const getCanvasElementsCollection = (preloadedPicture, sentences, windowSize) =>
     regular: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
-      colorBorder: 'gray',
+      colorBorder: 'darkgray',
       fillColor: 'brown',
       windowSize,
     }),

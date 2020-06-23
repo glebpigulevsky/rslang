@@ -68,15 +68,15 @@ class View {
   renderNewDataDropZone() {
     this.dataDropZone.remove();
     const div = document.createElement('div');
-    div.className = 'drop__place sentence';
+    div.className = 'drop-place sentence';
     document.querySelector('.data__container').append(div);
     this.dataDropZone = div;
   }
 
   renderNextResultDropZone() {
     const div = document.createElement('div');
-    div.className = 'drop__place sentence';
-    this.resultDropZone.classList.toggle('drop__place');
+    div.className = 'drop-place sentence';
+    this.resultDropZone.classList.toggle('drop-place');
     this.resultDropZone.after(div);
     this.resultDropZone = div;
 
@@ -93,8 +93,8 @@ class View {
 
   clearGameField() {
     document.querySelector('.field__container').innerHTML = '';
-    document.querySelector('.field__container').insertAdjacentHTML('afterbegin', '<div class="drop__place sentence"></div>');
-    this.resultDropZone = document.querySelector('.field__container > .drop__place');
+    document.querySelector('.field__container').insertAdjacentHTML('afterbegin', '<div class="drop-place sentence"></div>');
+    this.resultDropZone = document.querySelector('.field__container > .drop-place');
   }
 
   clearDropZones() {
@@ -133,6 +133,14 @@ class View {
 
   hidePicture() {
     this.clearGameField(); // todo
+  }
+
+  clearSentencesBackground() {
+    debugger;
+    Array.from(this.ELEMENTS.CONTAINERS.FIELD.querySelectorAll('.sentence'))
+      .forEach((sentence) => {
+        sentence.classList.add('sentence-clear');
+      });
   }
 
   showImageDescription(imageDescription = '') {
@@ -283,20 +291,20 @@ class View {
         STATISTIC: document.body.querySelector('.statistics__container'),
       },
       BUTTONS: {
-        RESULTS: document.querySelector('.game__button-results'),
+        RESULTS: document.querySelector('.game__button_results'),
         STATISTICS: {
-          CONTINUE: document.querySelector('.game__button-results_continue'),
-          LONG_STATISTIC: document.querySelector('.game__button-results_statistic'),
+          CONTINUE: document.querySelector('.game__button_results-continue'),
+          LONG_STATISTIC: document.querySelector('.game__button_results-statistic'),
         },
         INTRODUCTION: document.querySelector('.introduction__button'),
-        I_DONT_KNOW: document.querySelector('.game__button-dont_know'),
-        CHECK: document.querySelector('.game__button-check'),
-        CONTINUE: document.querySelector('.game__button-continue'),
+        I_DONT_KNOW: document.querySelector('.game__button_dont-know'),
+        CHECK: document.querySelector('.game__button_check'),
+        CONTINUE: document.querySelector('.game__button_continue'),
         HINTS: {
-          BG: document.querySelector('.game__hints-bg'),
-          TRANSLATION: document.querySelector('.game__hints-translation'),
-          SPELLING: document.querySelector('.game__hints-spelling'),
-          AUTO_SPELLING: document.querySelector('.game__hints-auto-spelling'),
+          BG: document.querySelector('.game-hints_bg'),
+          TRANSLATION: document.querySelector('.game-hints_translation'),
+          SPELLING: document.querySelector('.game-hints_spelling'),
+          AUTO_SPELLING: document.querySelector('.game-hints_auto-spelling'),
         },
         REPEAT_SPELLING: document.querySelector('.button-repeat-spelling'),
       },
@@ -306,8 +314,8 @@ class View {
       },
     };
 
-    this.dataDropZone = document.querySelector('.data__container > .drop__place');
-    this.resultDropZone = document.querySelector('.field__container > .drop__place');
+    this.dataDropZone = document.querySelector('.data__container > .drop-place');
+    this.resultDropZone = document.querySelector('.field__container > .drop-place');
   }
 
   renderDOM() {
@@ -315,35 +323,33 @@ class View {
     document.querySelector('body').insertAdjacentHTML('afterbegin', `
       <div class="overflow-hidden english-puzzle-body">
         <div class="wrapper display-none">
-          <header class="header">
-            <nav class="navigation">
-              <div class="navigation__box navigation__box_left">
-                <span class="navigation__description level__description">Level</span>
-                <!-- <select class="navigation__level level select" name="level"> // todo
-                  <option value="0">1</option>
-                  <option value="1">2</option>
-                </select> -->
-              </div>
-              <div class="navigation__box navigation__box_right">
-                <span class="navigation__description round__description">Round</span>
-                <!-- <select class="navigation__round round select" name="round"> // todo
-                  <option value="0">1</option>
-                  <option value="1">2</option>
-                </select> -->
-              </div>
-            </nav>
-          </header>
-    
-          <main class="main">
+         
+          <div class="english-puzzle-main">
             <div class="main-game__container">
-              <div class="game__controls">
-                <div class="buttons__wrapper">
-                  <button class="button-repeat-spelling button-rounded" type="button">Sound</button>
-                  <button class="game__hints game__hints-bg button-rounded">Background</button>
-                  <button class="game__hints game__hints-translation button-rounded">Translate</button>
-                  <button class="game__hints game__hints-spelling button-rounded">Spelling</button>
-                  <button class="game__hints game__hints-auto-spelling button-rounded">Auto-Spelling</button>
+              <nav class="navigation">
+                <div class="navigation__box navigation__box_left">
+                  <span class="navigation__description level__description">Level</span>
+                  <!-- <select class="navigation__level level select" name="level"> // todo
+                    <option value="0">1</option>
+                    <option value="1">2</option>
+                  </select> -->
                 </div>
+                <div class="navigation__box navigation__box_right">
+                  <span class="navigation__description round__description">Round</span>
+                  <!-- <select class="navigation__round round select" name="round"> // todo
+                    <option value="0">1</option>
+                    <option value="1">2</option>
+                  </select> -->
+                </div>
+              </nav>
+              <div class="game__controls">
+                <div class="hints__controls">
+                  <button class="game-hints__button game-hints_bg button">B</button>
+                  <button class="game-hints__button game-hints_translation button">T</button>
+                  <button class="game-hints__button game-hints_spelling button">S</button>
+                  <button class="game-hints__button game-hints_auto-spelling button">A</button>
+                </div>
+                <button class="button-repeat-spelling button">So</button>
               </div>
     
               <p class="translation__description description"></p>
@@ -352,34 +358,33 @@ class View {
 
               <div class="game__field">
                 <div class="field__container game__field_container">
-                  <div class="drop__place sentence">
+                  <div class="drop-place sentence">
                   </div>
                 </div>
-
                 <div class="data__container game__field_container">
-                  <div class="drop__place sentence">
+                  <div class="drop-place sentence">
                   </div>
                 </div>
               </div>
 
-              <div class="game__controls">
-                <button class="game__button game__button-check button-rounded display-none">Check</button>
-                <button class="game__button game__button-dont_know button-rounded">I don\`t know</button>
-                <button class="game__button game__button-continue button-rounded display-none">Continue</button>
-                <button class="game__button game__button-results button-rounded display-none">Results</button>
+              <div class="field__controls">
+                <button class="game__button game__button_check button display-none">Check</button>
+                <button class="game__button game__button_dont-know button">I don\`t know</button>
+                <button class="game__button game__button_continue button display-none">Continue</button>
+                <button class="game__button game__button_results button display-none">Results</button>
               </div>
             </div>
   
             <div class="results__container">
               <div class="button__container-results">
-                <button class="game__button game__button-results_continue button-rounded">Continue</button>
-                <button class="game__button game__button-results_statistic button-rounded">Statistics</button>
+                <button class="game__button_results game__button_results-continue button">Continue</button>
+                <button class="game__button_results game__button_results-statistic button">Statistics</button>
               </div>
 
               <div class="statistics__container">
               </div>
             </div>
-          </main>
+          </div>
         </div>
   
         <div class="spinner display-none">
@@ -399,7 +404,7 @@ class View {
   
         <div class="introduction">
           <div class="introduction__container">
-            <button class="introduction__button button-rounded">start</button>
+            <button class="introduction__button button">start</button>
           </div>
         </div>
   

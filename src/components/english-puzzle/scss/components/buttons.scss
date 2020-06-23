@@ -1,0 +1,107 @@
+.game__controls,
+.hints__controls,
+.field__controls {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.game__controls {
+  // flex-direction: column;
+  align-items: center;
+}
+
+// .game__button,
+// .game__button_results,
+// .game__hints {
+//   margin: 0 10px;
+// }
+
+.button {
+  // display: flex;
+  // justify-content: space-between;
+  // align-items: center;
+  // margin: px-to-rem(65px) auto;
+  // padding: 0 68px;
+  // vertical-align: center;
+  margin: 10px;
+
+  // font-size: px-to-rem(14px);
+  // line-height: px-to-rem(30px);
+
+  text-transform: uppercase;
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, .3);
+
+  @include button($color: $color-light, $background: $color-btn, $width: 200px, $height: 40px, $radius: 30px);
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+
+    &.active {
+      background-color: $color-orange;
+      box-shadow: none;
+    }
+  }
+}
+
+.introduction__button {
+  position: absolute;
+  bottom: center;
+  left: center;
+
+  // min-width: 20vw;
+  // min-height: 50px;
+
+  // font-size: 30px;
+  // background-color: #00bf82;
+
+  // box-shadow:  5px 10px 0 rgba(0, 0, 0, 0.2), 0px 5px 10px 0 rgba(0, 0, 0, 0.4),
+  //              0 0 40px 40px #335e97 inset, 0 0 0 0 #00bf82;
+  // transition: .03s ease-in-out;
+
+  // &:focus,
+  // &:hover,
+  // &:active {
+  //   box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2), 0px 5px 10px 0 rgba(0, 0, 0, 0.4),
+  //               0 0 10px 0 #00bf82 inset, 0 0 10px 4px white;
+  //   color: white;
+  // }
+}
+
+.game-hints_bg,
+.game-hints_translation,
+.game-hints_spelling,
+.game-hints_auto-spelling,
+.button-repeat-spelling {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+}
+
+.active {
+  background-color: $color-dark-orange;
+  box-shadow: none;
+}
+
+@keyframes resize {
+  40% {
+    transform: scale(0.9);
+    }
+  80% {
+    transform: scale(1.1);
+    }
+}
+
+.animated {
+  animation: resize 0.8s infinite linear;
+}
