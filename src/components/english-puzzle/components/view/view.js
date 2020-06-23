@@ -136,7 +136,6 @@ class View {
   }
 
   clearSentencesBackground() {
-    debugger;
     Array.from(this.ELEMENTS.CONTAINERS.FIELD.querySelectorAll('.sentence'))
       .forEach((sentence) => {
         sentence.classList.add('sentence-clear');
@@ -144,7 +143,7 @@ class View {
   }
 
   showImageDescription(imageDescription = '') {
-    this.ELEMENTS.DESCRIPTION.IMAGE.innerHTML = imageDescription;
+    this.ELEMENTS.DESCRIPTION.IMAGE.textContent = imageDescription;
   }
 
   clearImageDescription() {
@@ -152,7 +151,7 @@ class View {
   }
 
   showTranslation(translation = '') {
-    this.ELEMENTS.DESCRIPTION.TRANSLATION.innerText = translation;
+    this.ELEMENTS.DESCRIPTION.TRANSLATION.textContent = translation;
   }
 
   hideTranslation() {
@@ -328,14 +327,14 @@ class View {
             <div class="main-game__container">
               <nav class="navigation">
                 <div class="navigation__box navigation__box_left">
-                  <span class="navigation__description level__description">Level</span>
+                  <span class="navigation__description level__description">Level:</span>
                   <!-- <select class="navigation__level level select" name="level"> // todo
                     <option value="0">1</option>
                     <option value="1">2</option>
                   </select> -->
                 </div>
                 <div class="navigation__box navigation__box_right">
-                  <span class="navigation__description round__description">Round</span>
+                  <span class="navigation__description round__description">Round:</span>
                   <!-- <select class="navigation__round round select" name="round"> // todo
                     <option value="0">1</option>
                     <option value="1">2</option>
@@ -344,18 +343,16 @@ class View {
               </nav>
               <div class="game__controls">
                 <div class="hints__controls">
-                  <button class="game-hints__button game-hints_bg button">B</button>
-                  <button class="game-hints__button game-hints_translation button">T</button>
-                  <button class="game-hints__button game-hints_spelling button">S</button>
-                  <button class="game-hints__button game-hints_auto-spelling button">A</button>
+                  <button class="game-hints__button game-hints_bg button" title="Show/hide puzzle background"></button>
+                  <button class="game-hints__button game-hints_translation button" title="Show/hide translation"></button>
+                  <button class="game-hints__button game-hints_spelling button" title="On/off spelling hint"></button>
+                  <button class="game-hints__button game-hints_auto-spelling button" title="On/off auto-spelling"></button>
                 </div>
-                <button class="button-repeat-spelling button">So</button>
+                <button class="button-repeat-spelling button" title="Spell it"></button>
               </div>
     
               <p class="translation__description description"></p>
               
-              <p class="image__description description"></p>
-
               <div class="game__field">
                 <div class="field__container game__field_container">
                   <div class="drop-place sentence">
@@ -366,6 +363,8 @@ class View {
                   </div>
                 </div>
               </div>
+
+              <p class="image__description description"></p>
 
               <div class="field__controls">
                 <button class="game__button game__button_check button display-none">Check</button>

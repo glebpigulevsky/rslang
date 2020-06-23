@@ -1,6 +1,7 @@
 .game__controls,
 .hints__controls,
-.field__controls {
+.field__controls,
+.button__container-results {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
@@ -10,6 +11,7 @@
   // flex-direction: column;
   align-items: center;
 }
+
 
 // .game__button,
 // .game__button_results,
@@ -86,6 +88,37 @@
   width: 40px;
   height: 40px;
   border-radius: 5px;
+
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 32px;
+}
+
+.game-hints_bg {
+  background-image: url('../assets/img/bg-icon.png');
+}
+
+.game-hints_translation{
+  background-image: url('../assets/img/translation-icon.png');
+  background-size: 20px;
+}
+
+.game-hints_spelling {
+  background-image: url('../assets/img/spell-icon.png');
+}
+
+.game-hints_auto-spelling {
+  background-image: url('../assets/img/auto-spell-icon.png');
+}
+
+.button-repeat-spelling {
+  background-image: url('../assets/img/dinamic-icon.png');
+}
+
+.game-hints_bg {
+  @include media-mobile {
+    display: none;
+  }
 }
 
 .active {

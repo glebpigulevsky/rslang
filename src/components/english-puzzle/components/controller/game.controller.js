@@ -202,7 +202,8 @@ class GameController {
         if (this.windowSize >= 768) {
           view.clearSentencesBackground();
           view.showPicture(this.canvasElements.finalImage.flat(Infinity));
-          view.showImageDescription(`Author: ${this.fetchedPictureData.author.replace(',', ' ')}, Name: ${this.fetchedPictureData.name}, Date: ${this.fetchedPictureData.year}`);
+          view.showImageDescription(`Author: ${this.fetchedPictureData.author.replace(',', ' ')},
+            Name: ${this.fetchedPictureData.name} (Date: ${this.fetchedPictureData.year})`);
         }
         view.showResultButton();
         view.hideTranslation();

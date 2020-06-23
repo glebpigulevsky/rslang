@@ -20,7 +20,7 @@ const createCanvasElements = (
     if (imageToRender.width > 900) imageToRender.width = 900;
   } else {
     fontRatio = 0.6;
-    imageToRender.width = 768;
+    imageToRender.width = 700;
   }
   const fontType = 'bold';
   const shadowPuzzle = 2;

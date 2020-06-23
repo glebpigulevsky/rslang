@@ -1,0 +1,48 @@
+.picture__container {
+  @include flex-center;
+  flex-direction: column;
+  
+  @include media-tablet {
+    display: none;
+  }
+}
+
+.statistic__picture {
+  width: 400px;
+  border-radius: 20px;
+}
+
+.card__link {
+  @include flex-center;
+  flex-direction: column;
+  min-height: 60px;
+  padding: 5px;
+
+  font-size: 16px;
+  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4),
+              0 0 10px 5px #335e97 inset, 0 0 0 0 #335e97;
+  color: #335e97;
+  transition: .05s ease-in;
+
+  border-radius: 10px;
+
+  background-color: white;
+  background-image: url('../components/view/assets/img/audio.png');
+  background-repeat: no-repeat;
+  background-position: 10px, 0;
+  background-size: 32px;
+
+  &:focus,
+  &:hover,
+  &:active {
+    box-shadow: 0 0 10px 0 #335e97 inset, 0 0 10px 4px #335e97;
+    color: #335e97;
+  }
+}
+  
+.active.card__link {
+  color: white;
+  background-color: lightcoral;
+  box-shadow:  0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4),
+                0 0 10px 0 lightcoral inset, 0 0 10px 4px lightcoral;
+}

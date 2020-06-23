@@ -1,15 +1,15 @@
 .navigation {
   display: flex;
   justify-content: space-between;
+  padding-top: 10px;
 }
 
 .navigation__description {
   color: $color-text-additional;
+  font-weight: bold;
 }
 
 .selector {
-  margin: 10px;
-
   color: $color-text-additional;
 
   background-color: $color-light-grey;
@@ -30,14 +30,11 @@
   }
 }
 
-.navigation__level {
-
+.selector option {
+  background-color: $color-light;
 }
 
-.navigation__round {
-
-}
-
-.completed {
+.selector option.completed {
   color: $color-dark-orange;
+  background-color: $color-hovered;
 }
