@@ -1,5 +1,5 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
+import { MAIN_API_URL, TOKEN, LINK_TYPE } from '../../common/services.common.constants';
 
 export default class SettingsApi {
   constructor() {
@@ -7,8 +7,8 @@ export default class SettingsApi {
   }
 
   async getSettings({ userId }) {
-    const res = await this._apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true });
-    return this._transformUserSettings(res);
+    const res = await this._apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true, type: LINK_TYPE.Settings });
+    return (res) ? this._transformUserSettings(res) : res;
   }
 
   async updateSettings({ userId, wordsPerDay, optional = {} }) {
