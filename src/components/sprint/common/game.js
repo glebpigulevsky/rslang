@@ -4,7 +4,7 @@ const wordsAPI = new WordsApi();
 
 export default class GameSprint {
   constructor() {
-    this.currentPage = [];
+    this.currentPage = 0;
   }
 
   getWords() {
@@ -26,6 +26,7 @@ export default class GameSprint {
         word: el.word,
         translate: el.wordTranslate,
         wordTranslateRUS: this.createShuffledArray(array),
+        result: el.wordTranslate === this.wordTranslateRUS,
       });
     });
     this.current(objectEnglishWords);
@@ -45,13 +46,22 @@ export default class GameSprint {
   async current(wordsEn) {
     const objectEN = await this.shuffledArray(wordsEn);
     this.createWord(objectEN);
+    this.playGame(objectEN[0].result);
     console.log(objectEN);
   }
 
   createWord(object) {
     const field = document.getElementById('word-container');
     const temp = object.map((el) => this.createTemplateWords(el));
-    field.insertAdjacentHTML('afterbegin', temp[0]);
+    const buttons = document.getElementById('buttons');
+    buttons.addEventListener('click', (event) => {
+      const target = event.target.className;
+      if (target === 'btn true') {
+        console.log(this.currentPage += 1);
+        field.insertAdjacentHTML('afterbegin', temp[this.currentPage += 1]);
+      }
+    });
+    field.insertAdjacentHTML('afterbegin', temp[this.currentPage]);
     console.log(temp);
   }
 
@@ -60,9 +70,26 @@ export default class GameSprint {
     <span class = 'word'>${word.wordTranslateRUS}</span>`;
   }
 
+  addHandlerEvent() {
+    const buttons = document.getElementById('buttons');
+    buttons.addEventListener('click', (event) => {
+      const target = event.target.className;
+      if (target === 'btn true') {
+          console.log(this.currentPage += 1);
+        // this.currentPage += 1;
+      }
+    });
+  }
+
+  playGame(boolean) {
+    const result = boolean;
+    console.log(result);
+  }
+
   init() {
     this.getWords();
     this.createObjectWords();
     this.current();
+    this.playGame();
   }
 }
