@@ -1,5 +1,5 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
+import { MAIN_API_URL, TOKEN, LINK_TYPE } from '../../common/services.common.constants';
 
 export default class StatisticsApi {
   constructor() {
@@ -7,8 +7,8 @@ export default class StatisticsApi {
   }
 
   async getStatictics({ userId }) {
-    const res = await this._apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true });
-    return this._transformUserStatistics(res);
+    const res = await this._apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true, type: LINK_TYPE.Statictics });
+    return res ? this._transformUserStatistics(res) : res;
   }
 
   async updateStatistics({ userId, learnedWords, optional = {} }) {
