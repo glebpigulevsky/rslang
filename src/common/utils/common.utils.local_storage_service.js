@@ -10,7 +10,7 @@ class LocalStorageService {
 
   getUserInfo() {
     const res = this._getFromLocalStorage(this._keyUserInfo);
-    return this._transformUserInfo(res);
+    return (res) ? this._transformUserInfo(res) : res;
   }
 
   _setLocalStorageData(key, value) { localStorage.setItem(key, JSON.stringify(value)); }

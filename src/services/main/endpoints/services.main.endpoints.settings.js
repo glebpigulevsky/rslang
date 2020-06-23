@@ -1,20 +1,23 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
+import { MAIN_API_URL } from '../../common/services.common.constants';
+import { GET_USER_DATA } from '../../common/services.common.api_service.helper';
 
 export default class SettingsApi {
   constructor() {
-    this._apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._userData = GET_USER_DATA();
+    this._apiService = new ApiService(MAIN_API_URL, this._userData.token);
   }
 
-  async getSettings({ userId }) {
-    const res = await this._apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true });
+  async getSettings() {
+    console.log(this._userData);
+    const res = await this._apiService.getResource({ url: `/users/${this._userData.userId}/settings`, hasToken: true });
     return this._transformUserSettings(res);
   }
 
-  async updateSettings({ userId, wordsPerDay, optional = {} }) {
+  async updateSettings({ wordsPerDay, optional = {} }) {
     this._wordsPerDayValidator(wordsPerDay);
     const res = await this._apiService.putResourse({
-      url: `/users/${userId}/settings`,
+      url: `/users/${this._userId}/settings`,
       params: { wordsPerDay, optional },
       hasToken: true,
     });

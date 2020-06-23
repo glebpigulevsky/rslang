@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import { TOKEN_EXPIRES_MS } from './common.utils.helper';
+import { TOKEN_EXPIRES_MS, GET_HUMAN_DATE_UTC } from './common.utils.helper';
 
 describe('get date and time when token will expired', () => {
     it('should set correct data', async () => {
