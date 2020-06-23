@@ -33,12 +33,23 @@ class Menu {
     document.removeEventListener('click', this.onCloseClickHandlerBinded);
   }
 
+  removeActiveStateLinks() {
+    const { navigation } = this;
+
+    navigation.addEventListener('click', (e) => {
+      navigation.querySelectorAll('.navigation__link').forEach((el) => (el.classList.remove('active')));
+      e.target.classList.add('active');
+    });
+  }
+
   init() {
     this.toggleButton = document.querySelector('.hamburger-menu__button');
     this.navBar = document.querySelector('.main-header__navigation');
+    this.navigation = document.querySelector('.navigation__list');
 
     this.addBurgerIconClickHandler();
     this.addCloseButtonClickHandler();
+    this.removeActiveStateLinks();
   }
 }
 
