@@ -3,6 +3,8 @@
   top: 90px;
   left: 180px;
 
+  display: flex;
+  justify-content: center;
   width: 666px;
   height: 500px;
   margin: 0 auto;
@@ -11,4 +13,25 @@
   border-radius: 30px;
 
   backdrop-filter: blur(40px);
+}
+
+.game-sprint__header {
+  display: flex;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 666px;
+  height: 90px;
+
+  background: rgba(158, 241, 246, 0.3);
+  border-radius: 30px 30px 0 0;
+
+  @include segoe-title($color: $color-text);
+}
+
+.game-sprint__score {
+  display: flex;
+  flex: 1 0 auto;
+  justify-content: center;
 }

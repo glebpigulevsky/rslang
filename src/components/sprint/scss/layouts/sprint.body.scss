@@ -3,8 +3,14 @@
   height: 100vh;
 
   background: #7519eb;
-  // background: url("../assets/img/cloud-green");
 }
+
+
 .wrapper__sprint-game {
   position: relative;
+}
+.body__game-sprint {
+  background-image: url("../assets/img/bg.png");
+  background-repeat: no-repeat;
+  background-size: cover;
 }
