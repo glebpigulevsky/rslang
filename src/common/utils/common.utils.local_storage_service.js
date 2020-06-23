@@ -12,7 +12,9 @@ class LocalStorageService {
     return this._getFromLocalStorage(this._keyUserInfo);
   }
 
-  _setLocalStorageData(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+  _setLocalStorageData(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
 
   _getFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key));
@@ -23,6 +25,4 @@ class LocalStorageService {
   }
 }
 
-export {
-  LocalStorageService,
-};
+export { LocalStorageService };

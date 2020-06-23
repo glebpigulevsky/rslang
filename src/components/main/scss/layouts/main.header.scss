@@ -1,6 +1,7 @@
 .main-header {
   position: sticky;
   top: 0;
+  z-index: 10;
   align-items: center;
   height: px-to-rem(45px);
   background-color: $color-dark-blue;
