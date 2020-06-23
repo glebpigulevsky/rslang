@@ -1,6 +1,4 @@
 class View {
-  constructor() {}
-
   init() {
     this.renderDOM();
   }
@@ -8,15 +6,11 @@ class View {
   renderDOM() {
     document.querySelector('body').innerHTML = '';
     document.querySelector('body').insertAdjacentHTML('afterbegin',
-      `<div class = 'game__container'>
-            <div id="app"></div>
-        <div class = 'game__field' id = 'word-container'>
+      `<div class="body__game-sprint">
+        <div class="wrapper wrapper__sprint-game">
+          <div class="inner__game-sprint"></div>
         </div>
-        <div class = 'game__button'>
-        <button type="button" class = 'button false-result' id ='button-false' >FALSE</button>
-        <button type="button" class = 'button true-result' id ='button-true'>TRUE</button>
-        </div>
-    </div>`);
+      </div>`);
   }
 }
 
