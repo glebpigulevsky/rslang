@@ -1,4 +1,4 @@
-import audioCallAppInit from '../audio-call/audio-call.app';
+import { audioCallAppInit } from '../audio-call/audio-call.app';
 import Menu from './main_menu';
 import { CLASS_NAMES } from '../../common/common.constants';
 import MAIN_GREETINGS from './common/main.constants';
@@ -9,6 +9,8 @@ import './scss/main.styles.scss';
 
 
 // audioCallAppInit(); //УДАЛИТЬ КАК ЗАКОНЧУ
+// document.querySelector('main').classList.add('audio-call-wrapper'); //УДАЛИТЬ КАК ЗАКОНЧУ
+
 
 const burgerMenu = new Menu();
 burgerMenu.init();
