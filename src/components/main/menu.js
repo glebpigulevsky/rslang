@@ -42,6 +42,17 @@ class Menu {
     });
   }
 
+  onCloseClickLink() {
+    const { navigation } = this;
+    let countClicks = 0;
+    navigation.addEventListener('click', (event) => {
+      if (event.target.closest('ul li a')) {
+        countClicks = (countClicks + 1) % 2;
+        this.navBar.classList.toggle('toggle');
+      }
+    });
+  }
+
   init() {
     this.toggleButton = document.querySelector('.hamburger-menu__button');
     this.navBar = document.querySelector('.main-header__navigation');
@@ -50,6 +61,7 @@ class Menu {
     this.addBurgerIconClickHandler();
     this.addCloseButtonClickHandler();
     this.changeActiveStateLinks();
+    this.onCloseClickLink();
   }
 }
 
