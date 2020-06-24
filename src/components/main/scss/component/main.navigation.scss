@@ -100,12 +100,8 @@ span.active {
   color: $color-text-additional;
   text-decoration: none;
 
-  span {
-    padding: 0 13px;
-  }
-
   .icon {
-    padding-top: 17px;
+    padding: 17px 14px 0 12px;
     fill: currentColor;
   }
 }

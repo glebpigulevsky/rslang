@@ -37,7 +37,7 @@ class Menu {
     const { navigation } = this;
 
     navigation.addEventListener('click', (e) => {
-      navigation.querySelectorAll('.navigation__link').forEach((el) => (el.classList.remove('active')));
+      navigation.querySelectorAll('.navigation__link').forEach((el) => el.classList.remove('active'));
       e.target.classList.add('active');
     });
   }

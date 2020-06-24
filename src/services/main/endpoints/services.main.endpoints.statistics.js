@@ -7,7 +7,11 @@ export default class StatisticsApi {
   }
 
   async getStatictics({ userId }) {
-    const res = await this._apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true, type: LINK_TYPE.Statictics });
+    const res = await this._apiService.getResource({
+      url: `/users/${userId}/statistics`,
+      hasToken: true,
+      type: LINK_TYPE.Statictics,
+    });
     return res ? this._transformUserStatistics(res) : res;
   }
 

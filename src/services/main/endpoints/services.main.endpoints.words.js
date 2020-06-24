@@ -8,9 +8,7 @@ export default class WordsApi {
     this._apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
 
-  async getWordsCollection({
-    group, page, wordsPerExampleSentence = null, wordsPerPage = null,
-  }) {
+  async getWordsCollection({ group, page, wordsPerExampleSentence = null, wordsPerPage = null }) {
     this._wordsGroupValidator(group);
     this._wordsPageValidator(page);
     this._wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
