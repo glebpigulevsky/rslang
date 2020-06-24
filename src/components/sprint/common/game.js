@@ -4,7 +4,16 @@ const wordsAPI = new WordsApi();
 
 export default class GameSprint {
   constructor() {
-    this.currentPage = 0;
+    this.currentWord = null;
+    this.group = null;
+    this.page = null;
+    this.currentWords = [];
+    this.currentIndex = 0;
+    this.score = 0;
+    this.correctAnswers = [];
+    this.wrongAnswers = [];
+    this.scoreCoeff = 10;
+    this.correctAnswerCounter = 0;
   }
 
   getWords() {
@@ -17,22 +26,20 @@ export default class GameSprint {
       });
   }
 
-  async createObjectWords(words) {
-    const objectEnglishWords = [];
-
-    const objectWords = await words.map((el, ind, array) => {
-      objectEnglishWords.push({
+  createObjectWords(words) {
+    if (words) {
+      this.currentWords = words.map((el, ind, array) => ({
         id: el.id,
-        word: el.word,
+        wordEn: el.word,
         translate: el.wordTranslate,
-        wordTranslateRUS: this.createShuffledArray(array),
+        wordTranslateRUS: this.pickRandomWord(array),
         result: el.wordTranslate === this.wordTranslateRUS,
-      });
-    });
-    this.current(objectEnglishWords);
+      }));
+      this.startGame(this.currentWords);
+    }
   }
 
-  createShuffledArray(array) {
+  pickRandomWord(array) {
     const arr = array;
     arr.sort(() => Math.random() - 0.5);
     const wordRandom = arr.map((el) => el.wordTranslate);
@@ -40,56 +47,113 @@ export default class GameSprint {
   }
 
   shuffledArray(array) {
-    return array.sort(() => Math.random() - 0.5);
+    if (array) {
+      return array.sort(() => Math.random() - 0.5);
+    }
   }
 
-  async current(wordsEn) {
-    const objectEN = await this.shuffledArray(wordsEn);
-    this.createWord(objectEN);
-    this.playGame(objectEN[0].result);
-    console.log(objectEN);
+  startGame(wordsEn) {
+    const objectEN = this.shuffledArray(wordsEn);
+    this.makeTurn(objectEN);
   }
 
-  createWord(object) {
-    const field = document.getElementById('word-container');
-    const temp = object.map((el) => this.createTemplateWords(el));
-    const buttons = document.getElementById('buttons');
-    buttons.addEventListener('click', (event) => {
-      const target = event.target.className;
-      if (target === 'btn true') {
-        console.log(this.currentPage += 1);
-        field.insertAdjacentHTML('afterbegin', temp[this.currentPage += 1]);
+  makeTurn(gameWords) {
+    if (gameWords) {
+      const curentWord = gameWords[this.currentIndex];
+      console.log(gameWords);
+        this.handleButtonClick(curentWord);
+        this.renderWord(curentWord);
+      
+    }
+  }
+
+  handleButtonClick(word) {
+    const btnTRUE = document.getElementById('true');
+    const btnFALSE = document.getElementById('false');
+    btnTRUE.addEventListener('click', (event) => {
+        if(!(this.currentIndex > this.currentWords.length - 1)) {
+            const target = event.target.className;
+      if (target === 'true') {
+        if (word.result === true) {
+          console.log('TRUE');
+          this.correctAnswerCounter += 1;
+          this.correctAnswers.push(word.id);
+        } else {
+          console.log('FALSE');
+          this.correctAnswerCounter = 0;
+          this.wrongAnswers.push(word);
+        }
       }
+      console.log(this.correctAnswerCounter);
+      this.calcScore(word.result === true);
+      this.currentIndex += 1;
+      this.renderWord(this.currentWords[this.currentIndex]);
+        } else {
+            console.log('result');
+        }
     });
-    field.insertAdjacentHTML('afterbegin', temp[this.currentPage]);
-    console.log(temp);
+    btnFALSE.addEventListener('click', (event) => {
+        console.log(this.currentWords.length - 1, this.currentIndex);
+        console.log(!(this.currentIndex >= this.currentWords.length - 1));
+        if(!(this.currentIndex >= this.currentWords.length - 1)) {
+      const target = event.target.className;
+      if (target === 'false') {
+        if (word.result === false) {
+          console.log('TRUE');
+          this.correctAnswerCounter += 1;
+          this.correctAnswers.push(word.id);
+        } else {
+          console.log('FALSE');
+          this.correctAnswerCounter = 0;
+          this.wrongAnswers.push(word);
+        }
+      }
+      console.log(this.correctAnswerCounter);
+      this.calcScore(word.result === false);
+      this.currentIndex += 1;
+      this.renderWord(this.currentWords[this.currentIndex]);
+    } else {
+        console.log(this.correctAnswers, this.wrongAnswers);
+    }
+
+    });
+  }
+
+  calcScore(answer) {
+    const score = document.getElementById('score');
+    if (answer === true) {
+      if (this.correctAnswerCounter <= 4) {
+        this.score += 10;
+      } else if (this.currentIndex <= 8) {
+        this.score += 15;
+      } else if (this.currentIndex <= 12) {
+        this.score += 20;
+      } else if (this.currentIndex <= 16) {
+        this.score += 30;
+      } else if (this.currentIndex <= 20) {
+        this.score += 40;
+      }
+    }
+    score.textContent = this.score;
+  }
+
+  renderWord(object) {
+    const field = document.getElementById('word-container');
+    field.innerHTML = '';
+    const temp = [object].map((el) => this.createTemplateWords(el));
+    field.insertAdjacentHTML('afterbegin', temp);
   }
 
   createTemplateWords(word) {
-    return `<span class = 'word'>${word.word}</span>
+    return `<span class = 'word'>${word.wordEn}</span>
     <span class = 'word'>${word.wordTranslateRUS}</span>`;
-  }
-
-  addHandlerEvent() {
-    const buttons = document.getElementById('buttons');
-    buttons.addEventListener('click', (event) => {
-      const target = event.target.className;
-      if (target === 'btn true') {
-          console.log(this.currentPage += 1);
-        // this.currentPage += 1;
-      }
-    });
-  }
-
-  playGame(boolean) {
-    const result = boolean;
-    console.log(result);
   }
 
   init() {
     this.getWords();
     this.createObjectWords();
-    this.current();
-    this.playGame();
+    this.startGame();
+    document.getElementById('score').textContent = this.score;
+    // this.playGame();
   }
 }

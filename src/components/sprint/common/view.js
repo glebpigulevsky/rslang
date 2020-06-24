@@ -10,11 +10,12 @@ class View {
     document.querySelector('body').insertAdjacentHTML('afterbegin',
       `<div class = 'game__container'>
             <div id="app"></div>
+            <div id = "score" ></div>
         <div class='game__field' id = 'word-container'>
         </div>
         <div class='game__button' id='buttons'>
-        <button type="button" class = 'btn false'>FALSE</button>
-        <button type="button" class = 'btn true'>TRUE</button>
+        <button type="button" class = 'false' id='false'>FALSE</button>
+        <button type="button" class = 'true' id='true'>TRUE</button>
         </div>
     </div>`);
   }
