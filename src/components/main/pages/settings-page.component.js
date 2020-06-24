@@ -1,5 +1,8 @@
 export const settingsPageComponent = {
   render: () => `
-        <h1>Setting</h1>
+        <div class="settings">
+          <div class="setting_raw"></div>
+          <div class="setting_raw"></div>
+        </div>
     `,
 };

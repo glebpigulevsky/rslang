@@ -47,7 +47,7 @@ const introMainGame = {
 
     
     this.initMd();  //---- чтобы включить стартовый экран расскоментить и удалить следующую строку
-    //game.init(introMainGame.settings);
+    //game.init(introMainGame.settings, );
   },
 
   initMd() {

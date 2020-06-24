@@ -34,8 +34,6 @@ const OPTIONAL_DEFAULT = {
   isShowEasyButton: 'true', // +
   isAudio: 'false',
 };
-export {
-  MAIN_API_URL, TOKEN, ERRORS_DESCRIPTION, MEDIA_LINK, OPTIONAL_DEFAULT,
 const LINK_TYPE = { Settings: { 404: null }, Statictics: { 404: null } };
 export {
   MAIN_API_URL, TOKEN, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK, LINK_TYPE,

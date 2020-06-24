@@ -1,5 +1,4 @@
-<<<<<<< HEAD
-import Menu from './main_menu';
+import menu from './menu';
 import { CLASS_NAMES } from '../../common/common.constants';
 import { MAIN_GREETINGS } from './common/main.constants';
 import game from './components/mainGame/mainGame';
@@ -11,9 +10,6 @@ import UsersApi from '../../services/main/endpoints/services.main.endpoints.user
 
 import introMainGame from './components/introMainGame/introMainGame';
 
-=======
-import menu from './menu';
->>>>>>> develop
 import './scss/main.styles.scss';
 import { mainPageComponent } from './pages/main-page.component';
 import { learnPageComponent } from './pages/learn-page.component';
@@ -44,7 +40,6 @@ const userEnter = {
 };
 
 class Main {
-<<<<<<< HEAD
   constructor() {
     this.logoContent = null;
     this.logoElement = null;
@@ -57,7 +52,8 @@ class Main {
   }
 
   addMdStartScreen() {
-    introMainGame.init();
+    this.gameButtons.mainGameStart = document.querySelector('.main__game-start__button');
+    this.gameButtons.mainGameStart.addEventListener('click', this.onMainGameStartClickHandlerBinded);
   }
 
   onMainGameStartClickHandler() {
@@ -66,6 +62,7 @@ class Main {
   }
 
   async init() {
+    menu.init();
     this.logoElement = document.querySelector(`.${CLASS_NAMES.MAIN.LOGO}`);
     this.logoContent = MAIN_GREETINGS;
     // 7 следующих строк перенести в логин
@@ -79,16 +76,8 @@ class Main {
     service.setUserInfo({ userId: id, token: userToken, expiredTime: TOKEN_EXPIRES_MS() });
     this.addMdStartScreen();
   }
-
-  initMainGame() {
-    this.gameButtons.mainGameStart = document.querySelector('.main__game-start__button');
-    this.gameButtons.mainGameStart.addEventListener('click', this.onMainGameStartClickHandlerBinded);
-=======
-  init() {
-    menu.init();
->>>>>>> develop
-  }
 }
+
 export default new Main();
 
 const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
