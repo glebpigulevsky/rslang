@@ -63,3 +63,12 @@
     border-bottom: none;
   }
 }
+
+// loadSettingsToFront() {
+  //   document.querySelector('.input-words__day').value = this.settings.wordsPerDay;
+  //   Object.keys(this.settings.optional).forEach((key) => {
+  //     if (key === 'true') {
+  //       document.querySelector(`.${key}`).classList.toggle('switch-on');
+  //     }
+  //   });
+  // },

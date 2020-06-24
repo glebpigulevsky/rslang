@@ -26,7 +26,7 @@ export const settingsPageComponent = {
             <div class="raw__container">
               <div class="raw__container-descr">Show translation</div>
               <div class="raw__container-input">
-                <div class="switch-btn switch-on " id="isTranslation">
+                <div class="switch-btn" id="isTranslation">
                 </div>
               </div>
             </div>
@@ -115,8 +115,4 @@ export const settingsPageComponent = {
 
         </div>
     `,
-
-  init() {
-    settings.init();
-  },
 };
