@@ -15,6 +15,25 @@ class AuthenticateUserService {
     return this._authUser({ email, password });
   }
 
+  async checkUserAccess() {
+    const storage = new LocalStorageService();
+    try {
+      const userInfo = storage.getUserInfo();
+      if (userInfo === null) {
+        return false;
+      }
+      const { expiredTime } = userInfo;
+      const now = Date.now();
+      if (expiredTime < now) {
+        storage.deleteUserInfo();
+        return false;
+      }
+      return true;
+    } catch {
+      return false;
+    }
+  }
+
   async _signUpUser({ email, password }) {
     const created = await this.userApi.createUser({ email, password });
     if (created) {

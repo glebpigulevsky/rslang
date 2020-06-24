@@ -1,3 +1,5 @@
+import { AuthenticateUserService } from '../../common/common.helper';
+
 class Menu {
   constructor() {
     this.onCloseClickHandlerBinded = this.onCloseClickHandler.bind(this);
@@ -35,7 +37,6 @@ class Menu {
 
   changeActiveStateLinks() {
     const { navigation } = this;
-
     navigation.addEventListener('click', (e) => {
       navigation.querySelectorAll('.navigation__link').forEach((el) => (el.classList.remove('active')));
       e.target.classList.add('active');

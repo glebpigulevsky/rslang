@@ -1,18 +1,20 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL } from '../../common/services.common.constants';
-import { GET_USER_DATA } from '../../common/services.common.api_service.helper';
+import { MAIN_API_URL, LINK_TYPE } from '../../common/services.common.constants';
+import { checkUserInfo } from '../../common/services.common.api_service.helper';
 
 export default class StatisticsApi {
   constructor() {
     this._apiService = new ApiService(MAIN_API_URL);
   }
 
-  async getStatictics({ token, userId } = GET_USER_DATA()) {
-    const res = await this._apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true, token });
-    return this._transformUserStatistics(res);
+  async getStatictics({ token, userId } = checkUserInfo()) {
+    const res = await this._apiService.getResource({
+      url: `/users/${userId}/statistics`, hasToken: true, token, type: LINK_TYPE.Statictics,
+    });
+    return (res) ? this._transformUserStatistics(res) : res;
   }
 
-  async updateStatistics({ learnedWords, optional = {} }, { token, userId } = GET_USER_DATA()) {
+  async updateStatistics({ learnedWords, optional = {} }, { token, userId } = checkUserInfo()) {
     this._learnedWordsValidator({ learnedWords });
     const res = await this._apiService.putResourse({
       url: `/users/${userId}/statistics`,

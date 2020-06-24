@@ -57,7 +57,7 @@ export default class LoginUser {
       .loginUser({ email, password, hasSignUp })
       .then(() => {
         this._closeLoginHandler();
-        window.location.replace(`${window.location.hash}/main.index.html`);
+        window.location.replace(`${window.location.origin}/main.index.html#`);
       })
       .catch((err) => {
         this._createInfo.textContent = err;

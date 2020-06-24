@@ -12,19 +12,16 @@ describe('get statistics if statistics was not updated early', () => {
   const userDefault = {
     email: 'jest_statistics_one@mail.com',
     password: '12345678Aa@',
-    id: '5ee8c9df12daba0017bdc9c9',
   };
-  it('should return error', async () => {
-    try {
-      const auth = await user.authenticateUser({
-        email: userDefault.email,
-        password: userDefault.password,
-      });
-      statistics._apiService = new ApiService(MAIN_API_URL);
-      await statistics.getStatictics({ userId: userDefault.id, token: auth.token });
-    } catch (e) {
-      expect(e.message).toEqual(ERRORS_DESCRIPTION[404]);
-    }
+  it('should return correct object', async () => {
+    const auth = await user.authenticateUser({
+      email: userDefault.email,
+      password: userDefault.password,
+    });
+    statistics._apiService = new ApiService(MAIN_API_URL);
+    const res = await statistics.getStatictics({ userId: auth.userId, token: auth.token });
+    expect(res).toBeDefined();
+    expect(res).toBe(null);
   });
 });
 

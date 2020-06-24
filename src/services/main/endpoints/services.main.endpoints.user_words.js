@@ -1,6 +1,6 @@
 import ApiService from '../../common/services.common.api_service';
 import { MAIN_API_URL } from '../../common/services.common.constants';
-import { GET_USER_DATA } from '../../common/services.common.api_service.helper';
+import { checkUserInfo } from '../../common/services.common.api_service.helper';
 
 export default class UserWordsApi {
   constructor() {
@@ -9,7 +9,7 @@ export default class UserWordsApi {
 
   async createUserWord({
     wordId, difficulty, optional = {},
-  }, { token, userId } = GET_USER_DATA()) {
+  }, { token, userId } = checkUserInfo()) {
     const res = await this._apiService.postResourse({
       url: `/users/${userId}/words/${wordId}`,
       params: { difficulty, optional },
@@ -19,19 +19,19 @@ export default class UserWordsApi {
     return this._transformUserWord(res);
   }
 
-  async getAllUserWords({ token, userId } = GET_USER_DATA()) {
+  async getAllUserWords({ token, userId } = checkUserInfo()) {
     const res = await this._apiService.getResource({ url: `/users/${userId}/words`, hasToken: true, token });
     return res.map(this._transformUserWord);
   }
 
-  async getUserWord({ wordId }, { token, userId } = GET_USER_DATA()) {
+  async getUserWord({ wordId }, { token, userId } = checkUserInfo()) {
     const res = await this._apiService.getResource({ url: `/users/${userId}/words/${wordId}`, hasToken: true, token });
     return this._transformUserWord(res);
   }
 
   async updateUserWord({
     wordId, difficulty, optional = {},
-  }, { token, userId } = GET_USER_DATA()) {
+  }, { token, userId } = checkUserInfo()) {
     const res = await this._apiService.putResourse({
       url: `/users/${userId}/words/${wordId}`,
       params: { difficulty, optional },
@@ -41,7 +41,7 @@ export default class UserWordsApi {
     return this._transformUserWord(res);
   }
 
-  async deleteUserWord({ wordId }, { token, userId } = GET_USER_DATA()) {
+  async deleteUserWord({ wordId }, { token, userId } = checkUserInfo()) {
     const res = await this._apiService.deleteResourse({ url: `/users/${userId}/words/${wordId}`, hasToken: true, token });
     return {
       isDeleted: res,

@@ -13,17 +13,15 @@ describe('get settings if settings was not updated early', () => {
     email: 'jest_settings_one@mail.com',
     password: '12345678Aa@',
   };
-  it('should return error', async () => {
-    try {
-      const auth = await user.authenticateUser({
-        email: userDefault.email,
-        password: userDefault.password,
-      });
-      settings._apiService = new ApiService(MAIN_API_URL);
-      await settings.getSettings({ userId: auth.userId, token: auth.token });
-    } catch (e) {
-      expect(e.message).toEqual(ERRORS_DESCRIPTION[404]);
-    }
+  it('should return correct object', async () => {
+    const auth = await user.authenticateUser({
+      email: userDefault.email,
+      password: userDefault.password,
+    });
+    settings._apiService = new ApiService(MAIN_API_URL);
+    const res = await settings.getSettings({ userId: auth.userId, token: auth.token });
+    expect(res).toBeDefined();
+    expect(res).toBe(null);
   });
 });
 

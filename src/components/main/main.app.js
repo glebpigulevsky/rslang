@@ -8,6 +8,7 @@ import { statisticsPageComponent } from './pages/statistics-page.component';
 import { teamPageComponent } from './pages/team-page.component';
 import { settingsPageComponent } from './pages/settings-page.component';
 import { errorPageComponent } from './pages/error-page.component';
+import { AuthenticateUserService } from '../../common/common.helper';
 
 const appRoutes = [
   { path: '/', component: mainPageComponent },
@@ -18,22 +19,25 @@ const appRoutes = [
   { path: '/team', component: teamPageComponent },
   { path: '/settings', component: settingsPageComponent },
 ];
-
+const auth = new AuthenticateUserService();
 class Main {
   init() {
     menu.init();
   }
 }
 export default new Main();
-
 const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
 const findComponentByPath = (path) => appRoutes.find((route) => route.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
 
 const router = () => {
-  const main = document.querySelector('.main');
-  const path = parseLocation();
-  const { component = errorPageComponent } = findComponentByPath(path) || {};
-  main.innerHTML = component.render();
+  if (!auth.checkUserAccess() && window.location.hash !== '') {
+    window.location.replace(`${window.location.origin}${window.location.pathname}#`);
+  } else {
+    const main = document.querySelector('.main');
+    const path = parseLocation();
+    const { component = errorPageComponent } = findComponentByPath(path) || {};
+    main.innerHTML = component.render();
+  }
 };
 
 const initRouter = () => {

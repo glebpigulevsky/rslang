@@ -1,8 +1,8 @@
 .main-header__navigation {
+  display: none;
   position: absolute;
   top: px-to-rem(45px);
   left: px-to-rem(-70px);
-  display: flex;
   flex-direction: column;
   align-items: center;
   width: px-to-rem(70px);

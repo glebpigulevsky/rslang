@@ -1,8 +1,13 @@
 import LocalStorageService from '../../common/common.helper';
+import AuthenticateUserService from '../../common/common.helper';
+import LoginUser from '../login_user/login_user';
+
+const auth = new AuthenticateUserService();
 
 export default class Menu {
   constructor() {
     this.isOpen = false;
+    this.login = new LoginUser();
   }
 
   burgerMenuClickHandler() {
@@ -31,8 +36,15 @@ export default class Menu {
     document.querySelector('.main-header__logout').addEventListener('click', () => {
       const storage = new LocalStorageService();
       storage.deleteUserInfo();
-      window.location.replace(`${window.location.hash}/main.index.html`);
+      window.location.replace(`${window.location.origin}${window.location.pathname}#`);
     });
+  }
+
+
+
+  showMenuButton() {
+    document.querySelector('.main-header__navigation').display = 'flex';
+    document.querySelector('.main-header__logout').display = 'block';
   }
 
   init() {

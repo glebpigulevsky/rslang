@@ -8,7 +8,7 @@ class ApiError extends Error {
   }
 }
 
-const GET_USER_DATA = () => {
+const checkUserInfo = () => {
   const storage = new LocalStorageService();
   const userInfo = storage.getUserInfo();
   if (!userInfo) {
@@ -17,11 +17,12 @@ const GET_USER_DATA = () => {
   }
   const { userId, token, expiredTime } = userInfo;
   const now = Date.now();
-  if (new Date(expiredTime).toUTCString() < now) {
+  if (expiredTime < now) {
     console.info(`expiredTimeUTC${new Date(expiredTime).toUTCString()}, nowUTC${new Date(now).toUTCString()}`);
+    storage.deleteUserInfo();
     throw new Error(ERRORS_DESCRIPTION.ERROR_TOKEN);
   }
   return { userId, token };
 };
 
-export { ApiError, GET_USER_DATA };
+export { ApiError, checkUserInfo };
