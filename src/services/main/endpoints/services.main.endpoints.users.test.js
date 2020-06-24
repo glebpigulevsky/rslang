@@ -65,6 +65,7 @@ describe('update user', () => {
     const res = await user.updateUser({
       id: auth.userId,
       email: newEmail,
+      password: userDefault.password
     });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
