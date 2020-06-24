@@ -49,12 +49,12 @@ export default class StatisticList {
 
   render() {
     this.pictureContainer.insertAdjacentHTML('afterbegin', `
+      <p class="picture__description">Author: ${this.pictureData.author.replace(',', ' ')}, Name: ${this.pictureData.name} (Date: ${this.pictureData.year})</p>
       <a class="picture__link" target="_blank" href="${this.pictureData.preloadedPicture.src}">
         <img class="statistic__picture" src="${this.pictureData.preloadedPicture.src}" alt="Round picture">
       </a>
-      <p class="picture__description">Author: ${this.pictureData.author.replace(',', ' ')}, Name: ${this.pictureData.name}, Date: ${this.pictureData.year}</p>
     `);
-    this.statisticsContainer.append(this.pictureContainer);
+    this.statisticsContainer.prepend(this.pictureContainer);
 
     this.lastGameRoundData.forEach((wordData) => {
       let card;

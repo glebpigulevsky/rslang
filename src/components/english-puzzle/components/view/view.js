@@ -144,12 +144,12 @@ class View {
       });
   }
 
-  showImageDescription(imageDescription = '') {
-    this.ELEMENTS.DESCRIPTION.IMAGE.textContent = imageDescription;
+  showPictureDescription(pictureDescription = '') {
+    this.ELEMENTS.DESCRIPTION.PICTURE.textContent = pictureDescription;
   }
 
-  clearImageDescription() {
-    this.showImageDescription();
+  clearPictureDescription() {
+    this.showPictureDescription();
   }
 
   showTranslation(translation = '') {
@@ -330,7 +330,7 @@ class View {
         REPEAT_SPELLING: document.querySelector('.button-repeat-spelling'),
       },
       DESCRIPTION: {
-        IMAGE: document.querySelector('.image__description'),
+        PICTURE: document.querySelector('.picture__description'),
         TRANSLATION: document.querySelector('.translation__description'),
       },
     };
@@ -387,7 +387,7 @@ class View {
                 </div>
               </div>
 
-              <p class="image__description description"></p>
+              <p class="picture__description description"></p>
 
               <div class="field__controls">
                 <button class="game__button game__button_check button display-none">Check</button>
@@ -426,7 +426,12 @@ class View {
   
         <div class="introduction">
           <div class="introduction__container">
-            <button class="introduction__button button">start</button>
+            <div class="introduction__description-container">
+              <h1 class="introduction__logo">Mini-game "English-Puzzle"</h1>
+              <button class="introduction__button button">start</button>
+              <p class="introduction__description">Click on words, collect phrases, select levels, rounds, tooltips.</p>
+              <p class="introduction__description">In desktop view words can be drag and drop</p>
+            </div>
           </div>
         </div>
   

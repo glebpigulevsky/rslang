@@ -127,7 +127,7 @@ const createCanvasElements = (
       ctx.clip();
 
       if (fillColor || windowSize < 768) {
-        ctx.fillStyle = fillColor || 'lightgreen'; // todo
+        ctx.fillStyle = fillColor || '#2d4fc8'; // todo
         ctx.fill();
       } else {
         // ctx.globalAlpha = 0.6;
@@ -181,7 +181,7 @@ const getCanvasElementsCollection = (preloadedPicture, sentences, windowSize) =>
     regular: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
-      colorBorder: 'darkgray',
+      colorBorder: 'white',
       windowSize,
     }),
     correct: createCanvasElements({
@@ -201,22 +201,22 @@ const getCanvasElementsCollection = (preloadedPicture, sentences, windowSize) =>
     regular: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
-      colorBorder: 'darkgray',
-      fillColor: 'brown',
+      colorBorder: 'white',
+      fillColor: '#085364',
       windowSize,
     }),
     correct: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
       colorBorder: 'green',
-      fillColor: 'brown',
+      fillColor: '#085364',
       windowSize,
     }),
     error: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
       colorBorder: 'red',
-      fillColor: 'brown',
+      fillColor: '#085364',
       windowSize,
     }),
   },

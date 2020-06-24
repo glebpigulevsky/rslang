@@ -1,9 +1,9 @@
 .introduction {
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 
-  background-color: rgba(182, 203, 230, 0.9);
-  background-image: url('../components/view/assets/img/introduction_bg.jpg');
+  background-color: rgba(149, 153, 153, 0.8);
+  background-image: url('../assets/img/introduction-bg.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -15,12 +15,46 @@
 .introduction__container {
   position: relative;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  @include flex-center;
+  flex-direction: column;
   
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 
-  // backdrop-filter: opacity(0.8) blur(2px) brightness(1.2);
+  color: $color-text-additional;
+ 
+}
+
+.introduction__logo {
+  font-size: px-to-rem(20px);
+  line-height: px-to-rem(30px);
+  text-align: center;
+}
+
+.introduction .introduction__button{
+  min-width: 10vw;
+  min-height: 60px;
+
+  font-size: px-to-rem(14px);
+  line-height: px-to-rem(20px);
+}
+
+.introduction__description-container {
+  @include flex-center;
+  flex-direction: column;
+  margin: 20px;
+  padding: 20px;
+
+  background-color: rgba(244, 245, 250, 0.6);
+  border-radius: 20px;
+
+  @include media-tablet {
+    margin: 10px;
+    padding: 10px;
+  }
+}
+
+.introduction__description {
+  font-weight: bold;
+  text-align: center;
 }

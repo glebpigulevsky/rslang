@@ -27,7 +27,7 @@ const appRoutes = [
   { path: '/learn', component: learnPageComponent },
   { path: '/dictionary', component: dictionaryPageComponent },
   { path: '/games', component: gamesPageComponent },
-  { path: '/statisticks', component: statisticsPageComponent },
+  { path: '/statistics', component: statisticsPageComponent },
   { path: '/team', component: teamPageComponent },
   { path: '/settings', component: settingsPageComponent },
   { path: '/english-puzzle', component: englishPuzzleApp },

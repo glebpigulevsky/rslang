@@ -19,7 +19,7 @@ export const CLASS_NAMES = {
   ACTIVE: 'active',
   DISABLED: 'disabled',
   BUTTON_ROUNDED: 'button-rounded',
-  CARD: 'cards__item',
+  CARD: 'cards__item-english-for-puzzle',
   DISPLAY_NONE: 'display-none',
   MAIN_LIST: 'cards__list list',
   OVERFLOW_HIDDEN: 'overflow-hidden',

@@ -96,7 +96,7 @@ class GameController {
     model.errorsList = [];
 
     view.hidePicture();
-    view.clearImageDescription();
+    view.clearPictureDescription();
 
     view.clearGameField();
     view.clearDropZones();
@@ -202,7 +202,7 @@ class GameController {
         if (this.windowSize >= 768) {
           view.clearSentencesBackground();
           view.showPicture(this.canvasElements.finalImage.flat(Infinity));
-          view.showImageDescription(`Author: ${this.fetchedPictureData.author.replace(',', ' ')},
+          view.showPictureDescription(`Author: ${this.fetchedPictureData.author.replace(',', ' ')},
             Name: ${this.fetchedPictureData.name} (Date: ${this.fetchedPictureData.year})`);
         }
         view.showResultButton();
@@ -211,7 +211,7 @@ class GameController {
       }
 
       view.hidePicture();
-      view.clearImageDescription();
+      view.clearPictureDescription();
       this.isPictureShown = false;
       this.setCurrentRound(this.currentRound + 1);
       this.newRound(this.currentLevel, this.currentRound);

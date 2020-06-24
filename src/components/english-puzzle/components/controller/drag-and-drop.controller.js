@@ -141,7 +141,7 @@ class DragAndDropController {
     this.cloneCell = document.body.querySelector('.moveable');
     this.moveAt(
       this.cloneCell,
-      this.coordinates.startX,
+      this.coordinates.startX + 8,
       this.coordinates.startY,
       this.coordinates.shiftX,
       this.coordinates.shiftY,
