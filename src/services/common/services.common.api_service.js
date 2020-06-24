@@ -1,4 +1,4 @@
-import { ERRORS_DESCRIPTION } from './services.common.constants';
+import { ERRORS_DESCRIPTION, LINK_TYPE } from './services.common.constants';
 import { ApiError } from './services.common.api_service.helper';
 
 export default class ApiService {
@@ -7,7 +7,7 @@ export default class ApiService {
     this.token = token;
   }
 
-  async getResource({ url, hasToken }) {
+  async getResource({ url, hasToken, type = null }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'GET',
@@ -19,6 +19,12 @@ export default class ApiService {
         },
       });
       if (!res.ok) {
+        if (res.status === 404 && type === LINK_TYPE.Settings) {
+          return LINK_TYPE.Settings[404];
+        }
+        if (res.status === 404 && type === LINK_TYPE.Statictics) {
+          return LINK_TYPE.Statictics[404];
+        }
         this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
       }
       return res.json();

@@ -1,7 +1,5 @@
-export default class Menu {
+class Menu {
   constructor() {
-    this.isOpen = false;
-
     this.onCloseClickHandlerBinded = this.onCloseClickHandler.bind(this);
     this.onBurgerIconClickHandlerBinded = this.onBurgerIconClickHandler.bind(this);
   }
@@ -35,11 +33,24 @@ export default class Menu {
     document.removeEventListener('click', this.onCloseClickHandlerBinded);
   }
 
+  changeActiveStateLinks() {
+    const { navigation } = this;
+
+    navigation.addEventListener('click', (e) => {
+      navigation.querySelectorAll('.navigation__link').forEach((el) => (el.classList.remove('active')));
+      e.target.classList.add('active');
+    });
+  }
+
   init() {
     this.toggleButton = document.querySelector('.hamburger-menu__button');
     this.navBar = document.querySelector('.main-header__navigation');
+    this.navigation = document.querySelector('.navigation__list');
 
     this.addBurgerIconClickHandler();
     this.addCloseButtonClickHandler();
+    this.changeActiveStateLinks();
   }
 }
+
+export default new Menu();
