@@ -1,5 +1,5 @@
 import 'isomorphic-fetch';
-import { LocalStorageService } from './common.utils.local_storage_service';
+import LocalStorageService from './common.utils.local_storage_service';
 import { TOKEN_EXPIRES_MS } from './common.utils.helper';
 
 const service = new LocalStorageService();

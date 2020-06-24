@@ -18,7 +18,7 @@ export default class ApiService {
         },
       });
       if (!res.ok) {
-        this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
+        await this._checkResponse(res);
       }
       return res.json();
     } catch (e) {
@@ -42,18 +42,7 @@ export default class ApiService {
         body: JSON.stringify(params),
       });
       if (!res.ok) {
-        let status = '';
-        let errorDescription = '';
-
-        try {
-          const errorRes = await res.json();
-          errorDescription = (errorRes.error !== undefined) ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
-          status = (errorRes.error !== undefined) ? 0 : res.status;
-        } catch (e) {
-          status = res.status;
-          errorDescription = '';
-        }
-        this.getError(status, errorDescription, res.statusText);
+        await this._checkResponse(res);
       }
       return res.json();
     } catch (e) {
@@ -77,7 +66,7 @@ export default class ApiService {
         body: JSON.stringify(params),
       });
       if (!res.ok) {
-        this.getError(res.status, res.statusText);
+        await this._checkResponse(res);
       }
       return res.json();
     } catch (e) {
@@ -98,7 +87,7 @@ export default class ApiService {
         },
       });
       if (!res.ok) {
-        this.getError(res.status, res.statusText);
+        await this._checkResponse(res);
       }
       if (res.status === 204 || res.status === 200) {
         return true;
@@ -137,5 +126,19 @@ export default class ApiService {
       throw new Error(e.message);
     }
     throw new Error(ERRORS_DESCRIPTION.DEFAULT);
+  }
+
+  async _checkResponse(res) {
+    let status = '';
+    let errorDescription = '';
+    try {
+      const errorRes = await res.json();
+      errorDescription = (errorRes.error !== undefined) ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
+      status = (errorRes.error !== undefined) ? 0 : res.status;
+    } catch (e) {
+      status = res.status;
+      errorDescription = '';
+    }
+    this.getError(status, errorDescription, res.statusText);
   }
 }
