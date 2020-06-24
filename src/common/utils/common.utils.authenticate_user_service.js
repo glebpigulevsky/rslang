@@ -1,4 +1,4 @@
-import LocalStorageService from './common.utils.local_storage_service';
+import { LocalStorageService } from './common.utils.local_storage_service';
 import { UsersApi } from '../../services/services.methods';
 import { TOKEN_EXPIRES_MS } from './common.utils.helper';
 

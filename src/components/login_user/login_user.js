@@ -1,5 +1,5 @@
 import { AuthenticateUserService } from '../../common/common.helper';
-import { LoginComponent } from './login_user.component';
+import { LoginComponent } from './common/login_user.component';
 import { LOGIN_BUTTONS_NAME, LOGIN_BUTTONS_COLOR_CLASS } from './common/login_user.common.constants';
 import './scss/login.styles.scss';
 
