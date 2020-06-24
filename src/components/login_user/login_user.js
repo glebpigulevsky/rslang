@@ -29,9 +29,9 @@ export default class LoginUser {
     this._inputEmail = document.querySelector('#js-inputEmail');
     this._inputPassword = document.querySelector('#js-inputPassword');
 
-    this._trainSwitch.addEventListener('click', () => this._trainSwitchHandler());
-    this._createBtn.addEventListener('click', (e) => this._createBtnHandler(e));
-    this._closeBtn.addEventListener('click', () => this._closeLoginHandler());
+    this._trainSwitch.addEventListener('click', this._trainSwitchHandler.bind(this));
+    this._createBtn.addEventListener('click', this._createBtnHandler.bind(this));
+    this._closeBtn.addEventListener('click', this._closeLoginHandler.bind(this));
   }
 
   _trainSwitchHandler() {
@@ -67,8 +67,8 @@ export default class LoginUser {
   _closeLoginHandler() {
     this._loginContainer.parentNode.removeChild(this._loginContainer);
 
-    this._trainSwitch.removeEventListener('click', () => this._trainSwitchHandler());
-    this._createBtn.removeEventListener('click', () => this._createBtnHandler());
-    this._closeBtn.removeEventListener('click', () => this._closeLoginHandler());
+    this._trainSwitch.removeEventListener('click', this._trainSwitchHandler());
+    this._createBtn.removeEventListener('click', this._createBtnHandler());
+    this._closeBtn.removeEventListener('click', this._closeLoginHandler());
   }
 }
