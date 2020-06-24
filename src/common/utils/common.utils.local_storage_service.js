@@ -1,4 +1,4 @@
-export default class LocalStorageService {
+class LocalStorageService {
   constructor() {
     this._keyUserInfo = 'userInfo';
   }
@@ -17,7 +17,9 @@ export default class LocalStorageService {
     this._deleteFromLocalStorage(this._keyUserInfo);
   }
 
-  _setLocalStorageData(key, value) { localStorage.setItem(key, JSON.stringify(value)); }
+  _setLocalStorageData(key, value) {
+    localStorage.setItem(key, JSON.stringify(value));
+  }
 
   _getFromLocalStorage(key) {
     return JSON.parse(localStorage.getItem(key));
@@ -31,3 +33,5 @@ export default class LocalStorageService {
     return { userId, token, expiredTime };
   }
 }
+
+export { LocalStorageService };

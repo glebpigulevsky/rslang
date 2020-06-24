@@ -18,6 +18,7 @@ const GET_RANDOM = (min, max) => {
   const y = Math.floor(max);
   return Math.floor(Math.random() * (y - x + 1)) + x;
 };
+const LINK_TYPE = { Settings: { 404: null }, Statictics: { 404: null } };
 export {
-  MAIN_API_URL, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK,
+  MAIN_API_URL, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK, LINK_TYPE,
 };
