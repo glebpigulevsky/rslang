@@ -1,0 +1,65 @@
+.settings{
+  width: 80%;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 73px;
+  background: #F4F5FA;
+  @include border-radius(10px, 10px, 10px, 10px);
+  @include box-shadow(0px, 4px, 20px, rgba(0, 0, 0, 0.25));
+  border: 2px solid rgba(75, 71, 71, 0.51);
+  .settings_raw{
+
+    border-bottom: 2px solid rgba(75, 71, 71, 0.51);
+    @include segoe-additional(#000000, 400);
+    .raw__container{
+      height: 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 14px;
+        .raw__container-input{
+          @include border-radius(2px, 2px, 2px, 2px);
+          .input-words__day, .input-cards__day{
+            width: 70px;
+            height: 22px;
+          }
+
+          .switch-btn {
+            display: inline-block;
+            width: 60px; /* ширина */
+            height: 25px; /* высота */
+            border-radius: 12.5px; /* радиус скругления */
+            background: #FFFF; /* цвет фона */
+            z-index: 0;
+            margin: 0;
+            padding: 0;
+            border: none;
+            cursor: pointer;
+            position: relative;
+            transition-duration: 300ms; /* анимация */
+            border: 1px solid #E7ECF4;
+        }
+        .switch-btn::after {
+            content: "";
+            height: 25px; /* высота кнопки */
+            width: 25px; /* ширина кнопки */
+            border-radius: 25px;
+            background: #2564AE; /* цвет кнопки */
+            
+            transition-duration: 300ms; /* анимация */
+            position: absolute;
+            z-index: 1;
+        }
+        .switch-on {
+            background: #3F89D7;
+        }
+        .switch-on::after {
+            left: 37px;
+        }
+        }
+    }
+  }
+  .no-border{
+    border-bottom: none;
+  }
+}

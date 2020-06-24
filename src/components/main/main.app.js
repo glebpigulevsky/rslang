@@ -1,4 +1,5 @@
 import menu from './menu';
+import settings from './components/settings/settings.app';
 import './scss/main.styles.scss';
 import { mainPageComponent } from './pages/main-page.component';
 import { learnPageComponent } from './pages/learn-page.component';
@@ -16,7 +17,7 @@ const appRoutes = [
   { path: '/games', component: gamesPageComponent },
   { path: '/statisticks', component: statisticsPageComponent },
   { path: '/team', component: teamPageComponent },
-  { path: '/settings', component: settingsPageComponent },
+  { path: '/settings', component: settingsPageComponent, init: settings },
 ];
 
 class Main {
@@ -34,6 +35,7 @@ const router = () => {
   const path = parseLocation();
   const { component = errorPageComponent } = findComponentByPath(path) || {};
   main.innerHTML = component.render();
+  settings.init();
 };
 
 const initRouter = () => {
