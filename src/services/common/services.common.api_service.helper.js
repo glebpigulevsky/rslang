@@ -1,4 +1,4 @@
-import { LocalStorageService } from '../../common/utils/common.utils.local_storage_service';
+import LocalStorageService from '../../common/utils/common.utils.local_storage_service';
 import { ERRORS_DESCRIPTION } from './services.common.constants';
 
 class ApiError extends Error {

@@ -9,7 +9,7 @@ class Promo {
 
   init() {
     this._startBtn = document.querySelector('.login__submitBtn');
-    this._startBtn.addEventListener('click', () => this._openLoginHandler());    
+    this._startBtn.addEventListener('click', () => this._openLoginHandler());
   }
 
   _openLoginHandler() {

@@ -1,4 +1,5 @@
-import { LocalStorageService } from '../../common/common.helper';
+import LocalStorageService from '../../common/common.helper';
+
 export default class Menu {
   constructor() {
     this.isOpen = false;
@@ -27,7 +28,7 @@ export default class Menu {
   }
 
   logout() {
-    document.querySelector('.main-header__logout').addEventListener('click', (e) => {
+    document.querySelector('.main-header__logout').addEventListener('click', () => {
       const storage = new LocalStorageService();
       storage.deleteUserInfo();
       window.location.replace(`${window.location.hash}/main.index.html`);
