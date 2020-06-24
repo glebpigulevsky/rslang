@@ -78,7 +78,7 @@ class Controller {
   }
 
   onIDontKnowButtonClickHandler() {
-    model.errorsList.push(gameController.fetchedRoundData[gameController.currentSentence]); // todo заглушка без интернета
+    model.errorsList.push(gameController.fetchedRoundData[gameController.currentSentence]); // !!! todo заглушка без интернета
 
     view.hideIDontKnowButton();
     view.hideCheckButton();
@@ -233,7 +233,7 @@ class Controller {
 
   init() {
     this.ELEMENTS = {
-      WRAPPER: document.querySelector('.wrapper'),
+      WRAPPER: document.querySelector('.english-puzzle-wrapper'),
       INTRODUCTION: document.querySelector('.introduction'),
       SPINNER: document.querySelector('.spinner'),
     };

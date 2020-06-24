@@ -35,8 +35,8 @@ class Model {
   }
 
   getPreloadedCurrentPicture(difficult, page) {
-    // return getPreloadedImage(picture); // todo заглушка без Интернета
-    return getPreloadedImage(`${PICTURE_URL}${levels[difficult][page].imageSrc}`); // cut // image
+    // return getPreloadedImage(picture); // !!! todo заглушка без Интернета
+    return getPreloadedImage(`${PICTURE_URL}${levels[difficult][page].imageSrc}`); // cut // image // !!! todo заглушка без Интернета
   }
 
   loadResults() {

@@ -60,8 +60,8 @@ class GameController {
     this.setCurrentRound();
 
     showSpinner(); //* кандидаты в отдельную функцию
-    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
-    // this.maxRoundInLevel = 40; // todo заглушка без интернета
+    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel); // !! todo заглушка без интернета
+    // this.maxRoundInLevel = 40; // !! todo заглушка без интернета
     view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
     this.setCurrentRound(0);
     view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]); //*
@@ -108,15 +108,15 @@ class GameController {
     this.isPictureShown = false;
 
     // try {
-    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound);
+    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound); // !!! todo заглушка без интернета
     // } catch (err) {
     // this.fetchedRoundData = JSON.parse(localStorage.getItem('data')); // todo заглушка без интернета
     // }
     localStorage.setItem('data', JSON.stringify(this.fetchedRoundData));
 
-    const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
+    const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample); // !!! todo заглушка без интернета
 
-    // const sentences = [ // todo заглушка без интернета
+    // const sentences = [ // !!! todo заглушка без интернета
     //   'The students agree they have too much homework every day',
     //   'I a`m going to study',
     //   'It is difficult situation for me',
@@ -129,8 +129,8 @@ class GameController {
     //   'First level and first round',
     // ];
 
-    this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound);
-    // this.fetchedPictureData = {}; // todo заглушка без интернет
+    this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound); // !!! todo заглушка без интернет
+    // this.fetchedPictureData = {}; // !!! todo заглушка без интернет
     this.fetchedPictureData.preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
     this.windowSize = document.documentElement.clientWidth;
     // if (isSmallWindow) this.fetchedPictureData.preloadedPicture.width = 768;
@@ -260,9 +260,9 @@ class GameController {
     showSpinner(); //* кандидаты в отдельную функцию
     // try {
     this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
-    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel);
+    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel); // !!! todo заглушка без Интернета
     // } catch (err) {
-    // this.maxRoundInLevel = 40; // todo заглушка без Интернета
+    // this.maxRoundInLevel = 40; // !!! todo заглушка без Интернета
     // }
     this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);
     view.menu.renderLevelSelector(this.currentLevel);

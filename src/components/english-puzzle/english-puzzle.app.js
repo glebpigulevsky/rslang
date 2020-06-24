@@ -4,10 +4,13 @@ import model from './components/model/model';
 import view from './components/view/view';
 import controller from './components/controller/controller';
 
-const englishPuzzleAppInit = () => {
-  model.init();
-  view.init();
-  controller.init();
+const englishPuzzleApp = {
+  render: () => view.renderDOM(),
+  init: () => {
+    model.init();
+    view.init();
+    controller.init();
+  },
 };
 
-export default englishPuzzleAppInit;
+export default englishPuzzleApp;

@@ -1,4 +1,3 @@
-import englishPuzzleAppInit from '../english-puzzle/english-puzzle.app';
 import menu from './menu';
 
 import './scss/main.styles.scss';
@@ -11,27 +10,15 @@ import { teamPageComponent } from './pages/team-page.component';
 import { settingsPageComponent } from './pages/settings-page.component';
 import { errorPageComponent } from './pages/error-page.component';
 
+import englishPuzzleApp from '../english-puzzle/english-puzzle.app';
+
 class Main {
   constructor() {
-    this.gameButtons = {
-      englishPuzzle: null,
-    };
-
-    this.onEnglishButtonClickHandlerBinded = this.onEnglishButtonClickHandler.bind(this);
-  }
-
-  onEnglishButtonClickHandler() {
-    menu.removeBurgerIconClickHandler();
-    menu.removeCloseButtonClickHandler();
-    this.gameButtons.englishPuzzle.removeEventListener('click', this.onEnglishButtonClickHandlerBinded);
-    englishPuzzleAppInit();
+    this.init();
   }
 
   init() {
     menu.init();
-
-    this.gameButtons.englishPuzzle = document.querySelector('.english-puzzle');
-    this.gameButtons.englishPuzzle.addEventListener('click', this.onEnglishButtonClickHandlerBinded);
   }
 }
 
@@ -43,6 +30,7 @@ const appRoutes = [
   { path: '/statisticks', component: statisticsPageComponent },
   { path: '/team', component: teamPageComponent },
   { path: '/settings', component: settingsPageComponent },
+  { path: '/english-puzzle', component: englishPuzzleApp },
 ];
 
 const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
@@ -53,6 +41,7 @@ const router = () => {
   const path = parseLocation();
   const { component = errorPageComponent } = findComponentByPath(path) || {};
   main.innerHTML = component.render();
+  if (component.init) component.init();
 };
 
 const initRouter = () => {
@@ -61,3 +50,6 @@ const initRouter = () => {
 };
 
 initRouter();
+
+const main = new Main();
+export default main;

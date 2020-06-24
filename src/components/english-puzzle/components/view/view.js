@@ -26,6 +26,8 @@ class View {
 
     this.audio = null;
 
+    this.listenersList = null;
+
     this.onEndSpellingHandlerBinded = this.onEndSpellingHandler.bind(this);
   }
 
@@ -168,83 +170,102 @@ class View {
     setActiveState(target);
   }
 
+  addListener(element, event, listener) {
+    element.addEventListener(event, listener);
+    this.listenersList.push({ element, event, listener });
+  }
+
+  removeListeners() {
+    this.listenersList.forEach(({ element, event, listener }) => {
+      element.removeEventListener(event, listener);
+    });
+  }
+
   initMenu(onLevelChangeHandler, onRoundChangeHandler) {
     this.menu = new Menu(onLevelChangeHandler, onRoundChangeHandler);
   }
 
   initIntroButton(onIntroButtonClick) {
-    this.ELEMENTS.BUTTONS.INTRODUCTION.addEventListener(EVENTS.CLICK, onIntroButtonClick);
+    // this.ELEMENTS.BUTTONS.INTRODUCTION.addEventListener(EVENTS.CLICK, onIntroButtonClick);
+    this.addListener(this.ELEMENTS.BUTTONS.INTRODUCTION, EVENTS.CLICK, onIntroButtonClick);
   }
 
   initCheckButton(onCheckButtonClick) {
-    this.ELEMENTS.BUTTONS.CHECK.addEventListener(EVENTS.CLICK, onCheckButtonClick);
+    // this.ELEMENTS.BUTTONS.CHECK.addEventListener(EVENTS.CLICK, onCheckButtonClick);
+    this.addListener(this.ELEMENTS.BUTTONS.CHECK, EVENTS.CLICK, onCheckButtonClick);
   }
 
   initIDontKnowButton(onIDontKnowButtonClick) {
-    this.ELEMENTS.BUTTONS.I_DONT_KNOW.addEventListener(EVENTS.CLICK, onIDontKnowButtonClick);
+    // this.ELEMENTS.BUTTONS.I_DONT_KNOW.addEventListener(EVENTS.CLICK, onIDontKnowButtonClick);
+    this.addListener(this.ELEMENTS.BUTTONS.I_DONT_KNOW, EVENTS.CLICK, onIDontKnowButtonClick);
   }
 
   initContinueButton(onContinueButtonClick) {
-    this.ELEMENTS.BUTTONS.CONTINUE.addEventListener(EVENTS.CLICK, onContinueButtonClick);
+    // this.ELEMENTS.BUTTONS.CONTINUE.addEventListener(EVENTS.CLICK, onContinueButtonClick);
+    this.addListener(this.ELEMENTS.BUTTONS.CONTINUE, EVENTS.CLICK, onContinueButtonClick);
   }
 
   initHintBgButton(onHintBgButtonClick, isBgImage) {
-    this.ELEMENTS.BUTTONS.HINTS.BG.addEventListener(EVENTS.CLICK, onHintBgButtonClick);
-
+    // this.ELEMENTS.BUTTONS.HINTS.BG.addEventListener(EVENTS.CLICK, onHintBgButtonClick);
+    this.addListener(this.ELEMENTS.BUTTONS.HINTS.BG, EVENTS.CLICK, onHintBgButtonClick);
     if (isBgImage) this.ELEMENTS.BUTTONS.HINTS.BG.classList.add(CLASS_NAMES.ACTIVE);
   }
 
   initHintTranslationButton(onHintTranslationButtonClick, isTranslationEnabled) {
-    this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.addEventListener(
-      EVENTS.CLICK,
-      onHintTranslationButtonClick,
-    );
-
+    // this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.addEventListener(
+    //   EVENTS.CLICK,
+    //   onHintTranslationButtonClick,
+    // );
+    this.addListener(this.ELEMENTS.BUTTONS.HINTS.TRANSLATION, EVENTS.CLICK, onHintTranslationButtonClick);
     if (isTranslationEnabled) {
       this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.classList.add(CLASS_NAMES.ACTIVE);
     }
   }
 
   initHintSpellingButton(onHintSpellingButtonClick, isSpellingEnabled) {
-    this.ELEMENTS.BUTTONS.HINTS.SPELLING.addEventListener(EVENTS.CLICK, onHintSpellingButtonClick);
-
+    // this.ELEMENTS.BUTTONS.HINTS.SPELLING.addEventListener(EVENTS.CLICK, onHintSpellingButtonClick);
+    this.addListener(this.ELEMENTS.BUTTONS.HINTS.SPELLING, EVENTS.CLICK, onHintSpellingButtonClick);
     if (isSpellingEnabled) this.ELEMENTS.BUTTONS.HINTS.SPELLING.classList.add(CLASS_NAMES.ACTIVE);
   }
 
   initHintAutoSpellingButton(onHintAutoSpellingButtonClick, isAutoSpellingEnabled) {
-    this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING.addEventListener(
-      EVENTS.CLICK,
-      onHintAutoSpellingButtonClick,
-    );
-
+    // this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING.addEventListener(
+    //   EVENTS.CLICK,
+    //   onHintAutoSpellingButtonClick,
+    // );
+    this.addListener(this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING, EVENTS.CLICK, onHintAutoSpellingButtonClick);
     if (isAutoSpellingEnabled) {
       this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING.classList.add(CLASS_NAMES.ACTIVE);
     }
   }
 
   initRepeatSpellingButton(onRepeatSpellingButtonClick) {
-    this.ELEMENTS.BUTTONS.REPEAT_SPELLING.addEventListener(
-      EVENTS.CLICK,
-      onRepeatSpellingButtonClick,
-    );
+  //   this.ELEMENTS.BUTTONS.REPEAT_SPELLING.addEventListener(
+  //     EVENTS.CLICK,
+  //     onRepeatSpellingButtonClick,
+  //   );
+    this.addListener(this.ELEMENTS.BUTTONS.REPEAT_SPELLING, EVENTS.CLICK, onRepeatSpellingButtonClick);
   }
 
   initResultsButton(onResultsButtonClick) {
-    this.ELEMENTS.BUTTONS.RESULTS.addEventListener(EVENTS.CLICK, onResultsButtonClick);
+    // this.ELEMENTS.BUTTONS.RESULTS.addEventListener(EVENTS.CLICK, onResultsButtonClick);
+    this.addListener(this.ELEMENTS.BUTTONS.RESULTS, EVENTS.CLICK, onResultsButtonClick);
   }
 
   initStatisticContinueButton(onStatisticContinueButtonClick) {
-    this.ELEMENTS.BUTTONS.STATISTICS.CONTINUE.addEventListener(
-      EVENTS.CLICK,
-      onStatisticContinueButtonClick,
-    );
+    // this.ELEMENTS.BUTTONS.STATISTICS.CONTINUE.addEventListener(
+    //   EVENTS.CLICK,
+    //   onStatisticContinueButtonClick,
+    // );
+    this.addListener(this.ELEMENTS.BUTTONS.STATISTICS.CONTINUE, EVENTS.CLICK, onStatisticContinueButtonClick);
   }
 
   initStatisticLongStatisticButton(onStatisticLongStatisticClick) {
-    this.ELEMENTS.BUTTONS.STATISTICS.LONG_STATISTIC.addEventListener(
-      EVENTS.CLICK,
-      onStatisticLongStatisticClick,
-    );
+    // this.ELEMENTS.BUTTONS.STATISTICS.LONG_STATISTIC.addEventListener(
+    //   EVENTS.CLICK,
+    //   onStatisticLongStatisticClick,
+    // );
+    this.addListener(this.ELEMENTS.BUTTONS.STATISTICS.LONG_STATISTIC, EVENTS.CLICK, onStatisticLongStatisticClick);
   }
 
   hideCheckButton() {
@@ -280,7 +301,8 @@ class View {
   }
 
   init() {
-    this.renderDOM();
+    // this.renderDOM();
+    this.listenersList = [];
 
     this.ELEMENTS = {
       TRANSLATION: document.querySelector('.main-card__translation'),
@@ -318,10 +340,11 @@ class View {
   }
 
   renderDOM() {
-    document.querySelector('body').innerHTML = '';
-    document.querySelector('body').insertAdjacentHTML('afterbegin', `
+    // document.querySelector('body').innerHTML = '';
+    // document.querySelector('body').insertAdjacentHTML('afterbegin', `
+    return `
       <div class="overflow-hidden english-puzzle-body">
-        <div class="wrapper display-none">
+        <div class="english-puzzle-wrapper display-none">
          
           <div class="english-puzzle-main">
             <div class="main-game__container">
@@ -429,7 +452,7 @@ class View {
           </div>
         </template>
       </div>
-    `);
+    `;
   }
 }
 
