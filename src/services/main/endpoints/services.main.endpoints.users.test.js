@@ -27,8 +27,7 @@ describe('create user', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    user._apiService.token = auth.token;
-    await user.deleteUser({ id: res.id });
+    await user.deleteUser({ userId: res.id, token: auth.token });
   });
 });
 
@@ -43,8 +42,8 @@ describe('get user', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    user._apiService.token = auth.token;
-    const res = await user.getUser({ id: userDefault.id });
+    
+    const res = await user.getUser({ userId: userDefault.id, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       id: userDefault.id,
@@ -60,13 +59,11 @@ describe('update user', () => {
   };
   it('should return correct object', async () => {
     const auth = await user.authenticateUser({ email: userDefault.email, password: userDefault.password });
-    user._apiService.token = auth.token;
     const newEmail = `jest_user_threeTEST@mail.com`;
     const res = await user.updateUser({
-      id: auth.userId,
       email: newEmail,
       password: userDefault.password
-    });
+    }, { userId: auth.userId, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       //id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
@@ -100,8 +97,7 @@ describe('delete user', () => {
         password: userDefault.password,
       });
     }
-    user._apiService.token = auth.token;
-    const res = await user.deleteUser({ id: auth.userId });
+    const res = await user.deleteUser({ userId: auth.userId, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       isDeleted: true,

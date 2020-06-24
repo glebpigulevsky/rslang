@@ -4,22 +4,21 @@ import { GET_USER_DATA } from '../../common/services.common.api_service.helper';
 
 export default class SettingsApi {
   constructor() {
-    this._userData = GET_USER_DATA();
-    this._apiService = new ApiService(MAIN_API_URL, this._userData.token);
+    this._apiService = new ApiService(MAIN_API_URL);
   }
 
-  async getSettings() {
-    console.log(this._userData);
-    const res = await this._apiService.getResource({ url: `/users/${this._userData.userId}/settings`, hasToken: true });
+  async getSettings({ token, userId } = GET_USER_DATA()) {
+    const res = await this._apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true, token });
     return this._transformUserSettings(res);
   }
 
-  async updateSettings({ wordsPerDay, optional = {} }) {
+  async updateSettings({ wordsPerDay, optional = {} }, { token, userId } = GET_USER_DATA()) {
     this._wordsPerDayValidator(wordsPerDay);
     const res = await this._apiService.putResourse({
-      url: `/users/${this._userId}/settings`,
+      url: `/users/${userId}/settings`,
       params: { wordsPerDay, optional },
       hasToken: true,
+      token,
     });
     return this._transformUserSettings(res);
   }

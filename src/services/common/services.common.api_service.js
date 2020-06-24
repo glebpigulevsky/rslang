@@ -2,18 +2,17 @@ import { ERRORS_DESCRIPTION } from './services.common.constants';
 import { ApiError } from './services.common.api_service.helper';
 
 export default class ApiService {
-  constructor(baseUrl, token) {
+  constructor(baseUrl) {
     this.baseUrl = baseUrl;
-    this.token = token;
   }
 
-  async getResource({ url, hasToken }) {
+  async getResource({ url, hasToken, token = null }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'GET',
         withCredentials: !!hasToken,
         headers: {
-          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Authorization: hasToken ? `Bearer ${token}` : null,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -28,13 +27,15 @@ export default class ApiService {
     }
   }
 
-  async postResourse({ url, params, hasToken }) {
+  async postResourse({
+    url, params, hasToken, token = null,
+  }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'POST',
         withCredentials: !!hasToken,
         headers: {
-          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Authorization: hasToken ? `Bearer ${token}` : null,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -61,13 +62,15 @@ export default class ApiService {
     }
   }
 
-  async putResourse({ url, params, hasToken }) {
+  async putResourse({
+    url, params, hasToken, token = null,
+  }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'PUT',
         withCredentials: !!hasToken,
         headers: {
-          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Authorization: hasToken ? `Bearer ${token}` : null,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -83,13 +86,13 @@ export default class ApiService {
     }
   }
 
-  async deleteResourse({ url, hasToken }) {
+  async deleteResourse({ url, hasToken, token = null }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'DELETE',
         withCredentials: !!hasToken,
         headers: {
-          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Authorization: hasToken ? `Bearer ${token}` : null,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },

@@ -3,7 +3,7 @@ import { LoginComponent } from './login_user.component';
 import { LOGIN_BUTTONS_NAME, LOGIN_BUTTONS_COLOR_CLASS } from './common/login_user.common.constants';
 import './scss/login.styles.scss';
 
-class LoginUser {
+export default class LoginUser {
   constructor() {
     this._authUserService = new AuthenticateUserService();
     this._closeBtn = null;
@@ -34,7 +34,7 @@ class LoginUser {
     this._closeBtn.addEventListener('click', () => this._closeLoginHandler());
   }
 
-  _trainSwitchHandler(e) {
+  _trainSwitchHandler() {
     const hasSignUp = this._trainSwitch.checked;
     if (hasSignUp) {
       this._createBtn.textContent = LOGIN_BUTTONS_NAME.SignUp;
@@ -57,6 +57,7 @@ class LoginUser {
       .loginUser({ email, password, hasSignUp })
       .then(() => {
         this._closeLoginHandler();
+        window.location.replace(`${window.location.hash}/main.index.html`);
       })
       .catch((err) => {
         this._createInfo.textContent = err;
@@ -71,5 +72,3 @@ class LoginUser {
     this._closeBtn.removeEventListener('click', () => this._closeLoginHandler());
   }
 }
-
-export { LoginUser };

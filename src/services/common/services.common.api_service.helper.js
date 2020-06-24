@@ -12,14 +12,13 @@ const GET_USER_DATA = () => {
   const storage = new LocalStorageService();
   const userInfo = storage.getUserInfo();
   if (!userInfo) {
+    console.info('no userInfo in LocalStorage');
     throw new Error(ERRORS_DESCRIPTION.ERROR_TOKEN);
   }
   const { userId, token, expiredTime } = userInfo;
-  const now = new Date(Date.now() - (4 * 60 * 60 * 1000)).toUTCString();
-  console.log(new Date(now).toUTCString());
-  console.log(new Date(expiredTime).toUTCString());
+  const now = Date.now();
   if (new Date(expiredTime).toUTCString() < now) {
-    console.log('less');
+    console.info(`expiredTimeUTC${new Date(expiredTime).toUTCString()}, nowUTC${new Date(now).toUTCString()}`);
     throw new Error(ERRORS_DESCRIPTION.ERROR_TOKEN);
   }
   return { userId, token };

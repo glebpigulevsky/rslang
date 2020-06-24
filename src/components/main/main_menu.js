@@ -1,3 +1,4 @@
+import { LocalStorageService } from '../../common/common.helper';
 export default class Menu {
   constructor() {
     this.isOpen = false;
@@ -25,8 +26,17 @@ export default class Menu {
     });
   }
 
+  logout() {
+    document.querySelector('.main-header__logout').addEventListener('click', (e) => {
+      const storage = new LocalStorageService();
+      storage.deleteUserInfo();
+      window.location.replace(`${window.location.hash}/main.index.html`);
+    });
+  }
+
   init() {
     this.burgerMenuClickHandler();
     this.close();
+    this.logout();
   }
 }

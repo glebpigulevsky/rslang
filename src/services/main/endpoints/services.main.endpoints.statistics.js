@@ -1,22 +1,24 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
+import { MAIN_API_URL } from '../../common/services.common.constants';
+import { GET_USER_DATA } from '../../common/services.common.api_service.helper';
 
 export default class StatisticsApi {
   constructor() {
-    this._apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._apiService = new ApiService(MAIN_API_URL);
   }
 
-  async getStatictics({ userId }) {
-    const res = await this._apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true });
+  async getStatictics({ token, userId } = GET_USER_DATA()) {
+    const res = await this._apiService.getResource({ url: `/users/${userId}/statistics`, hasToken: true, token });
     return this._transformUserStatistics(res);
   }
 
-  async updateStatistics({ userId, learnedWords, optional = {} }) {
+  async updateStatistics({ learnedWords, optional = {} }, { token, userId } = GET_USER_DATA()) {
     this._learnedWordsValidator({ learnedWords });
     const res = await this._apiService.putResourse({
       url: `/users/${userId}/statistics`,
       params: { learnedWords, optional },
       hasToken: true,
+      token,
     });
     return this._transformUserStatistics(res);
   }

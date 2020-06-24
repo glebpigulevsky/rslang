@@ -1,18 +1,21 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
+import { MAIN_API_URL } from '../../common/services.common.constants';
+import { GET_USER_DATA } from '../../common/services.common.api_service.helper';
 
 export default class UsersApi {
   constructor() {
-    this._apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._apiService = new ApiService(MAIN_API_URL);
   }
 
-  async getUser({ id }) {
-    const res = await this._apiService.getResource({ url: `/users/${id}`, hasToken: true });
+  async getUser({ token, userId } = GET_USER_DATA()) {
+    const res = await this._apiService.getResource({ url: `/users/${userId}`, hasToken: true, token });
     return this._transformUser(res);
   }
 
-  async updateUser({ id, email, password }) {
-    const res = await this._apiService.putResourse({ url: `/users/${id}`, params: { email, password }, hasToken: true });
+  async updateUser({ email, password }, { token, userId } = GET_USER_DATA()) {
+    const res = await this._apiService.putResourse({
+      url: `/users/${userId}`, params: { email, password }, hasToken: true, token,
+    });
     return this._transformUser(res);
   }
 
@@ -21,15 +24,15 @@ export default class UsersApi {
     return this._transformUser(res);
   }
 
-  async deleteUser({ id }) {
-    const res = await this._apiService.deleteResourse({ url: `/users/${id}`, hasToken: true });
+  async deleteUser({ token, userId } = GET_USER_DATA()) {
+    const res = await this._apiService.deleteResourse({ url: `/users/${userId}`, hasToken: true, token });
     return {
       isDeleted: res,
     };
   }
 
   async authenticateUser({ email, password }) {
-    const res = await this._apiService.postResourse({ url: '/signin', params: { email, password } });
+    const res = await this._apiService.postResourse({ url: '/signin', params: { email, password }, hasToken: false });
     return this._transformAuthentication(res);
   }
 

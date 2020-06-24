@@ -20,8 +20,8 @@ describe('get statistics if statistics was not updated early', () => {
         email: userDefault.email,
         password: userDefault.password,
       });
-      statistics._apiService = new ApiService(MAIN_API_URL, auth.token);
-      await statistics.getStatictics({ userId: userDefault.id });
+      statistics._apiService = new ApiService(MAIN_API_URL);
+      await statistics.getStatictics({ userId: userDefault.id, token: auth.token });
     } catch (e) {
       expect(e.message).toEqual(ERRORS_DESCRIPTION[404]);
     }
@@ -39,8 +39,8 @@ describe('get statistics', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    statistics._apiService = new ApiService(MAIN_API_URL, auth.token);
-    const res = await statistics.getStatictics({ userId: userDefault.id });
+    statistics._apiService = new ApiService(MAIN_API_URL);
+    const res = await statistics.getStatictics({ userId: userDefault.id, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
@@ -63,12 +63,11 @@ describe('update settings', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    statistics._apiService = new ApiService(MAIN_API_URL, auth.token);
+    statistics._apiService = new ApiService(MAIN_API_URL);
     const res = await statistics.updateStatistics({
-      userId: userDefault.id,
       learnedWords: 1,
-      optional: { score: '100', langs: 'en' },
-    });
+      optional: { score: '100', langs: 'en' } }, { userId: auth.userId, token: auth.token }
+    );
     expect(res).toMatchObject({
       // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
       learnedWords: 1,
