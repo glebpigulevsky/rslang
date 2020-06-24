@@ -1,4 +1,5 @@
 import menu from './menu';
+import sprintGameInit from '../sprint/sprint.app';
 import './scss/main.styles.scss';
 import { mainPageComponent } from './pages/main-page.component';
 import { learnPageComponent } from './pages/learn-page.component';
@@ -20,7 +21,21 @@ const appRoutes = [
 ];
 
 class Main {
+  constructor() {
+    this.gameButtons = {
+      sprint: null,
+    };
+    this.onSprintButtonClickHandlerBinded = this.onSprintButtonClickHandler.bind(this);
+  }
+
+  onSprintButtonClickHandler() {
+    this.gameButtons.sprint.removeEventListener('click', this.onSprintButtonClickHandlerBinded);
+    sprintGameInit();
+  }
+
   init() {
+    this.gameButtons.sprint = document.querySelector('.sprint-game');
+    this.gameButtons.sprint.addEventListener('click', this.onSprintButtonClickHandlerBinded);
     menu.init();
   }
 }
