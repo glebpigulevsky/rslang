@@ -24,26 +24,29 @@ export const settingsPageComponent = {
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
+              <div class="raw__container-descr">Show translation</div>
               <div class="raw__container-input">
-                <div class="switch-btn switch-on"></div>
+                <div class="switch-btn switch-on " id="isTranslation">
+                </div>
               </div>
             </div>
           </div>
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
+              <div class="raw__container-descr">Show transcription</div>
               <div class="raw__container-input">
-              <div class="switch-btn"></div>
+              <div class="switch-btn" id="isTranscription"></div>
               </div>
             </div>
           </div>
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
-              <div class="raw__container-input"></div>
+              <div class="raw__container-descr">Show picture</div>
+              <div class="raw__container-input">
+                <div class="switch-btn" id="isPicture"></div>
+              </div>
             </div>
           </div>
 
