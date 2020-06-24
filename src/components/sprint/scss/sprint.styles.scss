@@ -5,6 +5,9 @@
 @import '../../../scss/constants.scss';
 @import '../../../scss/wrapper.scss';
 
-//Components
+@import 'constants.sprint.scss';
+
+@import 'layouts/sprint.body.scss';
+@import 'layouts/sprint.main.scss';
 @import 'components/timer';
-@import 'components/form-game';
+@import 'components/sprint.btn.scss';

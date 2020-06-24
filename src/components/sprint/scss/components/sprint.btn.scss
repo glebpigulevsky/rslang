@@ -1,0 +1,31 @@
+.sprint__btn {
+  margin: 20px 0;
+  font-size: 1rem;
+  text-transform: uppercase;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, .3);
+
+  @include segoe-desc($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    border-color: transparent;
+    opacity: .5;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+  }
+}
+
+.sprint__btn--wrong {
+  border: 1px solid $color-btn-wrong;
+
+  @include button($color: $color-light, $background: $color-btn-wrong, $width: 100px, $height: 30px, $radius: 30px);
+}
+
+.sprint__btn--right {
+  border: 1px solid $color-border-right;
+
+  @include button($color: $color-light, $background: $color-btn-right, $width: 100px, $height: 30px, $radius: 30px);
+}

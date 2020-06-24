@@ -1,0 +1,54 @@
+.base-timer {
+  position: absolute;
+  top: 2%;
+  right: 4%;
+  width: 70px;
+  height: 70px;
+}
+
+.base-timer__svg {
+  transform: scaleX(-1);
+}
+
+.base-timer__circle {
+  fill: none;
+  stroke: none;
+}
+
+.base-timer__path-elapsed {
+  stroke: grey;
+  stroke-width: 7px;
+}
+
+.base-timer__path-remaining {
+  transform: rotate(90deg);
+  transform-origin: center;
+  transition: 1s linear all;
+  fill-rule: nonzero;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-width: 7px;
+}
+
+.base-timer__path-remaining.green {
+  color: rgb(65, 184, 131);
+}
+
+.base-timer__path-remaining.orange {
+  color: orange;
+}
+
+.base-timer__path-remaining.red {
+  color: red;
+}
+
+.base-timer__label {
+  position: absolute;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 70px;
+  height: 65px;
+  font-size: 24px;
+}
