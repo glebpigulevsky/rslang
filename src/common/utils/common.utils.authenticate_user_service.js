@@ -2,7 +2,7 @@ import LocalStorageService from './common.utils.local_storage_service';
 import { UsersApi } from '../../services/services.methods';
 import { TOKEN_EXPIRES_MS } from './common.utils.helper';
 
-export default class AuthenticateUserService {
+class AuthenticateUserService {
   constructor() {
     this.localStorageService = new LocalStorageService();
     this.userApi = new UsersApi();
@@ -34,3 +34,5 @@ export default class AuthenticateUserService {
     return false;
   }
 }
+
+export { AuthenticateUserService };

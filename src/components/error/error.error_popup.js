@@ -1,6 +1,6 @@
 import ErrorPopupFragment from './common/error.common.popup-fragment';
 
-export default class ErrorPopup {
+class ErrorPopup {
   constructor() {
     this._closeBtn = null;
   }
@@ -24,3 +24,5 @@ export default class ErrorPopup {
     document.body.removeChild(document.querySelector('#errorPopup'));
   }
 }
+
+export { ErrorPopup };
