@@ -2,29 +2,22 @@
   position: absolute;
   top: 90px;
   left: 180px;
-
-  display: flex;
-  justify-content: center;
   width: 666px;
   height: 500px;
   margin: 0 auto;
-
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, .95);
   border-radius: 30px;
-
   backdrop-filter: blur(40px);
 }
 
 .game-sprint__header {
-  display: flex;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 666px;
   height: 90px;
-
-  background: rgba(158, 241, 246, 0.3);
+  background: rgba(158, 241, 246, .3);
   border-radius: 30px 30px 0 0;
 
   @include segoe-title($color: $color-text);
@@ -34,4 +27,54 @@
   display: flex;
   flex: 1 0 auto;
   justify-content: center;
+}
+
+.game-sprint__rating {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 15px;
+}
+
+.game-sprint__field {
+  display: flex;
+  flex-direction: column;
+  margin-top: 30px;
+}
+
+.game-sprint__word {
+  padding: 10px 0;
+  text-align: center;
+  text-transform: uppercase;
+
+  @include segoe-subtitle($color: $color-text, $weight: 600);
+}
+
+.game-sprint__controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 200px;
+}
+
+.game-sprint__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 666px;
+  height: 70px;
+  margin-top: 42px;
+  background: rgba(158, 241, 246, .3);
+  border-radius: 0 0 30px 30px;
+
+  img {
+    padding: 0 10px;
+    cursor: pointer;
+  }
+}
+
+.game-sprint__instruction {
+  padding: 0 30px;
+
+  @include segoe-additional($color: $color-text, $weight: 600);
 }

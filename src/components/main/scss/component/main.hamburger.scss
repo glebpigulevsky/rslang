@@ -8,26 +8,26 @@
   width: px-to-rem(20px);
   height: px-to-rem(20px);
   padding: px-to-rem(4px) (8px);
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, .2);
   border-radius: px-to-rem(5px);
   cursor: pointer;
 
   @include media-mobile {
     top: 1.2rem;
-    left: 0.8rem;
+    left: .8rem;
   }
 
   &:hover {
     background-color: $color-hovered;
 
-    @include transition($time: 0.4s, $property: all, $method: ease-out);
+    @include transition($time: .4s, $property: all, $method: ease-out);
   }
 }
 
 .hamburger-menu__line {
   width: 100%;
-  height: 0.25rem;
+  height: .25rem;
   background-color: $color-light;
   border-radius: px-to-rem(3px);
-  transition: 0.2s ease-out;
+  transition: .2s ease-out;
 }
