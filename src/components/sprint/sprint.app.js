@@ -1,14 +1,16 @@
-import view from './common/view';
+import View from './common/view';
 import Timer from './common/timer';
-import game from './common/game';
+import GameSprint from './common/game';
 import './scss/sprint.styles.scss';
 
 const timerJS = new Timer();
+const view = new View();
+const game = new GameSprint();
 const sprintApp = {
   render: () => view.renderDOM(),
   init: () => {
     timerJS.init();
-    view.init();
+    // render.init();
     game.init();
   },
 };

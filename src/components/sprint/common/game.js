@@ -1,8 +1,10 @@
-import { WordsApi } from '../../../services/services.methods';
+import {
+  WordsApi,
+} from '../../../services/services.methods';
 
 const wordsAPI = new WordsApi();
 
-class GameSprint {
+export default class GameSprint {
   constructor() {
     this.currentWord = null;
     this.group = null;
@@ -12,12 +14,15 @@ class GameSprint {
     this.score = 0;
     this.correctAnswers = [];
     this.wrongAnswers = [];
+    this.scoreCoeff = 10;
     this.correctAnswerCounter = 0;
   }
 
   getWords() {
-    wordsAPI
-      .getWordsCollection({ group: 0, page: 1 })
+    wordsAPI.getWordsCollection({
+      group: 0,
+      page: 1,
+    })
       .then((res) => {
         this.createObjectWords(res);
       })
@@ -53,7 +58,7 @@ class GameSprint {
   }
 
   startGame(wordsEn) {
-    const objectEN = this.shuffleArray(wordsEn);
+    const objectEN = this.shuffledArray(wordsEn);
     this.makeTurn(objectEN);
   }
 
@@ -67,12 +72,12 @@ class GameSprint {
   }
 
   handleButtonClick(word) {
-    const btnTRUE = document.querySelector('.sprint__btn--right');
-    const btnFALSE = document.querySelector('.sprint__btn--wrong');
+    const btnTRUE = document.getElementById('true');
+    const btnFALSE = document.getElementById('false');
     btnTRUE.addEventListener('click', (event) => {
       if (!(this.currentIndex > this.currentWords.length - 1)) {
         const target = event.target.className;
-        if (target === 'sprint__btn--right') {
+        if (target === 'true') {
           if (word.result === true) {
             console.log('TRUE');
             this.correctAnswerCounter += 1;
@@ -95,8 +100,10 @@ class GameSprint {
       console.log(this.currentWords.length - 1, this.currentIndex);
       console.log(!(this.currentIndex >= this.currentWords.length - 1));
       if (!(this.currentIndex >= this.currentWords.length - 1)) {
+       
         const target = event.target.className;
-        if (target === 'sprint__btn--wrong') {
+         console.log(target)
+        if (target === 'false wrong') {
           if (word.result === false) {
             console.log('TRUE');
             this.correctAnswerCounter += 1;
@@ -118,7 +125,7 @@ class GameSprint {
   }
 
   calcScore(answer) {
-    const score = document.querySelector('.score__value');
+    const score = document.getElementById('score');
     if (answer === true) {
       if (this.correctAnswerCounter <= 4) {
         this.score += 10;
@@ -152,9 +159,7 @@ class GameSprint {
     this.getWords();
     this.createObjectWords();
     this.startGame();
-    document.querySelector('.score__value').textContent = this.score;
+    document.getElementById('score').textContent = this.score;
     // this.playGame();
   }
 }
-
-export default new GameSprint();
