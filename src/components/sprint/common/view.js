@@ -33,7 +33,7 @@ class View {
 }
 
 export default new View();
- // <img src="https://img.icons8.com/nolan/50/goal.png"/>
-              // <img src="https://img.icons8.com/nolan/50/goal.png"/>
-              // <img src="https://img.icons8.com/nolan/50/goal.png"/>
-              // <img src="https://img.icons8.com/nolan/50/goal.png"/>
+// <img src="https://img.icons8.com/nolan/50/goal.png"/>
+// <img src="https://img.icons8.com/nolan/50/goal.png"/>
+// <img src="https://img.icons8.com/nolan/50/goal.png"/>
+// <img src="https://img.icons8.com/nolan/50/goal.png"/>

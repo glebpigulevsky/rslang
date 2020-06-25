@@ -17,7 +17,8 @@ export default class GameSprint {
   }
 
   getWords() {
-    wordsAPI.getWordsCollection({ group: 0, page: 1 })
+    wordsAPI
+      .getWordsCollection({ group: 0, page: 1 })
       .then((res) => {
         this.createObjectWords(res);
       })
@@ -51,7 +52,6 @@ export default class GameSprint {
       return array.sort(() => Math.random() - 0.5);
     }
   }
-
 
   startGame(wordsEn) {
     const objectEN = this.shuffledArray(wordsEn);

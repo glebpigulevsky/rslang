@@ -6,9 +6,7 @@ export default class UserWordsApi {
     this._apiService = new ApiService(MAIN_API_URL, TOKEN);
   }
 
-  async createUserWord({
-    userId, wordId, difficulty, optional = {},
-  }) {
+  async createUserWord({ userId, wordId, difficulty, optional = {} }) {
     const res = await this._apiService.postResourse({
       url: `/users/${userId}/words/${wordId}`,
       params: { difficulty, optional },
@@ -27,9 +25,7 @@ export default class UserWordsApi {
     return this._transformUserWord(res);
   }
 
-  async updateUserWord({
-    userId, wordId, difficulty, optional = {},
-  }) {
+  async updateUserWord({ userId, wordId, difficulty, optional = {} }) {
     const res = await this._apiService.putResourse({
       url: `/users/${userId}/words/${wordId}`,
       params: { difficulty, optional },
@@ -45,9 +41,7 @@ export default class UserWordsApi {
     };
   }
 
-  _transformUserWord({
-    id, wordId, difficulty, optional,
-  }) {
+  _transformUserWord({ id, wordId, difficulty, optional }) {
     return {
       id,
       wordId,
