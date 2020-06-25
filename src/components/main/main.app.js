@@ -1,5 +1,4 @@
 import menu from './menu';
-import sprintGameInit from '../sprint/sprint.app';
 import './scss/main.styles.scss';
 import { mainPageComponent } from './pages/main-page.component';
 import { learnPageComponent } from './pages/learn-page.component';
@@ -10,6 +9,8 @@ import { teamPageComponent } from './pages/team-page.component';
 import { settingsPageComponent } from './pages/settings-page.component';
 import { errorPageComponent } from './pages/error-page.component';
 
+import sprintApp from '../sprint/sprint.app';
+
 const appRoutes = [
   { path: '/', component: mainPageComponent },
   { path: '/learn', component: learnPageComponent },
@@ -18,38 +19,29 @@ const appRoutes = [
   { path: '/statisticks', component: statisticsPageComponent },
   { path: '/team', component: teamPageComponent },
   { path: '/settings', component: settingsPageComponent },
+  { path: '/sprint', component: sprintApp },
 ];
 
 class Main {
   constructor() {
-    this.gameButtons = {
-      sprint: null,
-    };
-    this.onSprintButtonClickHandlerBinded = this.onSprintButtonClickHandler.bind(this);
-  }
-
-  onSprintButtonClickHandler() {
-    this.gameButtons.sprint.removeEventListener('click', this.onSprintButtonClickHandlerBinded);
-    sprintGameInit();
+    this.init();
   }
 
   init() {
-    this.gameButtons.sprint = document.querySelector('.sprint-game');
-    this.gameButtons.sprint.addEventListener('click', this.onSprintButtonClickHandlerBinded);
     menu.init();
   }
 }
 export default new Main();
 
 const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
-const findComponentByPath = (path) =>
-  appRoutes.find((route) => route.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
+const findComponentByPath = (path) => appRoutes.find((route) => route.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
 
 const router = () => {
   const main = document.querySelector('.main');
   const path = parseLocation();
   const { component = errorPageComponent } = findComponentByPath(path) || {};
   main.innerHTML = component.render();
+  if (component.init) component.init();
 };
 
 const initRouter = () => {

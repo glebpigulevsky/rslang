@@ -2,7 +2,7 @@ import { WordsApi } from '../../../services/services.methods';
 
 const wordsAPI = new WordsApi();
 
-export default class GameSprint {
+class GameSprint {
   constructor() {
     this.currentWord = null;
     this.group = null;
@@ -12,7 +12,6 @@ export default class GameSprint {
     this.score = 0;
     this.correctAnswers = [];
     this.wrongAnswers = [];
-    this.scoreCoeff = 10;
     this.correctAnswerCounter = 0;
   }
 
@@ -54,7 +53,7 @@ export default class GameSprint {
   }
 
   startGame(wordsEn) {
-    const objectEN = this.shuffledArray(wordsEn);
+    const objectEN = this.shuffleArray(wordsEn);
     this.makeTurn(objectEN);
   }
 
@@ -157,3 +156,5 @@ export default class GameSprint {
     // this.playGame();
   }
 }
+
+export default new GameSprint();

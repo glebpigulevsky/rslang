@@ -1,13 +1,7 @@
 class View {
-  init() {
-    this.renderDOM();
-  }
-
   renderDOM() {
-    document.querySelector('body').innerHTML = '';
-    document.querySelector('body').insertAdjacentHTML(
-      'afterbegin',
-      `<div class="body__game-sprint body__game-sprint--background">
+    return `
+      <div class="body__game-sprint body__game-sprint--background">
         <div class="wrapper wrapper__sprint-game">
           <div class="inner__game-sprint">
             <div class="game-sprint__header">
@@ -27,8 +21,7 @@ class View {
             </div>
           </div>
         </div>
-      </div>`,
-    );
+      </div>`;
   }
 }
 
