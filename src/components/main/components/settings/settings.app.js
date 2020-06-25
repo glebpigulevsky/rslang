@@ -1,8 +1,8 @@
 import {
-  SettingsApi, StatisticsApi, UsersApi, UserWordsApi, WordsApi,
+  SettingsApi, UsersApi,
 } from '../../../../services/services.methods';
 import {
-  MAIN_API_URL, TOKEN, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK, LINK_TYPE, DEFAULT_SETTINGS,
+  MAIN_API_URL, DEFAULT_SETTINGS,
 } from '../../../../services/common/services.common.constants';
 import ApiService from '../../../../services/common/services.common.api_service';
 import { ErrorPopup } from '../../../error/error.error_popup';
@@ -21,7 +21,6 @@ const settingsPage = {
   saveButton: null,
 
   async init() {
-    console.log('settings');
     this.buttons = document.querySelectorAll('.switch-btn');
     this.buttons.forEach((element) => {
       element.addEventListener('click', () => {
@@ -63,12 +62,12 @@ const settingsPage = {
   },
 
   async buttonUpdateSettings() {
-    const wordsPerDay = document.querySelector('.input-words__day').value;
-    const optional = {};
-    settingsPage.buttons.forEach(button => {
+    const wordsPerDayFront = document.querySelector('.input-words__day').value;
+    const optionalFront = {};
+    settingsPage.buttons.forEach((button) => {
       if (button.classList.contains('switch-on')) {
-        optional[button.getAttribute('id')] = 'true';
-      } else optional[button.getAttribute('id')] = 'false';
+        optionalFront[button.getAttribute('id')] = 'true';
+      } else optionalFront[button.getAttribute('id')] = 'false';
     });
     const auth = await user.authenticateUser({
       email: userDefault.email,
@@ -77,8 +76,8 @@ const settingsPage = {
     settings._apiService = new ApiService(MAIN_API_URL, auth.token);
     const res = await settings.updateSettings({
       userId: auth.userId,
-      wordsPerDay: wordsPerDay,
-      optional: optional,
+      wordsPerDay: wordsPerDayFront,
+      optional: optionalFront,
     });
     this.settings = res;
   },

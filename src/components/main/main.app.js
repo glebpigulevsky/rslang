@@ -1,5 +1,4 @@
 import menu from './menu';
-import settings from './components/settings/settings.app';
 import './scss/main.styles.scss';
 import { mainPageComponent } from './pages/main-page.component';
 import { learnPageComponent } from './pages/learn-page.component';
