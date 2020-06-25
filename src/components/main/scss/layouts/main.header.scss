@@ -5,7 +5,7 @@
   align-items: center;
   height: px-to-rem(45px);
   background-color: $color-dark-blue;
-  box-shadow: 0 4px 22px rgba(15, 143, 198, .3);
+  box-shadow: 0 4px 22px rgba(15, 143, 198, 0.3);
 }
 
 .main-header__logo {
@@ -31,18 +31,18 @@
   width: px-to-rem(20px);
   height: px-to-rem(20px);
   padding: px-to-rem(4px) (8px);
-  background: rgba(0, 0, 0, .2);
+  background: rgba(0, 0, 0, 0.2);
   border-radius: px-to-rem(5px);
   cursor: pointer;
 
   @include media-mobile {
     top: 1.2rem;
-    right: .8rem;
+    right: 0.8rem;
   }
 
   &:hover {
     background-color: $color-hovered;
 
-    @include transition($time: .4s, $property: all, $method: ease-out);
+    @include transition($time: 0.4s, $property: all, $method: ease-out);
   }
 }

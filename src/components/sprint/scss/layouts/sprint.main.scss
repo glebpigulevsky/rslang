@@ -2,11 +2,14 @@
   position: absolute;
   top: 90px;
   left: 180px;
+
   width: 666px;
   height: 500px;
   margin: 0 auto;
-  background: rgba(255, 255, 255, .95);
+
+  background: rgba(255, 255, 255, 0.95);
   border-radius: 30px;
+
   backdrop-filter: blur(40px);
 }
 
@@ -17,7 +20,8 @@
   align-items: center;
   width: 666px;
   height: 90px;
-  background: rgba(158, 241, 246, .3);
+
+  background: rgba(158, 241, 246, 0.3);
   border-radius: 30px 30px 0 0;
 
   @include segoe-title($color: $color-text);
@@ -33,17 +37,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 50px;
   margin-top: 15px;
 }
 
 .game-sprint__field {
   display: flex;
   flex-direction: column;
+  height: 94px;
   margin-top: 30px;
 }
 
 .game-sprint__word {
   padding: 10px 0;
+
   text-align: center;
   text-transform: uppercase;
 
@@ -64,11 +71,13 @@
   width: 666px;
   height: 70px;
   margin-top: 42px;
-  background: rgba(158, 241, 246, .3);
+
+  background: rgba(158, 241, 246, 0.3);
   border-radius: 0 0 30px 30px;
 
   img {
     padding: 0 10px;
+
     cursor: pointer;
   }
 }

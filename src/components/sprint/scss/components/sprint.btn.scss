@@ -2,7 +2,7 @@
   margin: 20px 0;
   font-size: 1rem;
   text-transform: uppercase;
-  box-shadow: 0 4px 22px rgba(0, 0, 0, .3);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
 
   @include segoe-desc($color: $color-light, $weight: bold);
 
@@ -12,9 +12,9 @@
 
   &:hover {
     border-color: transparent;
-    opacity: .5;
+    opacity: 0.5;
 
-    @include transition($time: .4s, $property: all, $method: ease-out);
+    @include transition($time: 0.4s, $property: all, $method: ease-out);
   }
 }
 
