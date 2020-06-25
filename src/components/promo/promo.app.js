@@ -1,9 +1,9 @@
 import './scss/promo.styles.scss';
-import { LoginUser, POINT_OF_ENTRY } from '../login_user/login_user.popup';
+import { LoginUser } from '../login_user/login_user.popup';
 
 class Promo {
   constructor() {
-    this._loginUser = new LoginUser({ pointOfEntry: POINT_OF_ENTRY.Promo });
+    this._loginUser = new LoginUser();
   }
 
   openLoginPopup() {
@@ -16,7 +16,6 @@ class Promo {
   }
 
   _onSuccessUserLogin(e) {
-    alert(e.detail.result);
     window.location.replace(`${window.location.origin}/main.index.html#`);
   }
 
@@ -28,4 +27,4 @@ class Promo {
 window.onload = () => {
   const promo = new Promo();
   promo.init();
-}
+};

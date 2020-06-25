@@ -3,9 +3,8 @@ import { LoginComponent } from './common/login_user.component';
 import { LOGIN_BUTTONS_NAME, LOGIN_BUTTONS_COLOR_CLASS } from './common/login_user.common.constants';
 import './scss/login.styles.scss';
 
-const POINT_OF_ENTRY = { Promo: 'Promo', Main: 'Main' };
 class LoginUser {
-  constructor({ pointOfEntry }) {
+  constructor() {
     this._authUserService = new AuthenticateUserService();
     this._closeBtn = null;
     this._createBtn = null;
@@ -16,7 +15,6 @@ class LoginUser {
     this._inputEmail = null;
     this._inputPassword = null;
     this._loginContainer = null;
-    this._pointOfEntry = pointOfEntry;
   }
 
   showLoginPopup() {
@@ -57,18 +55,15 @@ class LoginUser {
     const hasSignUp = this._trainSwitch.checked;
     this._authUserService
       .loginUser({ email, password, hasSignUp })
-      .then(() => {
-        if (this._pointOfEntry === POINT_OF_ENTRY.Promo) {
-          console.log(this._pointOfEntry); 
-          this._loginContainer.dispatchEvent(new CustomEvent('UserSuccess', {
-            detail: { result: 'Authorized' },
-          }));
-          this._closeLoginHandler();
-        } else if (this._pointOfEntry === POINT_OF_ENTRY.Main) {
-          this._loginContainer.dispatchEvent(new CustomEvent('UserSuccess', {
-            detail: { result: 'Authorized' },
-          }));
-          this._closeLoginHandler();
+      .then((res) => {
+        if (res === 'Authenticated') {
+          this._createInfo.textContent = 'Authenticated';
+          setTimeout(() => {
+            this._loginContainer.dispatchEvent(new CustomEvent('UserSuccess', {
+              detail: { result: 'Authenticated' },
+            }));
+            this._closeLoginHandler();
+          }, 2000);
         }
       })
       .catch((err) => { this._createInfo.textContent = err; });
@@ -83,4 +78,4 @@ class LoginUser {
   }
 }
 
-export { LoginUser, POINT_OF_ENTRY };
+export { LoginUser };

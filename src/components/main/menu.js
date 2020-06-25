@@ -1,12 +1,11 @@
-import { LoginUser, POINT_OF_ENTRY } from '../login_user/login_user.popup';
+import { LoginUser } from '../login_user/login_user.popup';
 import { AuthenticateUserService, LocalStorageService } from '../../common/common.helper';
-import { teamPageComponent } from './pages/team-page.component';
 
 class Menu {
   constructor() {
     this.onCloseClickHandlerBinded = this.onCloseClickHandler.bind(this);
     this.onBurgerIconClickHandlerBinded = this.onBurgerIconClickHandler.bind(this);
-    this._loginUser = new LoginUser({ pointOfEntry: POINT_OF_ENTRY.Main });
+    this._loginUser = new LoginUser();
     this._authUserService = new AuthenticateUserService();
     this._localStorage = new LocalStorageService();
   }
@@ -50,12 +49,13 @@ class Menu {
       e.target.classList.add('active');
     });
   }
+
   logout() {
     this._logout.addEventListener('click', this._onLogoutButtonHandler.bind(this));
   }
 
   _onLogoutButtonHandler() {
-    console.log('logout');
+    console.info('logout');
     this._localStorage.deleteUserInfo();
     document.querySelector('.main-header__navigation').style.removeProperty('display');
     document.querySelector('.main-header__logout').style.removeProperty('display');
@@ -72,7 +72,6 @@ class Menu {
   }
 
   _onSuccessUserLogin(e) {
-    alert(e.detail.result);
     document.querySelector('.main-header__navigation').style.display = 'flex';
     document.querySelector('.main-header__logout').style.display = 'block';
   }
