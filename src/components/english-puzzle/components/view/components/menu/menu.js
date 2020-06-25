@@ -1,5 +1,17 @@
 import Selector from '../selector/selector';
 
+import {
+  EVENTS,
+  CLASS_NAMES,
+  MAX_LEVELS_COUNT,
+  MAX_ROUNDS_COUNT,
+} from '../../../../common/english-puzzle.constants';
+
+const SELECT_NAMES = {
+  LEVEL: 'LEVEL',
+  ROUND: 'ROUND',
+};
+
 export default class Menu {
   constructor(onLevelChangeHandler, onRoundChangeHandler) {
     this.ELEMENTS = {
@@ -25,24 +37,35 @@ export default class Menu {
     this.ELEMENTS.SELECTORS[name] = new Selector(
       values,
       contents,
-      [{ event: 'change', handler: this.onChangeHandlers[name] }],
-      [`navigation__${name}`, name, 'selector'],
+      [{ event: EVENTS.CHANGE, handler: this.onChangeHandlers[name] }],
+      [`${CLASS_NAMES.NAVIGATION}__${name}`, name, CLASS_NAMES.SELECTOR],
       name,
       currentOption,
       visitedOptions,
     );
     container.append(this.ELEMENTS.SELECTORS[name].render());
-  } // todo поснимать эти листенеры
-
-  renderLevelSelector(currentLevel, levelsCount = 6) {
-    this.renderSelector(levelsCount, 'navigation__box_left', 'LEVEL', currentLevel);
   }
 
-  renderRoundSelector(roundsCount = 60, currentRound, completedRounds) {
-    this.renderSelector(roundsCount, 'navigation__box_right', 'ROUND', currentRound, completedRounds);
+  renderLevelSelector(currentLevel, levelsCount = MAX_LEVELS_COUNT) {
+    this.renderSelector(
+      levelsCount,
+      CLASS_NAMES.NAVIGATION_BOX.LEFT,
+      SELECT_NAMES.LEVEL,
+      currentLevel,
+    );
+  }
+
+  renderRoundSelector(roundsCount = MAX_ROUNDS_COUNT, currentRound, completedRounds) {
+    this.renderSelector(
+      roundsCount,
+      CLASS_NAMES.NAVIGATION_BOX.RIGHT,
+      SELECT_NAMES.ROUND,
+      currentRound,
+      completedRounds,
+    );
   }
 
   init() {
-    this.ELEMENTS.MENU = document.querySelector('.navigation');
+    this.ELEMENTS.MENU = document.querySelector(`.${CLASS_NAMES.NAVIGATION}`);
   }
 }

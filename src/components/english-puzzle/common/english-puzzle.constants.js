@@ -1,4 +1,13 @@
-export const MAX_WORDS_COUNT = 10;
+export const MAX_SENTENCES_IN_ROUND = 10;
+export const MAX_WORDS_IN_SENTENCE = 10;
+export const MAX_LEVELS_COUNT = 6;
+export const MAX_ROUNDS_COUNT = 60;
+
+export const TABLET_WIDTH = 768;
+export const IMAGE_GAP = 10;
+
+export const DEBOUNCING_COORDINATE_DELTA = 10;
+export const LEFT_MARGIN_PUZZLE_GAP = 8;
 
 export const EVENTS = {
   CLICK: 'click',
@@ -7,15 +16,24 @@ export const EVENTS = {
   LOAD: 'load',
   ERROR: 'error',
   ENDED: 'ended',
+  MOUSE_MOVE: 'mousemove',
+  MOUSE_UP: 'mouseup',
+  MOUSE_DOWN: 'mousedown',
   BEFORE_UNLOAD: 'beforeunload',
 };
 
 export const CLASS_NAMES = {
   NAVIGATION: 'navigation',
+  NAVIGATION_BOX: {
+    LEFT: 'navigation__box_left',
+    RIGHT: 'navigation__box_right',
+  },
   SELECT: 'select',
   LINK: 'link',
   ACTIVE: 'active',
   DISABLED: 'disabled',
+  HIDDEN: 'hidden',
+  SHADOW: 'shadow',
   BUTTON_ROUNDED: 'button-rounded',
   CARD: 'cards__item-english-for-puzzle',
   DISPLAY_NONE: 'display-none',
@@ -25,6 +43,7 @@ export const CLASS_NAMES = {
     TEMPLATE: 'statistic-template',
     TIME: 'time',
     PAGE: 'result',
+    LONG: 'long-statistic',
     CONTAINERS: {
       CURRENT: 'current-statistic__container',
       LONG: 'long-statistic__container',
@@ -46,7 +65,21 @@ export const CLASS_NAMES = {
     },
   },
   DRAGABLE: 'dragable',
+  MOVEABLE: 'moveable',
   BG_PICTURE: 'background-picture',
   COMPLETED_ROUND: 'completed',
   ANIMATED: 'animated',
+  SPINNER: 'spinner',
+  DROP_PLACE: 'drop-place',
+  DROP_PLACE_SENTENCE: 'drop-place sentence',
+  GAME_FILED: 'game__field',
+  GAME_FILED_CONTAINER: 'game__field_container',
+  DATA_CONTAINER: 'data__container',
+  FIELD_CONTAINER: 'field__container',
+  CANVAS_ITEM: 'canvas-item',
+  SENTENCE: 'sentence',
+  SENTENCE_CLEAR: 'sentence-clear',
+  CANVAS_ROW: 'canvas-row',
+  SELECTOR: 'selector',
+  PICTURE_CONTAINER: 'picture__container',
 };

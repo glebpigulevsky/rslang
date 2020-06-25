@@ -2,12 +2,23 @@ import view from '../view/view';
 import model from '../model/model';
 
 import { ErrorPopup } from '../../../error/error.error_popup';
-import getCanvasElementsCollection from '../../common/english-puzzle.puzzle.utils';
+
+import getCanvasElementsCollection from '../../lib/createCanvasElements';
 
 import {
   showSpinner,
   hideSpinner,
 } from '../../common/english-puzzle.utils';
+
+import {
+  EVENTS,
+  CLASS_NAMES,
+  MAX_LEVELS_COUNT,
+  MAX_ROUNDS_COUNT,
+  TABLET_WIDTH,
+  IMAGE_GAP,
+  MAX_SENTENCES_IN_ROUND,
+} from '../../common/english-puzzle.constants';
 
 class GameController {
   constructor() {
@@ -29,10 +40,11 @@ class GameController {
 
     this.onLevelChangeHandlerBinded = this.onLevelChangeHandler.bind(this);
     this.onRoundChangeHandlerBinded = this.onRoundChangeHandler.bind(this);
+    this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
   }
 
   setCurrentLevel(level) {
-    this.currentLevel = level % 6;
+    this.currentLevel = level % MAX_LEVELS_COUNT;
   }
 
   setCurrentRound(round = 0) {
@@ -47,9 +59,12 @@ class GameController {
 
       if (view.menu.ELEMENTS.SELECTORS.ROUND) {
         view.menu.ELEMENTS.SELECTORS.ROUND.remove();
-        view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
+        view.menu.renderRoundSelector(
+          this.maxRoundInLevel,
+          this.currentRound,
+          this.completedRoundsByLevels[this.currentLevel],
+        );
       }
-
       return;
     }
 
@@ -60,20 +75,18 @@ class GameController {
     this.setCurrentLevel(+evt.target.value);
     this.setCurrentRound();
 
-    showSpinner(); //* кандидаты в отдельную функцию
-
-    // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel) || 59; // !! todo заглушка без интернета
+    showSpinner();
     this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel)
-      .catch(() => {
-        // new ErrorPopup().openPopup({ text: error.message });
-        return 60;
-      });
+      .catch(() => MAX_ROUNDS_COUNT);
 
-    // this.maxRoundInLevel = 40; // !! todo заглушка без интернета
-    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
+    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove();
     this.setCurrentRound(0);
-    view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]); //*
-    this.newRound(this.currentLevel, this.currentRound); //*
+    view.menu.renderRoundSelector(
+      this.maxRoundInLevel,
+      this.currentRound,
+      this.completedRoundsByLevels[this.currentLevel],
+    );
+    this.newRound(this.currentLevel, this.currentRound);
   }
 
   onRoundChangeHandler(evt) {
@@ -115,42 +128,25 @@ class GameController {
     view.hideResultButton();
     this.isPictureShown = false;
 
-    // try {
     this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound)
       .catch((error) => {
         hideSpinner();
         new ErrorPopup().openPopup({ text: error.message });
         return null;
-      }); // !!! todo заглушка без интернета
-
+      });
     if (!this.fetchedRoundData) return;
-    // } catch (err) {
-    // this.fetchedRoundData = JSON.parse(localStorage.getItem('data')); // todo заглушка без интернета
-    // }
-    localStorage.setItem('data', JSON.stringify(this.fetchedRoundData));
+    const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
 
-    const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample); // !!! todo заглушка без интернета
-
-    // const sentences = [ // !!! todo заглушка без интернета
-    //   'The students agree they have too much homework every day',
-    //   'I a`m going to study',
-    //   'It is difficult situation for me',
-    //   'The are a lot of interesting things',
-    //   'We are going to do it together',
-    //   'It is very hot summer',
-    //   'This situation is not very good',
-    //   'Every morning he does his physical exercises',
-    //   'It is nine sentence',
-    //   'First level and first round',
-    // ];
-
-    this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound) || {}; // !!! todo заглушка без интернет
-    // this.fetchedPictureData = {}; // !!! todo заглушка без интернет
-    this.fetchedPictureData.preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
+    this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound) || {};
+    this.fetchedPictureData.preloadedPicture = await model
+      .getPreloadedCurrentPicture(currentLevel, currentRound);
     this.windowSize = document.documentElement.clientWidth;
-    // if (isSmallWindow) this.fetchedPictureData.preloadedPicture.width = 768;
-    const widthGap = (this.windowSize >= 768) ? 10 : 0;
-    this.canvasElements = getCanvasElementsCollection(this.fetchedPictureData.preloadedPicture, sentences, this.windowSize);
+    const widthGap = (this.windowSize >= TABLET_WIDTH) ? IMAGE_GAP : 0;
+    this.canvasElements = getCanvasElementsCollection(
+      this.fetchedPictureData.preloadedPicture,
+      sentences,
+      this.windowSize,
+    );
 
     this.currentSentence = 0;
     view.renderNewDataDropZone();
@@ -165,8 +161,12 @@ class GameController {
     view.resultDropZone.style.height = `${view.dataDropZone.getBoundingClientRect().height}px`;
     view.dataDropZone.style.height = `${view.dataDropZone.getBoundingClientRect().height}px`;
 
-    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
-    view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
+    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+    view.menu.renderRoundSelector(
+      this.maxRoundInLevel,
+      this.currentRound,
+      this.completedRoundsByLevels[this.currentLevel],
+    );
 
     if (this.hints.isTranslationEnabled) {
       view.showTranslation(this.fetchedRoundData[this.currentSentence].textExampleTranslate);
@@ -192,29 +192,35 @@ class GameController {
     );
     view.hideCheckButton();
 
-    if (this.currentSentence === 9) {
+    if (this.currentSentence === MAX_SENTENCES_IN_ROUND - 1) {
       if (!this.isPictureShown) {
-        if (!this.completedRoundsByLevels[this.currentLevel].includes(this.currentRound)) this.completedRoundsByLevels[this.currentLevel].push(this.currentRound);
-        // todo тут надо записывать на бек пройденный раунд
-        view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //* кандидаты на отдельную функцию
-        view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[[this.currentLevel]]);
+        if (!this.completedRoundsByLevels[this.currentLevel].includes(this.currentRound)) {
+          this.completedRoundsByLevels[this.currentLevel].push(this.currentRound);
+        }
+        view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+        view.menu.renderRoundSelector(
+          this.maxRoundInLevel,
+          this.currentRound,
+          this.completedRoundsByLevels[[this.currentLevel]],
+        );
 
         const completedRoundsData = {
           completedRoundsByLevels: this.completedRoundsByLevels,
           lastLevelWithLastCompletedRound: this.currentLevel,
           lastCompletedRound: this.currentRound,
         };
-        localStorage.setItem('completedRoundsData', JSON.stringify(completedRoundsData)); // todo в модель 
+
+        model.saveCompletedRounds(completedRoundsData);
 
         this.lastGameFinalTime = new Date().toLocaleString();
         model.saveResults(model.errorsList, this.lastGameFinalTime);
 
-        view.resultDropZone.classList.remove('drop-place');
+        view.resultDropZone.classList.remove(CLASS_NAMES.DROP_PLACE);
         view.dataDropZone.remove();
 
         this.isPictureShown = true;
 
-        if (this.windowSize >= 768) {
+        if (this.windowSize >= TABLET_WIDTH) {
           view.clearSentencesBackground();
           view.showPicture(this.canvasElements.finalImage.flat(Infinity));
           view.showPictureDescription(`Author: ${this.fetchedPictureData.author.replace(',', ' ')},
@@ -237,7 +243,7 @@ class GameController {
     view.showIDontKnowButton();
     view.hideContinueButton();
     this.currentSentence += 1;
-    if (this.windowSize < 768) {
+    if (this.windowSize < TABLET_WIDTH) {
       view.resultDropZone.innerHTML = '';
     } else view.renderNextResultDropZone();
     view.renderInputSentence(this.getCanvasElement({
@@ -257,15 +263,14 @@ class GameController {
     }
   }
 
-  loadCompletedRoundsByLevels() {
-    return JSON.parse(localStorage.getItem('completedRoundsData')); // todo в модель 
+  beforeUnloadHandler() {
+    if (view.menu.ELEMENTS.SELECTORS.LEVEL) view.menu.ELEMENTS.SELECTORS.LEVEL.remove();
+    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+
+    window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
   }
 
   async init(startLevel = 0, startRound = 0) {
-    // this.hints.isBgImage = false; // todo из локал сторейдж все эти стейты
-    // this.hints.isTranslationEnabled = false;
-    // this.hints.isSpellingEnabled = false;
-    // this.hints.isAutoSpellingEnabled = false;
     this.hints = model.loadSettings() || {
       isBgImage: false,
       isTranslationEnabled: true,
@@ -275,25 +280,24 @@ class GameController {
 
     view.initMenu(this.onLevelChangeHandlerBinded, this.onRoundChangeHandlerBinded);
 
-    const completedRoundsData = this.loadCompletedRoundsByLevels();
-    this.completedRoundsByLevels = (completedRoundsData && completedRoundsData.completedRoundsByLevels) || new Array(6).fill('').map(() => []);
+    const completedRoundsData = model.loadCompletedRounds();
+    this.completedRoundsByLevels = (completedRoundsData
+      && completedRoundsData.completedRoundsByLevels)
+      || new Array(6).fill('').map(() => []);
 
-    showSpinner(); //* кандидаты в отдельную функцию
-    // try {
-    this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
-    // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel) || 59; // !!! todo заглушка без Интернета
+    showSpinner();
+    this.setCurrentLevel((completedRoundsData
+      && completedRoundsData.lastLevelWithLastCompletedRound)
+      || startLevel);
     this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel)
-      .catch(() => {
-        // new ErrorPopup().openPopup({ text: error.message });
-        return 60;
-      });
-    // } catch (err) {
-    // this.maxRoundInLevel = 40; // !!! todo заглушка без Интернета
-    // }
-    this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);
+      .catch(() => MAX_ROUNDS_COUNT);
+    this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1)
+     || startRound);
+
     view.menu.renderLevelSelector(this.currentLevel);
-    // view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
     this.newRound(this.currentLevel, this.currentRound);
+
+    window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
   }
 }
 

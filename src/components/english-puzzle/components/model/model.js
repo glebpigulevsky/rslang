@@ -1,11 +1,10 @@
 import { ErrorPopup } from '../../../error/error.error_popup';
 import { WordsApi } from '../../../../services/services.methods';
 import { getPreloadedImage } from '../../common/english-puzzle.utils';
+import { MAX_WORDS_IN_SENTENCE } from '../../common/english-puzzle.constants';
 import levels from '../../data/levelsData';
 
-import picture from '../../assets/img/9th_wave.jpg'; // todo заглушка без Интернета
-
-const PICTURE_URL = 'https://raw.githubusercontent.com/caspercarver/rslang_data_paintings/master/'; // todo
+const PICTURE_URL = 'https://raw.githubusercontent.com/caspercarver/rslang_data_paintings/master/';
 
 const wordsAPI = new WordsApi();
 
@@ -13,7 +12,6 @@ class Model {
   constructor() {
     this.errorsList = null;
     this.results = null;
-    this.settings = null;
   }
 
   fetchCardsPage(difficult, page) {
@@ -21,8 +19,8 @@ class Model {
       return wordsAPI.getWordsCollection({
         group: difficult,
         page,
-        wordsPerExampleSentence: 10,
-        wordsPerPage: 10,
+        wordsPerExampleSentence: MAX_WORDS_IN_SENTENCE,
+        wordsPerPage: MAX_WORDS_IN_SENTENCE,
       });
     } catch (error) {
       new ErrorPopup().openPopup(error);
@@ -33,8 +31,8 @@ class Model {
   fetchMaxPagesInDifficultCategory(difficult) {
     return wordsAPI.getWordsCount({
       group: difficult,
-      wordsPerExampleSentence: 10,
-      wordsPerPage: 10,
+      wordsPerExampleSentence: MAX_WORDS_IN_SENTENCE,
+      wordsPerPage: MAX_WORDS_IN_SENTENCE,
     }).then((response) => response.count);
   }
 
@@ -43,8 +41,7 @@ class Model {
   }
 
   getPreloadedCurrentPicture(difficult, page) {
-    // return getPreloadedImage(picture); // !!! todo заглушка без Интернета
-    return getPreloadedImage(`${PICTURE_URL}${levels[difficult][page].imageSrc}`); // cut // image // !!! todo заглушка без Интернета
+    return getPreloadedImage(`${PICTURE_URL}${levels[difficult][page].imageSrc}`);
   }
 
   loadResults() {
@@ -73,22 +70,13 @@ class Model {
     );
   }
 
-  // saveSettings({
-  //   isBgImage,
-  //   isTranslationEnabled,
-  //   isSpellingEnabled,
-  //   isAutoSpellingEnabled,
-  // }) {
-  //   localStorage.setItem(
-  //     'english-puzzle-settings',
-  //     JSON.stringify({
-  //       isBgImage,
-  //       isTranslationEnabled,
-  //       isSpellingEnabled,
-  //       isAutoSpellingEnabled,
-  //     }),
-  //   );
-  // }
+  saveCompletedRounds(completedRoundsData) {
+    localStorage.setItem('completedRoundsData', JSON.stringify(completedRoundsData));
+  }
+
+  loadCompletedRounds() {
+    return JSON.parse(localStorage.getItem('completedRoundsData'));
+  }
 
   init() {
     this.loadResults();

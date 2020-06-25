@@ -1,4 +1,4 @@
-import { CLASS_NAMES } from '../../../../common/english-puzzle.helper';
+import { CLASS_NAMES } from '../../../../common/english-puzzle.constants';
 
 export default class Select {
   constructor(

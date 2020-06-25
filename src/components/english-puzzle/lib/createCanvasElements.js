@@ -31,19 +31,6 @@ const createCanvasElements = (
   const colorShadowText = 'black';
   const solidTextColor = 'white';
   const fontStyle = 'fillText';
-  // const fontStyle = 'strokeText';
-
-  if (!wordsList || !Array.isArray(wordsList) || !wordsList.length || !wordsList.every((el) => typeof el === 'string')) {
-    throw new TypeError('"wordsList" argument must be an array containing strings. Example: ["string"]');
-  }
-
-  // if (!src || typeof src !== 'string') {
-  //   throw new TypeError('"src" argument must be a "string"');
-  // }
-
-  if (isNaN(parseInt(extraWidthValue, 10))) {
-    throw new TypeError('"extraWidthValue" argument must be a "number"');
-  }
 
   const imgWidth = img.width;
   const imgHeight = img.height;
@@ -55,7 +42,6 @@ const createCanvasElements = (
   let startYPointCropImage = 0;
 
   groupsWords.forEach((words, i) => {
-    // const row = document.createElement('div');
     const row = [];
     const wordCount = words.length;
     const letterCounts = words.reduce((acc, val) => acc + val.replace(/<[^>]*>/g, '').length, 0);
@@ -65,9 +51,6 @@ const createCanvasElements = (
     const canvasHeight = Math.round(imgHeight / groupsRow);
 
     let widthCount = 0;
-
-    // row.classList.add('group-words');
-    // row.classList.add(`row-${i + 1}`);
 
     words.forEach((w, j) => {
       const word = w.replace(/<[^>]*>/g, '');
@@ -130,7 +113,6 @@ const createCanvasElements = (
         ctx.fillStyle = fillColor || '#2d4fc8'; // todo
         ctx.fill();
       } else {
-        // ctx.globalAlpha = 0.6;
         ctx.drawImage(
           img,
           startXPointCropImage,
@@ -142,7 +124,6 @@ const createCanvasElements = (
           canvasWidth + radius,
           canvasHeight,
         );
-        // ctx.globalAlpha = 1;
       }
 
       if (hasText) {

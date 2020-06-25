@@ -1,11 +1,23 @@
 import view from '../view/view';
 import gameController from './game.controller';
 
-import { EVENTS } from '../../common/english-puzzle.helper';
+import {
+  EVENTS,
+  CLASS_NAMES,
+  DEBOUNCING_COORDINATE_DELTA,
+  LEFT_MARGIN_PUZZLE_GAP,
+} from '../../common/english-puzzle.constants';
 
 class DragAndDropController {
   constructor() {
-    // todo описать структуру this
+    this.coordinates = null;
+
+    this.cloneCell = null;
+    this.targetCell = null;
+    this.belowElement = null;
+
+    this.isDragging = null;
+    this.isDropAble = null;
 
     this.onFieldMouseDownHandlerBinded = this.onFieldMouseDownHandler.bind(this);
     this.onCloneCellMouseMoveHandlerBinded = this.onCloneCellMouseMoveHandler.bind(this);
@@ -14,8 +26,6 @@ class DragAndDropController {
   }
 
   onCloneCellMouseMoveHandler(evt) {
-    const DEBOUNCING_COORDINATE_DELTA = 10; // px
-
     const {
       startX, startY,
       shiftX, shiftY,
@@ -33,26 +43,26 @@ class DragAndDropController {
 
     this.moveAt(this.cloneCell, evt.pageX, evt.pageY, shiftX, shiftY);
 
-    this.cloneCell.classList.add('hidden');
+    this.cloneCell.classList.add(CLASS_NAMES.HIDDEN);
     const belowElement = document.elementFromPoint(evt.clientX, evt.clientY);
-    this.cloneCell.classList.remove('hidden');
+    this.cloneCell.classList.remove(CLASS_NAMES.HIDDEN);
 
-    const dropAbleBelow = belowElement && belowElement.closest('.drop-place');
+    const dropAbleBelow = belowElement && belowElement.closest(`.${CLASS_NAMES.DROP_PLACE}`);
 
     if (dropAbleBelow) {
       this.belowElement = dropAbleBelow;
-      this.belowElement.classList.add('shadow');
+      this.belowElement.classList.add(CLASS_NAMES.SHADOW);
       this.isDropAble = true;
     } else {
-      if (this.belowElement) this.belowElement.classList.remove('shadow');
+      if (this.belowElement) this.belowElement.classList.remove(CLASS_NAMES.SHADOW);
       this.isDropAble = false;
       this.belowElement = null;
     }
   }
 
   onCloneCellMouseUpHandler(evt) {
-    document.removeEventListener('mousemove', this.onCloneCellMouseMoveHandlerBinded);
-    document.removeEventListener('mouseup', this.onCloneCellMouseUpHandlerBinded);
+    document.removeEventListener(EVENTS.MOUSE_MOVE, this.onCloneCellMouseMoveHandlerBinded);
+    document.removeEventListener(EVENTS.MOUSE_UP, this.onCloneCellMouseUpHandlerBinded);
 
     if (!this.isDragging) {
       this.onCellClick();
@@ -60,14 +70,14 @@ class DragAndDropController {
     }
 
     if (!this.isDropAble && this.isDragging) {
-      this.targetCell.classList.remove('hidden'); // TODO повтор, смотри ниже
+      this.targetCell.classList.remove(CLASS_NAMES.HIDDEN);
       this.cloneCell.remove();
       this.cloneCell = null;
       this.isDragging = false;
       return;
     }
 
-    const droppedCells = Array.from(this.belowElement.querySelectorAll('.dragable'));
+    const droppedCells = Array.from(this.belowElement.querySelectorAll(`.${CLASS_NAMES.DRAGABLE}`));
     if (droppedCells && droppedCells.length) {
       const rightCell = droppedCells
         .find((droppedCell) => (droppedCell.getBoundingClientRect().x
@@ -83,17 +93,17 @@ class DragAndDropController {
       this.belowElement.prepend(this.targetCell);
     }
 
-    this.belowElement.classList.remove('shadow');
+    this.belowElement.classList.remove(CLASS_NAMES.SHADOW);
     this.belowElement = null;
 
     this.isDropAble = false;
 
-    this.targetCell.classList.remove('hidden');
+    this.targetCell.classList.remove(CLASS_NAMES.HIDDEN);
     this.cloneCell.remove();
     this.cloneCell = null;
     this.isDragging = false;
 
-    if (!view.getCountElementsInDataDropZone()) { // todo повторение метода
+    if (!view.getCountElementsInDataDropZone()) {
       view.showCheckButton();
       view.hideIDontKnowButton();
     } else {
@@ -110,7 +120,7 @@ class DragAndDropController {
   }
 
   onFieldMouseDownHandler(evt) {
-    if (!evt.target.classList.contains('dragable') || !evt.target.closest('.drop-place')) return;
+    if (!evt.target.classList.contains(CLASS_NAMES.DRAGABLE) || !evt.target.closest(`.${CLASS_NAMES.DROP_PLACE}`)) return;
 
     view.resetPuzzlesStates(
       gameController.currentSentence,
@@ -134,37 +144,37 @@ class DragAndDropController {
     };
 
     const clone = this.targetCell.cloneNode(true);
-    this.targetCell.classList.add('hidden');
-    clone.classList.add('moveable');
+    this.targetCell.classList.add(CLASS_NAMES.HIDDEN);
+    clone.classList.add(CLASS_NAMES.MOVEABLE);
     clone.getContext('2d').drawImage(this.targetCell, 0, 0);
     document.body.append(clone);
-    this.cloneCell = document.body.querySelector('.moveable');
+    this.cloneCell = document.body.querySelector(`.${CLASS_NAMES.MOVEABLE}`);
     this.moveAt(
       this.cloneCell,
-      this.coordinates.startX + 8,
+      this.coordinates.startX + LEFT_MARGIN_PUZZLE_GAP,
       this.coordinates.startY,
       this.coordinates.shiftX,
       this.coordinates.shiftY,
     );
 
-    document.addEventListener('mousemove', this.onCloneCellMouseMoveHandlerBinded);
-    document.addEventListener('mouseup', this.onCloneCellMouseUpHandlerBinded);
+    document.addEventListener(EVENTS.MOUSE_MOVE, this.onCloneCellMouseMoveHandlerBinded);
+    document.addEventListener(EVENTS.MOUSE_UP, this.onCloneCellMouseUpHandlerBinded);
   }
 
   onCellClick() {
-    const targetContainer = this.targetCell.closest('.game__field_container');
-    const newContainer = targetContainer.classList.contains('field__container')
-      ? document.querySelector('.data__container')
-      : document.querySelector('.field__container');
+    const targetContainer = this.targetCell.closest(`.${CLASS_NAMES.GAME_FILED_CONTAINER}`);
+    const newContainer = targetContainer.classList.contains(CLASS_NAMES.FIELD_CONTAINER)
+      ? document.querySelector(`.${CLASS_NAMES.DATA_CONTAINER}`)
+      : document.querySelector(`.${CLASS_NAMES.FIELD_CONTAINER}`);
 
-    newContainer.querySelector('.drop-place').append(this.targetCell);
+    newContainer.querySelector(`.${CLASS_NAMES.DROP_PLACE}`).append(this.targetCell);
 
-    this.targetCell.classList.remove('hidden'); // TODO повтор, смотри ниже
+    this.targetCell.classList.remove(CLASS_NAMES.HIDDEN);
     this.cloneCell.remove();
     this.cloneCell = null;
     this.isDragging = false;
 
-    if (!view.getCountElementsInDataDropZone()) { // todo повторение метода
+    if (!view.getCountElementsInDataDropZone()) {
       view.showCheckButton();
       view.hideIDontKnowButton();
     } else {
@@ -174,14 +184,13 @@ class DragAndDropController {
   }
 
   beforeUnloadHandler() {
-    // if (this.isGameStarts) model.saveResults(this.guessedList); // todo
-    document.querySelector('.game__field').removeEventListener('mousedown', this.onFieldMouseDownHandlerBinded);
+    document.querySelector(`.${CLASS_NAMES.GAME_FILED}`).removeEventListener(EVENTS.MOUSE_DOWN, this.onFieldMouseDownHandlerBinded);
     window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
   }
 
   init() {
     window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
-    document.querySelector('.game__field').addEventListener('mousedown', this.onFieldMouseDownHandlerBinded);
+    document.querySelector(`.${CLASS_NAMES.GAME_FILED}`).addEventListener(EVENTS.MOUSE_DOWN, this.onFieldMouseDownHandlerBinded);
   }
 }
 

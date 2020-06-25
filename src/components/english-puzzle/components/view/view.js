@@ -6,9 +6,10 @@ import {
   shuffleArray,
   hideElement,
   showElement,
+  getPuzzleIndex,
 } from '../../common/english-puzzle.utils';
 
-import { CLASS_NAMES, EVENTS } from '../../common/english-puzzle.helper';
+import { CLASS_NAMES, EVENTS } from '../../common/english-puzzle.constants';
 
 import ERROR_AUDIO from '../../assets/audio/server-error.mp3';
 
@@ -28,6 +29,7 @@ class View {
 
     this.onEndSpellingHandlerBinded = this.onEndSpellingHandler.bind(this);
     this.onErrorSpellingHandlerBinded = this.onErrorSpellingHandler.bind(this);
+    this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
   }
 
   renderStatisticList(
@@ -59,7 +61,7 @@ class View {
     shuffleArray((currentSentencePuzzles)).forEach((puzzle) => {
       const clonePuzzle = puzzle.cloneNode(true);
       clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
-      clonePuzzle.classList.add('dragable');
+      clonePuzzle.classList.add(CLASS_NAMES.DRAGABLE);
       this.dataDropZone.append(clonePuzzle);
     });
   }
@@ -67,15 +69,15 @@ class View {
   renderNewDataDropZone() {
     this.dataDropZone.remove();
     const div = document.createElement('div');
-    div.className = 'drop-place sentence';
-    document.querySelector('.data__container').append(div);
+    div.className = CLASS_NAMES.DROP_PLACE_SENTENCE;
+    document.querySelector(`.${CLASS_NAMES.DATA_CONTAINER}`).append(div);
     this.dataDropZone = div;
   }
 
   renderNextResultDropZone() {
     const div = document.createElement('div');
-    div.className = 'drop-place sentence';
-    this.resultDropZone.classList.toggle('drop-place');
+    div.className = CLASS_NAMES.DROP_PLACE_SENTENCE;
+    this.resultDropZone.classList.toggle(CLASS_NAMES.DROP_PLACE);
     this.resultDropZone.after(div);
     this.resultDropZone = div;
 
@@ -84,16 +86,17 @@ class View {
   }
 
   resetPuzzlesStates(currentSentence, regularPuzzlesWithImage) {
-    Array.from(document.querySelectorAll(`.canvas-row-${currentSentence + 1}`))
+    Array.from(document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${currentSentence + 1}`))
       .forEach((puzzle) => {
-        puzzle.getContext('2d').drawImage(regularPuzzlesWithImage[+puzzle.dataset.item.slice(-2).replace('-', '') - 1], 0, 0);
+        puzzle.getContext('2d').drawImage(regularPuzzlesWithImage[getPuzzleIndex(puzzle)], 0, 0);
       });
   }
 
   clearGameField() {
-    document.querySelector('.field__container').innerHTML = '';
-    document.querySelector('.field__container').insertAdjacentHTML('afterbegin', '<div class="drop-place sentence"></div>');
-    this.resultDropZone = document.querySelector('.field__container > .drop-place');
+    document.querySelector(`.${CLASS_NAMES.FIELD_CONTAINER}`).innerHTML = '';
+    document.querySelector(`.${CLASS_NAMES.FIELD_CONTAINER}`)
+      .insertAdjacentHTML('afterbegin', '<div class="drop-place sentence"></div>');
+    this.resultDropZone = document.querySelector(`.${CLASS_NAMES.FIELD_CONTAINER} > .${CLASS_NAMES.DROP_PLACE}`);
   }
 
   clearDropZones() {
@@ -108,7 +111,7 @@ class View {
     }
     this.audio = new Audio(src);
     this.audio.addEventListener(EVENTS.ENDED, this.onEndSpellingHandlerBinded);
-    this.audio.addEventListener('error', this.onErrorSpellingHandlerBinded);
+    this.audio.addEventListener(EVENTS.ERROR, this.onErrorSpellingHandlerBinded);
     this.audio.play();
 
     this.toggleSpellingAnimation();
@@ -124,12 +127,12 @@ class View {
   }
 
   onErrorSpellingHandler() {
-    this.audio.removeEventListener('error', this.onErrorSpellingHandlerBinded);
+    this.audio.removeEventListener(EVENTS.ERROR, this.onErrorSpellingHandlerBinded);
     this.errorAudio.play();
   }
 
   showPicture(finalImagePuzzles) {
-    Array.from(document.querySelectorAll('.canvas-item')).forEach((puzzle, index) => {
+    Array.from(document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ITEM}`)).forEach((puzzle, index) => {
       puzzle.getContext('2d').drawImage(finalImagePuzzles[index], 0, 0);
     });
   }
@@ -139,9 +142,9 @@ class View {
   }
 
   clearSentencesBackground() {
-    Array.from(this.ELEMENTS.CONTAINERS.FIELD.querySelectorAll('.sentence'))
+    Array.from(this.ELEMENTS.CONTAINERS.FIELD.querySelectorAll(`.${CLASS_NAMES.SENTENCE}`))
       .forEach((sentence) => {
-        sentence.classList.add('sentence-clear');
+        sentence.classList.add(CLASS_NAMES.SENTENCE_CLEAR);
       });
   }
 
@@ -187,59 +190,107 @@ class View {
   }
 
   initIntroButton(onIntroButtonClick) {
-    this.addListener(this.ELEMENTS.BUTTONS.INTRODUCTION, EVENTS.CLICK, onIntroButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.INTRODUCTION,
+      EVENTS.CLICK,
+      onIntroButtonClick,
+    );
   }
 
   initCheckButton(onCheckButtonClick) {
-    this.addListener(this.ELEMENTS.BUTTONS.CHECK, EVENTS.CLICK, onCheckButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.CHECK,
+      EVENTS.CLICK,
+      onCheckButtonClick,
+    );
   }
 
   initIDontKnowButton(onIDontKnowButtonClick) {
-    this.addListener(this.ELEMENTS.BUTTONS.I_DONT_KNOW, EVENTS.CLICK, onIDontKnowButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.I_DONT_KNOW,
+      EVENTS.CLICK,
+      onIDontKnowButtonClick,
+    );
   }
 
   initContinueButton(onContinueButtonClick) {
-    this.addListener(this.ELEMENTS.BUTTONS.CONTINUE, EVENTS.CLICK, onContinueButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.CONTINUE,
+      EVENTS.CLICK,
+      onContinueButtonClick,
+    );
   }
 
   initHintBgButton(onHintBgButtonClick, isBgImage) {
-    this.addListener(this.ELEMENTS.BUTTONS.HINTS.BG, EVENTS.CLICK, onHintBgButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.HINTS.BG,
+      EVENTS.CLICK,
+      onHintBgButtonClick,
+    );
     if (isBgImage) this.ELEMENTS.BUTTONS.HINTS.BG.classList.add(CLASS_NAMES.ACTIVE);
   }
 
   initHintTranslationButton(onHintTranslationButtonClick, isTranslationEnabled) {
-    this.addListener(this.ELEMENTS.BUTTONS.HINTS.TRANSLATION, EVENTS.CLICK, onHintTranslationButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.HINTS.TRANSLATION,
+      EVENTS.CLICK,
+      onHintTranslationButtonClick,
+    );
     if (isTranslationEnabled) {
       this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.classList.add(CLASS_NAMES.ACTIVE);
     }
   }
 
   initHintSpellingButton(onHintSpellingButtonClick, isSpellingEnabled) {
-    this.addListener(this.ELEMENTS.BUTTONS.HINTS.SPELLING, EVENTS.CLICK, onHintSpellingButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.HINTS.SPELLING,
+      EVENTS.CLICK,
+      onHintSpellingButtonClick,
+    );
     if (isSpellingEnabled) this.ELEMENTS.BUTTONS.HINTS.SPELLING.classList.add(CLASS_NAMES.ACTIVE);
   }
 
   initHintAutoSpellingButton(onHintAutoSpellingButtonClick, isAutoSpellingEnabled) {
-    this.addListener(this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING, EVENTS.CLICK, onHintAutoSpellingButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING,
+      EVENTS.CLICK,
+      onHintAutoSpellingButtonClick,
+    );
     if (isAutoSpellingEnabled) {
       this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING.classList.add(CLASS_NAMES.ACTIVE);
     }
   }
 
   initRepeatSpellingButton(onRepeatSpellingButtonClick) {
-    this.addListener(this.ELEMENTS.BUTTONS.REPEAT_SPELLING, EVENTS.CLICK, onRepeatSpellingButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.REPEAT_SPELLING,
+      EVENTS.CLICK,
+      onRepeatSpellingButtonClick,
+    );
   }
 
   initResultsButton(onResultsButtonClick) {
-    this.addListener(this.ELEMENTS.BUTTONS.RESULTS, EVENTS.CLICK, onResultsButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.RESULTS,
+      EVENTS.CLICK,
+      onResultsButtonClick,
+    );
   }
 
   initStatisticContinueButton(onStatisticContinueButtonClick) {
-    this.addListener(this.ELEMENTS.BUTTONS.STATISTICS.CONTINUE, EVENTS.CLICK, onStatisticContinueButtonClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.STATISTICS.CONTINUE,
+      EVENTS.CLICK,
+      onStatisticContinueButtonClick,
+    );
   }
 
   initStatisticLongStatisticButton(onStatisticLongStatisticClick) {
-    this.addListener(this.ELEMENTS.BUTTONS.STATISTICS.LONG_STATISTIC, EVENTS.CLICK, onStatisticLongStatisticClick);
+    this.addListener(
+      this.ELEMENTS.BUTTONS.STATISTICS.LONG_STATISTIC,
+      EVENTS.CLICK,
+      onStatisticLongStatisticClick,
+    );
   }
 
   hideCheckButton() {
@@ -272,6 +323,14 @@ class View {
 
   showResultButton() {
     showElement(this.ELEMENTS.BUTTONS.RESULTS);
+  }
+
+  beforeUnloadHandler() {
+    this.removeListeners();
+    if (this.audio) this.audio.pause();
+    if (this.errorAudio) this.errorAudio.pause();
+
+    window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
   }
 
   init() {
@@ -310,6 +369,8 @@ class View {
         TRANSLATION: document.querySelector('.translation__description'),
       },
     };
+
+    window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
   }
 }
 

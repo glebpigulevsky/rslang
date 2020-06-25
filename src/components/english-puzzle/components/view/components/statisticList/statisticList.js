@@ -1,4 +1,4 @@
-import { CLASS_NAMES } from '../../../../common/english-puzzle.helper';
+import { CLASS_NAMES } from '../../../../common/english-puzzle.constants';
 import StatisticCard from '../statisticCard/statisticCard';
 import LongStatisticCard from '../longStatisticCard/longStatisticCard';
 
@@ -97,7 +97,7 @@ export default class StatisticList {
     if (this.additionalClass) this.statisticsContainer.classList.add(this.additionalClass);
 
     this.pictureContainer = document.createElement('div');
-    this.pictureContainer.className = 'picture__container'; // todo
+    this.pictureContainer.className = CLASS_NAMES.PICTURE_CONTAINER;
 
     this.statisticsContainer.querySelector(`.${CLASS_NAMES.STATISTIC.TIME}`).innerText = this.lastGameFinalTime;
 
