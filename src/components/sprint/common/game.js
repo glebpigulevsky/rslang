@@ -52,6 +52,7 @@ export default class GameSprint {
     }
   }
 
+
   startGame(wordsEn) {
     const objectEN = this.shuffledArray(wordsEn);
     this.makeTurn(objectEN);
@@ -72,7 +73,7 @@ export default class GameSprint {
     btnTRUE.addEventListener('click', (event) => {
       if (!(this.currentIndex > this.currentWords.length - 1)) {
         const target = event.target.className;
-        if (target === 'true') {
+        if (target === 'sprint__btn--right') {
           if (word.result === true) {
             console.log('TRUE');
             this.correctAnswerCounter += 1;
@@ -96,7 +97,7 @@ export default class GameSprint {
       console.log(!(this.currentIndex >= this.currentWords.length - 1));
       if (!(this.currentIndex >= this.currentWords.length - 1)) {
         const target = event.target.className;
-        if (target === 'false') {
+        if (target === 'sprint__btn--wrong') {
           if (word.result === false) {
             console.log('TRUE');
             this.correctAnswerCounter += 1;
