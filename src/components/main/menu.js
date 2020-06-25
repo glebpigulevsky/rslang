@@ -35,10 +35,13 @@ class Menu {
 
   changeActiveStateLinks() {
     const { navigation } = this;
-
     navigation.addEventListener('click', (e) => {
-      navigation.querySelectorAll('.navigation__link').forEach((el) => el.classList.remove('active'));
-      e.target.classList.add('active');
+      if (e.target.classList.contains('icon')) {
+        e.target.parentElement.classList.toggle('active');
+      }
+      if (e.target.classList.contains('navigation__link')) {
+        e.target.classList.toggle('active');
+      }
     });
   }
 
