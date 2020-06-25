@@ -1,5 +1,6 @@
 import { LoginUser, POINT_OF_ENTRY } from '../login_user/login_user.popup';
 import { AuthenticateUserService, LocalStorageService } from '../../common/common.helper';
+import { teamPageComponent } from './pages/team-page.component';
 
 class Menu {
   constructor() {
@@ -23,6 +24,9 @@ class Menu {
   }
 
   onCloseClickHandler({ target }) {
+    if (target.id === this._mainButton.id) {
+      this._mainButtunHandler();
+    }
     const itsMenu = target === this.navBar || this.navBar.contains(target);
     const itsBtnMenu = target === this.toggleButton;
     const menuIsActive = this.navBar.classList.contains('toggle');
@@ -46,11 +50,6 @@ class Menu {
       e.target.classList.add('active');
     });
   }
-
-  addOpenPopup() {
-    this._mainButton.addEventListener('click', this._mainButtunHandler.bind(this));
-  }
-
   logout() {
     this._logout.addEventListener('click', this._onLogoutButtonHandler.bind(this));
   }
@@ -88,7 +87,6 @@ class Menu {
     this.addBurgerIconClickHandler();
     this.addCloseButtonClickHandler();
     this.changeActiveStateLinks();
-    this.addOpenPopup();
     this.logout();
   }
 }

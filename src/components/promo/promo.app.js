@@ -2,20 +2,27 @@ import './scss/promo.styles.scss';
 import { LoginUser, POINT_OF_ENTRY } from '../login_user/login_user.popup';
 
 class Promo {
-  constructor(){
+  constructor() {
     this._loginUser = new LoginUser({ pointOfEntry: POINT_OF_ENTRY.Promo });
-    this._startBtn = document.querySelector('.login__submitBtn');
   }
-  init() {
-    this._startBtn.addEventListener('click', this._openLoginHandler.bind(this));
+
+  openLoginPopup() {
+    document.querySelector('.login__submitBtn').addEventListener('click', this._openLoginHandler.bind(this));
   }
 
   _openLoginHandler() {
     this._loginUser.showLoginPopup();
+    document.querySelector('#js-login-container').addEventListener('UserSuccess', this._onSuccessUserLogin);
+  }
+
+  _onSuccessUserLogin(e) {
+    alert(e.detail.result);
+  }
+
+  init() {
+    console.log('Promo');
+    this.openLoginPopup();
   }
 }
 
-window.onload = () => {
-  const promo = new Promo();
-  promo.init();
-};
+export default new Promo();

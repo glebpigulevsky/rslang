@@ -16,7 +16,6 @@ export default class Menu {
       const toggleButton = document.querySelector('.hamburger-menu__button');
       const navBar = document.querySelector('.main-header__navigation');
       const { target } = e;
-      console.log(target);
       const itsMenu = target === navBar || navBar.contains(target);
       const itsBtnMenu = target === toggleButton;
       const menuIsActive = navBar.classList.contains('toggle');
