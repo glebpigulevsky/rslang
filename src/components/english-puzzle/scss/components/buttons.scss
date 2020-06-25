@@ -8,28 +8,11 @@
 }
 
 .game__controls {
-  // flex-direction: column;
   align-items: center;
 }
 
-
-// .game__button,
-// .game__button_results,
-// .game__hints {
-//   margin: 0 10px;
-// }
-
 .button {
-  // display: flex;
-  // justify-content: space-between;
-  // align-items: center;
-  // margin: px-to-rem(65px) auto;
-  // padding: 0 68px;
-  // vertical-align: center;
   margin: 10px;
-
-  // font-size: px-to-rem(14px);
-  // line-height: px-to-rem(30px);
 
   text-transform: uppercase;
   border: 1px solid $color-border;

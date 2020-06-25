@@ -5,23 +5,14 @@ export const englishPuzzleComponent = {
   render: () => `
   <div class="overflow-hidden english-puzzle-body">
     <div class="english-puzzle-wrapper display-none">
-     
       <div class="english-puzzle-main">
         <div class="main-game__container">
           <nav class="navigation">
             <div class="navigation__box navigation__box_left">
               <span class="navigation__description level__description">Level:</span>
-              <!-- <select class="navigation__level level select" name="level"> // todo
-                <option value="0">1</option>
-                <option value="1">2</option>
-              </select> -->
             </div>
             <div class="navigation__box navigation__box_right">
               <span class="navigation__description round__description">Round:</span>
-              <!-- <select class="navigation__round round select" name="round"> // todo
-                <option value="0">1</option>
-                <option value="1">2</option>
-              </select> -->
             </div>
           </nav>
           <div class="game__controls">
