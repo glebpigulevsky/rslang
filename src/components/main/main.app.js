@@ -1,4 +1,11 @@
 import menu from './menu';
+import { CLASS_NAMES } from '../../common/common.constants';
+import { MAIN_GREETINGS } from './common/main.constants';
+
+import { LocalStorageService } from '../../common/common.helper';
+import { TOKEN_EXPIRES_MS } from '../../common/utils/common.utils.helper';
+import UsersApi from '../../services/main/endpoints/services.main.endpoints.users';
+
 import './scss/main.styles.scss';
 import { mainPageComponent } from './pages/main-page.component';
 import { learnPageComponent } from './pages/learn-page.component';
@@ -19,11 +26,41 @@ const appRoutes = [
   { path: '/settings', component: settingsPageComponent },
 ];
 
+const service = new LocalStorageService();
+const user = new UsersApi();
+
+const userEnter = { // когда будет сделан логин получить инфу из локал сторадж
+  email: 'rslang68@ya.ru',
+  password: 'Rslang61?',
+};
+
 class Main {
-  init() {
+  constructor() {
+    this.logoContent = null;
+    this.logoElement = null;
+    this.gameButtons = {
+      englishPuzzle: null,
+      mainGameStart: null,
+      mainGameSettings: null,
+    };
+  }
+
+  async init() {
     menu.init();
+    this.logoElement = document.querySelector(`.${CLASS_NAMES.MAIN.LOGO}`);
+    this.logoContent = MAIN_GREETINGS;
+    // 7 следующих строк перенести в логин
+    const auth = await user.authenticateUser({
+      email: userEnter.email,
+      password: userEnter.password,
+    });
+    const userToken = auth.token;
+    const id = auth.userId;
+    service.keyUserInfo = 'userInfo_TEST';
+    service.setUserInfo({ userId: id, token: userToken, expiredTime: TOKEN_EXPIRES_MS() });
   }
 }
+
 export default new Main();
 
 const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
@@ -34,6 +71,7 @@ const router = () => {
   const path = parseLocation();
   const { component = errorPageComponent } = findComponentByPath(path) || {};
   main.innerHTML = component.render();
+  if (component.init) component.init();
 };
 
 const initRouter = () => {
