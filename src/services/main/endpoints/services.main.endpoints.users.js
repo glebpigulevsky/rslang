@@ -1,5 +1,5 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL } from '../../common/services.common.constants';
+import { MAIN_API_URL, LINK_TYPE } from '../../common/services.common.constants';
 import { checkUserInfo } from '../../common/services.common.api_service.helper';
 
 export default class UsersApi {
@@ -32,7 +32,9 @@ export default class UsersApi {
   }
 
   async authenticateUser({ email, password }) {
-    const res = await this._apiService.postResourse({ url: '/signin', params: { email, password }, hasToken: false });
+    const res = await this._apiService.postResourse({
+      url: '/signin', params: { email, password }, hasToken: false, type: LINK_TYPE.Authenticate,
+    });
     return this._transformAuthentication(res);
   }
 

@@ -38,9 +38,12 @@ const router = () => {
     const { component = errorPageComponent } = findComponentByPath(path) || {};
     main.innerHTML = component.render();
     if (auth.checkUserAccess()) {
-      console.log(auth.checkUserAccess());
-      document.querySelector('.main-header__navigation').style.display = 'flex';
-      document.querySelector('.main-header__logout').style.display = 'block';
+      if (document.querySelector('.main-header__navigation').style.display !== 'flex') {
+        document.querySelector('.main-header__navigation').style.display = 'flex';
+      }
+      if (document.querySelector('.main-header__logout').style.display !== 'block') {
+        document.querySelector('.main-header__logout').style.display = 'block';
+      }
     }
   }
 };

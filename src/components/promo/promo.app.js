@@ -12,10 +12,12 @@ class Promo {
 
   _openLoginHandler() {
     this._loginUser.showLoginPopup();
-    document.querySelector('#js-login-container').addEventListener('UserSuccess', this._onSuccessUserLogin);
+    document.querySelector('#js-login-container').addEventListener('UserSuccess', this._onSuccessUserLogin.bind(this));
   }
 
-  _onSuccessUserLogin(e) {
+  _onSuccessUserLogin() {
+    document.querySelector('.login__submitBtn').removeEventListener('click', this._openLoginHandler);
+    document.querySelector('#js-login-container').removeEventListener('click', this._onSuccessUserLogin);
     window.location.replace(`${window.location.origin}/main.index.html#`);
   }
 

@@ -36,7 +36,7 @@ export default class ApiService {
   }
 
   async postResourse({
-    url, params, hasToken, token = null,
+    url, params, hasToken, token = null, type = null,
   }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
@@ -50,6 +50,9 @@ export default class ApiService {
         body: JSON.stringify(params),
       });
       if (!res.ok) {
+        if ((res.status === 403 || res.status === 404) && type === LINK_TYPE.Authenticate) {
+          this.getError(0, LINK_TYPE.Authenticate[403], LINK_TYPE.Authenticate[403]);
+        }
         await this._checkResponse(res);
       }
       return res.json();
@@ -137,6 +140,7 @@ export default class ApiService {
   }
 
   async _checkResponse(res) {
+    const cloned = await res.clone();
     let status = '';
     let errorDescription = '';
     try {
@@ -144,9 +148,9 @@ export default class ApiService {
       errorDescription = (errorRes.error !== undefined) ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
       status = (errorRes.error !== undefined) ? 0 : res.status;
     } catch (e) {
-      status = res.status;
+      status = cloned.status;
       errorDescription = '';
     }
-    this.getError(status, errorDescription, res.statusText);
+    this.getError(status, errorDescription, `${status} ${res.statusText} ${errorDescription}`);
   }
 }

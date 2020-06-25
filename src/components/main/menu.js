@@ -23,7 +23,7 @@ class Menu {
   }
 
   onCloseClickHandler({ target }) {
-    if (target.id === this._mainButton.id) {
+    if (target.id === this.mainButton.id) {
       this._mainButtunHandler();
     }
     const itsMenu = target === this.navBar || this.navBar.contains(target);
@@ -51,7 +51,7 @@ class Menu {
   }
 
   logout() {
-    this._logout.addEventListener('click', this._onLogoutButtonHandler.bind(this));
+    this.logoutButton.addEventListener('click', this._onLogoutButtonHandler.bind(this));
   }
 
   _onLogoutButtonHandler() {
@@ -67,21 +67,22 @@ class Menu {
       window.location.replace(`${window.location.origin}${window.location.pathname}#/learn`);
     } else {
       this._loginUser.showLoginPopup();
-      document.querySelector('#js-login-container').addEventListener('UserSuccess', this._onSuccessUserLogin);
+      document.querySelector('#js-login-container').addEventListener('UserSuccess', this._onSuccessUserLogin.bind(this));
     }
   }
 
-  _onSuccessUserLogin(e) {
+  _onSuccessUserLogin() {
     document.querySelector('.main-header__navigation').style.display = 'flex';
     document.querySelector('.main-header__logout').style.display = 'block';
+    document.querySelector('#js-login-container').removeEventListener('click', this._onSuccessUserLogin);
   }
 
   init() {
     this.toggleButton = document.querySelector('.hamburger-menu__button');
     this.navBar = document.querySelector('.main-header__navigation');
     this.navigation = document.querySelector('.navigation__list');
-    this._mainButton = document.querySelector('.main-button__start');
-    this._logout = document.querySelector('.main-header__logout');
+    this.mainButton = document.querySelector('.main-button__start');
+    this.logoutButton = document.querySelector('.main-header__logout');
 
     this.addBurgerIconClickHandler();
     this.addCloseButtonClickHandler();
