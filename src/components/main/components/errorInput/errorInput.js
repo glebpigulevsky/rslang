@@ -9,6 +9,7 @@ export default class ErrorInput {
   }
 
   init() {
+    console.log('errorinput watch');
     this.span = document.querySelector('.background');
     this.container = document.querySelector('.input-container');
     this.input = document.querySelector('.answer-input');

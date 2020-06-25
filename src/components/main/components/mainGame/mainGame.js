@@ -34,20 +34,36 @@ async function inputModeEnter(e) {
         audio.autoplay = true;
         await errorInput.init();
       }
-    } else {
+    } else if (this.inputArea.value === this.currentCard.word) {
+      document.removeEventListener('keypress', () => {});
       playAudioBinded(this.currentCard.audio);
+    } else {
+      const audio = new Audio();
+      audio.src = this.currentCard.audio;
+      audio.autoplay = true;
+      await errorInput.init();
     }
   }
 }
 
-function inputModeArrow() {
+async function inputModeArrow() {
   this.inputArea = document.querySelector('.answer-input');
-  if (this.inputArea.value === this.currentCard.word) {
-    playAudioBinded(this.currentCard.audioExample);
+  if (this.settings.optional.isAudio === 'true') {
+    if (this.inputArea.value === this.currentCard.word) {
+      playAudioBinded(this.currentCard.audioExample);
+    } else {
+      const audio = new Audio();
+      audio.src = this.currentCard.audio;
+      audio.autoplay = true;
+      await errorInput.init();
+    }
+  } else if (this.inputArea.value === this.currentCard.word) {
+    playAudioBinded(this.currentCard.audio);
   } else {
     const audio = new Audio();
     audio.src = this.currentCard.audio;
     audio.autoplay = true;
+    await errorInput.init();
   }
 }
 
@@ -220,6 +236,7 @@ const game = {
     if (this.settings.optional.isShowDeleteButton === 'true') {
       document.querySelector('.card-header__delete-word').innerHTML = '';
       document.querySelector('.card-header__delete-word').innerHTML = '<button>Delete</button>';
+      document.querySelector('.card-header__delete-word').addEventListener('click', this.clickHadnlerDeleteUserWord);
     }
     if (this.settings.optional.isShowAgainButton === 'true') {
       document.querySelector('.card-header__again-word').innerHTML = '';
@@ -230,15 +247,16 @@ const game = {
       document.querySelector('.card-header__diff-diff').innerHTML = '<button>Difficult</button>';
       document.querySelector('.card-header__diff-diff').addEventListener('click', this.clickHadnlerAddUserWordDiff);
     }
-    if (this.settings.optional.isShowGoodButton === 'true') {
-      document.querySelector('.card-header__diff-good').innerHTML = '';
-      document.querySelector('.card-header__diff-good').innerHTML = '<button>Good</button>';
-    }
     if (this.settings.optional.isShowEasyButton === 'true') {
       document.querySelector('.card-header__diff-easy').innerHTML = '';
       document.querySelector('.card-header__diff-easy').innerHTML = '<button>Easy</button>';
       document.querySelector('.card-header__diff-easy').addEventListener('click', this.clickHadnlerAddUserWordEasy);
     }
+  },
+
+  clickHadnlerDeleteUserWord() {
+    game.gameButtons.clicked = document.querySelector('.card-header__diff-easy');
+    game.deleteUsWords();
   },
 
   clickHadnlerAddUserWordEasy() {
@@ -258,6 +276,18 @@ const game = {
       document.querySelector('.learn-content__meaning').innerHTML = '';
       document.querySelector('.learn-content__meaning').innerHTML = game.currentCard.textMeaning;
     }
+  },
+
+  async deleteUsWords() {
+    service.keyUserInfo = 'userInfo';
+    const res = service.getUserInfo();
+    userWords._apiService = new ApiService(MAIN_API_URL, res.token);
+    userWords.deleteUserWord({ userId: res.userId, wordId: game.currentCard.id })
+      .then()
+      .catch((err) => {
+        console.log(err);
+      });
+    game.gameButtons.clicked.removeEventListener('click', game.clickHadnlerDeleteUserWord);
   },
 
   async addUserWords() {
