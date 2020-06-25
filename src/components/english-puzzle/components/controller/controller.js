@@ -74,10 +74,12 @@ class Controller {
 
     if (this.statisticAudio) this.statisticAudio.pause();
     this.statisticAudio = new Audio(selectedCard.dataset.audio);
+    this.statisticAudio.addEventListener('error', view.onErrorSpellingHandlerBinded);
     this.statisticAudio.play();
   }
 
   onIDontKnowButtonClickHandler() {
+    if (!gameController.fetchedRoundData) return;
     model.errorsList.push(gameController.fetchedRoundData[gameController.currentSentence]); // !!! todo заглушка без интернета
 
     view.hideIDontKnowButton();
@@ -168,6 +170,7 @@ class Controller {
     gameController.hints.isBgImage = !gameController.hints.isBgImage;
     target.classList.toggle(CLASS_NAMES.ACTIVE);
 
+    if (!gameController.fetchedRoundData) return;
     Array.from(document.querySelectorAll(`.canvas-row-${gameController.currentSentence + 1}.dragable`)).forEach((puzzle) => {
       const newPuzzle = gameController.getCanvasElement({
         currentSentence: gameController.currentSentence,
@@ -183,7 +186,7 @@ class Controller {
     gameController.hints.isTranslationEnabled = !gameController.hints.isTranslationEnabled;
     target.classList.toggle(CLASS_NAMES.ACTIVE);
 
-    if (gameController.isPictureShown || this.sentenceGuessSuccess) return;
+    if (gameController.isPictureShown || this.sentenceGuessSuccess || !gameController.fetchedRoundData) return;
 
     if (gameController.hints.isTranslationEnabled) {
       view.showTranslation(gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate);
@@ -203,13 +206,14 @@ class Controller {
   }
 
   onRepeatSpellingButtonClick() {
-    if (!gameController.hints.isSpellingEnabled) return;
-
+    if (!gameController.hints.isSpellingEnabled || !gameController.fetchedRoundData) return;
     view.playSentenceSpelling(gameController.fetchedRoundData[gameController.currentSentence].audioExample);
   }
 
   beforeUnloadHandler() {
     if (this.isGameStarts) model.saveResults(this.guessedList);
+    if (gameController.hints) model.saveSettings(gameController.hints);
+
     window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
   }
 

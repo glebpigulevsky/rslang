@@ -1,7 +1,5 @@
 export const MAX_WORDS_COUNT = 10;
 
-export const DATA_PATH = 'https://raw.githubusercontent.com/musmen/rslang-data/master/data/';
-
 export const EVENTS = {
   CLICK: 'click',
   CHANGE: 'change',

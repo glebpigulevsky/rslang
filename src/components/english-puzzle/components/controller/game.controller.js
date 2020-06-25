@@ -1,6 +1,7 @@
 import view from '../view/view';
 import model from '../model/model';
 
+import { ErrorPopup } from '../../../error/error.error_popup';
 import getCanvasElementsCollection from '../../common/english-puzzle.puzzle.utils';
 
 import {
@@ -60,9 +61,16 @@ class GameController {
     this.setCurrentRound();
 
     showSpinner(); //* кандидаты в отдельную функцию
-    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel); // !! todo заглушка без интернета
+
+    // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel) || 59; // !! todo заглушка без интернета
+    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel)
+      .catch(() => {
+        // new ErrorPopup().openPopup({ text: error.message });
+        return 60;
+      });
+
     // this.maxRoundInLevel = 40; // !! todo заглушка без интернета
-    view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
+    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove(); //*
     this.setCurrentRound(0);
     view.menu.renderRoundSelector(this.maxRoundInLevel, this.currentRound, this.completedRoundsByLevels[this.currentLevel]); //*
     this.newRound(this.currentLevel, this.currentRound); //*
@@ -108,7 +116,14 @@ class GameController {
     this.isPictureShown = false;
 
     // try {
-    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound); // !!! todo заглушка без интернета
+    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound)
+      .catch((error) => {
+        hideSpinner();
+        new ErrorPopup().openPopup({ text: error.message });
+        return null;
+      }); // !!! todo заглушка без интернета
+
+    if (!this.fetchedRoundData) return;
     // } catch (err) {
     // this.fetchedRoundData = JSON.parse(localStorage.getItem('data')); // todo заглушка без интернета
     // }
@@ -129,7 +144,7 @@ class GameController {
     //   'First level and first round',
     // ];
 
-    this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound); // !!! todo заглушка без интернет
+    this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound) || {}; // !!! todo заглушка без интернет
     // this.fetchedPictureData = {}; // !!! todo заглушка без интернет
     this.fetchedPictureData.preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
     this.windowSize = document.documentElement.clientWidth;
@@ -189,7 +204,7 @@ class GameController {
           lastLevelWithLastCompletedRound: this.currentLevel,
           lastCompletedRound: this.currentRound,
         };
-        localStorage.setItem('completedRoundsData', JSON.stringify(completedRoundsData));
+        localStorage.setItem('completedRoundsData', JSON.stringify(completedRoundsData)); // todo в модель 
 
         this.lastGameFinalTime = new Date().toLocaleString();
         model.saveResults(model.errorsList, this.lastGameFinalTime);
@@ -243,14 +258,20 @@ class GameController {
   }
 
   loadCompletedRoundsByLevels() {
-    return JSON.parse(localStorage.getItem('completedRoundsData'));
+    return JSON.parse(localStorage.getItem('completedRoundsData')); // todo в модель 
   }
 
   async init(startLevel = 0, startRound = 0) {
-    this.hints.isBgImage = false; // todo берем из бека или локал сторейдж все эти стейты
-    this.hints.isTranslationEnabled = false;
-    this.hints.isSpellingEnabled = false;
-    this.hints.isAutoSpellingEnabled = false;
+    // this.hints.isBgImage = false; // todo из локал сторейдж все эти стейты
+    // this.hints.isTranslationEnabled = false;
+    // this.hints.isSpellingEnabled = false;
+    // this.hints.isAutoSpellingEnabled = false;
+    this.hints = model.loadSettings() || {
+      isBgImage: false,
+      isTranslationEnabled: true,
+      isSpellingEnabled: true,
+      isAutoSpellingEnabled: true,
+    };
 
     view.initMenu(this.onLevelChangeHandlerBinded, this.onRoundChangeHandlerBinded);
 
@@ -260,7 +281,12 @@ class GameController {
     showSpinner(); //* кандидаты в отдельную функцию
     // try {
     this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
-    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel); // !!! todo заглушка без Интернета
+    // this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel) || 59; // !!! todo заглушка без Интернета
+    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel)
+      .catch(() => {
+        // new ErrorPopup().openPopup({ text: error.message });
+        return 60;
+      });
     // } catch (err) {
     // this.maxRoundInLevel = 40; // !!! todo заглушка без Интернета
     // }

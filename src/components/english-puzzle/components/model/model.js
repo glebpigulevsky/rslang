@@ -1,3 +1,4 @@
+import { ErrorPopup } from '../../../error/error.error_popup';
 import { WordsApi } from '../../../../services/services.methods';
 import { getPreloadedImage } from '../../common/english-puzzle.utils';
 import levels from '../../data/levelsData';
@@ -11,15 +12,22 @@ const wordsAPI = new WordsApi();
 class Model {
   constructor() {
     this.errorsList = null;
+    this.results = null;
+    this.settings = null;
   }
 
   fetchCardsPage(difficult, page) {
-    return wordsAPI.getWordsCollection({
-      group: difficult,
-      page,
-      wordsPerExampleSentence: 10,
-      wordsPerPage: 10,
-    });
+    try {
+      return wordsAPI.getWordsCollection({
+        group: difficult,
+        page,
+        wordsPerExampleSentence: 10,
+        wordsPerPage: 10,
+      });
+    } catch (error) {
+      new ErrorPopup().openPopup(error);
+      return null;
+    }
   }
 
   fetchMaxPagesInDifficultCategory(difficult) {
@@ -40,7 +48,7 @@ class Model {
   }
 
   loadResults() {
-    this.results = JSON.parse(localStorage.getItem('results')) || [];
+    this.results = JSON.parse(localStorage.getItem('english-puzzle-results')) || [];
   }
 
   saveResults(errorsList, finalTime) {
@@ -51,8 +59,36 @@ class Model {
 
     this.results.push(currentResult);
 
-    localStorage.setItem('results', JSON.stringify(this.results));
+    localStorage.setItem('english-puzzle-results', JSON.stringify(this.results));
   }
+
+  loadSettings() {
+    return JSON.parse(localStorage.getItem('english-puzzle-settings'));
+  }
+
+  saveSettings(settings) {
+    localStorage.setItem(
+      'english-puzzle-settings',
+      JSON.stringify(settings),
+    );
+  }
+
+  // saveSettings({
+  //   isBgImage,
+  //   isTranslationEnabled,
+  //   isSpellingEnabled,
+  //   isAutoSpellingEnabled,
+  // }) {
+  //   localStorage.setItem(
+  //     'english-puzzle-settings',
+  //     JSON.stringify({
+  //       isBgImage,
+  //       isTranslationEnabled,
+  //       isSpellingEnabled,
+  //       isAutoSpellingEnabled,
+  //     }),
+  //   );
+  // }
 
   init() {
     this.loadResults();

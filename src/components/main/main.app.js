@@ -9,8 +9,7 @@ import { statisticsPageComponent } from './pages/statistics-page.component';
 import { teamPageComponent } from './pages/team-page.component';
 import { settingsPageComponent } from './pages/settings-page.component';
 import { errorPageComponent } from './pages/error-page.component';
-
-import englishPuzzleApp from '../english-puzzle/english-puzzle.app';
+import { englishPuzzleComponent } from './pages/english-puzzle.component';
 
 class Main {
   constructor() {
@@ -30,7 +29,7 @@ const appRoutes = [
   { path: '/statistics', component: statisticsPageComponent },
   { path: '/team', component: teamPageComponent },
   { path: '/settings', component: settingsPageComponent },
-  { path: '/english-puzzle', component: englishPuzzleApp },
+  { path: '/english-puzzle', component: englishPuzzleComponent },
 ];
 
 const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';

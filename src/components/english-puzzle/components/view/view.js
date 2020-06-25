@@ -8,12 +8,9 @@ import {
   showElement,
 } from '../../common/english-puzzle.utils';
 
-import {
-  CLASS_NAMES,
-  EVENTS,
-} from '../../common/english-puzzle.helper';
+import { CLASS_NAMES, EVENTS } from '../../common/english-puzzle.helper';
 
-import image from '../../assets/img/9th_wave.jpg'; // todo default image
+import ERROR_AUDIO from '../../assets/audio/server-error.mp3';
 
 class View {
   constructor() {
@@ -25,10 +22,12 @@ class View {
     this.statisticList = null;
 
     this.audio = null;
+    this.errorAudio = new Audio(ERROR_AUDIO);
 
     this.listenersList = null;
 
     this.onEndSpellingHandlerBinded = this.onEndSpellingHandler.bind(this);
+    this.onErrorSpellingHandlerBinded = this.onErrorSpellingHandler.bind(this);
   }
 
   renderStatisticList(
@@ -58,11 +57,9 @@ class View {
 
   renderInputSentence(currentSentencePuzzles) {
     shuffleArray((currentSentencePuzzles)).forEach((puzzle) => {
-      // todo повторение будет в рендеринге правильной последовательности
       const clonePuzzle = puzzle.cloneNode(true);
       clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
       clonePuzzle.classList.add('dragable');
-
       this.dataDropZone.append(clonePuzzle);
     });
   }
@@ -104,16 +101,16 @@ class View {
     this.resultDropZone.innerHTML = '';
   }
 
-  playSentenceSpelling(src) {
+  async playSentenceSpelling(src) {
     if (this.audio && !this.audio.ended) {
       this.audio.pause();
       this.onEndSpellingHandlerBinded();
     }
-
     this.audio = new Audio(src);
+    this.audio.addEventListener(EVENTS.ENDED, this.onEndSpellingHandlerBinded);
+    this.audio.addEventListener('error', this.onErrorSpellingHandlerBinded);
     this.audio.play();
 
-    this.audio.addEventListener(EVENTS.ENDED, this.onEndSpellingHandlerBinded);
     this.toggleSpellingAnimation();
   }
 
@@ -126,15 +123,19 @@ class View {
     this.toggleSpellingAnimation();
   }
 
+  onErrorSpellingHandler() {
+    this.audio.removeEventListener('error', this.onErrorSpellingHandlerBinded);
+    this.errorAudio.play();
+  }
+
   showPicture(finalImagePuzzles) {
     Array.from(document.querySelectorAll('.canvas-item')).forEach((puzzle, index) => {
-      // puzzle.getContext('2d').drawImage(finalImagePuzzles[+puzzle.dataset.item.slice(0, 1) - 1][index], 0, 0);
       puzzle.getContext('2d').drawImage(finalImagePuzzles[index], 0, 0);
     });
   }
 
   hidePicture() {
-    this.clearGameField(); // todo
+    this.clearGameField();
   }
 
   clearSentencesBackground() {
@@ -186,36 +187,27 @@ class View {
   }
 
   initIntroButton(onIntroButtonClick) {
-    // this.ELEMENTS.BUTTONS.INTRODUCTION.addEventListener(EVENTS.CLICK, onIntroButtonClick);
     this.addListener(this.ELEMENTS.BUTTONS.INTRODUCTION, EVENTS.CLICK, onIntroButtonClick);
   }
 
   initCheckButton(onCheckButtonClick) {
-    // this.ELEMENTS.BUTTONS.CHECK.addEventListener(EVENTS.CLICK, onCheckButtonClick);
     this.addListener(this.ELEMENTS.BUTTONS.CHECK, EVENTS.CLICK, onCheckButtonClick);
   }
 
   initIDontKnowButton(onIDontKnowButtonClick) {
-    // this.ELEMENTS.BUTTONS.I_DONT_KNOW.addEventListener(EVENTS.CLICK, onIDontKnowButtonClick);
     this.addListener(this.ELEMENTS.BUTTONS.I_DONT_KNOW, EVENTS.CLICK, onIDontKnowButtonClick);
   }
 
   initContinueButton(onContinueButtonClick) {
-    // this.ELEMENTS.BUTTONS.CONTINUE.addEventListener(EVENTS.CLICK, onContinueButtonClick);
     this.addListener(this.ELEMENTS.BUTTONS.CONTINUE, EVENTS.CLICK, onContinueButtonClick);
   }
 
   initHintBgButton(onHintBgButtonClick, isBgImage) {
-    // this.ELEMENTS.BUTTONS.HINTS.BG.addEventListener(EVENTS.CLICK, onHintBgButtonClick);
     this.addListener(this.ELEMENTS.BUTTONS.HINTS.BG, EVENTS.CLICK, onHintBgButtonClick);
     if (isBgImage) this.ELEMENTS.BUTTONS.HINTS.BG.classList.add(CLASS_NAMES.ACTIVE);
   }
 
   initHintTranslationButton(onHintTranslationButtonClick, isTranslationEnabled) {
-    // this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.addEventListener(
-    //   EVENTS.CLICK,
-    //   onHintTranslationButtonClick,
-    // );
     this.addListener(this.ELEMENTS.BUTTONS.HINTS.TRANSLATION, EVENTS.CLICK, onHintTranslationButtonClick);
     if (isTranslationEnabled) {
       this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.classList.add(CLASS_NAMES.ACTIVE);
@@ -223,16 +215,11 @@ class View {
   }
 
   initHintSpellingButton(onHintSpellingButtonClick, isSpellingEnabled) {
-    // this.ELEMENTS.BUTTONS.HINTS.SPELLING.addEventListener(EVENTS.CLICK, onHintSpellingButtonClick);
     this.addListener(this.ELEMENTS.BUTTONS.HINTS.SPELLING, EVENTS.CLICK, onHintSpellingButtonClick);
     if (isSpellingEnabled) this.ELEMENTS.BUTTONS.HINTS.SPELLING.classList.add(CLASS_NAMES.ACTIVE);
   }
 
   initHintAutoSpellingButton(onHintAutoSpellingButtonClick, isAutoSpellingEnabled) {
-    // this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING.addEventListener(
-    //   EVENTS.CLICK,
-    //   onHintAutoSpellingButtonClick,
-    // );
     this.addListener(this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING, EVENTS.CLICK, onHintAutoSpellingButtonClick);
     if (isAutoSpellingEnabled) {
       this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING.classList.add(CLASS_NAMES.ACTIVE);
@@ -240,31 +227,18 @@ class View {
   }
 
   initRepeatSpellingButton(onRepeatSpellingButtonClick) {
-  //   this.ELEMENTS.BUTTONS.REPEAT_SPELLING.addEventListener(
-  //     EVENTS.CLICK,
-  //     onRepeatSpellingButtonClick,
-  //   );
     this.addListener(this.ELEMENTS.BUTTONS.REPEAT_SPELLING, EVENTS.CLICK, onRepeatSpellingButtonClick);
   }
 
   initResultsButton(onResultsButtonClick) {
-    // this.ELEMENTS.BUTTONS.RESULTS.addEventListener(EVENTS.CLICK, onResultsButtonClick);
     this.addListener(this.ELEMENTS.BUTTONS.RESULTS, EVENTS.CLICK, onResultsButtonClick);
   }
 
   initStatisticContinueButton(onStatisticContinueButtonClick) {
-    // this.ELEMENTS.BUTTONS.STATISTICS.CONTINUE.addEventListener(
-    //   EVENTS.CLICK,
-    //   onStatisticContinueButtonClick,
-    // );
     this.addListener(this.ELEMENTS.BUTTONS.STATISTICS.CONTINUE, EVENTS.CLICK, onStatisticContinueButtonClick);
   }
 
   initStatisticLongStatisticButton(onStatisticLongStatisticClick) {
-    // this.ELEMENTS.BUTTONS.STATISTICS.LONG_STATISTIC.addEventListener(
-    //   EVENTS.CLICK,
-    //   onStatisticLongStatisticClick,
-    // );
     this.addListener(this.ELEMENTS.BUTTONS.STATISTICS.LONG_STATISTIC, EVENTS.CLICK, onStatisticLongStatisticClick);
   }
 
@@ -301,14 +275,16 @@ class View {
   }
 
   init() {
-    // this.renderDOM();
     this.listenersList = [];
+
+    this.dataDropZone = document.querySelector('.data__container > .drop-place');
+    this.resultDropZone = document.querySelector('.field__container > .drop-place');
 
     this.ELEMENTS = {
       TRANSLATION: document.querySelector('.main-card__translation'),
       CONTAINERS: {
-        FIELD: document.body.querySelector('.field__container'), // todo
-        DATA: document.body.querySelector('.data__container'), // todo
+        FIELD: document.body.querySelector('.field__container'),
+        DATA: document.body.querySelector('.data__container'),
         STATISTIC: document.body.querySelector('.statistics__container'),
       },
       BUTTONS: {
@@ -334,130 +310,6 @@ class View {
         TRANSLATION: document.querySelector('.translation__description'),
       },
     };
-
-    this.dataDropZone = document.querySelector('.data__container > .drop-place');
-    this.resultDropZone = document.querySelector('.field__container > .drop-place');
-  }
-
-  renderDOM() {
-    // document.querySelector('body').innerHTML = '';
-    // document.querySelector('body').insertAdjacentHTML('afterbegin', `
-    return `
-      <div class="overflow-hidden english-puzzle-body">
-        <div class="english-puzzle-wrapper display-none">
-         
-          <div class="english-puzzle-main">
-            <div class="main-game__container">
-              <nav class="navigation">
-                <div class="navigation__box navigation__box_left">
-                  <span class="navigation__description level__description">Level:</span>
-                  <!-- <select class="navigation__level level select" name="level"> // todo
-                    <option value="0">1</option>
-                    <option value="1">2</option>
-                  </select> -->
-                </div>
-                <div class="navigation__box navigation__box_right">
-                  <span class="navigation__description round__description">Round:</span>
-                  <!-- <select class="navigation__round round select" name="round"> // todo
-                    <option value="0">1</option>
-                    <option value="1">2</option>
-                  </select> -->
-                </div>
-              </nav>
-              <div class="game__controls">
-                <div class="hints__controls">
-                  <button class="game-hints__button game-hints_bg button" title="Show/hide puzzle background"></button>
-                  <button class="game-hints__button game-hints_translation button" title="Show/hide translation"></button>
-                  <button class="game-hints__button game-hints_spelling button" title="On/off spelling hint"></button>
-                  <button class="game-hints__button game-hints_auto-spelling button" title="On/off auto-spelling"></button>
-                </div>
-                <button class="button-repeat-spelling button" title="Spell it"></button>
-              </div>
-    
-              <p class="translation__description description"></p>
-              
-              <div class="game__field">
-                <div class="field__container game__field_container">
-                  <div class="drop-place sentence">
-                  </div>
-                </div>
-                <div class="data__container game__field_container">
-                  <div class="drop-place sentence">
-                  </div>
-                </div>
-              </div>
-
-              <p class="picture__description description"></p>
-
-              <div class="field__controls">
-                <button class="game__button game__button_check button display-none">Check</button>
-                <button class="game__button game__button_dont-know button">I don\`t know</button>
-                <button class="game__button game__button_continue button display-none">Continue</button>
-                <button class="game__button game__button_results button display-none">Results</button>
-              </div>
-            </div>
-  
-            <div class="results__container">
-              <div class="button__container-results">
-                <button class="game__button_results game__button_results-continue button">Continue</button>
-                <button class="game__button_results game__button_results-statistic button">Statistics</button>
-              </div>
-
-              <div class="statistics__container">
-              </div>
-            </div>
-          </div>
-        </div>
-  
-        <div class="spinner display-none">
-          <div class="spinner__gear">
-            <div class="spinner__inner">
-              <div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-                <div></div>
-              </div>
-            </div>
-          </div>
-          <span class="spinner__description">loading...</span>
-        </div>
-  
-        <div class="introduction">
-          <div class="introduction__container">
-            <div class="introduction__description-container">
-              <h1 class="introduction__logo">Mini-game "English-Puzzle"</h1>
-              <button class="introduction__button button">start</button>
-              <p class="introduction__description">Click on words, collect phrases, select levels, rounds, tooltips.</p>
-              <p class="introduction__description">In desktop view words can be drag and drop</p>
-            </div>
-          </div>
-        </div>
-  
-        <template class="statistic-template">
-          <div class="current-statistic__container">
-            <p class="time"></p>
-            <div class="correct__container">
-              <p class="correct__title">
-                <span class="correct__lead">I know:
-                  <span class="correct"></span>
-                </span>
-              </p>
-            </div>
-            <div class="errors__container">
-              <p class="errors__title">
-                <span class="errors__lead">I don\`t know:
-                  <span class="errors"></span>
-                </span>
-              </p>
-            </div>
-          </div>
-          <div class="long-statistic__container">
-          </div>
-        </template>
-      </div>
-    `;
   }
 }
 
