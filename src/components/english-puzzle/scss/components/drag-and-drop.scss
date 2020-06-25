@@ -5,7 +5,6 @@
 .game__field_container {
   display: flex;
   justify-content: center;
-
   width: 100%;
   margin-bottom: 20px;
 }
@@ -17,7 +16,6 @@
 
 .background-picture {
   min-height: 800px;
-
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -38,14 +36,12 @@
 .sentence {
   display: flex;
   align-content: start;
-
   background-color: #666d89;
-  box-shadow: 0px 0px 10px 2px #666d89;
+  box-shadow: 0 0 10px 2px #666d89;
 
   @include media-mobile {
     justify-content: center;
     flex-wrap: wrap;
-
     overflow: hidden;
   }
 }
@@ -75,6 +71,6 @@
 
 .shadow {
   background-color: #666d89;
-  opacity: 0.6;
+  opacity: .6;
   box-shadow: 1px 1px 5px 5px #666d89;
 }

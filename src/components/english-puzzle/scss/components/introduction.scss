@@ -1,14 +1,12 @@
 .introduction {
   width: 100vw;
   min-height: 100vh;
-
-  background-color: rgba(149, 153, 153, 0.8);
+  background-color: rgba(149, 153, 153, .8);
   background-image: url('../assets/img/introduction-bg.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-blend-mode: multiply;
-
   z-index: 1000;
 }
 
@@ -16,13 +14,11 @@
   position: relative;
 
   @include flex-center;
+
   flex-direction: column;
-  
   width: 100vw;
   min-height: 100vh;
-
   color: $color-text-additional;
- 
 }
 
 .introduction__logo {
@@ -31,21 +27,20 @@
   text-align: center;
 }
 
-.introduction .introduction__button{
+.introduction .introduction__button {
   min-width: 10vw;
   min-height: 60px;
-
   font-size: px-to-rem(14px);
   line-height: px-to-rem(20px);
 }
 
 .introduction__description-container {
   @include flex-center;
+
   flex-direction: column;
   margin: 20px;
   padding: 20px;
-
-  background-color: rgba(244, 245, 250, 0.6);
+  background-color: rgba(244, 245, 250, .6);
   border-radius: 20px;
 
   @include media-tablet {

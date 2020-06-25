@@ -1,18 +1,16 @@
 .spinner {
   position: fixed;
   top: 0;
-
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100vw;
   height: 100vh;
-
-  background-color: rgba(214, 234, 248, 0.6);
+  background-color: rgba(214, 234, 248, .6);
   backdrop-filter: blur(2px);
-  opacity: 0.9;
-  z-index:9999;
+  opacity: .9;
+  z-index: 9999;
 }
 
 .spinner.hidden {
@@ -20,58 +18,61 @@
 }
 
 .spinner__description {
+  font-size: 25px;
+  line-height: 40px;
+  color: #335e97;
   text-transform: uppercase;
-
-  animation: blink 0.35s linear infinite;
+  animation: blink .35s linear infinite;
 }
 
 @-webkit-keyframes blink {
   100% { color: rgba(34, 34, 34, 0); }
 }
+
 @keyframes blink {
   100% { color: rgba(34, 34, 34, 0); }
 }
 
 @keyframes spinner__inner {
-    0% { transform: rotate(0deg) }
-   50% { transform: rotate(30deg) }
-  100% { transform: rotate(60deg) }
+  0% { transform: rotate(0deg); }
+  50% { transform: rotate(30deg); }
+  100% { transform: rotate(60deg); }
 }
 
 .spinner__inner > div {
   transform-origin: 132px 132px;
-  animation: spinner__inner 0.35s infinite linear;
+  animation: spinner__inner .35s infinite linear;
 }
 
 .spinner__inner > div div {
-    position: absolute;
-    width: 30px;
-    height: 195px;
-    background: #5e6fa3;
-    left: 132px;
-    top: 132px;
-    transform: translate(-50%,-50%);
+  position: absolute;
+  width: 30px;
+  height: 195px;
+  background: #5e6fa3;
+  left: 132px;
+  top: 132px;
+  transform: translate(-50%, -50%);
 }
 
 .spinner__inner > div div:nth-child(1) {
-    width: 132px;
-    height: 132px;
-    border-radius: 50%;
+  width: 132px;
+  height: 132px;
+  border-radius: 50%;
 }
 
 .spinner__inner > div div:nth-child(5) {
-    width: 85px;
-    height: 85px;
-    background: #f1f2f3;
-    border-radius: 50%;
+  width: 85px;
+  height: 85px;
+  background: #f1f2f3;
+  border-radius: 50%;
 }
 
 .spinner__inner > div div:nth-child(3) {
-  transform: translate(-50%,-50%) rotate(60deg)
+  transform: translate(-50%, -50%) rotate(60deg);
 }
 
 .spinner__inner > div div:nth-child(4) {
-  transform: translate(-50%,-50%) rotate(120deg)
+  transform: translate(-50%, -50%) rotate(120deg);
 }
 
 .spinner__gear {
@@ -95,9 +96,3 @@
 }
 
 .spinner__inner div { box-sizing: content-box; }
-
-.spinner__description {
-  font-size: 25px;
-  line-height: 40px;
-  color: #335e97;
-}

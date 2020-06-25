@@ -17,11 +17,11 @@
   padding: 20px;
 }
 
-
 .picture__container {
   @include flex-center;
+
   flex-direction: column;
-  
+
   @include media-tablet {
     display: none;
   }
@@ -29,10 +29,8 @@
 
 .statistic__picture {
   width: 400px;
-
   border: 5px solid $color-dark-blue;
   border-radius: 20px;
-
   transition: .2s ease-in;
 
   &:focus,
@@ -42,19 +40,15 @@
     border: 5px solid $color-hovered;
     transform: scale(1.05);
   }
-
 }
 
 .cards__item-english-for-puzzle {
   width: 260px;
   margin: 20px;
-
   overflow: hidden;
   text-overflow: ellipsis;
-
   border: 1px solid $color-dark-blue;
   border-radius: 10px;
-
   transition: .2s ease-in;
 
   &:focus,
@@ -66,16 +60,14 @@
 
 .english-puzzle-wrapper .card__link {
   @include flex-center;
+
   flex-direction: column;
   min-height: 60px;
   padding: 5px;
-
   font-size: 16px;
   line-height: 24px;
   color: $color-text-additional;
-
   border-radius: 10px;
-
   background-color: $color-light;
   background-image: url('../assets/img/dinamic-icon.png');
   background-repeat: no-repeat;
@@ -140,7 +132,6 @@
   .card__content {
     padding-right: 10px;
     padding-left: 40px;
-
     text-align: center;
   }
 }
@@ -158,7 +149,6 @@
   display: inline-block;
   min-width: 40px;
   min-height: 40px;
-
   border-radius: 10px;
   color: $color-light;
 }
@@ -173,19 +163,6 @@
 
 .long-statistic__container {
   display: none;
-}
-
-.long-statistic {
-  .current-statistic__container {
-    display: none;
-  }
-
-  .long-statistic__container {
-    display: block;
-  }
-}
-
-.long-statistic__container {
   font-size: 25px;
   line-height: 40px;
 
@@ -206,6 +183,7 @@
 
   .card__content {
     @include flex-center;
+
     flex-wrap: wrap;
     margin: 0;
 
@@ -216,5 +194,15 @@
 
   .time {
     margin: 0;
+  }
+}
+
+.long-statistic {
+  .current-statistic__container {
+    display: none;
+  }
+
+  .long-statistic__container {
+    display: block;
   }
 }

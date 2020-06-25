@@ -13,7 +13,6 @@
 
 .button {
   margin: 10px;
-
   text-transform: uppercase;
   border: 1px solid $color-border;
   box-shadow: 0 4px 22px rgba(0, 0, 0, .3);
@@ -47,7 +46,6 @@
   width: 40px;
   height: 40px;
   border-radius: 5px;
-
   background-repeat: no-repeat;
   background-position: center;
   background-size: 32px;
@@ -55,9 +53,13 @@
 
 .game-hints_bg {
   background-image: url('../assets/img/bg-icon.png');
+
+  @include media-mobile {
+    display: none;
+  }
 }
 
-.game-hints_translation{
+.game-hints_translation {
   background-image: url('../assets/img/translation-icon.png');
   background-size: 20px;
 }
@@ -74,12 +76,6 @@
   background-image: url('../assets/img/dinamic-icon.png');
 }
 
-.game-hints_bg {
-  @include media-mobile {
-    display: none;
-  }
-}
-
 .english-puzzle-body .active {
   background-color: $color-dark-orange;
   box-shadow: none;
@@ -87,13 +83,14 @@
 
 @keyframes resize {
   40% {
-    transform: scale(0.9);
-    }
+    transform: scale(.9);
+  }
+
   80% {
     transform: scale(1.1);
-    }
+  }
 }
 
 .animated {
-  animation: resize 0.8s infinite linear;
+  animation: resize .8s infinite linear;
 }

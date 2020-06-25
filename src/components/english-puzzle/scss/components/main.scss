@@ -3,12 +3,10 @@
 
   font-size: px-to-rem(16px);
   line-height: px-to-rem(20px);
-
   background: url('../assets/img/main-bg.png');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
-
   user-select: none;
 
   @include media-tablet {
@@ -20,9 +18,7 @@
 .english-puzzle-wrapper {
   padding: 10px;
   min-height: 100vh;
-
-  background-color: rgba(255, 255, 255, 0.4);
-
+  background-color: rgba(255, 255, 255, .4);
 }
 
 .display-none {
@@ -31,7 +27,6 @@
 
 .list {
   padding: 0;
-
   list-style: none;
 }
 
@@ -53,10 +48,8 @@
 
   min-height: 64px;
   margin: 10px;
-
   color: $color-text-additional;
   text-align: center;
-
   overflow: hidden;
 }
 
