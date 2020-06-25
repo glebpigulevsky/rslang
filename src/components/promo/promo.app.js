@@ -1,15 +1,13 @@
 import './scss/promo.styles.scss';
-import LoginUser from '../login_user/login_user';
+import { LoginUser, POINT_OF_ENTRY } from '../login_user/login_user.popup';
 
 class Promo {
-  constructor() {
-    this._startBtn = null;
-    this._loginUser = new LoginUser();
-  }
-
-  init() {
+  constructor(){
+    this._loginUser = new LoginUser({ pointOfEntry: POINT_OF_ENTRY.Promo });
     this._startBtn = document.querySelector('.login__submitBtn');
-    this._startBtn.addEventListener('click', () => this._openLoginHandler());
+  }
+  init() {
+    this._startBtn.addEventListener('click', this._openLoginHandler.bind(this));
   }
 
   _openLoginHandler() {

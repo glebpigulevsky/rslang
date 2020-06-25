@@ -15,23 +15,19 @@ class AuthenticateUserService {
     return this._authUser({ email, password });
   }
 
-  async checkUserAccess() {
+  checkUserAccess() {
     const storage = new LocalStorageService();
-    try {
-      const userInfo = storage.getUserInfo();
-      if (userInfo === null) {
-        return false;
-      }
-      const { expiredTime } = userInfo;
-      const now = Date.now();
-      if (expiredTime < now) {
-        storage.deleteUserInfo();
-        return false;
-      }
-      return true;
-    } catch {
+    const userInfo = storage.getUserInfo();
+    if (userInfo === null) {
       return false;
     }
+    const { expiredTime } = userInfo;
+    const now = Date.now();
+    if (expiredTime < now) {
+      storage.deleteUserInfo();
+      return false;
+    }
+    return true;
   }
 
   async _signUpUser({ email, password }) {

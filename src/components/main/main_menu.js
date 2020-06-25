@@ -1,13 +1,6 @@
-import LocalStorageService from '../../common/common.helper';
-import AuthenticateUserService from '../../common/common.helper';
-import LoginUser from '../login_user/login_user';
-
-const auth = new AuthenticateUserService();
-
 export default class Menu {
   constructor() {
     this.isOpen = false;
-    this.login = new LoginUser();
   }
 
   burgerMenuClickHandler() {
@@ -23,6 +16,7 @@ export default class Menu {
       const toggleButton = document.querySelector('.hamburger-menu__button');
       const navBar = document.querySelector('.main-header__navigation');
       const { target } = e;
+      console.log(target);
       const itsMenu = target === navBar || navBar.contains(target);
       const itsBtnMenu = target === toggleButton;
       const menuIsActive = navBar.classList.contains('toggle');
@@ -32,24 +26,8 @@ export default class Menu {
     });
   }
 
-  logout() {
-    document.querySelector('.main-header__logout').addEventListener('click', () => {
-      const storage = new LocalStorageService();
-      storage.deleteUserInfo();
-      window.location.replace(`${window.location.origin}${window.location.pathname}#`);
-    });
-  }
-
-
-
-  showMenuButton() {
-    document.querySelector('.main-header__navigation').display = 'flex';
-    document.querySelector('.main-header__logout').display = 'block';
-  }
-
   init() {
     this.burgerMenuClickHandler();
     this.close();
-    this.logout();
   }
 }

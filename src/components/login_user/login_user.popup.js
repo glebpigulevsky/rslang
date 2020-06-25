@@ -3,8 +3,9 @@ import { LoginComponent } from './common/login_user.component';
 import { LOGIN_BUTTONS_NAME, LOGIN_BUTTONS_COLOR_CLASS } from './common/login_user.common.constants';
 import './scss/login.styles.scss';
 
-export default class LoginUser {
-  constructor() {
+const POINT_OF_ENTRY = { Promo: 'Promo', Main: 'Main' };
+class LoginUser {
+  constructor({ pointOfEntry }) {
     this._authUserService = new AuthenticateUserService();
     this._closeBtn = null;
     this._createBtn = null;
@@ -15,6 +16,7 @@ export default class LoginUser {
     this._inputEmail = null;
     this._inputPassword = null;
     this._loginContainer = null;
+    this._pointOfEntry = pointOfEntry;
   }
 
   showLoginPopup() {
@@ -56,12 +58,17 @@ export default class LoginUser {
     this._authUserService
       .loginUser({ email, password, hasSignUp })
       .then(() => {
-        this._closeLoginHandler();
-        window.location.replace(`${window.location.origin}/main.index.html#`);
+        if (this._pointOfEntry === POINT_OF_ENTRY.Promo) {
+          console.log(this._pointOfEntry); 
+          main.init();
+        } else if (this._pointOfEntry === POINT_OF_ENTRY.Main) {
+          this._loginContainer.dispatchEvent(new CustomEvent('UserSuccess', {
+            detail: { result: 'Authorized' },
+          }));
+          this._closeLoginHandler();
+        }
       })
-      .catch((err) => {
-        this._createInfo.textContent = err;
-      });
+      .catch((err) => { this._createInfo.textContent = err; });
   }
 
   _closeLoginHandler() {
@@ -72,3 +79,5 @@ export default class LoginUser {
     this._closeBtn.removeEventListener('click', this._closeLoginHandler());
   }
 }
+
+export { LoginUser, POINT_OF_ENTRY };
