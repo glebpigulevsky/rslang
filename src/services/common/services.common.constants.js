@@ -22,9 +22,19 @@ const LINK_TYPE = { Settings: { 404: null }, Statictics: { 404: null } };
 const DEFAULT_SETTINGS = {
   wordsPerDay: 7,
   optional: {
+    cardsDay: '4',
     isTranslation: 'true',
     isTranscription: 'true',
     isPicture: 'true',
+    isAddSentExplWord: 'true',
+    isShowAnswerButton: 'false',
+    isShowDiffMoveButton: 'true',
+    isShowDeleteButton: 'true',
+    isShowAgainButton: 'true',
+    isShowDiffButton: 'true',
+    isShowGoodButton: 'true',
+    isShowEasyButton: 'true',
+    isAudio: 'false',
   },
 };
 export {

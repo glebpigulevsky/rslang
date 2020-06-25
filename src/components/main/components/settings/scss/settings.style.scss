@@ -20,33 +20,33 @@
         .raw__container-input{
           @include border-radius(2px, 2px, 2px, 2px);
           .input-words__day, .input-cards__day{
-            width: 70px;
+            width: 35px;
             height: 22px;
           }
 
           .switch-btn {
             display: inline-block;
-            width: 60px; /* ширина */
-            height: 25px; /* высота */
-            border-radius: 12.5px; /* радиус скругления */
-            background: #FFFF; /* цвет фона */
+            width: 60px; 
+            height: 25px; 
+            border-radius: 12.5px;
+            background: #FFFF;
             z-index: 0;
             margin: 0;
             padding: 0;
             border: none;
             cursor: pointer;
             position: relative;
-            transition-duration: 300ms; /* анимация */
+            transition-duration: 300ms;
             border: 1px solid #E7ECF4;
         }
         .switch-btn::after {
             content: "";
-            height: 25px; /* высота кнопки */
-            width: 25px; /* ширина кнопки */
+            height: 25px;
+            width: 25px;
             border-radius: 25px;
-            background: #2564AE; /* цвет кнопки */
+            background: #2564AE;
             
-            transition-duration: 300ms; /* анимация */
+            transition-duration: 300ms;
             position: absolute;
             z-index: 1;
         }
@@ -64,11 +64,48 @@
   }
 }
 
-// loadSettingsToFront() {
-  //   document.querySelector('.input-words__day').value = this.settings.wordsPerDay;
-  //   Object.keys(this.settings.optional).forEach((key) => {
-  //     if (key === 'true') {
-  //       document.querySelector(`.${key}`).classList.toggle('switch-on');
-  //     }
-  //   });
-  // },
+.save__settings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: px-to-rem(25px) auto;
+  padding: 0 60px;
+  vertical-align: center;
+  text-transform: uppercase;
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, .3);
+
+  @include button($color: $color-light, $background: $color-btn, $width: 50px, $height: 55px, $radius: 30px);
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+  }
+}
+
+
+
+// const OPTIONAL_DEFAULT = {
+//   cardsDay: '4',
+//   isTranslation: 'true', // textExampleTranslate
+//   isTranscription: 'true', // transcription
+//   isPicture: 'true', // image
+//   isAddSentExplWord: 'true', // textMeaning
+//   isAddSentUsingWord: 'true', // ?
+//   isShowAnswerButton: 'true', // +
+//   isShowDiffMoveButton: 'true', // +
+//   isShowDeleteButton: 'true', // +
+//   isShowAgainButton: 'true', // +
+//   isShowDiffButton: 'true', // +
+//   isShowGoodButton: 'true', // +
+//   isShowEasyButton: 'true', // +
+//   isAudio: 'false',
+// };

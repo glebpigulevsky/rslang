@@ -18,16 +18,20 @@ const userDefault = { // когда будет сделан логин полу�
 const settingsPage = {
   buttons: null,
   settings: null,
+  saveButton: null,
 
   async init() {
+    console.log('settings');
     this.buttons = document.querySelectorAll('.switch-btn');
-    this.buttons.forEach(element => {
+    this.buttons.forEach((element) => {
       element.addEventListener('click', () => {
         element.classList.toggle('switch-on');
       });
     });
     await this.getRemoteSettings();
     await this.loadSettingsToFront();
+    this.saveButton = document.querySelector('.save__settings');
+    this.saveButton.addEventListener('click', this.buttonUpdateSettings);
   },
 
   async getRemoteSettings() {
@@ -46,7 +50,6 @@ const settingsPage = {
         optional: DEFAULT_SETTINGS.optional,
       });
       this.settings = res;
-      console.log(this.settings);
     }
   },
 
@@ -57,6 +60,27 @@ const settingsPage = {
         document.querySelector(`#${key}`).classList.toggle('switch-on');
       }
     });
+  },
+
+  async buttonUpdateSettings() {
+    const wordsPerDay = document.querySelector('.input-words__day').value;
+    const optional = {};
+    settingsPage.buttons.forEach(button => {
+      if (button.classList.contains('switch-on')) {
+        optional[button.getAttribute('id')] = 'true';
+      } else optional[button.getAttribute('id')] = 'false';
+    });
+    const auth = await user.authenticateUser({
+      email: userDefault.email,
+      password: userDefault.password,
+    });
+    settings._apiService = new ApiService(MAIN_API_URL, auth.token);
+    const res = await settings.updateSettings({
+      userId: auth.userId,
+      wordsPerDay: wordsPerDay,
+      optional: optional,
+    });
+    this.settings = res;
   },
 };
 

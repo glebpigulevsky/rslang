@@ -1,4 +1,4 @@
-import settings from '../components/settings/settings.app';
+import settingsPage from '../components/settings/settings.app';
 
 export const settingsPageComponent = {
   render: () => `
@@ -9,15 +9,6 @@ export const settingsPageComponent = {
               <div class="raw__container-descr">Number of the new words per day</div>
               <div class="raw__container-input">
                 <input type="text" class="input-words__day">
-              </div>
-            </div>
-          </div>
-          
-          <div class="settings_raw">
-            <div class="raw__container">
-              <div class="raw__container-descr">Number of the new cards per day</div>
-              <div class="raw__container-input">
-                <input type="text" class="input-cards__day">
               </div>
             </div>
           </div>
@@ -52,67 +43,90 @@ export const settingsPageComponent = {
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
-              <div class="raw__container-input"></div>
+              <div class="raw__container-descr">Sentence explaining the meaning of the word</div>
+              <div class="raw__container-input">
+                <div class="switch-btn" id="isAddSentExplWord"></div>
+              </div>
             </div>
           </div>
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
-              <div class="raw__container-input"></div>
+              <div class="raw__container-descr">Add button "Show answer"</div>
+              <div class="raw__container-input">
+                <div class="switch-btn" id="isShowAnswerButton"></div>
+              </div>
             </div>
           </div>
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
-              <div class="raw__container-input"></div>
+              <div class="raw__container-descr">Add button move to difficult</div>
+              <div class="raw__container-input">
+                <div class="switch-btn" id="isShowDiffMoveButton"></div>
+              </div>
             </div>
           </div>
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
-              <div class="raw__container-input"></div>
+              <div class="raw__container-descr">Add button delete</div>
+              <div class="raw__container-input">
+                <div class="switch-btn" id="isShowDeleteButton"></div>
+              </div>
             </div>
           </div>
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
-              <div class="raw__container-input"></div>
+              <div class="raw__container-descr">Add button Again</div>
+              <div class="raw__container-input">
+                <div class="switch-btn" id="isShowAgainButton"></div>
+              </div>
             </div>
           </div>
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
-              <div class="raw__container-input"></div>
+              <div class="raw__container-descr">Add button Difficult</div>
+              <div class="raw__container-input">
+                <div class="switch-btn" id="isShowDiffButton"></div>
+              </div>
             </div>
           </div>
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
-              <div class="raw__container-input"></div>
+              <div class="raw__container-descr">Add button Good</div>
+              <div class="raw__container-input">
+                <div class="switch-btn" id="isShowGoodButton"></div>
+              </div>
             </div>
           </div>
 
           <div class="settings_raw">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
-              <div class="raw__container-input"></div>
+              <div class="raw__container-descr">Add button easy</div>
+              <div class="raw__container-input">
+                <div class="switch-btn" id="isShowEasyButton"></div>
+              </div>
             </div>
           </div>
 
           <div class="settings_raw no-border">
             <div class="raw__container">
-              <div class="raw__container-descr">Number of the new words per day</div>
-              <div class="raw__container-input"></div>
+              <div class="raw__container-descr">Listen audio answer</div>
+              <div class="raw__container-input">
+                <div class="switch-btn" id="isAudio"></div>
+              </div>
             </div>
           </div>
 
         </div>
+
+        <div class="save__settings">save</div>
     `,
+  init: () => {
+    settingsPage.init();
+  },
 };

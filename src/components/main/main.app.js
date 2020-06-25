@@ -17,7 +17,7 @@ const appRoutes = [
   { path: '/games', component: gamesPageComponent },
   { path: '/statisticks', component: statisticsPageComponent },
   { path: '/team', component: teamPageComponent },
-  { path: '/settings', component: settingsPageComponent, init: settings },
+  { path: '/settings', component: settingsPageComponent },
 ];
 
 class Main {
@@ -35,7 +35,7 @@ const router = () => {
   const path = parseLocation();
   const { component = errorPageComponent } = findComponentByPath(path) || {};
   main.innerHTML = component.render();
-  settings.init();
+  if (component.init) component.init();
 };
 
 const initRouter = () => {
