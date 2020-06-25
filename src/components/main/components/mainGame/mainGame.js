@@ -99,12 +99,11 @@ const game = {
     this.collection = await wordsApi.getWordsCollection({ group: this.level, page: this.page });
     console.info(this.collection);
     this.currentCard = this.collection[this.indexCard];
-    console.info(this.currentCard.textExample);
   },
 
-  init(settings, englishLevel) {
+  init(settingsFetch, englishLevel) {
     this.level = englishLevel;
-    this.settings = settings;
+    this.settings = settingsFetch;
     document.addEventListener('keyup', (e) => {
       if (e.key === 'Escape') {
         introMainGame.init();

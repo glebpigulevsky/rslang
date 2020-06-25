@@ -1,7 +1,7 @@
 import menu from './menu';
 import { CLASS_NAMES } from '../../common/common.constants';
 import { MAIN_GREETINGS } from './common/main.constants';
-import game from './components/mainGame/mainGame';
+//import game from './components/mainGame/mainGame';
 // убрать следующие 4 импорта при слиянии с промо пейдж
 import { LocalStorageService } from '../../common/common.helper';
 import { TOKEN_EXPIRES_MS } from '../../common/utils/common.utils.helper';
@@ -34,9 +34,9 @@ const service = new LocalStorageService();
 //const settings = new SettingsApi();
 const user = new UsersApi();
 
-const userEnter = {
-  email: 'pigulevsky.gleb@gmail.com',
-  password: 'Carver2017?',
+const userEnter = { // когда будет сделан логин получить инфу из локал сторадж
+  email: 'rslang68@ya.ru',
+  password: 'Rslang61?',
 };
 
 class Main {
@@ -48,18 +48,18 @@ class Main {
       mainGameStart: null,
       mainGameSettings: null,
     };
-    this.onMainGameStartClickHandlerBinded = this.onMainGameStartClickHandler.bind(this);
+    //this.onMainGameStartClickHandlerBinded = this.onMainGameStartClickHandler.bind(this);
   }
 
-  addMdStartScreen() {
-    this.gameButtons.mainGameStart = document.querySelector('.main__game-start__button');
-    this.gameButtons.mainGameStart.addEventListener('click', this.onMainGameStartClickHandlerBinded);
-  }
+  // addMdStartScreen() {
+  //   this.gameButtons.mainGameStart = document.querySelector('.main__game-start__button');
+  //   this.gameButtons.mainGameStart.addEventListener('click', this.onMainGameStartClickHandlerBinded);
+  // }
 
-  onMainGameStartClickHandler() {
-    this.gameButtons.mainGameStart.removeEventListener('click', this.onMainGameStartClickHandlerBinded);
-    game.init();
-  }
+  // onMainGameStartClickHandler() {
+  //   this.gameButtons.mainGameStart.removeEventListener('click', this.onMainGameStartClickHandlerBinded);
+  //   game.init();
+  // }
 
   async init() {
     menu.init();
@@ -74,7 +74,7 @@ class Main {
     const id = auth.userId;
     service.keyUserInfo = 'userInfo_TEST';
     service.setUserInfo({ userId: id, token: userToken, expiredTime: TOKEN_EXPIRES_MS() });
-    this.addMdStartScreen();
+    //this.addMdStartScreen();
   }
 }
 
@@ -88,6 +88,7 @@ const router = () => {
   const path = parseLocation();
   const { component = errorPageComponent } = findComponentByPath(path) || {};
   main.innerHTML = component.render();
+  if (component.init) component.init();
 };
 
 const initRouter = () => {

@@ -1,3 +1,5 @@
+import introMainGame from '../components/introMainGame/introMainGame';
+
 export const learnPageComponent = {
   render: () => `
   
@@ -26,6 +28,7 @@ export const learnPageComponent = {
     <div class="main__game-stat__today">Today</div>
     <div class="main__game-stat__week">Weekly progress</div>
   </div>
+
   <template id="template-main__game">
     <div class="card-container">
       <div class="navigate prev hidden"></div>
@@ -93,4 +96,7 @@ export const learnPageComponent = {
  </template>
 
     `,
+  init: () => {
+    introMainGame.init();
+  },
 };
