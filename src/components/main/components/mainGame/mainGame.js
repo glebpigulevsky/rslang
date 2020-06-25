@@ -1,11 +1,18 @@
 import './scss/some_component.scss';
 import { GAME_BLOCK, TEMPLATE_MAIN_GAME } from '../../common/main.constants';
 import {
- StatisticsApi, UsersApi, UserWordsApi, WordsApi,
+  MAIN_API_URL,
+} from '../../../../services/common/services.common.constants';
+import {
+  UserWordsApi, WordsApi,
 } from '../../../../services/services.methods';
 import ErrorInput from '../errorInput/errorInput';
 import introMainGame from '../introMainGame/introMainGame';
+import { LocalStorageService } from '../../../../common/common.helper';
+import ApiService from '../../../../services/common/services.common.api_service';
 
+const userWords = new UserWordsApi();
+const service = new LocalStorageService();
 const errorInput = new ErrorInput();
 const wordsApi = new WordsApi();
 
@@ -75,10 +82,12 @@ const game = {
   gameButtons: {
     next: null,
     prev: null,
+    clicked: null,
   },
   settings: null,
   level: null,
   page: 0,
+  difficult: null,
 
   currentCard: {},
   previousCard: {},
@@ -175,10 +184,10 @@ const game = {
     const dotBlock = document.createElement('span');
     dotBlock.classList.add('dotBlock');
     dotBlock.innerHTML = '.';
+    document.querySelector('.answer-input').focus();
     document.querySelector('.learn-content__container').append(dotBlock);
     document.querySelector('.translate').innerHTML = this.currentCard.wordTranslate;
     document.addEventListener('keypress', inputModeEnterBinded);
-    document.querySelector('.answer-input').focus();
   },
 
   buildCardSettings(settings) {
@@ -219,6 +228,7 @@ const game = {
     if (this.settings.optional.isShowDiffButton === 'true') {
       document.querySelector('.card-header__diff-diff').innerHTML = '';
       document.querySelector('.card-header__diff-diff').innerHTML = '<button>Difficult</button>';
+      document.querySelector('.card-header__diff-diff').addEventListener('click', this.clickHadnlerAddUserWordDiff);
     }
     if (this.settings.optional.isShowGoodButton === 'true') {
       document.querySelector('.card-header__diff-good').innerHTML = '';
@@ -227,7 +237,20 @@ const game = {
     if (this.settings.optional.isShowEasyButton === 'true') {
       document.querySelector('.card-header__diff-easy').innerHTML = '';
       document.querySelector('.card-header__diff-easy').innerHTML = '<button>Easy</button>';
+      document.querySelector('.card-header__diff-easy').addEventListener('click', this.clickHadnlerAddUserWordEasy);
     }
+  },
+
+  clickHadnlerAddUserWordEasy() {
+    game.gameButtons.clicked = document.querySelector('.card-header__diff-easy');
+    game.difficult = 'easy';
+    game.addUserWords();
+  },
+
+  clickHadnlerAddUserWordDiff() {
+    game.gameButtons.clicked = document.querySelector('.card-header__diff-diff');
+    game.difficult = 'difficult';
+    game.addUserWords();
   },
 
   showAnswerButton() {
@@ -235,6 +258,33 @@ const game = {
       document.querySelector('.learn-content__meaning').innerHTML = '';
       document.querySelector('.learn-content__meaning').innerHTML = game.currentCard.textMeaning;
     }
+  },
+
+  async addUserWords() {
+    service.keyUserInfo = 'userInfo';
+    const res = service.getUserInfo();
+    userWords._apiService = new ApiService(MAIN_API_URL, res.token);
+    userWords.createUserWord({
+      userId: res.userId,
+      wordId: game.currentCard.id,
+      difficulty: this.difficult,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        userWords.updateUserWord({
+          userId: res.userId,
+          wordId: game.currentCard.id,
+          difficulty: this.difficult,
+        })
+          .then(() => {
+          })
+          .catch((errr) => {
+            console.log(errr);
+          });
+      });
+    game.gameButtons.clicked.removeEventListener('click', game.clickHadnlerAddUserWordEasy);
   },
 
 };
