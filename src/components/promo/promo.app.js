@@ -17,12 +17,15 @@ class Promo {
 
   _onSuccessUserLogin(e) {
     alert(e.detail.result);
+    window.location.replace(`${window.location.origin}/main.index.html#`);
   }
 
   init() {
-    console.log('Promo');
     this.openLoginPopup();
   }
 }
 
-export default new Promo();
+window.onload = () => {
+  const promo = new Promo();
+  promo.init();
+}

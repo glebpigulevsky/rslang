@@ -60,7 +60,10 @@ class LoginUser {
       .then(() => {
         if (this._pointOfEntry === POINT_OF_ENTRY.Promo) {
           console.log(this._pointOfEntry); 
-          main.init();
+          this._loginContainer.dispatchEvent(new CustomEvent('UserSuccess', {
+            detail: { result: 'Authorized' },
+          }));
+          this._closeLoginHandler();
         } else if (this._pointOfEntry === POINT_OF_ENTRY.Main) {
           this._loginContainer.dispatchEvent(new CustomEvent('UserSuccess', {
             detail: { result: 'Authorized' },
