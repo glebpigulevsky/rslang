@@ -11,6 +11,7 @@ class View {
       `<div class = 'game__container'>
             <div id="app"></div>
             <div id = "score" ></div>
+            <div id = "right"></div>
         <div class='game__field' id = 'word-container'>
         </div>
         <div class='game__button' id='buttons'>
