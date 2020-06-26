@@ -16,83 +16,6 @@ const service = new LocalStorageService();
 const errorInput = new ErrorInput();
 const wordsApi = new WordsApi();
 
-async function inputModeEnter(e) {
-  this.inputArea = document.querySelector('.answer-input');
-  if (e.key === 'Enter') {
-    if (this.settings.optional.isAudio === 'true') {
-      if (this.inputArea.value === this.currentCard.word) {
-        document.removeEventListener('keypress', () => {});
-        const audio = new Audio();
-        audio.src = this.currentCard.audio;
-        audio.autoplay = true;
-        audio.addEventListener('ended', () => {
-          playAudioBinded(this.currentCard.audioExample);
-        });
-      } else {
-        const audio = new Audio();
-        audio.src = this.currentCard.audio;
-        audio.autoplay = true;
-        await errorInput.init();
-      }
-    } else if (this.inputArea.value === this.currentCard.word) {
-      document.removeEventListener('keypress', () => {});
-      playAudioBinded(this.currentCard.audio);
-    } else {
-      const audio = new Audio();
-      audio.src = this.currentCard.audio;
-      audio.autoplay = true;
-      await errorInput.init();
-    }
-  }
-}
-
-async function inputModeArrow() {
-  this.inputArea = document.querySelector('.answer-input');
-  if (this.settings.optional.isAudio === 'true') {
-    if (this.inputArea.value === this.currentCard.word) {
-      playAudioBinded(this.currentCard.audioExample);
-    } else {
-      const audio = new Audio();
-      audio.src = this.currentCard.audio;
-      audio.autoplay = true;
-      await errorInput.init();
-    }
-  } else if (this.inputArea.value === this.currentCard.word) {
-    playAudioBinded(this.currentCard.audio);
-  } else {
-    const audio = new Audio();
-    audio.src = this.currentCard.audio;
-    audio.autoplay = true;
-    await errorInput.init();
-  }
-}
-
-function inputModeArrowPrev() {
-  this.indexCard -= 1;
-  game.playMode(this.indexCard);
-  if (this.indexCard === 0) {
-    game.gameButtons.prev.classList.add('hidden');
-  }
-}
-
-function playAudio(path) {
-  const audio = new Audio();
-  audio.src = path;
-  audio.autoplay = true;
-  audio.addEventListener('ended', () => {
-    if (this.indexCard === (this.collection.length - 1)) {
-      document.querySelector('.learn-content__meaning').innerHTML = '';
-      this.page += 1;
-      this.indexCard = 0;
-      this.addMdGameScreen();
-    } else {
-      document.querySelector('.learn-content__meaning').innerHTML = '';
-      this.indexCard += 1;
-      game.playMode(this.indexCard);
-    }
-  });
-}
-
 const game = {
 
   gameButtons: {
@@ -285,7 +208,7 @@ const game = {
     userWords.deleteUserWord({ userId: res.userId, wordId: game.currentCard.id })
       .then()
       .catch((err) => {
-        console.log(err);
+        console.info(err);
       });
     game.gameButtons.clicked.removeEventListener('click', game.clickHadnlerDeleteUserWord);
   },
@@ -299,10 +222,10 @@ const game = {
       wordId: game.currentCard.id,
       difficulty: this.difficult,
     })
-      .then((res) => {
-        console.log(res);
+      .then((answ) => {
+        console.info(answ);
       })
-      .catch((err) => {
+      .catch(() => {
         userWords.updateUserWord({
           userId: res.userId,
           wordId: game.currentCard.id,
@@ -311,7 +234,7 @@ const game = {
           .then(() => {
           })
           .catch((errr) => {
-            console.log(errr);
+            console.info(errr);
           });
       });
     game.gameButtons.clicked.removeEventListener('click', game.clickHadnlerAddUserWordEasy);
@@ -319,9 +242,86 @@ const game = {
 
 };
 
-let inputModeEnterBinded = inputModeEnter.bind(game);
-let inputModeArrowBinded = inputModeArrow.bind(game);
-let inputModeArrowPrevBinded = inputModeArrowPrev.bind(game);
-let playAudioBinded = playAudio.bind(game);
+const inputModeEnterBinded = inputModeEnter.bind(game);
+const inputModeArrowBinded = inputModeArrow.bind(game);
+const inputModeArrowPrevBinded = inputModeArrowPrev.bind(game);
+const playAudioBinded = playAudio.bind(game);
+
+async function inputModeEnter(e) {
+  this.inputArea = document.querySelector('.answer-input');
+  if (e.key === 'Enter') {
+    if (this.settings.optional.isAudio === 'true') {
+      if (this.inputArea.value === this.currentCard.word) {
+        document.removeEventListener('keypress', () => {});
+        const audio = new Audio();
+        audio.src = this.currentCard.audio;
+        audio.autoplay = true;
+        audio.addEventListener('ended', () => {
+          playAudioBinded(this.currentCard.audioExample);
+        });
+      } else {
+        const audio = new Audio();
+        audio.src = this.currentCard.audio;
+        audio.autoplay = true;
+        await errorInput.init();
+      }
+    } else if (this.inputArea.value === this.currentCard.word) {
+      document.removeEventListener('keypress', () => {});
+      playAudioBinded(this.currentCard.audio);
+    } else {
+      const audio = new Audio();
+      audio.src = this.currentCard.audio;
+      audio.autoplay = true;
+      await errorInput.init();
+    }
+  }
+}
+
+async function inputModeArrow() {
+  this.inputArea = document.querySelector('.answer-input');
+  if (this.settings.optional.isAudio === 'true') {
+    if (this.inputArea.value === this.currentCard.word) {
+      playAudioBinded(this.currentCard.audioExample);
+    } else {
+      const audio = new Audio();
+      audio.src = this.currentCard.audio;
+      audio.autoplay = true;
+      await errorInput.init();
+    }
+  } else if (this.inputArea.value === this.currentCard.word) {
+    playAudioBinded(this.currentCard.audio);
+  } else {
+    const audio = new Audio();
+    audio.src = this.currentCard.audio;
+    audio.autoplay = true;
+    await errorInput.init();
+  }
+}
+
+function inputModeArrowPrev() {
+  this.indexCard -= 1;
+  game.playMode(this.indexCard);
+  if (this.indexCard === 0) {
+    game.gameButtons.prev.classList.add('hidden');
+  }
+}
+
+function playAudio(path) {
+  const audio = new Audio();
+  audio.src = path;
+  audio.autoplay = true;
+  audio.addEventListener('ended', () => {
+    if (this.indexCard === (this.collection.length - 1)) {
+      document.querySelector('.learn-content__meaning').innerHTML = '';
+      this.page += 1;
+      this.indexCard = 0;
+      this.addMdGameScreen();
+    } else {
+      document.querySelector('.learn-content__meaning').innerHTML = '';
+      this.indexCard += 1;
+      game.playMode(this.indexCard);
+    }
+  });
+}
 
 export default game;
