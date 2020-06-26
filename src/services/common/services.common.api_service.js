@@ -1,5 +1,5 @@
 import { ERRORS_DESCRIPTION, LINK_TYPE } from './services.common.constants';
-import { ApiError } from './services.common.api_service.helper';
+import { ApiError, errorTokenEvent} from './services.common.api_service.helper';
 
 export default class ApiService {
   constructor(baseUrl) {
@@ -121,6 +121,7 @@ export default class ApiService {
       case 400:
         throw new ApiError(ERRORS_DESCRIPTION[400]);
       case 401:
+        document.dispatchEvent(errorTokenEvent);
         throw new ApiError(ERRORS_DESCRIPTION[401]);
       case 404:
         throw new ApiError(ERRORS_DESCRIPTION[404]);

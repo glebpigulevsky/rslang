@@ -8,21 +8,27 @@ class ApiError extends Error {
   }
 }
 
+const errorTokenEvent = new Event(ERRORS_DESCRIPTION.ERROR_TOKEN, { bubbles: true });
+
 const checkUserInfo = () => {
-  const storage = new LocalStorageService();
-  const userInfo = storage.getUserInfo();
-  if (!userInfo) {
-    console.info('no userInfo in LocalStorage');
+  try {
+    const storage = new LocalStorageService();
+    const userInfo = storage.getUserInfo();
+    if (!userInfo) {
+      console.info('no userInfo in LocalStorage');
+      throw new Error();
+    }
+    const { userId, token, expiredTime } = userInfo;
+    const now = Date.now();
+    if (expiredTime < now) {
+      console.info(`expiredTimeUTC${new Date(expiredTime).toUTCString()}, nowUTC${new Date(now).toUTCString()}`);
+      throw new Error();
+    }
+    return { userId, token };
+  } catch (e) {
+    document.dispatchEvent(errorTokenEvent);
     throw new Error(ERRORS_DESCRIPTION.ERROR_TOKEN);
   }
-  const { userId, token, expiredTime } = userInfo;
-  const now = Date.now();
-  if (expiredTime < now) {
-    console.info(`expiredTimeUTC${new Date(expiredTime).toUTCString()}, nowUTC${new Date(now).toUTCString()}`);
-    storage.deleteUserInfo();
-    throw new Error(ERRORS_DESCRIPTION.ERROR_TOKEN);
-  }
-  return { userId, token };
 };
 
-export { ApiError, checkUserInfo };
+export { ApiError, checkUserInfo, errorTokenEvent };

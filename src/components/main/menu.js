@@ -1,6 +1,7 @@
 import { LoginUser } from '../login_user/login_user.popup';
 import { AuthenticateUserService, LocalStorageService } from '../../common/common.helper';
 import { logoutUser, hasAccessUser } from './common/main.helper';
+import { ERRORS_DESCRIPTION } from '../../services/services.methods';
 
 class Menu {
   constructor() {
@@ -73,6 +74,13 @@ class Menu {
     document.querySelector('#js-login-container').removeEventListener('click', this._onSuccessUserLogin);
   }
 
+  errorTokenLogout() {
+    document.addEventListener(ERRORS_DESCRIPTION.ERROR_TOKEN, () => {
+      console.info(ERRORS_DESCRIPTION.ERROR_TOKEN);
+      logoutUser();
+    });
+  }
+
   init() {
     this.toggleButton = document.querySelector('.hamburger-menu__button');
     this.navBar = document.querySelector('.main-header__navigation');
@@ -84,6 +92,7 @@ class Menu {
     this.addCloseButtonClickHandler();
     this.changeActiveStateLinks();
     this.logout();
+    this.errorTokenLogout();
   }
 }
 

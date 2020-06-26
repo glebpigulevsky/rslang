@@ -1,6 +1,7 @@
 import { AuthenticateUserService } from '../../common/common.helper';
 import { getLoginComponent } from './common/login_user.component';
 import { LOGIN_BUTTONS_NAME, LOGIN_BUTTONS_COLOR_CLASS } from './common/login_user.common.constants';
+import { getLoader } from './common/login_user.loader';
 import './scss/login.styles.scss';
 
 class LoginUser {
@@ -18,7 +19,7 @@ class LoginUser {
   }
 
   showLoginPopup() {
-    document.body.insertAdjacentHTML('afterend', getLoginComponent());
+    document.body.insertAdjacentHTML('beforeend', getLoginComponent());
     this._loginContainer = document.querySelector('#js-login-container');
     this._closeBtn = document.querySelector('#js-loginCloseBtn');
     this._createBtn = document.querySelector('#js-loginCreateBtn');
@@ -55,17 +56,20 @@ class LoginUser {
     const email = this._inputEmail.value.toString();
     const password = this._inputPassword.value.toString();
     const hasSignUp = this._trainSwitch.checked;
+    this._createInfo.insertAdjacentHTML('beforeend', getLoader());
     this._authUserService
       .loginUser({ email, password, hasSignUp })
       .then((res) => {
         if (res === 'Authenticated') {
-          this._createInfo.textContent = 'Authenticated';
+          this._createInfo.removeChild(getLoader());
+           this._createInfo.textContent = 'Authenticated';
           setTimeout(() => {
             this._loginContainer.dispatchEvent(new CustomEvent('UserSuccess', {
               detail: { result: 'Authenticated' },
+              bubbles: true,
             }));
             this._closeLoginHandler();
-          }, 2000);
+          }, 2000); 
         }
       })
       .catch((err) => { this._createInfo.textContent = err; });
@@ -74,6 +78,8 @@ class LoginUser {
   _emptyFieldsValidator() {
     if (this._inputEmail.value.trim() !== '' && this._inputPassword.value.trim() !== '') {
       this._createBtn.disabled = false;
+    } else {
+      this._createBtn.disabled = true;
     }
   }
 

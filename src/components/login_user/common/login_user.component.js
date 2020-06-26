@@ -15,10 +15,10 @@ const getLoginComponent = () => `<div class="login__container" id="js-login-cont
             <span class="login__mode  mb-3" id="js-switchLabelSignUp">Sign Up</span>
           </div>
           <div>
-            <input type="email" id="js-inputEmail" class="login__input form-control" placeholder="EMAIL"  autocomplete="off">
+            <input type="email" id="js-inputEmail" class="login__input form-control" placeholder="EMAIL" maxlength="30" autocomplete="off">
           </div>
           <div>
-            <input type="password" id="js-inputPassword" class="login__input form-control" placeholder="PASSWORD" autocomplete="off">
+            <input type="password" id="js-inputPassword" class="login__input form-control" placeholder="PASSWORD" maxlength="30" autocomplete="off">
           </div>
           <button class="login__send mb-3" type="submit" id="js-loginCreateBtn" disabled>Sign In</button>
           <div id="js-loginCreateInfo" class="login__info mb-3"></div>   

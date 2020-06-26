@@ -16,20 +16,25 @@ class AuthenticateUserService {
   }
 
   checkUserAccess() {
-    const storage = new LocalStorageService();
-    const userInfo = storage.getUserInfo();
-    if (userInfo === null) {
+    try {
+      const storage = new LocalStorageService();
+      const userInfo = storage.getUserInfo();
+      if (userInfo === null) {
+        return false;
+      }
+      const { expiredTime } = userInfo;
+      const now = Date.now();
+      console.info(`token expiredTime ${GET_HUMAN_DATE_UTC(expiredTime)}`);
+      console.info(`token now ${GET_HUMAN_DATE_UTC(now)}`);
+      if (expiredTime < now) {
+        storage.deleteUserInfo();
+        return false;
+      }
+      return true;
+    } catch (e) {
+      console.info(e.message);
       return false;
     }
-    const { expiredTime } = userInfo;
-    const now = Date.now();
-    console.info(`token expiredTime ${GET_HUMAN_DATE_UTC(expiredTime)}`);
-    console.info(`token now ${GET_HUMAN_DATE_UTC(now)}`);
-    if (expiredTime < now) {
-      storage.deleteUserInfo();
-      return false;
-    }
-    return true;
   }
 
   async _signUpUser({ email, password }) {
