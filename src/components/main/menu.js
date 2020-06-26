@@ -1,5 +1,6 @@
 import { LoginUser } from '../login_user/login_user.popup';
 import { AuthenticateUserService, LocalStorageService } from '../../common/common.helper';
+import { logoutUser, hasAccessUser } from './common/main.helper';
 
 class Menu {
   constructor() {
@@ -23,7 +24,7 @@ class Menu {
   }
 
   onCloseClickHandler({ target }) {
-    if (target.id === this.mainButton.id) {
+    if ((target.id) && target.id === this.mainButton.id) {
       this._mainButtunHandler();
     }
     const itsMenu = target === this.navBar || this.navBar.contains(target);
@@ -55,15 +56,11 @@ class Menu {
   }
 
   _onLogoutButtonHandler() {
-    console.info('logout');
-    this._localStorage.deleteUserInfo();
-    document.querySelector('.main-header__navigation').style.removeProperty('display');
-    document.querySelector('.main-header__logout').style.removeProperty('display');
-    window.location.replace(`${window.location.origin}${window.location.pathname}#`);
+    logoutUser();
   }
 
   _mainButtunHandler() {
-    if (this._authUserService.checkUserAccess()) {
+    if (hasAccessUser()) {
       window.location.replace(`${window.location.origin}${window.location.pathname}#/learn`);
     } else {
       this._loginUser.showLoginPopup();
@@ -72,8 +69,7 @@ class Menu {
   }
 
   _onSuccessUserLogin() {
-    document.querySelector('.main-header__navigation').style.display = 'flex';
-    document.querySelector('.main-header__logout').style.display = 'block';
+    hasAccessUser();
     document.querySelector('#js-login-container').removeEventListener('click', this._onSuccessUserLogin);
   }
 

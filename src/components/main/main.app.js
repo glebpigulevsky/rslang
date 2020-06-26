@@ -8,7 +8,7 @@ import { statisticsPageComponent } from './pages/statistics-page.component';
 import { teamPageComponent } from './pages/team-page.component';
 import { settingsPageComponent } from './pages/settings-page.component';
 import { errorPageComponent } from './pages/error-page.component';
-import { AuthenticateUserService } from '../../common/common.helper';
+import { hasAccessUser } from './common/main.helper';
 
 const appRoutes = [
   { path: '/', component: mainPageComponent },
@@ -19,7 +19,7 @@ const appRoutes = [
   { path: '/team', component: teamPageComponent },
   { path: '/settings', component: settingsPageComponent },
 ];
-const auth = new AuthenticateUserService();
+
 class Main {
   init() {
     menu.init();
@@ -30,21 +30,11 @@ const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
 const findComponentByPath = (path) => appRoutes.find((route) => route.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
 
 const router = () => {
-  if (!auth.checkUserAccess() && window.location.hash !== '') {
-    window.location.replace(`${window.location.origin}${window.location.pathname}#`);
-  } else {
+  if (hasAccessUser() || window.location.hash === '') {
     const main = document.querySelector('.main');
     const path = parseLocation();
     const { component = errorPageComponent } = findComponentByPath(path) || {};
     main.innerHTML = component.render();
-    if (auth.checkUserAccess()) {
-      if (document.querySelector('.main-header__navigation').style.display !== 'flex') {
-        document.querySelector('.main-header__navigation').style.display = 'flex';
-      }
-      if (document.querySelector('.main-header__logout').style.display !== 'block') {
-        document.querySelector('.main-header__logout').style.display = 'block';
-      }
-    }
   }
 };
 

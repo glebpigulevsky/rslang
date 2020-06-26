@@ -18,7 +18,9 @@ const GET_RANDOM = (min, max) => {
   const y = Math.floor(max);
   return Math.floor(Math.random() * (y - x + 1)) + x;
 };
-const LINK_TYPE = { Settings: { 404: null }, Statictics: { 404: null }, Authenticate: { 403: 'Incorrect e-mail or password' } };
+const LINK_TYPE = {
+  Settings: { 404: null }, Statictics: { 404: null }, Authenticate: { 403: 'Incorrect e-mail or password' }, User: { 417: 'This user already exists' },
+};
 export {
   MAIN_API_URL, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK, LINK_TYPE,
 };

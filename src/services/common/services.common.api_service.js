@@ -53,6 +53,9 @@ export default class ApiService {
         if ((res.status === 403 || res.status === 404) && type === LINK_TYPE.Authenticate) {
           this.getError(0, LINK_TYPE.Authenticate[403], LINK_TYPE.Authenticate[403]);
         }
+        if (res.status === 417 && type === LINK_TYPE.User) {
+          this.getError(0, LINK_TYPE.User[417], LINK_TYPE.User[417]);
+        }
         await this._checkResponse(res);
       }
       return res.json();
@@ -150,7 +153,8 @@ export default class ApiService {
     } catch (e) {
       status = cloned.status;
       errorDescription = '';
+    } finally {
+      this.getError(status, errorDescription, `${status} ${res.statusText} ${errorDescription}`);
     }
-    this.getError(status, errorDescription, `${status} ${res.statusText} ${errorDescription}`);
   }
 }

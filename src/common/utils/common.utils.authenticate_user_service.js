@@ -1,6 +1,6 @@
 import { LocalStorageService } from './common.utils.local_storage_service';
 import { UsersApi } from '../../services/services.methods';
-import { TOKEN_EXPIRES_MS } from './common.utils.helper';
+import { TOKEN_EXPIRES_MS, GET_HUMAN_DATE_UTC } from './common.utils.helper';
 
 class AuthenticateUserService {
   constructor() {
@@ -23,6 +23,8 @@ class AuthenticateUserService {
     }
     const { expiredTime } = userInfo;
     const now = Date.now();
+    console.info(`token expiredTime ${GET_HUMAN_DATE_UTC(expiredTime)}`);
+    console.info(`token now ${GET_HUMAN_DATE_UTC(now)}`);
     if (expiredTime < now) {
       storage.deleteUserInfo();
       return false;

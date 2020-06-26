@@ -20,7 +20,9 @@ export default class UsersApi {
   }
 
   async createUser({ email, password }) {
-    const res = await this._apiService.postResourse({ url: '/users', params: { email, password }, hasToken: false });
+    const res = await this._apiService.postResourse({
+      url: '/users', params: { email, password }, hasToken: false, type: LINK_TYPE.User,
+    });
     return this._transformUser(res);
   }
 
