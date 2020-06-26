@@ -5,9 +5,7 @@ import {
   MAIN_API_URL, DEFAULT_SETTINGS,
 } from '../../../../services/common/services.common.constants';
 import ApiService from '../../../../services/common/services.common.api_service';
-import { ErrorPopup } from '../../../error/error.error_popup';
 
-const errorPopup = new ErrorPopup();
 const user = new UsersApi();
 const settings = new SettingsApi();
 const userDefault = { // когда будет сделан логин получить инфу из локал сторадж
@@ -42,7 +40,6 @@ const settingsPage = {
     const set = await settings.getSettings({ userId: auth.userId });
     this.settings = set;
     if (this.settings === null) {
-      errorPopup.openPopup({ text: 'Your settings will be default' });
       const res = await settings.updateSettings({
         userId: auth.userId,
         wordsPerDay: DEFAULT_SETTINGS.wordsPerDay,
