@@ -1,5 +1,5 @@
 import { ERRORS_DESCRIPTION, LINK_TYPE } from './services.common.constants';
-import { ApiError, errorTokenEvent} from './services.common.api_service.helper';
+import { ApiError, errorTokenEvent } from './services.common.api_service.helper';
 
 export default class ApiService {
   constructor(baseUrl) {

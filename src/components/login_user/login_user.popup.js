@@ -69,7 +69,7 @@ class LoginUser {
               bubbles: true,
             }));
             this._closeLoginHandler();
-          }, 2000); 
+          }, 2000);
         }
       })
       .catch((err) => { this._createInfo.textContent = err; });
