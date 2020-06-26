@@ -61,8 +61,8 @@ class LoginUser {
       .loginUser({ email, password, hasSignUp })
       .then((res) => {
         if (res === 'Authenticated') {
-          this._createInfo.removeChild(getLoader());
-           this._createInfo.textContent = 'Authenticated';
+          this._createInfo.insertAdjacentHTML(getLoader());
+          this._createInfo.textContent = 'Authenticated';
           setTimeout(() => {
             this._loginContainer.dispatchEvent(new CustomEvent('UserSuccess', {
               detail: { result: 'Authenticated' },
