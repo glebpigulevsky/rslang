@@ -12,6 +12,7 @@
 }
   
 .login {
+  padding: 0.5rem;
   position: relative;
   display: flex;
   justify-content: center;
@@ -27,8 +28,17 @@
   animation-duration: .4s;
   box-shadow: 0 px-to-rem(4px) px-to-rem(22px) rgba(0, 0, 0, .5);
   border-radius: px-to-rem(6px);
+  @include media-tablet {
+    width: px-to-rem(230px);
+  }
+  @include media-mobile {
+    width: px-to-rem(170px);
+  }
+  @include media-mobilesmall {
+    width: px-to-rem(150px);
+  }
 }
-  
+
 .login__title {
   @include segoe-title($color-light);
   text-align: center;
@@ -48,7 +58,7 @@
     background: $color-light;
     border: px-to-rem(1px) solid #f4f5fa;
     box-sizing: border-box;
-    border-radius: px-to-rem(8px);
+    border-radius: px-to-rem(6px);
     display: flex;
     align-items: center;
   }
@@ -57,13 +67,22 @@
     width: px-to-rem(200px);
     height: px-to-rem(35px);
     justify-self: center;
+    
+    @include media-tablet {
+      width: px-to-rem(180px);
+    }
+    @include media-mobile {
+      width: px-to-rem(150px);
+    }
+    @include media-mobilesmall {
+      width: px-to-rem(120px);
+    }
   }
   
   .login__send  {
     outline: none;
     margin-top: 3rem;
-    background: #43B8D2;
-    box-shadow: 0 px-to-rem(4px) px-to-rem(4px) rgba(0, 0, 0, 0.25);
+    background: $color-hovered;
     border-radius: px-to-rem(30px);
     text-transform: uppercase;
     text-align: center;
@@ -74,11 +93,11 @@
   }
 
   .login__send:active {
-    background: #085364;
+    background: $color-dark-blue;
   }
   .login__send:disabled,
   .login__send[disabled] {
-    background:  #D9D0E3;
+    background:  $color-dark-grey;
   }
 
   .login__info {
@@ -95,7 +114,7 @@
   
   .login__title_switch {
     display: flex;
-    padding: 1rem 0;
+    padding: 1rem;
   }
   
   .login__mode_selected {
@@ -133,7 +152,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: $color-text-additional;
+    background-color: $color-dark-grey;
     transition: .4s;
   }
   
@@ -144,7 +163,7 @@
     width: px-to-rem(25px);
     left: px-to-rem(3px);
     bottom: px-to-rem(3px);
-    background-color: white;
+    background-color: $color-light;
     -webkit-transition: .4s;
     transition: .4s;
   }
@@ -154,15 +173,15 @@
   }
   
   input:focus + .slider {
-    box-shadow: 0 0 px-to-rem(1px) #43B8D2;
+    box-shadow: 0 0 px-to-rem(1px) $color-hovered;
   }
   
   input:checked + .slider:before {
-    transform: translateX(px-to-rem(20px));
+    transform: translateX(px-to-rem(18px));
   }
   
   .slider.round {
-    border-radius: px-to-rem(20px);
+    border-radius: px-to-rem(18px);
   }
   
   .slider.round:before {
