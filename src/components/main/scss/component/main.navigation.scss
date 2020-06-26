@@ -74,13 +74,17 @@
     }
 
     .icon {
-      fill: $color-light;
+      filter: brightness(10);
     }
   }
 }
 
 .navigation__link.active {
   color: $color-light;
+
+  .icon {
+    filter: brightness(10);
+  }
 }
 
 .active {
@@ -97,12 +101,6 @@
   text-decoration: none;
 
   .icon {
-    padding: 17px 14px 0 12px;
-
-    fill: currentColor;
-  }
-
-  .icon.active {
-    fill: $color-light;
+    padding: 17px 14px 0 13px;
   }
 }

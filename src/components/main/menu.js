@@ -33,25 +33,28 @@ class Menu {
     document.removeEventListener('click', this.onCloseClickHandlerBinded);
   }
 
-  changeActiveStateLinks() {
-    const { navigation } = this;
-    navigation.addEventListener('click', (e) => {
-      if (e.target.classList.contains('icon')) {
-        e.target.parentElement.classList.toggle('active');
-      }
-      if (e.target.classList.contains('navigation__link')) {
-        e.target.classList.toggle('active');
-      }
-    });
-  }
-
-  onCloseClickLink() {
+  onCloseMenuClickHandler() {
     const { navigation } = this;
     let countClicks = 0;
     navigation.addEventListener('click', (event) => {
       if (event.target.closest('ul li a')) {
         countClicks = (countClicks + 1) % 2;
         this.navBar.classList.toggle('toggle');
+      }
+    });
+  }
+
+  addLinksClickHandler() {
+    const { navigation } = this;
+    navigation.addEventListener('click', (e) => {
+      if (e.target.classList.contains('navigation__link')) {
+        const clickedTag = e.target;
+        const tags = document.querySelectorAll('.navigation__link');
+        tags.forEach((tag) => {
+          tag.classList.remove('active');
+          tag.classList.add('navigation__link');
+        });
+        clickedTag.classList.add('active');
       }
     });
   }
@@ -63,8 +66,8 @@ class Menu {
 
     this.addBurgerIconClickHandler();
     this.addCloseButtonClickHandler();
-    this.changeActiveStateLinks();
-    this.onCloseClickLink();
+    this.onCloseMenuClickHandler();
+    this.addLinksClickHandler();
   }
 }
 

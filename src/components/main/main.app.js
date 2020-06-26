@@ -27,8 +27,7 @@ class Main {
 export default new Main();
 
 const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
-const findComponentByPath = (path) =>
-  appRoutes.find((route) => route.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
+const findComponentByPath = (path) => appRoutes.find((route) => route.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
 
 const router = () => {
   const main = document.querySelector('.main');
