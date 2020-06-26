@@ -96,12 +96,16 @@
     color: #FFFCFC;
     border: 1px solid transparent;
     transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
-    }
-    
-    .login__send:active{
-      background: #085364;
-    }
-  
+  }
+
+  .login__send:active {
+    background: #085364;
+  }
+  .login__send:disabled,
+  .login__send[disabled] {
+    background:  #D9D0E3;
+  }
+
   .login__info {
     font-family: Poppins;
     font-style: normal;

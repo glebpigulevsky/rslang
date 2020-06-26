@@ -1,5 +1,5 @@
 import { AuthenticateUserService } from '../../common/common.helper';
-import { LoginComponent } from './common/login_user.component';
+import { getLoginComponent } from './common/login_user.component';
 import { LOGIN_BUTTONS_NAME, LOGIN_BUTTONS_COLOR_CLASS } from './common/login_user.common.constants';
 import './scss/login.styles.scss';
 
@@ -18,7 +18,7 @@ class LoginUser {
   }
 
   showLoginPopup() {
-    document.body.insertAdjacentHTML('afterend', LoginComponent);
+    document.body.insertAdjacentHTML('afterend', getLoginComponent());
     this._loginContainer = document.querySelector('#js-login-container');
     this._closeBtn = document.querySelector('#js-loginCloseBtn');
     this._createBtn = document.querySelector('#js-loginCreateBtn');
@@ -32,7 +32,8 @@ class LoginUser {
     this._trainSwitch.addEventListener('click', this._trainSwitchHandler.bind(this));
     this._createBtn.addEventListener('click', this._createBtnHandler.bind(this));
     this._closeBtn.addEventListener('click', this._closeLoginHandler.bind(this));
-    
+    this._inputEmail.addEventListener('keyup', this._emptyFieldsValidator.bind(this));
+    this._inputPassword.addEventListener('keyup', this._emptyFieldsValidator.bind(this));
   }
 
   _trainSwitchHandler() {
@@ -68,6 +69,12 @@ class LoginUser {
         }
       })
       .catch((err) => { this._createInfo.textContent = err; });
+  }
+
+  _emptyFieldsValidator() {
+    if (this._inputEmail.value.trim() !== '' && this._inputPassword.value.trim() !== '') {
+      this._createBtn.disabled = false;
+    }
   }
 
   _closeLoginHandler() {

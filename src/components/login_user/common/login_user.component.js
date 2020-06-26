@@ -1,4 +1,4 @@
-const LoginComponent = `<div class="login__container" id="js-login-container">
+const getLoginComponent = () => `<div class="login__container" id="js-login-container">
     <div>
 
       <form class="login">
@@ -20,7 +20,7 @@ const LoginComponent = `<div class="login__container" id="js-login-container">
           <div>
             <input type="password" id="js-inputPassword" class="login__input form-control" placeholder="PASSWORD" autocomplete="off">
           </div>
-          <button class="login__send mb-3" type="submit" id="js-loginCreateBtn">Sign In</button>
+          <button class="login__send mb-3" type="submit" id="js-loginCreateBtn" disabled>Sign In</button>
           <div id="js-loginCreateInfo" class="login__info mb-3"></div>   
         </form>      
       
@@ -28,4 +28,4 @@ const LoginComponent = `<div class="login__container" id="js-login-container">
         
   </div>`;
 
-export { LoginComponent };
+export { getLoginComponent };
