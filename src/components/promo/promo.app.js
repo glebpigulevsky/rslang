@@ -1,17 +1,20 @@
 import './scss/promo.styles.scss';
 import { LoginUser } from '../login_user/login_user.popup';
+import { Observable } from '../../common/utils/common.utils.observable';
 
 class Promo {
-  constructor() {
-    this._loginUser = new LoginUser();
-  }
-
   openLoginPopup() {
     document.querySelector('.login__submitBtn').addEventListener('click', this._openLoginHandler.bind(this));
   }
 
   _openLoginHandler() {
-    this._loginUser.showLoginPopup();
+    const observer = new Observable();
+    const loginUser = new LoginUser(observer);
+    observer.subscribe((auth) => {
+      console.info(`observer got result: ${auth}`);
+      this._onSuccessUserLogin();
+    });
+    loginUser.showLoginPopup();
     document.querySelector('#js-login-container').addEventListener('UserSuccess', this._onSuccessUserLogin.bind(this));
   }
 

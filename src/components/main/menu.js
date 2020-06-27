@@ -1,15 +1,12 @@
 import { LoginUser } from '../login_user/login_user.popup';
-import { AuthenticateUserService, LocalStorageService } from '../../common/common.helper';
 import { logoutUser, hasAccessUser } from './common/main.helper';
+import { Observable } from '../../common/utils/common.utils.observable';
 import { ERRORS_DESCRIPTION } from '../../services/services.methods';
 
 class Menu {
   constructor() {
     this.onCloseClickHandlerBinded = this.onCloseClickHandler.bind(this);
     this.onBurgerIconClickHandlerBinded = this.onBurgerIconClickHandler.bind(this);
-    this._loginUser = new LoginUser();
-    this._authUserService = new AuthenticateUserService();
-    this._localStorage = new LocalStorageService();
   }
 
   onBurgerIconClickHandler() {
@@ -52,7 +49,7 @@ class Menu {
     });
   }
 
-  logout() {
+  addLogoutHandler() {
     this.logoutButton.addEventListener('click', this._onLogoutButtonHandler.bind(this));
   }
 
@@ -64,7 +61,13 @@ class Menu {
     if (hasAccessUser()) {
       window.location.replace(`${window.location.origin}${window.location.pathname}#/learn`);
     } else {
-      this._loginUser.showLoginPopup();
+      const observer = new Observable();
+      const loginUser = new LoginUser(observer);
+      observer.subscribe((auth) => {
+        console.info(`observer got result: ${auth}`);
+        this._onSuccessUserLogin();
+      });
+      loginUser.showLoginPopup();
       document.querySelector('#js-login-container').addEventListener('UserSuccess', this._onSuccessUserLogin.bind(this));
     }
   }
@@ -74,7 +77,7 @@ class Menu {
     document.querySelector('#js-login-container').removeEventListener('click', this._onSuccessUserLogin);
   }
 
-  errorTokenLogout() {
+  addErrorTokenLogoutHandler() {
     document.addEventListener(ERRORS_DESCRIPTION.ERROR_TOKEN, () => {
       console.info(ERRORS_DESCRIPTION.ERROR_TOKEN);
       logoutUser();
@@ -91,8 +94,8 @@ class Menu {
     this.addBurgerIconClickHandler();
     this.addCloseButtonClickHandler();
     this.changeActiveStateLinks();
-    this.logout();
-    this.errorTokenLogout();
+    this.addLogoutHandler();
+    this.addErrorTokenLogoutHandler();
   }
 }
 

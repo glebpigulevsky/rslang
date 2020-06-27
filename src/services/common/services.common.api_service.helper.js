@@ -20,8 +20,8 @@ const checkUserInfo = () => {
     }
     const { userId, token, expiredTime } = userInfo;
     const now = Date.now();
+    console.info(`expiredTimeUTC${new Date(expiredTime).toUTCString()}, nowUTC${new Date(now).toUTCString()}`);
     if (expiredTime < now) {
-      console.info(`expiredTimeUTC${new Date(expiredTime).toUTCString()}, nowUTC${new Date(now).toUTCString()}`);
       throw new Error();
     }
     return { userId, token };

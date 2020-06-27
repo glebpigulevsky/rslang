@@ -5,8 +5,9 @@ import { getLoader } from './common/login_user.loader';
 import './scss/login.styles.scss';
 
 class LoginUser {
-  constructor() {
+  constructor(observer) {
     this._authUserService = new AuthenticateUserService();
+    this._headingsObserver = observer;
     this._closeBtn = null;
     this._createBtn = null;
     this._trainSwitch = null;
@@ -63,10 +64,7 @@ class LoginUser {
         if (res === 'Authenticated') {
           this._createInfo.textContent = 'Authenticated';
           setTimeout(() => {
-            this._loginContainer.dispatchEvent(new CustomEvent('UserSuccess', {
-              detail: { result: 'Authenticated' },
-              bubbles: true,
-            }));
+            this._headingsObserver.notify('Authenticated');
             this._closeLoginHandler();
           }, 2000);
         }
@@ -86,6 +84,8 @@ class LoginUser {
     this._trainSwitch.removeEventListener('click', this._trainSwitchHandler);
     this._createBtn.removeEventListener('click', this._createBtnHandler);
     this._closeBtn.removeEventListener('click', this._closeLoginHandler);
+    this._inputEmail.removeEventListener('keyup', this._emptyFieldsValidator);
+    this._inputPassword.removeEventListener('keyup', this._emptyFieldsValidator);
     this._loginContainer.parentNode.removeChild(this._loginContainer);
   }
 }
