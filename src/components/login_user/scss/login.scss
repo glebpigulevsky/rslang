@@ -118,7 +118,7 @@
     margin-bottom: 1rem;
   }
   
-  .login__title_switch {
+  .login__title_switcharea {
     display: flex;
     padding: 1rem;
   }
@@ -136,7 +136,7 @@
     padding-right: 1rem;
   }
   
-  .switch {
+  .login__switch {
     position: relative;
     display: inline-block;
     width: px-to-rem(50px);
@@ -145,13 +145,13 @@
     margin: 0 2rem;
   }
   
-  .switch input { 
+  .login__switch input { 
     opacity: 0;
     width: 0;
     height: 0;
   }
   
-  .slider {
+  .login__switch_slider {
     position: absolute;
     cursor: pointer;
     top: 0;
@@ -162,7 +162,7 @@
     transition: .4s;
   }
   
-  .slider:before {
+  .login__switch_slider:before {
     position: absolute;
     content: "";
     height: px-to-rem(25px);
@@ -174,23 +174,23 @@
     transition: .4s;
   }
   
-  input:checked + .slider {
+  input:checked + .login__switch_slider {
     background-color: $color-text-additional;
   }
   
-  input:focus + .slider {
+  input:focus + .login__switch_slider {
     box-shadow: 0 0 px-to-rem(1px) $color-hovered;
   }
   
-  input:checked + .slider:before {
+  input:checked + .login__switch_slider:before {
     transform: translateX(px-to-rem(18px));
   }
   
-  .slider.round {
+  .login__switch_slider.round {
     border-radius: px-to-rem(18px);
   }
   
-  .slider.round:before {
+  .login__switch_slider.round:before {
     border-radius: 50%;
   }
 
