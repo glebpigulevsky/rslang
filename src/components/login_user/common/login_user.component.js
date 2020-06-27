@@ -3,7 +3,7 @@ const getLoginComponent = () => `<div class="login__container" id="js-login-cont
 
       <form class="login">
       <span class="login__close" id="js-loginCloseBtn">×</span>
-      <div class="login__title login-mb-3">Welcome</div>
+      <div class="login__title">Welcome</div>
         <div class="login__title_switch">
           <span class="login__mode login__mode_selected login-mb-3" id="js-switchLabelSignIn">Sign In</span>
             

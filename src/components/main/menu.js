@@ -25,7 +25,7 @@ class Menu {
   }
 
   onCloseClickHandler({ target }) {
-    if ((target.id) && target.id === this.mainButton.id) {
+    if ((target.id) && (this.mainButton) && target.id === this.mainButton.id) {
       this._mainButtunHandler();
     }
     const itsMenu = target === this.navBar || this.navBar.contains(target);

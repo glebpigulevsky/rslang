@@ -33,6 +33,7 @@
   }
   @include media-mobile {
     width: px-to-rem(170px);
+    height: px-to-rem(345px);
   }
   @include media-mobilesmall {
     width: px-to-rem(150px);
