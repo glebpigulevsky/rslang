@@ -68,13 +68,11 @@ class Menu {
         this._onSuccessUserLogin();
       });
       loginUser.showLoginPopup();
-      document.querySelector('#js-login-container').addEventListener('UserSuccess', this._onSuccessUserLogin.bind(this));
     }
   }
 
   _onSuccessUserLogin() {
     hasAccessUser();
-    document.querySelector('#js-login-container').removeEventListener('click', this._onSuccessUserLogin);
   }
 
   addErrorTokenLogoutHandler() {

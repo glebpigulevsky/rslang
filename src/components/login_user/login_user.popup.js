@@ -21,21 +21,8 @@ class LoginUser {
 
   showLoginPopup() {
     document.body.insertAdjacentHTML('beforeend', getLoginComponent());
-    this._loginContainer = document.querySelector('#js-login-container');
-    this._closeBtn = document.querySelector('#js-loginCloseBtn');
-    this._createBtn = document.querySelector('#js-loginCreateBtn');
-    this._trainSwitch = document.querySelector('#js-trainSwitch');
-    this._createInfo = document.querySelector('#js-loginCreateInfo');
-    this._switchLabelSignUp = document.querySelector('#js-switchLabelSignUp');
-    this._switchLabelSignIn = document.querySelector('#js-switchLabelSignIn');
-    this._inputEmail = document.querySelector('#js-inputEmail');
-    this._inputPassword = document.querySelector('#js-inputPassword');
-
-    this._trainSwitch.addEventListener('click', this._trainSwitchHandler.bind(this));
-    this._createBtn.addEventListener('click', this._createBtnHandler.bind(this));
-    this._closeBtn.addEventListener('click', this._closeLoginHandler.bind(this));
-    this._inputEmail.addEventListener('keyup', this._emptyFieldsValidator.bind(this));
-    this._inputPassword.addEventListener('keyup', this._emptyFieldsValidator.bind(this));
+    this._getElements();
+    this._addEventListeners();
   }
 
   _trainSwitchHandler() {
@@ -78,6 +65,26 @@ class LoginUser {
     } else {
       this._createBtn.disabled = true;
     }
+  }
+
+  _getElements() {
+    this._loginContainer = document.querySelector('#js-login-container');
+    this._closeBtn = document.querySelector('#js-loginCloseBtn');
+    this._createBtn = document.querySelector('#js-loginCreateBtn');
+    this._trainSwitch = document.querySelector('#js-trainSwitch');
+    this._createInfo = document.querySelector('#js-loginCreateInfo');
+    this._switchLabelSignUp = document.querySelector('#js-switchLabelSignUp');
+    this._switchLabelSignIn = document.querySelector('#js-switchLabelSignIn');
+    this._inputEmail = document.querySelector('#js-inputEmail');
+    this._inputPassword = document.querySelector('#js-inputPassword');
+  }
+
+  _addEventListeners() {
+    this._trainSwitch.addEventListener('click', this._trainSwitchHandler.bind(this));
+    this._createBtn.addEventListener('click', this._createBtnHandler.bind(this));
+    this._closeBtn.addEventListener('click', this._closeLoginHandler.bind(this));
+    this._inputEmail.addEventListener('keyup', this._emptyFieldsValidator.bind(this));
+    this._inputPassword.addEventListener('keyup', this._emptyFieldsValidator.bind(this));
   }
 
   _closeLoginHandler() {
