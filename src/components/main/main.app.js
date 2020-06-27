@@ -8,6 +8,7 @@ import { statisticsPageComponent } from './pages/statistics-page.component';
 import { teamPageComponent } from './pages/team-page.component';
 import { settingsPageComponent } from './pages/settings-page.component';
 import { errorPageComponent } from './pages/error-page.component';
+import { speakItPageComponent } from './pages/speakit-page.component';
 
 const appRoutes = [
   { path: '/', component: mainPageComponent },
@@ -17,6 +18,7 @@ const appRoutes = [
   { path: '/statisticks', component: statisticsPageComponent },
   { path: '/team', component: teamPageComponent },
   { path: '/settings', component: settingsPageComponent },
+  { path: '/speakit', component: speakItPageComponent },
 ];
 
 class Main {
@@ -34,6 +36,7 @@ const router = () => {
   const path = parseLocation();
   const { component = errorPageComponent } = findComponentByPath(path) || {};
   main.innerHTML = component.render();
+  if (component.init) component.init();
 };
 
 const initRouter = () => {
