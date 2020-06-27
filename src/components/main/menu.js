@@ -33,15 +33,17 @@ class Menu {
     document.removeEventListener('click', this.onCloseClickHandlerBinded);
   }
 
-  onCloseMenuClickHandler() {
+  addCloseMenuClickHandler() {
     const { navigation } = this;
-    let countClicks = 0;
     navigation.addEventListener('click', (event) => {
       if (event.target.closest('ul li a')) {
-        countClicks = (countClicks + 1) % 2;
         this.navBar.classList.toggle('toggle');
       }
     });
+  }
+
+  removeCloseMenuClickHandler() {
+    this.navigation.removeEventListener('click', this.addCloseMenuClickHandler);
   }
 
   addLinksClickHandler() {
@@ -67,6 +69,10 @@ class Menu {
     });
   }
 
+  removeaddLinksClickHandler() {
+    this.navigation.removeEventListener('click', this.addLinksClickHandler);
+  }
+
   init() {
     this.toggleButton = document.querySelector('.hamburger-menu__button');
     this.navBar = document.querySelector('.main-header__navigation');
@@ -74,7 +80,7 @@ class Menu {
 
     this.addBurgerIconClickHandler();
     this.addCloseButtonClickHandler();
-    this.onCloseMenuClickHandler();
+    this.addCloseMenuClickHandler();
     this.addLinksClickHandler();
   }
 }

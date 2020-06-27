@@ -28,7 +28,7 @@ export const gamesPageComponent = {
                 </div>
                 <div class="cards__item">
                     <img src="./assets/main/img/our-game.png" class="cards__img" alt="our-game">
-                    <p class="cards__name">our game</p>
+                    <p class="cards__name">drop</p>
                     <button class="cards__btn btn__icon"><img src="./assets/main/img/icon/play.svg" class="icon-btn" alt="play"><span class="btn__title">play</span></button>
                 </div>
                 <div class="cards__item">
