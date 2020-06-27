@@ -55,6 +55,14 @@ class Menu {
           tag.classList.add('navigation__link');
         });
         clickedTag.classList.add('active');
+      } else if (e.target.classList.contains('icon')) {
+        const clickedTag = e.target.parentNode;
+        const tags = document.querySelectorAll('.navigation__link');
+        tags.forEach((tag) => {
+          tag.classList.remove('active');
+          tag.classList.add('navigation__link');
+        });
+        clickedTag.classList.add('active');
       }
     });
   }
