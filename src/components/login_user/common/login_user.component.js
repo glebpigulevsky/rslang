@@ -18,7 +18,7 @@ const getLoginComponent = () => `<div class="login__container" id="js-login-cont
         </div>
         <button class="login__send login-mb-3" type="submit" id="js-loginCreateBtn" disabled>Sign In</button>
         <div id="js-loginCreateInfo" class="login__info login-mb-3"></div>   
-      </form>         
+      </form>        
   </div>`;
 
 export { getLoginComponent };
