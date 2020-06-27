@@ -92,7 +92,7 @@ const game = {
       }
     });
     document.querySelector('.learn-content__container').innerHTML = '';
-    wordsArr.map((element, index) => {
+    wordsArr.forEach((element, index) => {
       if (index === 0 && element !== '') {
         element = element[0].toUpperCase() + element.slice(1);
       }
@@ -109,8 +109,8 @@ const game = {
         inputDiv.classList.add('input-container');
         const wordLetter = this.currentCard.word.split('');
         inputDiv.innerHTML = '';
-        wordLetter.map((element, index) => {
-          spanBg.innerHTML += `<span index=${index} class="opacityhidden errors">${element}</span>`;
+        wordLetter.forEach((e, i) => {
+          spanBg.innerHTML += `<span index=${i} class="opacityhidden errors">${e}</span>`;
         });
         const inputWord = document.createElement('input');
         this.buildCardSettings(this.settings);
@@ -242,11 +242,6 @@ const game = {
 
 };
 
-const inputModeEnterBinded = inputModeEnter.bind(game);
-const inputModeArrowBinded = inputModeArrow.bind(game);
-const inputModeArrowPrevBinded = inputModeArrowPrev.bind(game);
-const playAudioBinded = playAudio.bind(game);
-
 async function inputModeEnter(e) {
   this.inputArea = document.querySelector('.answer-input');
   if (e.key === 'Enter') {
@@ -323,5 +318,10 @@ function playAudio(path) {
     }
   });
 }
+
+const inputModeEnterBinded = inputModeEnter.bind(game);
+const inputModeArrowBinded = inputModeArrow.bind(game);
+const inputModeArrowPrevBinded = inputModeArrowPrev.bind(game);
+const playAudioBinded = playAudio.bind(game);
 
 export default game;

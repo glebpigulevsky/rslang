@@ -9,7 +9,6 @@ export default class ErrorInput {
   }
 
   init() {
-    console.log('errorinput watch');
     this.span = document.querySelector('.background');
     this.container = document.querySelector('.input-container');
     this.input = document.querySelector('.answer-input');
@@ -22,23 +21,20 @@ export default class ErrorInput {
 
   watch() {
     this.errorSpans = Array.from(this.span.querySelectorAll('.errors'));
-    console.log(this.errorSpans);
     this.input.addEventListener('change', this.onInputChangeHandlerBinded);
   }
 
   onInputChangeHandler(event) {
     const inputLetters = event.target.value.split('');
     this.input.value = '';
-    this.errorSpans.map((errorSpan, index) => {
+    this.errorSpans.forEach((errorSpan, index) => {
       if (errorSpan.textContent === inputLetters[index]) {
         errorSpan.classList.add('green');
       } else {
         errorSpan.classList.add('red');
       }
       event.target.classList.add('visually-hidden');
-      this.errorSpans.map((errorSpan) => {
-        errorSpan.classList.add('opacity');
-      });
+      this.errorSpans.forEach((errorSpanOpacity) => errorSpanOpacity.classList.add('opacity'));
       errorSpan.classList.remove('opacity-hidden');
     });
     this.input.blur();
@@ -46,9 +42,7 @@ export default class ErrorInput {
   }
 
   onContainerClickHandler() {
-    this.errorSpans.map((errorSpan) => {
-      errorSpan.classList.remove('green', 'red', 'opacity');
-    });
+    this.errorSpans.map((errorSpan) => errorSpan.classList.remove('green', 'red', 'opacity'));
     this.input.classList.remove('visually-hidden');
     this.container.removeEventListener('click', this.onContainerClickHandlerBinded);
     this.input.removeEventListener('change', this.onInputChangeHandlerBinded);

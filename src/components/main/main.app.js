@@ -5,10 +5,7 @@ import { MAIN_GREETINGS } from './common/main.constants';
 // убрать следующие 4 импорта при слиянии с промо пейдж
 import { LocalStorageService } from '../../common/common.helper';
 import { TOKEN_EXPIRES_MS } from '../../common/utils/common.utils.helper';
-import ApiService from '../../services/common/services.common.api_service';
 import UsersApi from '../../services/main/endpoints/services.main.endpoints.users';
-
-import introMainGame from './components/introMainGame/introMainGame';
 
 import './scss/main.styles.scss';
 import { mainPageComponent } from './pages/main-page.component';
@@ -31,7 +28,6 @@ const appRoutes = [
 ];
 
 const service = new LocalStorageService();
-// const settings = new SettingsApi();
 const user = new UsersApi();
 
 const userEnter = { // когда будет сделан логин получить инфу из локал сторадж
@@ -48,18 +44,7 @@ class Main {
       mainGameStart: null,
       mainGameSettings: null,
     };
-    // this.onMainGameStartClickHandlerBinded = this.onMainGameStartClickHandler.bind(this);
   }
-
-  // addMdStartScreen() {
-  //   this.gameButtons.mainGameStart = document.querySelector('.main__game-start__button');
-  //   this.gameButtons.mainGameStart.addEventListener('click', this.onMainGameStartClickHandlerBinded);
-  // }
-
-  // onMainGameStartClickHandler() {
-  //   this.gameButtons.mainGameStart.removeEventListener('click', this.onMainGameStartClickHandlerBinded);
-  //   game.init();
-  // }
 
   async init() {
     menu.init();
@@ -74,7 +59,6 @@ class Main {
     const id = auth.userId;
     service.keyUserInfo = 'userInfo_TEST';
     service.setUserInfo({ userId: id, token: userToken, expiredTime: TOKEN_EXPIRES_MS() });
-    // this.addMdStartScreen();
   }
 }
 
