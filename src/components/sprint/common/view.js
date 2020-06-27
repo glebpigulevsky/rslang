@@ -25,7 +25,7 @@ export default class View {
             <div class="preview__wrapper">
                 <div class="preview__descr">
                     <h1 class="preview__title">Mini-game "Sprint"</h1>
-                    <p class="preview__content">Game progress: pronunciation of the word sounds in English, <br> you need to choose the translation of the word from the five suggested answer options.</p>
+                    <p class = "preview__content"> Game progress: you see a word in English and a translation of the word, <br> you need to specify whether this translation belongs to this word</p>
                     <button class="preview__btn">start</button>
                 </div>
             </div>
