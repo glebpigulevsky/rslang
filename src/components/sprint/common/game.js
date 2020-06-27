@@ -76,12 +76,12 @@ export default class GameSprint {
     if (gameWords) {
       const curentWord = gameWords[this.currentIndex];
       console.log(gameWords);
-      this.renderWord(curentWord);//!!!!!!!!!!
-      this.handleButtonClick(curentWord);//!!!!!!!!!!
+      this.renderWord(curentWord);
+      this.handleButtonClick();
     }
   }
 
-  handleButtonClick(word) {
+  handleButtonClick() {
     const btnTRUE = document.getElementById('true');
     const btnFALSE = document.getElementById('false');
     const rightField = document.getElementById('right');
@@ -89,60 +89,30 @@ export default class GameSprint {
       if (!(this.currentIndex >= this.currentWords.length - 1)) {
         const target = event.target.className;
         if (target === 'true') {
-            console.log(word.translate, word.wordTranslateRUS);
-          if (word.translate === word.wordTranslateRUS === true) {
-            this.correctAnswerCounter += 1;
-            success.play();
-            this.addElement(this.scoreCoeff += 1);
-            this.correctAnswers.push(word.id);
-          } else {
-            fail.play();
-            this.correctAnswerCounter = 0;
-            this.wrongAnswers.push(word);
-            rightField.innerHTML = '';
-            this.scoreCoeff = 0;
-          }
-        }
-        this.calcScore(word.result === true);
+            
+        
+        
         this.currentIndex += 1;
-        this.renderWord(this.currentWords[this.currentIndex]);
-      } else {
-        console.log('result');
-        rightField.innerHTML = '';
-        this.scoreCoeff = 0;
+        this.renderWord(this.currentWords[this.currentIndex], target);
+      } 
       }
     });
     btnFALSE.addEventListener('click', (event) => {
-      console.log(this.currentWords.length - 1, this.currentIndex);
-      console.log(!(this.currentIndex >= this.currentWords.length - 1));
+    //   console.log(this.currentWords.length - 1, this.currentIndex);
+    //   console.log(!(this.currentIndex >= this.currentWords.length - 1));
       if (!(this.currentIndex >= this.currentWords.length - 1)) {
         const target = event.target.className;
         if (target === 'false') {
-          if (word.translate === word.wordTranslateRUS === false) {
-            success.play();
-            this.correctAnswerCounter += 1;
-            this.addElement(this.scoreCoeff += 1);
-            this.correctAnswers.push(word.id);
-          } else {
-            fail.play();
-            this.correctAnswerCounter = 0;
-            this.wrongAnswers.push(word);
-            rightField.innerHTML = '';
-            this.scoreCoeff = 0;
-          }
-        }
-        this.calcScore(word.result === false);
+          
         this.currentIndex += 1;
-        this.renderWord(this.currentWords[this.currentIndex]);
-      } else {
-        console.log(this.correctAnswers, this.wrongAnswers);
-        rightField.innerHTML = '';
-        this.scoreCoeff = 0;
+        this.renderWord(this.currentWords[this.currentIndex],target);
+      } 
       }
     });
   }
 
   calcScore(answer) {
+      console.log(answer);
     const score = document.getElementById('score');
     if (answer === true) {
       if (this.correctAnswerCounter <= 4) {
@@ -160,7 +130,55 @@ export default class GameSprint {
     score.textContent = this.score;
   }
 
-  renderWord(object) {
+  renderWord(object,boolean) {
+      console.log(boolean)
+    const rightField = document.getElementById('right');
+    
+      if (!(this.currentIndex >= this.currentWords.length - 1)) {
+        if (boolean === 'true') {
+            console.log(object.translate, object.wordTranslateRUS)
+          if (object.translate === object.wordTranslateRUS === true) {
+            this.correctAnswerCounter += 1;
+            success.play();
+            this.addElement(this.scoreCoeff += 1);
+            this.correctAnswers.push(object.id);
+          } else {
+            fail.play();
+            this.correctAnswerCounter = 0;
+            this.wrongAnswers.push(object);
+            rightField.innerHTML = '';
+            this.scoreCoeff = 0;
+          }
+          this.calcScore(object.translate === object.wordTranslateRUS === true);
+        }
+      } else {
+        console.log('result');
+        rightField.innerHTML = '';
+        this.scoreCoeff = 0;
+      }
+    
+      if (!(this.currentIndex >= this.currentWords.length - 1)) {
+        
+        if (boolean === 'false') {
+          if (object.translate === object.wordTranslateRUS === false) {
+            success.play();
+            this.correctAnswerCounter += 1;
+            this.addElement(this.scoreCoeff += 1);
+            this.correctAnswers.push(object.id);
+          } else {
+            fail.play();
+            this.correctAnswerCounter = 0;
+            this.wrongAnswers.push(object);
+            rightField.innerHTML = '';
+            this.scoreCoeff = 0;
+          }
+          this.calcScore(object.translate === object.wordTranslateRUS === false);
+        }
+      } else {
+        console.log(this.correctAnswers, this.wrongAnswers);
+        rightField.innerHTML = '';
+        this.scoreCoeff = 0;
+      }
     const field = document.getElementById('word-container');
     field.innerHTML = '';
     const temp = [object].map((el) => this.createTemplateWords(el));
