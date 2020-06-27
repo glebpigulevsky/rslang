@@ -1,7 +1,9 @@
 .sprint__btn {
   margin: 20px 0;
+
   font-size: 1rem;
   text-transform: uppercase;
+
   box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
 
   @include segoe-desc($color: $color-light, $weight: bold);
@@ -28,4 +30,31 @@
   border: 1px solid $color-border-right;
 
   @include button($color: $color-light, $background: $color-btn-right, $width: 100px, $height: 30px, $radius: 30px);
+}
+
+.preview__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
+
+  @include button($color: $color-light, $background: $color-btn, $width: 150px, $height: 60px, $radius: 30px);
+  @include segoe-subtitle($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: 0.4s, $property: all, $method: ease-out);
+  }
 }

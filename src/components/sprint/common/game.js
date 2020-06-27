@@ -1,6 +1,6 @@
-import {
-  WordsApi,
-} from '../../../services/services.methods';
+import { WordsApi } from '../../../services/services.methods';
+
+// import { ErrorPopup } from '../../error/error.error_popup';
 
 const wordsAPI = new WordsApi();
 
@@ -9,6 +9,7 @@ export default class GameSprint {
     this.currentWord = null;
     this.group = null;
     this.page = null;
+    this.level = null;
     this.currentWords = [];
     this.currentIndex = 0;
     this.score = 0;
@@ -26,8 +27,9 @@ export default class GameSprint {
       .then((res) => {
         this.createObjectWords(res);
       })
-      .catch((err) => {
-        console.log(err);
+      .catch((error) => {
+        // new ErrorPopup().openPopup(error);
+        console.log(error);
       });
   }
 
@@ -100,9 +102,8 @@ export default class GameSprint {
       console.log(this.currentWords.length - 1, this.currentIndex);
       console.log(!(this.currentIndex >= this.currentWords.length - 1));
       if (!(this.currentIndex >= this.currentWords.length - 1)) {
-       
         const target = event.target.className;
-         console.log(target)
+        console.log(target);
         if (target === 'false wrong') {
           if (word.result === false) {
             console.log('TRUE');
