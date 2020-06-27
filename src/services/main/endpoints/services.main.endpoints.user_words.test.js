@@ -62,7 +62,6 @@ describe('create user word', () => {
   const userDefault = {
     email: 'jest_userwords_three@mail.com',
     password: '12345678Aa@',
-    id: '5ee7f1d8439c470017c4e708',
   };
   const wordId = '5e9f5ee35eb9e72bc21af4b4';
   it('should return correct object', async () => {
@@ -84,7 +83,7 @@ describe('create user word', () => {
       difficulty: 'weak',
       optional: null,
       wordId: '5e9f5ee35eb9e72bc21af4b4',
-      // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
+      id: expect.any(String),
     });
     await userWords.deleteUserWord({ wordId }, {userId: auth.userId, token: auth.token});
   });
@@ -141,7 +140,7 @@ describe('update user word', () => {
       difficulty: randomVal,
       optional: null,
       wordId: '5e9f5ee35eb9e72bc21af4b4',
-      // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
+      id: expect.any(String),
     });
   });
 });

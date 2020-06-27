@@ -40,7 +40,7 @@ describe('get settings', () => {
     const res = await settings.getSettings({ userId: userDefault.id, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
-      // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
+      id: expect.any(String),
       wordsPerDay: 1,
       optional: null,
     });
@@ -61,7 +61,7 @@ describe('update settings', () => {
     settings._apiService = new ApiService(MAIN_API_URL);
     const res = await settings.updateSettings({ wordsPerDay: 1 }, { userId: userDefault.id, token: auth.token });
     expect(res).toMatchObject({
-      // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
+      id: expect.any(String),
       wordsPerDay: 1,
     });
   });

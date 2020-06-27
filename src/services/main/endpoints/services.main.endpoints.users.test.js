@@ -10,7 +10,7 @@ const user = new UsersApi();
 (to receive id in Authenticate()) */
 describe('create user', () => {
   const userDefault = {
-    email: 'jest_user_one@mail.com',
+    email: 'jest_user_five@mail.com',
     password: '12345678Aa@',
   };
   it('should return correct object', async () => {
@@ -21,13 +21,13 @@ describe('create user', () => {
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       email: userDefault.email,
-      //id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
+      id: expect.any(String)
     });
     const auth = await user.authenticateUser({
       email: userDefault.email,
       password: userDefault.password,
     });
-    await user.deleteUser({ userId: res.id, token: auth.token });
+    const dEnd = await user.deleteUser({ userId: auth.userId, token: auth.token });
   });
 });
 
@@ -66,7 +66,7 @@ describe('update user', () => {
     }, { userId: auth.userId, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
-      //id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
+      id: expect.any(String),
       email: newEmail,
     });
   });
@@ -78,25 +78,17 @@ describe('delete user', () => {
     password: '12345678Aa@',
   };
   it('should return true', async () => {
-    let auth = null;
-    user
-      .authenticateUser({
+    try { 
+      const auth = await user.authenticateUser({
         email: userDefault.email,
-        password: userDefault.password,
-      })
-      .then((res) => {
-        auth = res;
-      })
-      .catch(() => {
-        auth = null;
-      });
-    if (auth === null) {
-      await user.createUser({ email: userDefault.email, password: userDefault.password });
-      auth = await user.authenticateUser({
-        email: userDefault.email,
-        password: userDefault.password,
-      });
+        password: userDefault.password,});
+      const dStart = await user.deleteUser({ userId: auth.userId, token: auth.token });
+    } catch (e) {
+      const created = await user.createUser({ email: userDefault.email, password: userDefault.password });
     }
+    const auth = await user.authenticateUser({
+      email: userDefault.email,
+      password: userDefault.password,});
     const res = await user.deleteUser({ userId: auth.userId, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({

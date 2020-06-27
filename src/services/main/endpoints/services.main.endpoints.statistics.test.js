@@ -40,7 +40,7 @@ describe('get statistics', () => {
     const res = await statistics.getStatictics({ userId: userDefault.id, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
-      // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
+      id: expect.any(String),
       learnedWords: 0,
       optional: {
         score: '100',
@@ -66,7 +66,7 @@ describe('update settings', () => {
       optional: { score: '100', langs: 'en' } }, { userId: auth.userId, token: auth.token }
     );
     expect(res).toMatchObject({
-      // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
+       id: expect.any(String),
       learnedWords: 1,
       optional: {
         score: '100',
