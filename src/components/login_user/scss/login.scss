@@ -107,6 +107,11 @@
     word-wrap: break-word;
     width: 20rem;
     height: 3rem;
+    line-height: 1rem;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow-y: hidden;
   }
   
   .login-mb-3 {
