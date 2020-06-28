@@ -1,7 +1,8 @@
 import { LoginUser } from '../login_user/login_user.popup';
-import { logoutUser, hasAccessUser } from './common/main.helper';
-import { Observable } from '../../common/utils/common.utils.observable';
 import { ERRORS_DESCRIPTION } from '../../services/services.methods';
+import { AuthenticateUserService, LocalStorageService, Observable } from '../../common/common.helper';
+import { mainHeaderLogout } from './components/main_header_logout';
+import { mainHeaderNavigation } from './components/main_header_navigation';
 
 class Menu extends Observable {
   constructor() {
@@ -23,9 +24,6 @@ class Menu extends Observable {
   }
 
   onCloseClickHandler({ target }) {
-    if ((target.id) && (this.mainButton) && target.id === this.mainButton.id) {
-      this._mainButtunHandler();
-    }
     const itsMenu = target === this.navBar || this.navBar.contains(target);
     const itsBtnMenu = target === this.toggleButton;
     const menuIsActive = this.navBar.classList.contains('toggle');
@@ -49,45 +47,83 @@ class Menu extends Observable {
       e.target.classList.add('active');
     });
   }
-/* 
-  _onLogoutButtonHandler() {
-    logoutUser();
-  } */
 
-  _mainButtunHandler() {
-    if (hasAccessUser()) {
+  mainButtonHandler() {
+    if (this.hasAccessUser()) {
       window.location.replace(`${window.location.origin}${window.location.pathname}#/learn`);
     } else {
       const loginUser = new LoginUser(this.notify.bind(this));
       this.subscribe((auth) => {
         console.info(`observer got result: ${auth}`);
-        this._onSuccessUserLogin();
+        this.hasAccessUser();
       });
       loginUser.showLoginPopup();
     }
   }
 
-  _onSuccessUserLogin() {
-    hasAccessUser();
+  addErrorTokenLogoutHandler() {
+    document.addEventListener(ERRORS_DESCRIPTION.ERROR_TOKEN, document.logout = this.logoutUser);
   }
 
-  addErrorTokenLogoutHandler() {
-    document.addEventListener(ERRORS_DESCRIPTION.ERROR_TOKEN, () => {
-      console.info(ERRORS_DESCRIPTION.ERROR_TOKEN);
-      logoutUser();
-    });
+  logoutUser() {
+    const localStorage = new LocalStorageService();
+    localStorage.deleteUserInfo();
+    let mainHeaderNavigationNode = document.querySelector('.main-header__navigation');
+    if (mainHeaderNavigationNode) {
+      mainHeaderNavigationNode.parentElement.removeChild(mainHeaderNavigationNode);
+      mainHeaderNavigationNode = null;
+    }
+
+    let mainHeaderLogoutNode = document.querySelector('.main-header__logout');
+    if (mainHeaderLogoutNode) {
+      mainHeaderLogoutNode.parentNode.removeChild(mainHeaderLogoutNode);
+      mainHeaderLogoutNode = null;
+    }
+    if (window.location.hash !== '') {
+      window.location.replace(`${window.location.origin}${window.location.pathname}#`);
+    }
+    document.removeEventListener(ERRORS_DESCRIPTION.ERROR_TOKEN, document.logout);
+    console.info('UserDoesNotHaveAccess');
+  }
+
+  addMainButtonEventListener() {
+    const el = document.querySelector('.main-button__start');
+    el.addEventListener('click', this.mainButtonHandler.bind(this));
+  }
+
+  hasAccessUser() {
+    const auth = new AuthenticateUserService();
+    if (auth.checkUserAccess()) {
+      console.info('userHasAccess');
+      const wrapperNode = document.querySelector('.wrapper');
+      const mainHeaderLogoutNode = document.querySelector('.main-header__logout');
+      const mainHeaderNavigationNode = document.querySelector('.main-header__navigation');
+
+      if (!mainHeaderNavigationNode) {
+        wrapperNode.insertAdjacentHTML('beforeend', mainHeaderNavigation.render());
+        this.navBar = document.querySelector('.main-header__navigation');
+        this.navigation = document.querySelector('.navigation__list');
+        this.toggleButton = document.querySelector('.hamburger-menu__button');
+
+        this.addBurgerIconClickHandler();
+        this.addCloseButtonClickHandler();
+        this.changeActiveStateLinks();
+        this.addErrorTokenLogoutHandler();
+      }
+
+      if (!mainHeaderLogoutNode) {
+        wrapperNode.insertAdjacentHTML('beforeend', mainHeaderLogout.render());
+        document.querySelector('.main-header__logout').addEventListener('click', this.logoutUser.bind(this));
+      }
+
+      return true;
+    }
+    this.logoutUser();
+    return false;
   }
 
   init() {
-    this.toggleButton = document.querySelector('.hamburger-menu__button');
-    this.navBar = document.querySelector('.main-header__navigation');
-    this.navigation = document.querySelector('.navigation__list');
-    this.mainButton = document.querySelector('.main-button__start');
-
-    this.addBurgerIconClickHandler();
-    this.addCloseButtonClickHandler();
-    this.changeActiveStateLinks();
-    this.addErrorTokenLogoutHandler();
+    this.addMainButtonEventListener();
   }
 }
 

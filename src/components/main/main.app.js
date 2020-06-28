@@ -8,7 +8,7 @@ import { statisticsPageComponent } from './pages/statistics-page.component';
 import { teamPageComponent } from './pages/team-page.component';
 import { settingsPageComponent } from './pages/settings-page.component';
 import { errorPageComponent } from './pages/error-page.component';
-import { hasAccessUser } from './common/main.helper';
+// import { hasAccessUser } from './common/main.helper';
 
 const appRoutes = [
   { path: '/', component: mainPageComponent },
@@ -30,7 +30,7 @@ const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
 const findComponentByPath = (path) => appRoutes.find((route) => route.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
 
 const router = () => {
-  if (hasAccessUser() || window.location.hash === '') {
+  if (menu.hasAccessUser() || window.location.hash === '') {
     const main = document.querySelector('.main');
     const path = parseLocation();
     const { component = errorPageComponent } = findComponentByPath(path) || {};
