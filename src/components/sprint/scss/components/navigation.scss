@@ -1,5 +1,31 @@
 .navigation {
-  position: fixed;
-  top: 20%;
-  left: 2%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 40px;
+}
+
+.btn__my-words {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  text-transform: uppercase;
+
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
+
+  @include button($color: $color-light, $background: $color-btn, $width: 220px, $height: 55px, $radius: 30px);
+  @include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: 0.4s, $property: all, $method: ease-out);
+  }
 }
