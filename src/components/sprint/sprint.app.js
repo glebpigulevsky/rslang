@@ -7,7 +7,7 @@ import './scss/sprint.styles.scss';
 const timerJS = new Timer();
 const view = new View();
 const game = new GameSprint();
-// const spinner = new Spinner(document.body);
+// const spinner = new Spinner();
 const sprintApp = {
   render: () => view.renderDOM(),
   init: () => {
