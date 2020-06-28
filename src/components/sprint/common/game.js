@@ -9,20 +9,11 @@ const wordsAPI = new WordsApi();
 
 export default class GameSprint {
   constructor() {
-    // this.currentWord = null;
-    // this.group = null;
-    // this.page = null;
-    // this.currentWords = [];
-    // this.currentIndex = 0;
-    // this.score = 0;
-    // this.correctAnswers = [];
-    // this.wrongAnswers = [];
-    // this.scoreCoeff = 0;
-    // this.correctAnswerCounter = 0;
     this.words = null;
     this.gameWords = null;
     this.gameResults = null;
     this.currentGameWord = null;
+    this.counterElement = null;
   }
 
   async getWords() {
@@ -79,6 +70,7 @@ export default class GameSprint {
     btnFalse.addEventListener('click', this.handleButtonClick(false));
     this.gameWords = this.shuffleArray(this.words);
     this.gameResults = [];
+    console.log(this.gameResults);
   // clear field
     this.makeTurn();
   };
@@ -94,18 +86,24 @@ export default class GameSprint {
   }
 
   finishGame() {
+    console.log(this.gameResults);
     // show results
     // clear game field and state
   }
 
   handleButtonClick(flag) {
+    const rightField = document.getElementById('right');
     return (event) => {
       if (this.currentGameWord.isCorrectTranslation === flag) {
-        this.gameResults.push({ 
-          isCorrect: true,
+         success.play();
+         this.addElemenet(this.counterElement +=1);
+         this.gameResults.push({ 
+         isCorrect: true,
           word: this.currentGameWord,
         });
       } else {
+        fail.play();
+        rightField.innerHTML = '';
         this.gameResults.push({ 
           isCorrect: false,
           word: this.currentGameWord,
@@ -118,7 +116,7 @@ export default class GameSprint {
  
   renderScore() {
     const scoreField = document.getElementById('score');
-    const rightField = document.getElementById('right');
+    // const rightField = document.getElementById('right');
     const [score, correctCounter] = this.gameResults.reduce(([score, correctCounter], result) => {
       if (!result.isCorrect) {
         return [score, 0];
@@ -128,11 +126,6 @@ export default class GameSprint {
         correctCounter + 1,
       ];
     }, [0, 0]);
-    rightField.innerHTML = '';
-    for ( let i = 0; i < correctCounter; i++) {
-      success.play();
-      rightField.textContent += '✅';
-    }
     scoreField.innerHTML = score;
   }
 
@@ -148,152 +141,32 @@ export default class GameSprint {
     <span class = 'word'>${wordObj.randomTranslation}</span>`;
   }
 
-  //  startGame(wordsEn) {
-  //     if(wordsEn) {
-  //    const objectEN = this.shuffledArray(wordsEn);
-  //    const curentWord = objectEN;
-  //    console.log(objectEN);
-  //    this.addButtonsListenersClick();
-  //   }
-  // }
-
-
-  // addButtonsListenersClick() {
-  //   //   this.renderWord(this.currentWords[this.currentIndex]);
-  //   const btnTRUE = document.getElementById('true');
-  //   const btnFALSE = document.getElementById('false');
-  //   const rightField = document.getElementById('right');
-  //   console.log(this.currentIndex);
-  //   btnTRUE.addEventListener('click', (event) => {
-  //     if (!(this.currentIndex >= this.currentWords.length - 1)) {
-  //       const target = event.target.className;
-  //       if (target === 'true') {
-  //       this.currentIndex += 1;
-  //       this.gameFunctionality(this.currentWords[this.currentIndex], target);
-  //     } 
-  //     }
-  //   });
-  //   btnFALSE.addEventListener('click', (event) => {
-  //     if (!(this.currentIndex >= this.currentWords.length - 1)) {
-  //       const target = event.target.className;
-  //       if (target === 'false') { 
-  //       this.currentIndex += 1;
-  //       this.gameFunctionality(this.currentWords[this.currentIndex],target);
-  //     } 
-  //     }
-  //   });
-  // }
-
-  // calcScore(answer) {
-  //     console.log(answer);
-  //   const score = document.getElementById('score');
-  //   if (answer === true) {
-  //     if (this.correctAnswerCounter <= 4) {
-  //       this.score += 10;
-  //     } else if (this.currentIndex <= 8) {
-  //       this.score += 15;
-  //     } else if (this.currentIndex <= 12) {
-  //       this.score += 20;
-  //     } else if (this.currentIndex <= 16) {
-  //       this.score += 30;
-  //     } else if (this.currentIndex <= 20) {
-  //       this.score += 40;
-  //     }
-  //   }
-  //   score.textContent = this.score;
-  // }
-
-  // gameFunctionality(word,boolean) {
-  //     console.log(boolean)
-  //   const rightField = document.getElementById('right');
-
-  //   this.renderWord(word);
-
-  //     if (!(this.currentIndex >= this.currentWords.length - 1)) {
-  //       if (boolean === 'true') {
-  //           console.log(word.translate, word.wordTranslateRUS)
-  //         if (word.translate === word.wordTranslateRUS === true) {
-  //           this.correctAnswerCounter += 1;
-  //           success.play();
-  //           this.addElement(this.scoreCoeff += 1);
-  //           this.correctAnswers.push(word.id);
-  //         } else {
-  //           fail.play();
-  //           this.correctAnswerCounter = 0;
-  //           this.wrongAnswers.push(word);
-  //           rightField.innerHTML = '';
-  //           this.scoreCoeff = 0;
-  //         }
-  //         this.calcScore(word.translate === word.wordTranslateRUS === true);
-  //       }
-  //     } else {
-  //       console.log('result');
-  //       rightField.innerHTML = '';
-  //       this.scoreCoeff = 0;
-  //     }
-    
-  //     if (!(this.currentIndex >= this.currentWords.length - 1)) {
-        
-  //       if (boolean === 'false') {
-  //         if (word.translate === word.wordTranslateRUS === false) {
-  //           success.play();
-  //           this.correctAnswerCounter += 1;
-  //           this.addElement(this.scoreCoeff += 1);
-  //           this.correctAnswers.push(word.id);
-  //         } else {
-  //           fail.play();
-  //           this.correctAnswerCounter = 0;
-  //           this.wrongAnswers.push(word);
-  //           rightField.innerHTML = '';
-  //           this.scoreCoeff = 0;
-  //         }
-  //         this.calcScore(word.translate === word.wordTranslateRUS === false);
-  //       }
-  //     } else {
-  //       console.log(this.correctAnswers, this.wrongAnswers);
-  //       rightField.innerHTML = '';
-  //       this.scoreCoeff = 0;
-  //     }
-  // }
-
-  // renderWord(objectWord) {
-  //      const field = document.getElementById('word-container');
-  //   field.innerHTML = '';
-  //   const temp = [objectWord].map((el) => this.createTemplateWords(el));
-  //   field.insertAdjacentHTML('afterbegin', temp);
-  // }
-
-  // createTemplateWords(word) {
-  //   return `<span class = 'word'>${word.wordEn}</span>
-  //   <span class = 'word'>${word.wordTranslateRUS}</span>`;
-  // }
-
-  // addElement(add) {
-  //   const rightField = document.getElementById('right');
-  //   if (add <= 4) {
-  //     rightField.textContent += '✅';
-  //   } else if (add === 5) {
-  //     rightField.innerHTML = '';
-  //     rightField.textContent += '✅';
-  //   } else if (add > 5 && add < 9) {
-  //     rightField.textContent += '✅';
-  //   } else if (add === 9) {
-  //     rightField.innerHTML = '';
-  //     rightField.textContent += '✅';
-  //   } else if (add > 9 && add < 13) {
-  //     rightField.textContent += '✅';
-  //   } else if (add === 13) {
-  //     rightField.innerHTML = '';
-  //     rightField.textContent += '✅';
-  //   } else if (add > 13 && add < 17) {
-  //     rightField.textContent += '✅';
-  //   } else if (add === 17) {
-  //     rightField.innerHTML = '';
-  //     rightField.textContent += '✅';
-  //   } if (add > 17) {
-  //     rightField.textContent += '✅';
-  //   }
-  // }
+  addElemenet(add) {
+      const rightField = document.getElementById('right');
+    if (add <= 4) {
+      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (add === 5) {
+      rightField.innerHTML = '';
+      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (add > 5 && add < 9) {
+      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (add === 9) {
+      rightField.innerHTML = '';
+      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (add > 9 && add < 13) {
+      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (add === 13) {
+      rightField.innerHTML = '';
+      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (add > 13 && add < 17) {
+      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (add === 17) {
+      rightField.innerHTML = '';
+      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } if (add > 17) {
+      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    }
+  }
 
   async init() {
     try {
@@ -302,9 +175,5 @@ export default class GameSprint {
     } catch (error) {
       
     }
-    // this.createObjectWords();
-    // this.startGame();
-    // document.getElementById('score').textContent = this.score;
-    // this.addElement();
   }
 }
