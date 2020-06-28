@@ -1,0 +1,17 @@
+.canvas-item:not(:first-child) {
+  margin-left: -8px;
+}
+
+.canvas-item {
+  height: 48px;
+  position: relative;
+  left: 9px;
+
+  @include media-mobile {
+    left: 4px;
+  }
+}
+
+.group-words {
+  display: flex;
+}
