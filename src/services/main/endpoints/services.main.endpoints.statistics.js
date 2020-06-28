@@ -11,7 +11,7 @@ export default class StatisticsApi {
     const res = await this._apiService.getResource({
       url: `/users/${userId}/statistics`, hasToken: true, token, type: LINK_TYPE.Statictics,
     });
-    return (res) ? this._transformUserStatistics(res) : res;
+    return (res) ? this._transformUserStatistics(res) : res;develop
   }
 
   async updateStatistics({ learnedWords, optional = {} }, { token, userId } = checkUserInfo()) {
