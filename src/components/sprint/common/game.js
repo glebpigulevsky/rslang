@@ -14,6 +14,8 @@ export default class GameSprint {
     this.gameResults = null;
     this.currentGameWord = null;
     this.counterElement = null;
+    this.correctAnswer = [];
+    this.wrongAnswer = [];
   }
 
   async getWords() {
@@ -86,7 +88,43 @@ export default class GameSprint {
   }
 
   finishGame() {
-    console.log(this.gameResults);
+    this.gameResults.forEach(word => {
+      word.isCorrect === true ? this.correctAnswer.push(word.word) : this.wrongAnswer.push(word.word);
+    });
+
+    document.querySelector('body').insertAdjacentHTML('afterbegin', `<div class="wrapper-score">
+    <div class="score">
+      <div class ='know'></div><div class ='dntKnow'></div>
+      </div>
+    </div>`);
+    const knowElement = document.querySelector('.know');
+    const dntKnowElement =document.querySelector('.dntKnow');
+    const resultKnow = document.createElement('div');
+    resultKnow.className = 'score-result-know';
+    const tamplateScoreKnow = `<p>Know : ${this.correctAnswer.length}</p><div class = 'correctly'></div>`;
+    resultKnow.innerHTML = tamplateScoreKnow;
+
+    const resultDntknow = document.createElement('div');
+    resultDntknow.className = 'score-result-dont-know';
+    const tamplateScoreDntknow = ` <p>Do not know : ${this.wrongAnswer.length}</p><div class = 'error'></div>`;
+    resultDntknow.innerHTML = tamplateScoreDntknow;
+
+    knowElement.append(resultKnow);
+    dntKnowElement.append(resultDntknow);
+
+    const containerCorrectWords = document.querySelector('.correctly');
+    const objectWordsCorrect = this.correctAnswer.map(word => word);
+    const addTamplateCorrectWords = (objectWordsCorrect) => `<span>${objectWordsCorrect.word}</span>`;
+    const htmlTamplateCorrectWords = objectWordsCorrect.map(addTamplateCorrectWords).join('');
+    containerCorrectWords.innerHTML = htmlTamplateCorrectWords;
+
+
+    const containerWrongWords = document.querySelector('.error');
+    const objectWordsWrong = this.wrongAnswer.map(word => word);
+    const addTamplateWrongWords = (objectWordsWrong) => `<span>${objectWordsWrong.word}</span>`;
+    const htmlTamplateWrongWords = objectWordsWrong.map(addTamplateWrongWords).join('');
+    containerWrongWords.innerHTML = htmlTamplateWrongWords;
+
     // show results
     // clear game field and state
   }
