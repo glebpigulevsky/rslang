@@ -49,14 +49,10 @@ class Menu extends Observable {
       e.target.classList.add('active');
     });
   }
-
-  addLogoutHandler() {
-    this.logoutButton.addEventListener('click', this._onLogoutButtonHandler.bind(this));
-  }
-
+/* 
   _onLogoutButtonHandler() {
     logoutUser();
-  }
+  } */
 
   _mainButtunHandler() {
     if (hasAccessUser()) {
@@ -87,12 +83,10 @@ class Menu extends Observable {
     this.navBar = document.querySelector('.main-header__navigation');
     this.navigation = document.querySelector('.navigation__list');
     this.mainButton = document.querySelector('.main-button__start');
-    this.logoutButton = document.querySelector('.main-header__logout');
 
     this.addBurgerIconClickHandler();
     this.addCloseButtonClickHandler();
     this.changeActiveStateLinks();
-    this.addLogoutHandler();
     this.addErrorTokenLogoutHandler();
   }
 }
