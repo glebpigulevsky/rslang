@@ -283,7 +283,7 @@ class GameController {
     const completedRoundsData = model.loadCompletedRounds();
     this.completedRoundsByLevels = (completedRoundsData
       && completedRoundsData.completedRoundsByLevels)
-      || new Array(6).fill('').map(() => []);
+      || new Array(MAX_LEVELS_COUNT).fill('').map(() => []);
 
     showSpinner();
     this.setCurrentLevel((completedRoundsData

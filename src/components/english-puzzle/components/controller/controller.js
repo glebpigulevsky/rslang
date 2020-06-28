@@ -74,8 +74,9 @@ class Controller {
     view.resetStatisticLinksStates(selectedCard);
 
     if (this.statisticAudio) this.statisticAudio.pause();
-    this.statisticAudio = new Audio(selectedCard.dataset.audio);
+    this.statisticAudio = new Audio();
     this.statisticAudio.addEventListener(EVENTS.ERROR, view.onErrorSpellingHandlerBinded);
+    this.statisticAudio.src = selectedCard.dataset.audio;
     this.statisticAudio.play();
   }
 

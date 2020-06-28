@@ -1,4 +1,3 @@
-import { ErrorPopup } from '../../../error/error.error_popup';
 import { WordsApi } from '../../../../services/services.methods';
 import { getPreloadedImage } from '../../common/english-puzzle.utils';
 import { MAX_WORDS_IN_SENTENCE } from '../../common/english-puzzle.constants';
@@ -15,17 +14,12 @@ class Model {
   }
 
   fetchCardsPage(difficult, page) {
-    try {
-      return wordsAPI.getWordsCollection({
-        group: difficult,
-        page,
-        wordsPerExampleSentence: MAX_WORDS_IN_SENTENCE,
-        wordsPerPage: MAX_WORDS_IN_SENTENCE,
-      });
-    } catch (error) {
-      new ErrorPopup().openPopup(error);
-      return null;
-    }
+    return wordsAPI.getWordsCollection({
+      group: difficult,
+      page,
+      wordsPerExampleSentence: MAX_WORDS_IN_SENTENCE,
+      wordsPerPage: MAX_WORDS_IN_SENTENCE,
+    });
   }
 
   fetchMaxPagesInDifficultCategory(difficult) {

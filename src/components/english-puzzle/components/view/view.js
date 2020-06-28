@@ -29,6 +29,7 @@ class View {
 
     this.onEndSpellingHandlerBinded = this.onEndSpellingHandler.bind(this);
     this.onErrorSpellingHandlerBinded = this.onErrorSpellingHandler.bind(this);
+    this.onEndErrorSpellingHandlerBinded = this.onEndErrorSpellingHandler.bind(this);
     this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
   }
 
@@ -104,31 +105,42 @@ class View {
     this.resultDropZone.innerHTML = '';
   }
 
-  async playSentenceSpelling(src) {
+  playSentenceSpelling(src) {
     if (this.audio && !this.audio.ended) {
       this.audio.pause();
       this.onEndSpellingHandlerBinded();
     }
+
     this.audio = new Audio(src);
     this.audio.addEventListener(EVENTS.ENDED, this.onEndSpellingHandlerBinded);
     this.audio.addEventListener(EVENTS.ERROR, this.onErrorSpellingHandlerBinded);
+    this.startSpellingAnimation();
     this.audio.play();
-
-    this.toggleSpellingAnimation();
   }
 
-  toggleSpellingAnimation() {
-    this.ELEMENTS.BUTTONS.REPEAT_SPELLING.classList.toggle(CLASS_NAMES.ANIMATED);
+  startSpellingAnimation() {
+    this.ELEMENTS.BUTTONS.REPEAT_SPELLING.classList.add(CLASS_NAMES.ANIMATED);
+  }
+
+  stopSpellingAnimation() {
+    this.ELEMENTS.BUTTONS.REPEAT_SPELLING.classList.remove(CLASS_NAMES.ANIMATED);
   }
 
   onEndSpellingHandler() {
     this.audio.removeEventListener(EVENTS.ENDED, this.onEndSpellingHandlerBinded);
-    this.toggleSpellingAnimation();
+    this.stopSpellingAnimation();
   }
 
   onErrorSpellingHandler() {
     this.audio.removeEventListener(EVENTS.ERROR, this.onErrorSpellingHandlerBinded);
+    this.errorAudio.addEventListener(EVENTS.ENDED, this.onEndErrorSpellingHandlerBinded);
     this.errorAudio.play();
+    this.startSpellingAnimation();
+  }
+
+  onEndErrorSpellingHandler() {
+    this.errorAudio.removeEventListener(EVENTS.ENDED, this.onEndErrorSpellingHandlerBinded);
+    this.stopSpellingAnimation();
   }
 
   showPicture(finalImagePuzzles) {
