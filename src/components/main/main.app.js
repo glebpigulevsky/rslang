@@ -12,10 +12,6 @@ import { errorPageComponent } from './pages/error-page.component';
 import { englishPuzzleComponent } from './pages/english-puzzle.component';
 
 class Main {
-  constructor() {
-    this.init();
-  }
-
   init() {
     menu.init();
   }

@@ -98,7 +98,7 @@ class Menu {
   }
 
   addErrorTokenLogoutHandler() {
-    document.addEventListener(ERRORS_DESCRIPTION.ERROR_TOKEN, document.logout = this.logoutUser);
+    document.addEventListener(ERRORS_DESCRIPTION.ERROR_TOKEN, this.logoutUser.bind(this));
   }
 
   logoutUser() {
@@ -130,12 +130,12 @@ class Menu {
     const auth = new AuthenticateUserService();
     if (auth.checkUserAccess()) {
       console.info('userHasAccess');
-      const wrapperNode = document.querySelector('.wrapper');
+      const mainHeader = document.querySelector('.main-header');
       const mainHeaderLogoutNode = document.querySelector('.main-header__logout');
       const mainHeaderNavigationNode = document.querySelector('.main-header__navigation');
 
       if (!mainHeaderNavigationNode) {
-        wrapperNode.insertAdjacentHTML('beforeend', mainHeaderNavigation.render());
+        mainHeader.insertAdjacentHTML('beforeend', mainHeaderNavigation.render());
         this.toggleButton = document.querySelector('.hamburger-menu__button');
         this.navBar = document.querySelector('.main-header__navigation');
         this.navigation = document.querySelector('.navigation__list');
@@ -144,11 +144,12 @@ class Menu {
         this.addCloseButtonClickHandler();
         this.addCloseMenuClickHandler();
         this.addLinksActiveClickHandler();
+        this.addErrorTokenLogoutHandler();
       }
 
       if (!mainHeaderLogoutNode) {
-        wrapperNode.insertAdjacentHTML('beforeend', mainHeaderLogout.render());
-        document.querySelector('.main-header__logout').addEventListener('click', this.logoutUser);
+        mainHeader.insertAdjacentHTML('beforeend', mainHeaderLogout.render());
+        document.querySelector('.main-header__logout').addEventListener('click', this.logoutUser.bind(this));
       }
 
       return true;
