@@ -2,8 +2,10 @@
   position: sticky;
   top: 0;
   z-index: 10;
+
   align-items: center;
   height: px-to-rem(45px);
+
   background-color: $color-dark-blue;
   box-shadow: 0 4px 22px rgba(15, 143, 198, 0.3);
 }
@@ -19,7 +21,13 @@
 
     .logo {
       width: 70%;
-      padding-top: 12px;
+      padding-top: 6px;
+      padding-left: 13px;
+    }
+  }
+  @include media-mobilesmall {
+    .logo {
+      padding-left: 13px;
     }
   }
 }
@@ -28,15 +36,16 @@
   position: fixed;
   top: px-to-rem(8px);
   right: px-to-rem(20px);
+
   width: px-to-rem(20px);
   height: px-to-rem(20px);
   padding: px-to-rem(4px) (8px);
+
   background: rgba(0, 0, 0, 0.2);
   border-radius: px-to-rem(5px);
   cursor: pointer;
 
   @include media-mobile {
-    top: 1.2rem;
     right: 0.8rem;
   }
 
