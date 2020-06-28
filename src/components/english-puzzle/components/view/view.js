@@ -33,14 +33,7 @@ class View {
     this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
   }
 
-  renderStatisticList(
-    lastGameRoundData,
-    listenersList,
-    iDontKnowList,
-    lastGameFinalTime,
-    pictureData,
-    results,
-  ) {
+  renderStatisticList(lastGameRoundData, listenersList, iDontKnowList, lastGameFinalTime, pictureData, results) {
     this.statisticList = new StatisticList(
       this.elements.containers.statistic,
       lastGameRoundData,
@@ -59,7 +52,7 @@ class View {
   }
 
   renderInputSentence(currentSentencePuzzles) {
-    shuffleArray((currentSentencePuzzles)).forEach((puzzle) => {
+    shuffleArray(currentSentencePuzzles).forEach((puzzle) => {
       const clonePuzzle = puzzle.cloneNode(true);
       clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
       clonePuzzle.classList.add(CLASS_NAMES.DRAGABLE);
@@ -87,15 +80,15 @@ class View {
   }
 
   resetPuzzlesStates(currentSentence, regularPuzzlesWithImage) {
-    Array.from(document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${currentSentence + 1}`))
-      .forEach((puzzle) => {
-        puzzle.getContext('2d').drawImage(regularPuzzlesWithImage[getPuzzleIndex(puzzle)], 0, 0);
-      });
+    Array.from(document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${currentSentence + 1}`)).forEach((puzzle) => {
+      puzzle.getContext('2d').drawImage(regularPuzzlesWithImage[getPuzzleIndex(puzzle)], 0, 0);
+    });
   }
 
   clearGameField() {
     document.querySelector(`.${CLASS_NAMES.FIELD_CONTAINER}`).innerHTML = '';
-    document.querySelector(`.${CLASS_NAMES.FIELD_CONTAINER}`)
+    document
+      .querySelector(`.${CLASS_NAMES.FIELD_CONTAINER}`)
       .insertAdjacentHTML('afterbegin', '<div class="drop-place sentence"></div>');
     this.resultDropZone = document.querySelector(`.${CLASS_NAMES.FIELD_CONTAINER} > .${CLASS_NAMES.DROP_PLACE}`);
   }
@@ -154,10 +147,9 @@ class View {
   }
 
   clearSentencesBackground() {
-    Array.from(this.elements.containers.field.querySelectorAll(`.${CLASS_NAMES.SENTENCE}`))
-      .forEach((sentence) => {
-        sentence.classList.add(CLASS_NAMES.SENTENCE_CLEAR);
-      });
+    Array.from(this.elements.containers.field.querySelectorAll(`.${CLASS_NAMES.SENTENCE}`)).forEach((sentence) => {
+      sentence.classList.add(CLASS_NAMES.SENTENCE_CLEAR);
+    });
   }
 
   showPictureDescription(pictureDescription = '') {
@@ -177,8 +169,7 @@ class View {
   }
 
   removeActiveStates(container) {
-    container.querySelectorAll(`.${CLASS_NAMES.ACTIVE}`)
-      .forEach((item) => item.classList.remove(CLASS_NAMES.ACTIVE));
+    container.querySelectorAll(`.${CLASS_NAMES.ACTIVE}`).forEach((item) => item.classList.remove(CLASS_NAMES.ACTIVE));
   }
 
   resetStatisticLinksStates(target) {
@@ -202,107 +193,59 @@ class View {
   }
 
   initIntroButton(onIntroButtonClick) {
-    this.addListener(
-      this.elements.buttons.introduction,
-      EVENTS.CLICK,
-      onIntroButtonClick,
-    );
+    this.addListener(this.elements.buttons.introduction, EVENTS.CLICK, onIntroButtonClick);
   }
 
   initCheckButton(onCheckButtonClick) {
-    this.addListener(
-      this.elements.buttons.check,
-      EVENTS.CLICK,
-      onCheckButtonClick,
-    );
+    this.addListener(this.elements.buttons.check, EVENTS.CLICK, onCheckButtonClick);
   }
 
   initIDontKnowButton(onIDontKnowButtonClick) {
-    this.addListener(
-      this.elements.buttons.iDontKnow,
-      EVENTS.CLICK,
-      onIDontKnowButtonClick,
-    );
+    this.addListener(this.elements.buttons.iDontKnow, EVENTS.CLICK, onIDontKnowButtonClick);
   }
 
   initContinueButton(onContinueButtonClick) {
-    this.addListener(
-      this.elements.buttons.continue,
-      EVENTS.CLICK,
-      onContinueButtonClick,
-    );
+    this.addListener(this.elements.buttons.continue, EVENTS.CLICK, onContinueButtonClick);
   }
 
   initHintBgButton(onHintBgButtonClick, isBgImage) {
-    this.addListener(
-      this.elements.buttons.hints.bg,
-      EVENTS.CLICK,
-      onHintBgButtonClick,
-    );
+    this.addListener(this.elements.buttons.hints.bg, EVENTS.CLICK, onHintBgButtonClick);
     if (isBgImage) this.elements.buttons.hints.bg.classList.add(CLASS_NAMES.ACTIVE);
   }
 
   initHintTranslationButton(onHintTranslationButtonClick, isTranslationEnabled) {
-    this.addListener(
-      this.elements.buttons.hints.translation,
-      EVENTS.CLICK,
-      onHintTranslationButtonClick,
-    );
+    this.addListener(this.elements.buttons.hints.translation, EVENTS.CLICK, onHintTranslationButtonClick);
     if (isTranslationEnabled) {
       this.elements.buttons.hints.translation.classList.add(CLASS_NAMES.ACTIVE);
     }
   }
 
   initHintSpellingButton(onHintSpellingButtonClick, isSpellingEnabled) {
-    this.addListener(
-      this.elements.buttons.hints.spelling,
-      EVENTS.CLICK,
-      onHintSpellingButtonClick,
-    );
+    this.addListener(this.elements.buttons.hints.spelling, EVENTS.CLICK, onHintSpellingButtonClick);
     if (isSpellingEnabled) this.elements.buttons.hints.spelling.classList.add(CLASS_NAMES.ACTIVE);
   }
 
   initHintAutoSpellingButton(onHintAutoSpellingButtonClick, isAutoSpellingEnabled) {
-    this.addListener(
-      this.elements.buttons.hints.autoSpelling,
-      EVENTS.CLICK,
-      onHintAutoSpellingButtonClick,
-    );
+    this.addListener(this.elements.buttons.hints.autoSpelling, EVENTS.CLICK, onHintAutoSpellingButtonClick);
     if (isAutoSpellingEnabled) {
       this.elements.buttons.hints.autoSpelling.classList.add(CLASS_NAMES.ACTIVE);
     }
   }
 
   initRepeatSpellingButton(onRepeatSpellingButtonClick) {
-    this.addListener(
-      this.elements.buttons.repeatSpelling,
-      EVENTS.CLICK,
-      onRepeatSpellingButtonClick,
-    );
+    this.addListener(this.elements.buttons.repeatSpelling, EVENTS.CLICK, onRepeatSpellingButtonClick);
   }
 
   initResultsButton(onResultsButtonClick) {
-    this.addListener(
-      this.elements.buttons.results,
-      EVENTS.CLICK,
-      onResultsButtonClick,
-    );
+    this.addListener(this.elements.buttons.results, EVENTS.CLICK, onResultsButtonClick);
   }
 
   initStatisticContinueButton(onStatisticContinueButtonClick) {
-    this.addListener(
-      this.elements.buttons.statistics.continue,
-      EVENTS.CLICK,
-      onStatisticContinueButtonClick,
-    );
+    this.addListener(this.elements.buttons.statistics.continue, EVENTS.CLICK, onStatisticContinueButtonClick);
   }
 
   initStatisticLongStatisticButton(onStatisticLongStatisticClick) {
-    this.addListener(
-      this.elements.buttons.statistics.longStatistic,
-      EVENTS.CLICK,
-      onStatisticLongStatisticClick,
-    );
+    this.addListener(this.elements.buttons.statistics.longStatistic, EVENTS.CLICK, onStatisticLongStatisticClick);
   }
 
   hideCheckButton() {

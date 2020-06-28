@@ -10,6 +10,7 @@ import { teamPageComponent } from './pages/team-page.component';
 import { settingsPageComponent } from './pages/settings-page.component';
 import { errorPageComponent } from './pages/error-page.component';
 import { englishPuzzleComponent } from './pages/english-puzzle.component';
+import { sprintComponent } from './pages/sprint-game.component';
 
 class Main {
   constructor() {
@@ -21,8 +22,6 @@ class Main {
   }
 }
 
-import sprintApp from '../sprint/sprint.app';
-
 const appRoutes = [
   { path: '/', component: mainPageComponent },
   { path: '/learn', component: learnPageComponent },
@@ -32,6 +31,7 @@ const appRoutes = [
   { path: '/team', component: teamPageComponent },
   { path: '/settings', component: settingsPageComponent },
   { path: '/english-puzzle', component: englishPuzzleComponent },
+  { path: '/sprint', component: sprintComponent },
 ];
 
 const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';

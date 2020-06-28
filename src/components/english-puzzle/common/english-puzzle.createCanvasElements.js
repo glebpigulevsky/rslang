@@ -1,16 +1,14 @@
 import { PUZZLE } from './english-puzzle.constants';
 
-const createCanvasElements = (
-  {
-    img,
-    wordsList,
-    colorBorder,
-    fillColor = null,
-    borderPuzzle = PUZZLE.SIZES.BORDER,
-    hasText = true,
-    windowSize = PUZZLE.SIZES.WINDOW.DESKTOP,
-  },
-) => {
+const createCanvasElements = ({
+  img,
+  wordsList,
+  colorBorder,
+  fillColor = null,
+  borderPuzzle = PUZZLE.SIZES.BORDER,
+  hasText = true,
+  windowSize = PUZZLE.SIZES.WINDOW.DESKTOP,
+}) => {
   const imageToRender = img;
   const extraWidthValue = PUZZLE.EXTRA_WIDTH_VALUE;
   const fontFamily = PUZZLE.FONT.NAME;
@@ -67,7 +65,7 @@ const createCanvasElements = (
       canvas.setAttribute('data-word', word);
 
       const ctx = canvas.getContext('2d');
-      let canvasWidth = (word.length * onePart) + extraWidth;
+      let canvasWidth = word.length * onePart + extraWidth;
 
       if (j === wordCount - 1) {
         canvasWidth = imgWidth - widthCount;
@@ -80,7 +78,7 @@ const createCanvasElements = (
       const y1 = Math.round(canvasHeight / PUZZLE.PARTS.CANVAS_VERTICAL);
       const y2 = Math.round((canvasHeight / PUZZLE.PARTS.CANVAS_VERTICAL) * PUZZLE.PARTS.HALF);
       const centerY = canvasHeight / PUZZLE.PARTS.HALF;
-      const radius = Math.round((canvasHeight / PUZZLE.PARTS.CANVAS_VERTICAL) / PUZZLE.PARTS.HALF);
+      const radius = Math.round(canvasHeight / PUZZLE.PARTS.CANVAS_VERTICAL / PUZZLE.PARTS.HALF);
       const startXPointCropImage = widthCount - canvasWidth;
       const fontSize = Math.round(canvasHeight / PUZZLE.PARTS.CANVAS_FONT);
 
@@ -90,14 +88,7 @@ const createCanvasElements = (
       ctx.beginPath();
 
       if (j) {
-        ctx.arc(
-          x1,
-          centerY,
-          radius,
-          Math.PI / PUZZLE.PARTS.HALF,
-          Math.PI * PUZZLE.MATH_PI_RATIO,
-          true,
-        );
+        ctx.arc(x1, centerY, radius, Math.PI / PUZZLE.PARTS.HALF, Math.PI * PUZZLE.MATH_PI_RATIO, true);
       }
 
       ctx.lineTo(0, y1);
@@ -106,14 +97,7 @@ const createCanvasElements = (
       ctx.lineTo(canvasWidth, y1);
 
       if (j !== wordCount - 1) {
-        ctx.arc(
-          canvasWidth,
-          centerY,
-          radius,
-          Math.PI * PUZZLE.MATH_PI_RATIO,
-          Math.PI / PUZZLE.PARTS.HALF,
-          false,
-        );
+        ctx.arc(canvasWidth, centerY, radius, Math.PI * PUZZLE.MATH_PI_RATIO, Math.PI / PUZZLE.PARTS.HALF, false);
       }
 
       ctx.lineTo(canvasWidth, y2);

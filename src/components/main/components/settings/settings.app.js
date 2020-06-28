@@ -1,14 +1,11 @@
-import {
-  SettingsApi, UsersApi,
-} from '../../../../services/services.methods';
-import {
-  MAIN_API_URL, DEFAULT_SETTINGS,
-} from '../../../../services/common/services.common.constants';
+import { SettingsApi, UsersApi } from '../../../../services/services.methods';
+import { MAIN_API_URL, DEFAULT_SETTINGS } from '../../../../services/common/services.common.constants';
 import ApiService from '../../../../services/common/services.common.api_service';
 
 const user = new UsersApi();
 const settings = new SettingsApi();
-const userDefault = { // когда будет сделан логин получить инфу из локал сторадж
+const userDefault = {
+  // когда будет сделан логин получить инфу из локал сторадж
   email: 'rslang68@ya.ru',
   password: 'Rslang61?',
 };

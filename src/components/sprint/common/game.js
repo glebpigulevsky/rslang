@@ -2,9 +2,7 @@ import { WordsApi } from '../../../services/services.methods';
 import { ErrorPopup } from '../../error/error.error_popup';
 import correct from '../assets/audio/correct.mp3';
 import wrong from '../assets/audio/error.mp3';
-// import Spinner from '../../spinner/spinner';
-// const spinner = new Spinner();
-// spinner.init()
+import { showSpinner, hideSpinner } from './sprint.utils';
 
 const success = new Audio(correct);
 const fail = new Audio(wrong);
@@ -35,17 +33,12 @@ export default class GameSprint {
       });
       return null;
     }
-
     this.words = this.createObjectWords(response);
   }
 
   createObjectWords(words) {
     const translations = words.map((word) => word.wordTranslate);
-    return words.map(({
-      id,
-      word,
-      wordTranslate,
-    }) => {
+    return words.map(({ id, word, wordTranslate }) => {
       const randomTranslation = this.getRandomElement(translations);
       return {
         id,
@@ -107,7 +100,7 @@ export default class GameSprint {
     return () => {
       if (this.currentGameWord.isCorrectTranslation === flag) {
         success.play();
-        this.addElemenet(this.counterElement += 1);
+        this.addElemenet((this.counterElement += 1));
         this.gameResults.push({
           isCorrect: true,
           word: this.currentGameWord,
@@ -127,15 +120,15 @@ export default class GameSprint {
 
   renderScore() {
     const scoreField = document.getElementById('score');
-    const [score] = this.gameResults.reduce(([score, correctCounter], result) => {
-      if (!result.isCorrect) {
-        return [score, 0];
-      }
-      return [
-        score + 10 + 5 * Math.floor(correctCounter / 4),
-        correctCounter + 1,
-      ];
-    }, [0, 0]);
+    const [score] = this.gameResults.reduce(
+      ([score, correctCounter], result) => {
+        if (!result.isCorrect) {
+          return [score, 0];
+        }
+        return [score + 10 + 5 * Math.floor(correctCounter / 4), correctCounter + 1];
+      },
+      [0, 0],
+    );
     scoreField.innerHTML = score;
   }
 
@@ -197,7 +190,7 @@ export default class GameSprint {
       this.startGame();
       this.spinner.init();
     } catch (error) {
-
+        
     }
   }
 }

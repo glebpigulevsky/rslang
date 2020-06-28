@@ -1,16 +1,16 @@
-@import '../../../scss/fonts.css';
+@import "../../../scss/fonts.css";
 
-@import '../../../scss/normalize.scss';
-@import '../../../scss/mixins.scss';
-@import '../../../scss/constants.scss';
-@import '../../../scss/wrapper.scss';
+@import "../../../scss/normalize.scss";
+@import "../../../scss/mixins.scss";
+@import "../../../scss/constants.scss";
+@import "../../../scss/wrapper.scss";
 
-@import 'constants.sprint.scss';
+@import "constants.sprint.scss";
 
-@import 'layouts/sprint.body.scss';
-@import 'layouts/sprint.main.scss';
-@import 'layouts/sprint.preview.scss';
-@import 'components/timer';
-@import 'components/sprint.btn.scss';
-@import 'components/navigation.scss';
-
+@import "layouts/sprint.body.scss";
+@import "layouts/sprint.main.scss";
+@import "layouts/sprint.preview.scss";
+@import "components/timer";
+@import "components/sprint.btn.scss";
+@import "components/navigation.scss";
+@import "../../spinner/scss/spinner";

@@ -12,7 +12,7 @@
   min-height: 100vh;
 
   background-color: rgba(56, 60, 60, 0.8);
-  background-image: url("../assets/img/bg2.jpg");
+  background-image: url('../assets/img/bg2.jpg');
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -40,7 +40,7 @@
   margin: 20px;
   padding: 20px;
 
-  background-color: rgba(244,245,250,0.6);
+  background-color: rgba(244, 245, 250, 0.6);
   border-radius: 20px;
 
   @include segoe-subtitle($color: $color-text-additional, $weight: 600);

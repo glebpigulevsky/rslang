@@ -5,12 +5,12 @@
   margin-top: 73px;
   background: #f4f5fa;
   @include border-radius(10px, 10px, 10px, 10px);
-  @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, .25));
+  @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, 0.25));
 
-  border: 2px solid rgba(75, 71, 71, .51);
+  border: 2px solid rgba(75, 71, 71, 0.51);
 
   .settings_raw {
-    border-bottom: 2px solid rgba(75, 71, 71, .51);
+    border-bottom: 2px solid rgba(75, 71, 71, 0.51);
     @include segoe-additional(#000000, 400);
 
     .raw__container {
@@ -45,7 +45,7 @@
         }
 
         .switch-btn:after {
-          content: "";
+          content: '';
           height: 25px;
           width: 25px;
           border-radius: 25px;
@@ -80,7 +80,7 @@
   vertical-align: center;
   text-transform: uppercase;
   border: 1px solid $color-border;
-  box-shadow: 0 4px 22px rgba(0, 0, 0, .3);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
 
   @include button($color: $color-light, $background: $color-btn, $width: 50px, $height: 55px, $radius: 30px);
 
@@ -94,6 +94,6 @@
     background-color: $color-hovered;
     border-color: transparent;
 
-    @include transition($time: .4s, $property: all, $method: ease-out);
+    @include transition($time: 0.4s, $property: all, $method: ease-out);
   }
 }

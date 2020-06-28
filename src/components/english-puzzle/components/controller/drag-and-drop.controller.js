@@ -27,8 +27,7 @@ class DragAndDropController {
 
   onCloneCellMouseMoveHandler(evt) {
     const {
-      startX, startY,
-      shiftX, shiftY,
+      startX, startY, shiftX, shiftY,
     } = this.coordinates;
 
     if (!this.isDragging) {
@@ -36,8 +35,7 @@ class DragAndDropController {
       const moveY = evt.pageY;
       const deltaX = Math.abs(moveX - startX);
       const deltaY = Math.abs(moveY - startY);
-      if (deltaX < DEBOUNCING_COORDINATE_DELTA
-        && deltaY < DEBOUNCING_COORDINATE_DELTA) return;
+      if (deltaX < DEBOUNCING_COORDINATE_DELTA && deltaY < DEBOUNCING_COORDINATE_DELTA) return;
       this.isDragging = true;
     }
 
@@ -79,10 +77,9 @@ class DragAndDropController {
 
     const droppedCells = Array.from(this.belowElement.querySelectorAll(`.${CLASS_NAMES.DRAGABLE}`));
     if (droppedCells && droppedCells.length) {
-      const rightCell = droppedCells
-        .find((droppedCell) => (droppedCell.getBoundingClientRect().x
-          + droppedCell.getBoundingClientRect().width / 2)
-          > evt.clientX);
+      const rightCell = droppedCells.find(
+        (droppedCell) => droppedCell.getBoundingClientRect().x + droppedCell.getBoundingClientRect().width / 2 > evt.clientX,
+      );
 
       if (rightCell) {
         rightCell.before(this.targetCell);
@@ -184,13 +181,17 @@ class DragAndDropController {
   }
 
   beforeUnloadHandler() {
-    document.querySelector(`.${CLASS_NAMES.GAME_FILED}`).removeEventListener(EVENTS.MOUSE_DOWN, this.onFieldMouseDownHandlerBinded);
+    document
+      .querySelector(`.${CLASS_NAMES.GAME_FILED}`)
+      .removeEventListener(EVENTS.MOUSE_DOWN, this.onFieldMouseDownHandlerBinded);
     window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
   }
 
   init() {
     window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
-    document.querySelector(`.${CLASS_NAMES.GAME_FILED}`).addEventListener(EVENTS.MOUSE_DOWN, this.onFieldMouseDownHandlerBinded);
+    document
+      .querySelector(`.${CLASS_NAMES.GAME_FILED}`)
+      .addEventListener(EVENTS.MOUSE_DOWN, this.onFieldMouseDownHandlerBinded);
   }
 }
 

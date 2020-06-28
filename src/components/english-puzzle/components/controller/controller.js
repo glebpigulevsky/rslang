@@ -26,17 +26,14 @@ class Controller {
     this.onContinueButtonClickHandlerBinded = this.onContinueButtonClickHandler.bind(this);
 
     this.onHintBgButtonClickHandlerBinded = this.onHintBgButtonClickHandler.bind(this);
-    this.onHintTranslationButtonClickHandlerBinded = this
-      .onHintTranslationButtonClickHandler.bind(this);
+    this.onHintTranslationButtonClickHandlerBinded = this.onHintTranslationButtonClickHandler.bind(this);
     this.onHintSpellingButtonClickHandlerBinded = this.onHintSpellingButtonClickHandler.bind(this);
-    this.onHintAutoSpellingButtonClickHandlerBinded = this
-      .onHintAutoSpellingButtonClickHandler.bind(this);
+    this.onHintAutoSpellingButtonClickHandlerBinded = this.onHintAutoSpellingButtonClickHandler.bind(this);
     this.onRepeatSpellingButtonClickBinded = this.onRepeatSpellingButtonClick.bind(this);
 
     this.onResultsButtonClickBinded = this.onResultsButtonClick.bind(this);
     this.onStatisticContinueButtonClickBinded = this.onStatisticContinueButtonClick.bind(this);
-    this.onStatisticLongStatisticButtonClickBinded = this
-      .onStatisticLongStatisticButtonClick.bind(this);
+    this.onStatisticLongStatisticButtonClickBinded = this.onStatisticLongStatisticButtonClick.bind(this);
 
     this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
   }
@@ -57,10 +54,12 @@ class Controller {
 
     view.renderStatisticList(
       gameController.fetchedRoundData,
-      [{
-        event: EVENTS.CLICK,
-        handler: this.onStatisticCardClick,
-      }],
+      [
+        {
+          event: EVENTS.CLICK,
+          handler: this.onStatisticCardClick,
+        },
+      ],
       model.errorsList,
       gameController.lastGameFinalTime,
       gameController.fetchedPictureData,
@@ -89,28 +88,25 @@ class Controller {
     view.hideCheckButton();
     view.showContinueButton();
 
-    document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`)
-      .forEach((puzzle) => {
-        puzzle.remove();
-      });
-
-    gameController.getCanvasElement({
-      currentSentence: gameController.currentSentence,
-      isImage: true,
-      isRegular: true,
-    }).forEach((puzzle) => {
-      const clonePuzzle = puzzle.cloneNode(true);
-      clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
-      view.resultDropZone.append(clonePuzzle);
+    document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`).forEach((puzzle) => {
+      puzzle.remove();
     });
 
-    view.showTranslation(
-      gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate,
-    );
+    gameController
+      .getCanvasElement({
+        currentSentence: gameController.currentSentence,
+        isImage: true,
+        isRegular: true,
+      })
+      .forEach((puzzle) => {
+        const clonePuzzle = puzzle.cloneNode(true);
+        clonePuzzle.getContext('2d').drawImage(puzzle, 0, 0);
+        view.resultDropZone.append(clonePuzzle);
+      });
+
+    view.showTranslation(gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate);
     if (!gameController.hints.isSpellingEnabled) {
-      view.playSentenceSpelling(
-        gameController.fetchedRoundData[gameController.currentSentence].audioExample,
-      );
+      view.playSentenceSpelling(gameController.fetchedRoundData[gameController.currentSentence].audioExample);
     }
     this.sentenceGuessSuccess = true;
   }
@@ -118,7 +114,8 @@ class Controller {
   onCheckButtonClick() {
     this.sentenceGuessSuccess = true;
 
-    document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`)
+    document
+      .querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`)
       .forEach((puzzle, index) => {
         const etalonSentenceArray = getSentenceWordsArray(
           gameController.fetchedRoundData,
@@ -154,7 +151,8 @@ class Controller {
       view.hideCheckButton();
       view.showContinueButton();
 
-      document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`)
+      document
+        .querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`)
         .forEach((puzzle, index) => {
           const correctPuzzle = gameController.getCanvasElement({
             currentSentence: gameController.currentSentence,
@@ -167,14 +165,10 @@ class Controller {
           puzzle.classList.remove(CLASS_NAMES.DRAGABLE);
         });
 
-      view.showTranslation(
-        gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate,
-      );
+      view.showTranslation(gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate);
 
       if (!gameController.hints.isSpellingEnabled) {
-        view.playSentenceSpelling(
-          gameController.fetchedRoundData[gameController.currentSentence].audioExample,
-        );
+        view.playSentenceSpelling(gameController.fetchedRoundData[gameController.currentSentence].audioExample);
       }
     }
   }
@@ -190,7 +184,8 @@ class Controller {
     target.classList.toggle(CLASS_NAMES.ACTIVE);
 
     if (!gameController.fetchedRoundData) return;
-    document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}.${CLASS_NAMES.DRAGABLE}`)
+    document
+      .querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}.${CLASS_NAMES.DRAGABLE}`)
       .forEach((puzzle) => {
         const newPuzzle = gameController.getCanvasElement({
           currentSentence: gameController.currentSentence,
@@ -206,14 +201,10 @@ class Controller {
     gameController.hints.isTranslationEnabled = !gameController.hints.isTranslationEnabled;
     target.classList.toggle(CLASS_NAMES.ACTIVE);
 
-    if (gameController.isPictureShown
-      || this.sentenceGuessSuccess
-      || !gameController.fetchedRoundData) return;
+    if (gameController.isPictureShown || this.sentenceGuessSuccess || !gameController.fetchedRoundData) return;
 
     if (gameController.hints.isTranslationEnabled) {
-      view.showTranslation(
-        gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate,
-      );
+      view.showTranslation(gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate);
     } else {
       view.hideTranslation();
     }
@@ -230,12 +221,8 @@ class Controller {
   }
 
   onRepeatSpellingButtonClick() {
-    if (!gameController.hints.isSpellingEnabled
-      || !gameController.fetchedRoundData
-      || gameController.isPictureShown) return;
-    view.playSentenceSpelling(
-      gameController.fetchedRoundData[gameController.currentSentence].audioExample,
-    );
+    if (!gameController.hints.isSpellingEnabled || !gameController.fetchedRoundData || gameController.isPictureShown) return;
+    view.playSentenceSpelling(gameController.fetchedRoundData[gameController.currentSentence].audioExample);
   }
 
   onIntroButtonClick({ target }) {
@@ -247,10 +234,7 @@ class Controller {
       this.onHintTranslationButtonClickHandlerBinded,
       gameController.hints.isTranslationEnabled,
     );
-    view.initHintSpellingButton(
-      this.onHintSpellingButtonClickHandlerBinded,
-      gameController.hints.isSpellingEnabled,
-    );
+    view.initHintSpellingButton(this.onHintSpellingButtonClickHandlerBinded, gameController.hints.isSpellingEnabled);
     view.initHintAutoSpellingButton(
       this.onHintAutoSpellingButtonClickHandlerBinded,
       gameController.hints.isAutoSpellingEnabled,

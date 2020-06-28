@@ -74,7 +74,8 @@ class GameController {
     this.setCurrentRound();
 
     showSpinner();
-    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel)
+    this.maxRoundInLevel = await model
+      .fetchMaxPagesInDifficultCategory(this.currentLevel)
       .catch(() => MAX_ROUNDS_COUNT);
 
     if (view.menu.elements.selectors.round) view.menu.elements.selectors.round.remove();
@@ -94,10 +95,7 @@ class GameController {
   }
 
   getCanvasElement({
-    currentSentence,
-    isImage = false,
-    isRegular = true,
-    isCorrect = false,
+    currentSentence, isImage = false, isRegular = true, isCorrect = false,
   }) {
     if (isImage) {
       if (isRegular) return this.canvasElements.withImage.regular[currentSentence];
@@ -126,20 +124,18 @@ class GameController {
     view.hideResultButton();
     this.isPictureShown = false;
 
-    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound)
-      .catch((error) => {
-        hideSpinner();
-        new ErrorPopup().openPopup({ text: error.message });
-        return null;
-      });
+    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound).catch((error) => {
+      hideSpinner();
+      new ErrorPopup().openPopup({ text: error.message });
+      return null;
+    });
     if (!this.fetchedRoundData) return;
     const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
 
     this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound) || {};
-    this.fetchedPictureData.preloadedPicture = await model
-      .getPreloadedCurrentPicture(currentLevel, currentRound);
+    this.fetchedPictureData.preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
     this.windowSize = document.documentElement.clientWidth;
-    const widthGap = (this.windowSize >= TABLET_WIDTH) ? IMAGE_GAP : 0;
+    const widthGap = this.windowSize >= TABLET_WIDTH ? IMAGE_GAP : 0;
     this.canvasElements = getCanvasElementsCollection(
       this.fetchedPictureData.preloadedPicture,
       sentences,
@@ -148,11 +144,13 @@ class GameController {
 
     this.currentSentence = 0;
     view.renderNewDataDropZone();
-    view.renderInputSentence(this.getCanvasElement({
-      currentSentence: this.currentSentence,
-      isImage: this.hints.isBgImage,
-      isRegular: true,
-    }));
+    view.renderInputSentence(
+      this.getCanvasElement({
+        currentSentence: this.currentSentence,
+        isImage: this.hints.isBgImage,
+        isRegular: true,
+      }),
+    );
 
     view.resultDropZone.style.width = `${view.dataDropZone.getBoundingClientRect().width + widthGap}px`;
     view.dataDropZone.style.width = `${view.dataDropZone.getBoundingClientRect().width + widthGap}px`;
@@ -244,11 +242,13 @@ class GameController {
     if (this.windowSize < TABLET_WIDTH) {
       view.resultDropZone.innerHTML = '';
     } else view.renderNextResultDropZone();
-    view.renderInputSentence(this.getCanvasElement({
-      currentSentence: this.currentSentence,
-      isImage: this.hints.isBgImage,
-      isRegular: true,
-    }));
+    view.renderInputSentence(
+      this.getCanvasElement({
+        currentSentence: this.currentSentence,
+        isImage: this.hints.isBgImage,
+        isRegular: true,
+      }),
+    );
 
     if (this.hints.isTranslationEnabled) {
       view.showTranslation(this.fetchedRoundData[this.currentSentence].textExampleTranslate);
@@ -279,18 +279,15 @@ class GameController {
     view.initMenu(this.onLevelChangeHandlerBinded, this.onRoundChangeHandlerBinded);
 
     const completedRoundsData = model.loadCompletedRounds();
-    this.completedRoundsByLevels = (completedRoundsData
-      && completedRoundsData.completedRoundsByLevels)
+    this.completedRoundsByLevels = (completedRoundsData && completedRoundsData.completedRoundsByLevels)
       || new Array(MAX_LEVELS_COUNT).fill('').map(() => []);
 
     showSpinner();
-    this.setCurrentLevel((completedRoundsData
-      && completedRoundsData.lastLevelWithLastCompletedRound)
-      || startLevel);
-    this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel)
+    this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
+    this.maxRoundInLevel = await model
+      .fetchMaxPagesInDifficultCategory(this.currentLevel)
       .catch(() => MAX_ROUNDS_COUNT);
-    this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1)
-     || startRound);
+    this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);
 
     view.menu.renderLevelSelector(this.currentLevel);
     this.newRound(this.currentLevel, this.currentRound);
