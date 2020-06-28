@@ -18,7 +18,18 @@ class View {
         <button type="button" class = 'false' id='false'>FALSE</button>
         <button type="button" class = 'true' id='true'>TRUE</button>
         </div>
-    </div>`);
+    </div>
+    <div class="wrapper-score hidden">
+    <div class="score">
+    <div class="container-answers">
+      <div class ='know'></div><div class ='dntKnow'></div>
+    </div> 
+      <div class="button-wrapper">
+        <button class="btn" id="start">New game</button><button class="btn statistic">Statistic</button>
+      </div>
+      </div>
+    </div>
+    `);
   }
 }
 

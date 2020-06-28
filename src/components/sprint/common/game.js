@@ -88,15 +88,13 @@ export default class GameSprint {
   }
 
   finishGame() {
+    document.querySelector('.wrapper-score').classList.remove('hidden');
+    document.querySelector('.game__container').classList.add('hidden');
+
     this.gameResults.forEach(word => {
       word.isCorrect === true ? this.correctAnswer.push(word.word) : this.wrongAnswer.push(word.word);
     });
 
-    document.querySelector('body').insertAdjacentHTML('afterbegin', `<div class="wrapper-score">
-    <div class="score">
-      <div class ='know'></div><div class ='dntKnow'></div>
-      </div>
-    </div>`);
     const knowElement = document.querySelector('.know');
     const dntKnowElement =document.querySelector('.dntKnow');
     const resultKnow = document.createElement('div');
@@ -125,6 +123,15 @@ export default class GameSprint {
     const htmlTamplateWrongWords = objectWordsWrong.map(addTamplateWrongWords).join('');
     containerWrongWords.innerHTML = htmlTamplateWrongWords;
 
+    const buttonContinue = document.getElementById('start');
+    buttonContinue.addEventListener('click', (event) => {
+      const target = event.target.className;
+      console.log(target);
+      if (target === 'btn') {
+        document.querySelector('.wrapper-score').classList.add('hidden');
+        document.querySelector('.game__container').classList.remove('hidden');
+      }
+    })
     // show results
     // clear game field and state
   }
