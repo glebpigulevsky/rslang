@@ -8,8 +8,9 @@ export const createCard = ({
   image,
   audio,
   transcription,
+  wordTranslate,
 }) => `
-  <a class="speakit-card__link link" href="#" data-word="${word}" data-audio="${audio.slice(6)}" data-image="${image.slice(6)}">
+  <a class="speakit-card__link link" href="#" data-word="${word}" data-audio="${audio}" data-image="${image}" data-translation="${wordTranslate}">
     <p class="card__word">${word}</p>
     <p class="card__transcription">${transcription}</p>
   </a>
@@ -20,11 +21,12 @@ export const createCardWithTranslation = ({
   image,
   audio,
   transcription,
-}, translationsMap) => `
-  <a class="speakit-card__link link" href="#" data-word="${word}" data-audio="${audio.slice(6)}" data-image="${image.slice(6)}">
+  wordTranslate,
+}) => `
+  <a class="speakit-card__link link" href="#" data-word="${word}" data-audio="${audio}" data-image="${image}" data-translation="${wordTranslate}">
     <p class="card__word">${word}</p>
     <p class="card__transcription">${transcription}</p>
-    <p class="card__translation">${translationsMap.get(word)}</p>
+    <p class="card__translation">${wordTranslate}</p>
   </a>
 `;
 
@@ -55,27 +57,27 @@ export const shuffleArray = (array) => {
   return result;
 };
 
-const fetchData = async (url, callBack) => {
-  const response = await fetch(url);
-  const json = await response.json();
-  callBack(json);
-};
+// const fetchData = async (url, callBack) => {
+//   const response = await fetch(url);
+//   const json = await response.json();
+//   callBack(json);
+// };
 
-const CARDS_API_URL = 'https://afternoon-falls-25894.herokuapp.com/words?group=';
-export const loadCardsJSON = (difficult, addPageList) => {
-  const randomPage = Math.floor(Math.random() * 30);
-  const url = `${CARDS_API_URL}${difficult}&page=${randomPage}`;
-  fetchData(url, addPageList);
-};
+// const CARDS_API_URL = 'https://afternoon-falls-25894.herokuapp.com/words?group=';
+// export const loadCardsJSON = (difficult, addPageList) => {
+//   const randomPage = Math.floor(Math.random() * 30);
+//   const url = `${CARDS_API_URL}${difficult}&page=${randomPage}`;
+//   fetchData(url, addPageList);
+// };
 
-const TRANSLATION_API = {
-  KEY: 'trnsl.1.1.20200421T205036Z.347a36771eccbf86.128e556f05422ed731036b9f43105af4ba3a7352',
-  URL: 'https://translate.yandex.net/api/v1.5/tr.json/translate?&lang=en-ru&text=',
-};
+// const TRANSLATION_API = {
+//   KEY: 'trnsl.1.1.20200421T205036Z.347a36771eccbf86.128e556f05422ed731036b9f43105af4ba3a7352',
+//   URL: 'https://translate.yandex.net/api/v1.5/tr.json/translate?&lang=en-ru&text=',
+// };
 
-export const translateWord = (word, callBack) => {
-  fetchData(`${TRANSLATION_API.URL}${word}&key=${TRANSLATION_API.KEY}`, callBack);
-};
+// export const translateWord = (word, callBack) => {
+//   fetchData(`${TRANSLATION_API.URL}${word}&key=${TRANSLATION_API.KEY}`, callBack);
+// };
 
 export const createStar = (starSrc) => {
   const starImg = document.createElement('img');

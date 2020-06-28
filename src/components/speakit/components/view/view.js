@@ -3,12 +3,6 @@ import successSound from './assets/audio/success.mp3';
 import starWin from './assets/img/star-win.svg';
 import logo from './assets/img/logo.jpg';
 
-import './scss/introduction.scss';
-import './scss/spinner.scss';
-import './scss/card.scss';
-import './scss/controls.scss';
-import './scss/status-bar.scss';
-
 import {
   CLASS_NAMES,
   EVENTS,
@@ -20,6 +14,7 @@ import { setActiveState, createStar } from '../../common/speakit.utils';
 import PageList from './components/pageList/pageList';
 import ResultsList from './components/resultsList/resultsList';
 import Slider from './components/slider/slider';
+import Menu from './components/menu/menu';
 
 class View {
   constructor() {
@@ -57,7 +52,7 @@ class View {
       this.resultsContainer,
       pageData,
       listenersList,
-      Array.from(translationData),
+      // Array.from(translationData),
       guessedList,
       new Date().toLocaleString(),
       CLASS_NAMES.SLIDER.ACTIVE,
@@ -69,7 +64,7 @@ class View {
         this.resultsContainer,
         result.pageData,
         listenersList,
-        result.translations,
+        // result.translations,
         result.guessedList,
         result.time,
       ).render();
@@ -89,7 +84,7 @@ class View {
       .find((link) => link.dataset.word === speechInputValue);
     card.classList.add(CLASS_NAMES.ACTIVE);
 
-    this.renderPicture(`${DATA_PATH}${card.dataset.image}`);
+    this.renderPicture(card.dataset.image); // todo
   }
 
   resetLinksStates(target) {
@@ -173,6 +168,10 @@ class View {
 
   clearStatusBar() {
     this.statusBar.innerHTML = '';
+  }
+
+  initMenu(onLevelChangeHandler, onRoundChangeHandler) {
+    this.menu = new Menu(onLevelChangeHandler, onRoundChangeHandler);
   }
 
   init() {

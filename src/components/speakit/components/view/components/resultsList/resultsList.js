@@ -8,7 +8,7 @@ export default class ResultsList {
     container,
     pageData,
     listenersList,
-    translationMap,
+    // translationMap,
     guessedList,
     time,
     additionalClass = null,
@@ -16,7 +16,7 @@ export default class ResultsList {
     this.container = container;
     this.pageData = pageData;
     this.listenersList = listenersList;
-    this.translationMap = new Map(translationMap);
+    // this.translationMap = new Map(translationMap);
     this.guessedList = guessedList;
     this.time = time;
     this.additionalClass = additionalClass;
@@ -46,9 +46,9 @@ export default class ResultsList {
     this.pageData.forEach((cardData) => {
       let card;
       if (this.guessedList.includes(cardData.word)) {
-        card = new PageCard(this.correctList, cardData, this.translationMap);
+        card = new PageCard(this.correctList, cardData);
       } else {
-        card = new PageCard(this.errorsList, cardData, this.translationMap);
+        card = new PageCard(this.errorsList, cardData);
       }
       card.render();
     });

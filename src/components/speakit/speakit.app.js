@@ -1,4 +1,4 @@
-import './main/scss/main.scss';
+import './scss/speakit.styles.scss';
 
 import controller from './components/controller/controller';
 import model from './components/model/model';

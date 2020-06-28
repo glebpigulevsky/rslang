@@ -5,6 +5,14 @@ export const speakItPageComponent = {
     <div class="speakit-body overflow-hidden">
       <div class="speakit-centralizer hidden">
         <div class="speakit-main">
+          <nav class="navigation">
+            <div class="navigation__box navigation__box_left">
+              <span class="navigation__description level__description">Level:</span>
+            </div>
+            <div class="navigation__box navigation__box_right">
+              <span class="navigation__description round__description">Round:</span>
+            </div>
+          </nav>
           <div class="game__controls">
             <div class="buttons__wrapper">
               <div class="difficulties">
