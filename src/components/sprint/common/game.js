@@ -156,10 +156,21 @@ export default class GameSprint {
     `;
   }
 
+  previewsStatrt() {
+    this.startbtn.addEventListener('click', (event) => {
+      if (event.target.classList.contains('preview__btn')) {
+       document.querySelector('.sprint-game__wrapper').classList.remove('display-none');
+       document.querySelector('.preview').classList.add('display-none');
+      }
+    });
+  }
+
   init() {
     this.getWords();
     this.createObjectWords();
     this.startGame();
+    this.startbtn = document.querySelector('.preview__btn');
+    this.previewsStatrt();
     document.getElementById('score').textContent = this.score;
     // this.playGame();
   }
