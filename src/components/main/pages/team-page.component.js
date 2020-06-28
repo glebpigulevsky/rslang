@@ -1,5 +1,9 @@
 export const teamPageComponent = {
   render: () => `
-        <h1 style="text-align:center">team</h1>
+        <section class="section__team">
+        <div class="wrapper">
+            <h2 class="team__title">Ninja JS team</h2>
+        </div>
+    <section>
     `,
 };
