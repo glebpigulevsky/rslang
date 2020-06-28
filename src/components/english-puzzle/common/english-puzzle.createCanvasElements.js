@@ -1,36 +1,40 @@
+import { PUZZLE } from './english-puzzle.constants';
+
 const createCanvasElements = (
   {
     img,
     wordsList,
-    colorBorder = 'rgb(0,255,250)',
+    colorBorder,
     fillColor = null,
-    borderPuzzle = 5,
+    borderPuzzle = PUZZLE.SIZES.BORDER,
     hasText = true,
-    windowSize = 1024,
+    windowSize = PUZZLE.SIZES.WINDOW.DESKTOP,
   },
 ) => {
   const imageToRender = img;
-  const extraWidthValue = 10;
-  const fontFamily = 'Segoe';
+  const extraWidthValue = PUZZLE.EXTRA_WIDTH_VALUE;
+  const fontFamily = PUZZLE.FONT.NAME;
   let fontRatio;
-  if (windowSize >= 1024) {
-    fontRatio = 1;
-  } else if (windowSize >= 768) {
-    fontRatio = 0.8;
-    if (imageToRender.width > 900) imageToRender.width = 900;
+  if (windowSize >= PUZZLE.SIZES.WINDOW.DESKTOP) {
+    fontRatio = PUZZLE.FONT.RATIO.DESKTOP;
+  } else if (windowSize >= PUZZLE.SIZES.WINDOW.TABLET) {
+    fontRatio = PUZZLE.FONT.RATIO.TABLET;
+    if (imageToRender.width > PUZZLE.SIZES.PICTURE.TABLET) {
+      imageToRender.width = PUZZLE.SIZES.PICTURE.TABLET;
+    }
   } else {
-    fontRatio = 0.6;
-    imageToRender.width = 700;
+    fontRatio = PUZZLE.FONT.RATIO.MOBILE;
+    imageToRender.width = PUZZLE.SIZES.PICTURE.MOBILE;
   }
-  const fontType = 'bold';
-  const shadowPuzzle = 2;
-  const borderText = 2;
-  const shadowText = 10;
-  const colorShadowBorder = 'rgb(255,255,250)';
-  const colorText = 'white';
-  const colorShadowText = 'black';
-  const solidTextColor = 'white';
-  const fontStyle = 'fillText';
+  const fontType = PUZZLE.FONT.TYPE;
+  const shadowPuzzle = PUZZLE.SIZES.SHADOW.BORDER;
+  const borderText = PUZZLE.SIZES.BORDER_TEXT;
+  const shadowText = PUZZLE.SIZES.SHADOW.TEXT;
+  const colorShadowBorder = PUZZLE.COLORS.BORDER.SHADOW;
+  const colorText = PUZZLE.COLORS.LIGHT;
+  const colorShadowText = PUZZLE.COLORS.DARK;
+  const solidTextColor = PUZZLE.COLORS.LIGHT;
+  const fontStyle = PUZZLE.FONT.STYLE;
 
   const imgWidth = img.width;
   const imgHeight = img.height;
@@ -52,8 +56,8 @@ const createCanvasElements = (
 
     let widthCount = 0;
 
-    words.forEach((w, j) => {
-      const word = w.replace(/<[^>]*>/g, '');
+    words.forEach((wordJ, j) => {
+      const word = wordJ.replace(/<[^>]*>/g, '');
       const canvas = document.createElement('canvas');
 
       canvas.classList.add('canvas-item');
@@ -73,12 +77,12 @@ const createCanvasElements = (
       }
 
       const x1 = 0;
-      const y1 = Math.round(canvasHeight / 3);
-      const y2 = Math.round((canvasHeight / 3) * 2);
-      const centerY = canvasHeight / 2;
-      const radius = Math.round((canvasHeight / 3) / 2);
+      const y1 = Math.round(canvasHeight / PUZZLE.PARTS.CANVAS_VERTICAL);
+      const y2 = Math.round((canvasHeight / PUZZLE.PARTS.CANVAS_VERTICAL) * PUZZLE.PARTS.HALF);
+      const centerY = canvasHeight / PUZZLE.PARTS.HALF;
+      const radius = Math.round((canvasHeight / PUZZLE.PARTS.CANVAS_VERTICAL) / PUZZLE.PARTS.HALF);
       const startXPointCropImage = widthCount - canvasWidth;
-      const fontSize = Math.round(canvasHeight / 4);
+      const fontSize = Math.round(canvasHeight / PUZZLE.PARTS.CANVAS_FONT);
 
       ctx.canvas.width = canvasWidth + radius;
       ctx.canvas.height = canvasHeight;
@@ -86,7 +90,14 @@ const createCanvasElements = (
       ctx.beginPath();
 
       if (j) {
-        ctx.arc(x1, centerY, radius, Math.PI / 2, Math.PI * 1.5, true);
+        ctx.arc(
+          x1,
+          centerY,
+          radius,
+          Math.PI / PUZZLE.PARTS.HALF,
+          Math.PI * PUZZLE.MATH_PI_RATIO,
+          true,
+        );
       }
 
       ctx.lineTo(0, y1);
@@ -95,7 +106,14 @@ const createCanvasElements = (
       ctx.lineTo(canvasWidth, y1);
 
       if (j !== wordCount - 1) {
-        ctx.arc(canvasWidth, centerY, radius, Math.PI * 1.5, Math.PI / 2, false);
+        ctx.arc(
+          canvasWidth,
+          centerY,
+          radius,
+          Math.PI * PUZZLE.MATH_PI_RATIO,
+          Math.PI / PUZZLE.PARTS.HALF,
+          false,
+        );
       }
 
       ctx.lineTo(canvasWidth, y2);
@@ -109,8 +127,8 @@ const createCanvasElements = (
 
       ctx.clip();
 
-      if (fillColor || windowSize < 768) {
-        ctx.fillStyle = fillColor || '#2d4fc8'; // todo
+      if (fillColor || windowSize < PUZZLE.SIZES.WINDOW.TABLET) {
+        ctx.fillStyle = fillColor || PUZZLE.COLORS.FILL.DEFAULT;
         ctx.fill();
       } else {
         ctx.drawImage(
@@ -142,9 +160,13 @@ const createCanvasElements = (
         ctx.lineWidth = borderText;
         ctx.strokeStyle = colorText;
         ctx.font = `${fontType} ${fontSize * fontRatio}pt ${fontFamily}`;
-        ctx.textAlign = 'center';
+        ctx.textAlign = PUZZLE.TEXT_ALIGN;
         ctx.fillStyle = solidTextColor;
-        ctx[fontStyle](word, canvasWidth / 2 + radius / 2, canvasHeight / 2 + fontSize / 3);
+        ctx[fontStyle](
+          word,
+          canvasWidth / PUZZLE.PARTS.HALF + radius / PUZZLE.PARTS.HALF,
+          canvasHeight / PUZZLE.PARTS.HALF + fontSize / PUZZLE.PARTS.CANVAS_VERTICAL,
+        );
       }
 
       row.push(canvas);
@@ -162,19 +184,19 @@ const getCanvasElementsCollection = (preloadedPicture, sentences, windowSize) =>
     regular: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
-      colorBorder: 'white',
+      colorBorder: PUZZLE.COLORS.LIGHT,
       windowSize,
     }),
     correct: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
-      colorBorder: 'green',
+      colorBorder: PUZZLE.COLORS.CORRECT,
       windowSize,
     }),
     error: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
-      colorBorder: 'red',
+      colorBorder: PUZZLE.COLORS.WRONG,
       windowSize,
     }),
   },
@@ -182,29 +204,29 @@ const getCanvasElementsCollection = (preloadedPicture, sentences, windowSize) =>
     regular: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
-      colorBorder: 'white',
-      fillColor: '#085364',
+      colorBorder: PUZZLE.COLORS.LIGHT,
+      fillColor: PUZZLE.COLORS.FILL.WITHOUT_IMAGE,
       windowSize,
     }),
     correct: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
-      colorBorder: 'green',
-      fillColor: '#085364',
+      colorBorder: PUZZLE.COLORS.CORRECT,
+      fillColor: PUZZLE.COLORS.FILL.WITHOUT_IMAGE,
       windowSize,
     }),
     error: createCanvasElements({
       img: preloadedPicture,
       wordsList: sentences,
-      colorBorder: 'red',
-      fillColor: '#085364',
+      colorBorder: PUZZLE.COLORS.WRONG,
+      fillColor: PUZZLE.COLORS.FILL.WITHOUT_IMAGE,
       windowSize,
     }),
   },
   finalImage: createCanvasElements({
     img: preloadedPicture,
     wordsList: sentences,
-    colorBorder: 'transparent',
+    colorBorder: PUZZLE.COLORS.TRANSPARENT,
     hasText: false,
     windowSize,
   }),

@@ -1,7 +1,7 @@
 .introduction {
   width: 100vw;
   min-height: 100vh;
-  background-color: rgba(149, 153, 153, .8);
+  background-color: $color-introduction-bg;
   background-image: url('../assets/img/introduction-bg.png');
   background-position: center;
   background-repeat: no-repeat;
@@ -40,7 +40,7 @@
   flex-direction: column;
   margin: 20px;
   padding: 20px;
-  background-color: rgba(244, 245, 250, .6);
+  background-color: $color-introduction-description-bg;
   border-radius: 20px;
 
   @include media-tablet {

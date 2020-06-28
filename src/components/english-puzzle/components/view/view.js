@@ -15,7 +15,7 @@ import ERROR_AUDIO from '../../assets/audio/server-error.mp3';
 
 class View {
   constructor() {
-    this.ELEMENTS = null;
+    this.elements = null;
 
     this.menu = null;
     this.dataDropZone = null;
@@ -42,7 +42,7 @@ class View {
     results,
   ) {
     this.statisticList = new StatisticList(
-      this.ELEMENTS.CONTAINERS.STATISTIC,
+      this.elements.containers.statistic,
       lastGameRoundData,
       listenersList,
       iDontKnowList,
@@ -119,11 +119,11 @@ class View {
   }
 
   startSpellingAnimation() {
-    this.ELEMENTS.BUTTONS.REPEAT_SPELLING.classList.add(CLASS_NAMES.ANIMATED);
+    this.elements.buttons.repeatSpelling.classList.add(CLASS_NAMES.ANIMATED);
   }
 
   stopSpellingAnimation() {
-    this.ELEMENTS.BUTTONS.REPEAT_SPELLING.classList.remove(CLASS_NAMES.ANIMATED);
+    this.elements.buttons.repeatSpelling.classList.remove(CLASS_NAMES.ANIMATED);
   }
 
   onEndSpellingHandler() {
@@ -154,14 +154,14 @@ class View {
   }
 
   clearSentencesBackground() {
-    Array.from(this.ELEMENTS.CONTAINERS.FIELD.querySelectorAll(`.${CLASS_NAMES.SENTENCE}`))
+    Array.from(this.elements.containers.field.querySelectorAll(`.${CLASS_NAMES.SENTENCE}`))
       .forEach((sentence) => {
         sentence.classList.add(CLASS_NAMES.SENTENCE_CLEAR);
       });
   }
 
   showPictureDescription(pictureDescription = '') {
-    this.ELEMENTS.DESCRIPTION.PICTURE.textContent = pictureDescription;
+    this.elements.description.picture.textContent = pictureDescription;
   }
 
   clearPictureDescription() {
@@ -169,7 +169,7 @@ class View {
   }
 
   showTranslation(translation = '') {
-    this.ELEMENTS.DESCRIPTION.TRANSLATION.textContent = translation;
+    this.elements.description.translation.textContent = translation;
   }
 
   hideTranslation() {
@@ -182,7 +182,7 @@ class View {
   }
 
   resetStatisticLinksStates(target) {
-    this.removeActiveStates(this.ELEMENTS.CONTAINERS.STATISTIC);
+    this.removeActiveStates(this.elements.containers.statistic);
     setActiveState(target);
   }
 
@@ -203,7 +203,7 @@ class View {
 
   initIntroButton(onIntroButtonClick) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.INTRODUCTION,
+      this.elements.buttons.introduction,
       EVENTS.CLICK,
       onIntroButtonClick,
     );
@@ -211,7 +211,7 @@ class View {
 
   initCheckButton(onCheckButtonClick) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.CHECK,
+      this.elements.buttons.check,
       EVENTS.CLICK,
       onCheckButtonClick,
     );
@@ -219,7 +219,7 @@ class View {
 
   initIDontKnowButton(onIDontKnowButtonClick) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.I_DONT_KNOW,
+      this.elements.buttons.iDontKnow,
       EVENTS.CLICK,
       onIDontKnowButtonClick,
     );
@@ -227,7 +227,7 @@ class View {
 
   initContinueButton(onContinueButtonClick) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.CONTINUE,
+      this.elements.buttons.continue,
       EVENTS.CLICK,
       onContinueButtonClick,
     );
@@ -235,47 +235,47 @@ class View {
 
   initHintBgButton(onHintBgButtonClick, isBgImage) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.HINTS.BG,
+      this.elements.buttons.hints.bg,
       EVENTS.CLICK,
       onHintBgButtonClick,
     );
-    if (isBgImage) this.ELEMENTS.BUTTONS.HINTS.BG.classList.add(CLASS_NAMES.ACTIVE);
+    if (isBgImage) this.elements.buttons.hints.bg.classList.add(CLASS_NAMES.ACTIVE);
   }
 
   initHintTranslationButton(onHintTranslationButtonClick, isTranslationEnabled) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.HINTS.TRANSLATION,
+      this.elements.buttons.hints.translation,
       EVENTS.CLICK,
       onHintTranslationButtonClick,
     );
     if (isTranslationEnabled) {
-      this.ELEMENTS.BUTTONS.HINTS.TRANSLATION.classList.add(CLASS_NAMES.ACTIVE);
+      this.elements.buttons.hints.translation.classList.add(CLASS_NAMES.ACTIVE);
     }
   }
 
   initHintSpellingButton(onHintSpellingButtonClick, isSpellingEnabled) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.HINTS.SPELLING,
+      this.elements.buttons.hints.spelling,
       EVENTS.CLICK,
       onHintSpellingButtonClick,
     );
-    if (isSpellingEnabled) this.ELEMENTS.BUTTONS.HINTS.SPELLING.classList.add(CLASS_NAMES.ACTIVE);
+    if (isSpellingEnabled) this.elements.buttons.hints.spelling.classList.add(CLASS_NAMES.ACTIVE);
   }
 
   initHintAutoSpellingButton(onHintAutoSpellingButtonClick, isAutoSpellingEnabled) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING,
+      this.elements.buttons.hints.autoSpelling,
       EVENTS.CLICK,
       onHintAutoSpellingButtonClick,
     );
     if (isAutoSpellingEnabled) {
-      this.ELEMENTS.BUTTONS.HINTS.AUTO_SPELLING.classList.add(CLASS_NAMES.ACTIVE);
+      this.elements.buttons.hints.autoSpelling.classList.add(CLASS_NAMES.ACTIVE);
     }
   }
 
   initRepeatSpellingButton(onRepeatSpellingButtonClick) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.REPEAT_SPELLING,
+      this.elements.buttons.repeatSpelling,
       EVENTS.CLICK,
       onRepeatSpellingButtonClick,
     );
@@ -283,7 +283,7 @@ class View {
 
   initResultsButton(onResultsButtonClick) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.RESULTS,
+      this.elements.buttons.results,
       EVENTS.CLICK,
       onResultsButtonClick,
     );
@@ -291,7 +291,7 @@ class View {
 
   initStatisticContinueButton(onStatisticContinueButtonClick) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.STATISTICS.CONTINUE,
+      this.elements.buttons.statistics.continue,
       EVENTS.CLICK,
       onStatisticContinueButtonClick,
     );
@@ -299,42 +299,42 @@ class View {
 
   initStatisticLongStatisticButton(onStatisticLongStatisticClick) {
     this.addListener(
-      this.ELEMENTS.BUTTONS.STATISTICS.LONG_STATISTIC,
+      this.elements.buttons.statistics.longStatistic,
       EVENTS.CLICK,
       onStatisticLongStatisticClick,
     );
   }
 
   hideCheckButton() {
-    hideElement(this.ELEMENTS.BUTTONS.CHECK);
+    hideElement(this.elements.buttons.check);
   }
 
   showCheckButton() {
-    showElement(this.ELEMENTS.BUTTONS.CHECK);
+    showElement(this.elements.buttons.check);
   }
 
   hideIDontKnowButton() {
-    hideElement(this.ELEMENTS.BUTTONS.I_DONT_KNOW);
+    hideElement(this.elements.buttons.iDontKnow);
   }
 
   showIDontKnowButton() {
-    showElement(this.ELEMENTS.BUTTONS.I_DONT_KNOW);
+    showElement(this.elements.buttons.iDontKnow);
   }
 
   hideContinueButton() {
-    hideElement(this.ELEMENTS.BUTTONS.CONTINUE);
+    hideElement(this.elements.buttons.continue);
   }
 
   showContinueButton() {
-    showElement(this.ELEMENTS.BUTTONS.CONTINUE);
+    showElement(this.elements.buttons.continue);
   }
 
   hideResultButton() {
-    hideElement(this.ELEMENTS.BUTTONS.RESULTS);
+    hideElement(this.elements.buttons.results);
   }
 
   showResultButton() {
-    showElement(this.ELEMENTS.BUTTONS.RESULTS);
+    showElement(this.elements.buttons.results);
   }
 
   beforeUnloadHandler() {
@@ -351,34 +351,34 @@ class View {
     this.dataDropZone = document.querySelector('.data__container > .drop-place');
     this.resultDropZone = document.querySelector('.field__container > .drop-place');
 
-    this.ELEMENTS = {
-      TRANSLATION: document.querySelector('.main-card__translation'),
-      CONTAINERS: {
-        FIELD: document.body.querySelector('.field__container'),
-        DATA: document.body.querySelector('.data__container'),
-        STATISTIC: document.body.querySelector('.statistics__container'),
+    this.elements = {
+      translation: document.querySelector('.main-card__translation'),
+      containers: {
+        field: document.body.querySelector('.field__container'),
+        data: document.body.querySelector('.data__container'),
+        statistic: document.body.querySelector('.statistics__container'),
       },
-      BUTTONS: {
-        RESULTS: document.querySelector('.game__button_results'),
-        STATISTICS: {
-          CONTINUE: document.querySelector('.game__button_results-continue'),
-          LONG_STATISTIC: document.querySelector('.game__button_results-statistic'),
+      buttons: {
+        results: document.querySelector('.game__button_results'),
+        statistics: {
+          continue: document.querySelector('.game__button_results-continue'),
+          longStatistic: document.querySelector('.game__button_results-statistic'),
         },
-        INTRODUCTION: document.querySelector('.introduction__button'),
-        I_DONT_KNOW: document.querySelector('.game__button_dont-know'),
-        CHECK: document.querySelector('.game__button_check'),
-        CONTINUE: document.querySelector('.game__button_continue'),
-        HINTS: {
-          BG: document.querySelector('.game-hints_bg'),
-          TRANSLATION: document.querySelector('.game-hints_translation'),
-          SPELLING: document.querySelector('.game-hints_spelling'),
-          AUTO_SPELLING: document.querySelector('.game-hints_auto-spelling'),
+        introduction: document.querySelector('.introduction__button'),
+        iDontKnow: document.querySelector('.game__button_dont-know'),
+        check: document.querySelector('.game__button_check'),
+        continue: document.querySelector('.game__button_continue'),
+        hints: {
+          bg: document.querySelector('.game-hints_bg'),
+          translation: document.querySelector('.game-hints_translation'),
+          spelling: document.querySelector('.game-hints_spelling'),
+          autoSpelling: document.querySelector('.game-hints_auto-spelling'),
         },
-        REPEAT_SPELLING: document.querySelector('.button-repeat-spelling'),
+        repeatSpelling: document.querySelector('.button-repeat-spelling'),
       },
-      DESCRIPTION: {
-        PICTURE: document.querySelector('.picture__description'),
-        TRANSLATION: document.querySelector('.translation__description'),
+      description: {
+        picture: document.querySelector('.picture__description'),
+        translation: document.querySelector('.translation__description'),
       },
     };
 

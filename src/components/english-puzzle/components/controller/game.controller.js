@@ -2,13 +2,8 @@ import view from '../view/view';
 import model from '../model/model';
 
 import { ErrorPopup } from '../../../error/error.error_popup';
-
-import getCanvasElementsCollection from '../../lib/createCanvasElements';
-
-import {
-  showSpinner,
-  hideSpinner,
-} from '../../common/english-puzzle.utils';
+import getCanvasElementsCollection from '../../common/english-puzzle.createCanvasElements';
+import { showSpinner, hideSpinner } from '../../common/english-puzzle.utils';
 
 import {
   EVENTS,
@@ -25,6 +20,9 @@ class GameController {
     this.currentLevel = null;
     this.currentRound = null;
     this.maxRoundInLevel = null;
+
+    this.fetchedRoundData = null;
+    this.fetchedPictureData = null;
 
     this.currentSentence = null;
     this.isPictureShown = null;
@@ -52,13 +50,13 @@ class GameController {
       this.setCurrentLevel(this.currentLevel + 1);
       this.currentRound = 0;
 
-      if (view.menu.ELEMENTS.SELECTORS.LEVEL) {
-        view.menu.ELEMENTS.SELECTORS.LEVEL.remove();
+      if (view.menu.elements.selectors.level) {
+        view.menu.elements.selectors.level.remove();
         view.menu.renderLevelSelector(this.currentLevel);
       }
 
-      if (view.menu.ELEMENTS.SELECTORS.ROUND) {
-        view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+      if (view.menu.elements.selectors.round) {
+        view.menu.elements.selectors.round.remove();
         view.menu.renderRoundSelector(
           this.maxRoundInLevel,
           this.currentRound,
@@ -79,7 +77,7 @@ class GameController {
     this.maxRoundInLevel = await model.fetchMaxPagesInDifficultCategory(this.currentLevel)
       .catch(() => MAX_ROUNDS_COUNT);
 
-    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+    if (view.menu.elements.selectors.round) view.menu.elements.selectors.round.remove();
     this.setCurrentRound(0);
     view.menu.renderRoundSelector(
       this.maxRoundInLevel,
@@ -161,7 +159,7 @@ class GameController {
     view.resultDropZone.style.height = `${view.dataDropZone.getBoundingClientRect().height}px`;
     view.dataDropZone.style.height = `${view.dataDropZone.getBoundingClientRect().height}px`;
 
-    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+    if (view.menu.elements.selectors.round) view.menu.elements.selectors.round.remove();
     view.menu.renderRoundSelector(
       this.maxRoundInLevel,
       this.currentRound,
@@ -197,7 +195,7 @@ class GameController {
         if (!this.completedRoundsByLevels[this.currentLevel].includes(this.currentRound)) {
           this.completedRoundsByLevels[this.currentLevel].push(this.currentRound);
         }
-        view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+        view.menu.elements.selectors.round.remove();
         view.menu.renderRoundSelector(
           this.maxRoundInLevel,
           this.currentRound,
@@ -264,8 +262,8 @@ class GameController {
   }
 
   beforeUnloadHandler() {
-    if (view.menu.ELEMENTS.SELECTORS.LEVEL) view.menu.ELEMENTS.SELECTORS.LEVEL.remove();
-    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+    if (view.menu.elements.selectors.level) view.menu.elements.selectors.level.remove();
+    if (view.menu.elements.selectors.round) view.menu.elements.selectors.round.remove();
 
     window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
   }

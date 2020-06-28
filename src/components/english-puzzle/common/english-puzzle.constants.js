@@ -83,3 +83,55 @@ export const CLASS_NAMES = {
   SELECTOR: 'selector',
   PICTURE_CONTAINER: 'picture__container',
 };
+
+export const PUZZLE = {
+  COLORS: {
+    BORDER: {
+      DEFAULT: '#00fffa',
+      SHADOW: '#fffffa',
+    },
+    FILL: {
+      DEFAULT: '#2d4fc8',
+      WITHOUT_IMAGE: '#085364',
+    },
+    LIGHT: '#ffffff',
+    DARK: '#000000',
+    CORRECT: '#008000',
+    WRONG: '#ff0000',
+    TRANSPARENT: 'transparent',
+  },
+  FONT: {
+    NAME: 'Segoe',
+    TYPE: 'bold',
+    STYLE: 'fillText',
+    RATIO: {
+      DESKTOP: 1,
+      TABLET: 0.8,
+      MOBILE: 0.6,
+    },
+  },
+  SIZES: {
+    BORDER: 5,
+    BORDER_TEXT: 2,
+    WINDOW: {
+      DESKTOP: 1024,
+      TABLET: 768,
+    },
+    PICTURE: {
+      TABLET: 900,
+      MOBILE: 700,
+    },
+    SHADOW: {
+      BORDER: 2,
+      TEXT: 10,
+    },
+  },
+  PARTS: {
+    CANVAS_VERTICAL: 3,
+    CANVAS_FONT: 4,
+    HALF: 2,
+  },
+  TEXT_ALIGN: 'center',
+  EXTRA_WIDTH_VALUE: 10,
+  MATH_PI_RATIO: 1.5,
+};

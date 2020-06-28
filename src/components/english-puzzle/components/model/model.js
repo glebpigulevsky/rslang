@@ -5,16 +5,15 @@ import levels from '../../data/levelsData';
 
 const PICTURE_URL = 'https://raw.githubusercontent.com/caspercarver/rslang_data_paintings/master/';
 
-const wordsAPI = new WordsApi();
-
 class Model {
   constructor() {
     this.errorsList = null;
     this.results = null;
+    this.wordsAPI = new WordsApi();
   }
 
   fetchCardsPage(difficult, page) {
-    return wordsAPI.getWordsCollection({
+    return this.wordsAPI.getWordsCollection({
       group: difficult,
       page,
       wordsPerExampleSentence: MAX_WORDS_IN_SENTENCE,
@@ -23,7 +22,7 @@ class Model {
   }
 
   fetchMaxPagesInDifficultCategory(difficult) {
-    return wordsAPI.getWordsCount({
+    return this.wordsAPI.getWordsCount({
       group: difficult,
       wordsPerExampleSentence: MAX_WORDS_IN_SENTENCE,
       wordsPerPage: MAX_WORDS_IN_SENTENCE,

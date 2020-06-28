@@ -55,3 +55,6 @@ export const hideElement = (element) => element.classList.add(CLASS_NAMES.DISPLA
 export const showElement = (element) => element.classList.remove(CLASS_NAMES.DISPLAY_NONE);
 
 export const getPuzzleIndex = (puzzle) => +puzzle.dataset.item.slice(-2).replace('-', '') - 1;
+
+export const getSentenceWordsArray = (roundData, currentSentence) => roundData[currentSentence]
+  .textExample.replace('<b>', '').replace('</b>', '').split(' ');

@@ -1,13 +1,12 @@
 .spinner {
   position: fixed;
   top: 0;
-  display: flex;
+  @include flex-center;
+
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(214, 234, 248, .9);
+  background-color: $color-spinner-bg;
   z-index: 9999;
 }
 
@@ -18,17 +17,17 @@
 .spinner__description {
   font-size: 25px;
   line-height: 40px;
-  color: #335e97;
+  color: $color-spinner-description;
   text-transform: uppercase;
   animation: blink .35s linear infinite;
 }
 
 @-webkit-keyframes blink {
-  100% { color: rgba(34, 34, 34, 0); }
+  100% { color: $color-spinner-blink; }
 }
 
 @keyframes blink {
-  100% { color: rgba(34, 34, 34, 0); }
+  100% { color: $color-spinner-blink; }
 }
 
 @keyframes spinner__inner {
@@ -46,7 +45,7 @@
   position: absolute;
   width: 30px;
   height: 195px;
-  background: #5e6fa3;
+  background: $color-spinner;
   left: 132px;
   top: 132px;
   transform: translate(-50%, -50%);
@@ -61,7 +60,7 @@
 .spinner__inner > div div:nth-child(5) {
   width: 85px;
   height: 85px;
-  background: #f1f2f3;
+  background: $color-spinner-inner-bg;
   border-radius: 50%;
 }
 
@@ -74,12 +73,10 @@
 }
 
 .spinner__gear {
+  @include flex-center;
+
   width: 264px;
   height: 264px;
-  display: inline-block;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   overflow: hidden;
   background: transparent;
 }

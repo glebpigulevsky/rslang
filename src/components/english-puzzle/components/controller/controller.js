@@ -9,13 +9,14 @@ import {
   getClosestLink,
   togglePageState,
   getPuzzleIndex,
+  getSentenceWordsArray,
 } from '../../common/english-puzzle.utils';
 
 import { EVENTS, CLASS_NAMES } from '../../common/english-puzzle.constants';
 
 class Controller {
   constructor() {
-    this.ELEMENTS = null;
+    this.elements = null;
     this.sentenceGuessSuccess = null;
     this.statisticAudio = null;
 
@@ -41,7 +42,7 @@ class Controller {
   }
 
   onStatisticLongStatisticButtonClick() {
-    view.ELEMENTS.CONTAINERS.STATISTIC.classList.toggle(CLASS_NAMES.STATISTIC.LONG);
+    view.elements.containers.statistic.classList.toggle(CLASS_NAMES.STATISTIC.LONG);
   }
 
   onStatisticContinueButtonClick() {
@@ -88,7 +89,7 @@ class Controller {
     view.hideCheckButton();
     view.showContinueButton();
 
-    Array.from(document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`))
+    document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`)
       .forEach((puzzle) => {
         puzzle.remove();
       });
@@ -117,9 +118,13 @@ class Controller {
   onCheckButtonClick() {
     this.sentenceGuessSuccess = true;
 
-    Array.from(document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`))
+    document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`)
       .forEach((puzzle, index) => {
-        if (getPuzzleIndex(puzzle) === index) {
+        const etalonSentenceArray = getSentenceWordsArray(
+          gameController.fetchedRoundData,
+          gameController.currentSentence,
+        );
+        if (puzzle.dataset.word === etalonSentenceArray[index]) {
           const correctPuzzle = gameController.getCanvasElement({
             currentSentence: gameController.currentSentence,
             isImage: gameController.hints.isBgImage,
@@ -149,7 +154,7 @@ class Controller {
       view.hideCheckButton();
       view.showContinueButton();
 
-      Array.from(document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`))
+      document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`)
         .forEach((puzzle, index) => {
           const correctPuzzle = gameController.getCanvasElement({
             currentSentence: gameController.currentSentence,
@@ -159,6 +164,7 @@ class Controller {
           })[index];
 
           puzzle.getContext('2d').drawImage(correctPuzzle, 0, 0);
+          puzzle.classList.remove(CLASS_NAMES.DRAGABLE);
         });
 
       view.showTranslation(
@@ -184,7 +190,7 @@ class Controller {
     target.classList.toggle(CLASS_NAMES.ACTIVE);
 
     if (!gameController.fetchedRoundData) return;
-    Array.from(document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}.${CLASS_NAMES.DRAGABLE}`))
+    document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}.${CLASS_NAMES.DRAGABLE}`)
       .forEach((puzzle) => {
         const newPuzzle = gameController.getCanvasElement({
           currentSentence: gameController.currentSentence,
@@ -224,7 +230,9 @@ class Controller {
   }
 
   onRepeatSpellingButtonClick() {
-    if (!gameController.hints.isSpellingEnabled || !gameController.fetchedRoundData) return;
+    if (!gameController.hints.isSpellingEnabled
+      || !gameController.fetchedRoundData
+      || gameController.isPictureShown) return;
     view.playSentenceSpelling(
       gameController.fetchedRoundData[gameController.currentSentence].audioExample,
     );
@@ -249,8 +257,8 @@ class Controller {
     );
     view.initRepeatSpellingButton(this.onRepeatSpellingButtonClickBinded);
 
-    this.ELEMENTS.INTRODUCTION.classList.add(CLASS_NAMES.DISPLAY_NONE);
-    this.ELEMENTS.WRAPPER.classList.remove(CLASS_NAMES.DISPLAY_NONE);
+    this.elements.introduction.classList.add(CLASS_NAMES.DISPLAY_NONE);
+    this.elements.wrapper.classList.remove(CLASS_NAMES.DISPLAY_NONE);
     toggleDocumentScroll();
     target.removeEventListener(EVENTS.CLICK, this.onIntroButtonClickBinded);
   }
@@ -262,10 +270,10 @@ class Controller {
   }
 
   init() {
-    this.ELEMENTS = {
-      WRAPPER: document.querySelector('.english-puzzle-wrapper'),
-      INTRODUCTION: document.querySelector('.introduction'),
-      SPINNER: document.querySelector('.spinner'),
+    this.elements = {
+      wrapper: document.querySelector('.english-puzzle-wrapper'),
+      introduction: document.querySelector('.introduction'),
+      spinner: document.querySelector('.spinner'),
     };
 
     view.initIntroButton(this.onIntroButtonClickBinded);

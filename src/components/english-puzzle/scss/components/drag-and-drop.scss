@@ -36,8 +36,8 @@
 .sentence {
   display: flex;
   align-content: start;
-  background-color: #666d89;
-  box-shadow: 0 0 10px 2px #666d89;
+  background-color: $color-sentence-box;
+  box-shadow: 0 0 10px 2px $color-sentence-box;
 
   @include media-mobile {
     justify-content: center;
@@ -71,7 +71,7 @@
 }
 
 .shadow {
-  background-color: #666d89;
+  background-color: $color-sentence-box;
   opacity: .6;
-  box-shadow: 1px 1px 5px 5px #666d89;
+  box-shadow: 1px 1px 5px 5px $color-sentence-box;
 }
