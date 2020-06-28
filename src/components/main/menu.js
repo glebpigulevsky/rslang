@@ -53,11 +53,11 @@ class Menu {
       window.location.replace(`${window.location.origin}${window.location.pathname}#/learn`);
     } else {
       const loginUser = new LoginUser();
+      loginUser.showLoginPopup();
       observable.subscribe('Authenticate', (data) => {
         console.info(`observer got result: ${data}`);
         this.hasAccessUser();
       });
-      loginUser.showLoginPopup();
     }
   }
 
@@ -82,7 +82,6 @@ class Menu {
     if (window.location.hash !== '') {
       window.location.replace(`${window.location.origin}${window.location.pathname}#`);
     }
-    document.removeEventListener(ERRORS_DESCRIPTION.ERROR_TOKEN, document.logout);
     console.info('UserDoesNotHaveAccess');
   }
 
@@ -113,7 +112,7 @@ class Menu {
 
       if (!mainHeaderLogoutNode) {
         wrapperNode.insertAdjacentHTML('beforeend', mainHeaderLogout.render());
-        document.querySelector('.main-header__logout').addEventListener('click', this.logoutUser.bind(this));
+        document.querySelector('.main-header__logout').addEventListener('click', this.logoutUser);
       }
 
       return true;
