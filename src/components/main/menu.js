@@ -1,6 +1,6 @@
 import { LoginUser } from '../login_user/login_user.popup';
 import { ERRORS_DESCRIPTION } from '../../services/services.methods';
-import { AuthenticateUserService, LocalStorageService, Observable } from '../../common/common.helper';
+import { AuthenticateUserService, LocalStorageService } from '../../common/common.helper';
 import { mainHeaderLogout } from './components/main_header_logout';
 import { mainHeaderNavigation } from './components/main_header_navigation';
 import * as observable from '../../common/utils/common.utils.observable';
