@@ -5,9 +5,9 @@ import { getLoader } from './common/login_user.loader';
 import './scss/login.styles.scss';
 
 class LoginUser {
-  constructor(observer) {
+  constructor(observerNotify) {
     this._authUserService = new AuthenticateUserService();
-    this._headingsObserver = observer;
+    this._observerNotify = observerNotify;
     this._closeBtn = null;
     this._createBtn = null;
     this._trainSwitch = null;
@@ -51,7 +51,7 @@ class LoginUser {
         if (res === 'Authenticated') {
           this._createInfo.textContent = 'Authenticated';
           setTimeout(() => {
-            this._headingsObserver.notify('Authenticated');
+            this._observerNotify('Authenticated');
             this._closeLoginHandler();
           }, 2000);
         }

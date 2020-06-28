@@ -3,8 +3,9 @@ import { logoutUser, hasAccessUser } from './common/main.helper';
 import { Observable } from '../../common/utils/common.utils.observable';
 import { ERRORS_DESCRIPTION } from '../../services/services.methods';
 
-class Menu {
+class Menu extends Observable {
   constructor() {
+    super();
     this.onCloseClickHandlerBinded = this.onCloseClickHandler.bind(this);
     this.onBurgerIconClickHandlerBinded = this.onBurgerIconClickHandler.bind(this);
   }
@@ -61,9 +62,8 @@ class Menu {
     if (hasAccessUser()) {
       window.location.replace(`${window.location.origin}${window.location.pathname}#/learn`);
     } else {
-      const observer = new Observable();
-      const loginUser = new LoginUser(observer);
-      observer.subscribe((auth) => {
+      const loginUser = new LoginUser(this.notify.bind(this));
+      this.subscribe((auth) => {
         console.info(`observer got result: ${auth}`);
         this._onSuccessUserLogin();
       });

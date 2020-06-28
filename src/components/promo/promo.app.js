@@ -2,15 +2,14 @@ import './scss/promo.styles.scss';
 import { LoginUser } from '../login_user/login_user.popup';
 import { Observable } from '../../common/utils/common.utils.observable';
 
-class Promo {
+class Promo extends Observable {
   openLoginPopup() {
     document.querySelector('.login__submitBtn').addEventListener('click', this._openLoginHandler.bind(this));
   }
 
   _openLoginHandler() {
-    const observer = new Observable();
-    const loginUser = new LoginUser(observer);
-    observer.subscribe((auth) => {
+    const loginUser = new LoginUser(this.notify.bind(this));
+    this.subscribe((auth) => {
       console.info(`observer got result: ${auth}`);
       this._onSuccessUserLogin();
     });
