@@ -3,10 +3,10 @@ import { ERRORS_DESCRIPTION } from '../../services/services.methods';
 import { AuthenticateUserService, LocalStorageService, Observable } from '../../common/common.helper';
 import { mainHeaderLogout } from './components/main_header_logout';
 import { mainHeaderNavigation } from './components/main_header_navigation';
+import * as observable from '../../common/utils/common.utils.observable';
 
-class Menu extends Observable {
+class Menu {
   constructor() {
-    super();
     this.onCloseClickHandlerBinded = this.onCloseClickHandler.bind(this);
     this.onBurgerIconClickHandlerBinded = this.onBurgerIconClickHandler.bind(this);
   }
@@ -52,9 +52,9 @@ class Menu extends Observable {
     if (this.hasAccessUser()) {
       window.location.replace(`${window.location.origin}${window.location.pathname}#/learn`);
     } else {
-      const loginUser = new LoginUser(this.notify.bind(this));
-      this.subscribe((auth) => {
-        console.info(`observer got result: ${auth}`);
+      const loginUser = new LoginUser();
+      observable.subscribe('Authenticate', (data) => {
+        console.info(`observer got result: ${data}`);
         this.hasAccessUser();
       });
       loginUser.showLoginPopup();

@@ -3,11 +3,11 @@ import { getLoginComponent } from './common/login_user.component';
 import { LOGIN_BUTTONS_NAME, LOGIN_BUTTONS_COLOR_CLASS } from './common/login_user.common.constants';
 import { getLoader } from './common/login_user.loader';
 import './scss/login.styles.scss';
+import * as observable from '../../common/utils/common.utils.observable';
 
 class LoginUser {
-  constructor(observerNotify) {
+  constructor() {
     this._authUserService = new AuthenticateUserService();
-    this._observerNotify = observerNotify;
     this._loginContainer = null;
     this._closeBtn = null;
     this._createBtn = null;
@@ -49,9 +49,9 @@ class LoginUser {
       .loginUser({ email, password, hasSignUp })
       .then((res) => {
         if (res === 'Authenticated') {
-          this._createInfo.textContent = 'Authenticated';
+          this._createInfo.textContent = res;
           setTimeout(() => {
-            this._observerNotify('Authenticated');
+            observable.publish('Authenticate', res);
             this._closeLoginHandler();
           }, 2000);
         }

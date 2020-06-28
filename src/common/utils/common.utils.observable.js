@@ -1,19 +1,12 @@
-class Observable {
-  constructor() {
-    this.observers = [];
-  }
+const subscribers = {};
 
-  subscribe(f) {
-    this.observers.push(f);
-  }
-
-  unsubscribe(f) {
-    this.observers = this.observers.filter((subscriber) => subscriber !== f);
-  }
-
-  notify(data) {
-    this.observers.forEach((observer) => observer(data));
-  }
+export function publish(event, data) {
+  if (!subscribers[event]) return;
+  subscribers[event].forEach((subscriberCallback) => subscriberCallback(data));
 }
-
-export { Observable };
+export function subscribe(event, callback) {
+  if (!subscribers[event]) {
+    subscribers[event] = [];
+  }
+  subscribers[event].push(callback);
+}
