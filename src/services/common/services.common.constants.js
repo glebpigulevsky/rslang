@@ -19,6 +19,23 @@ const GET_RANDOM = (min, max) => {
 };
 const MEDIA_LINK = 'https://raw.githubusercontent.com/caspercarver/rslang-data/master/';
 const LINK_TYPE = { Settings: { 404: null }, Statictics: { 404: null } };
+const DEFAULT_SETTINGS = {
+  wordsPerDay: 7,
+  optional: {
+    isTranslation: 'true',
+    isTranscription: 'true',
+    isPicture: 'true',
+    isAddSentExplWord: 'true',
+    isShowAnswerButton: 'false',
+    isShowDiffMoveButton: 'true',
+    isShowDeleteButton: 'true',
+    isShowAgainButton: 'true',
+    isShowDiffButton: 'true',
+    isShowGoodButton: 'true',
+    isShowEasyButton: 'true',
+    isAudio: 'false',
+  },
+};
 export {
-  MAIN_API_URL, TOKEN, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK, LINK_TYPE,
+  MAIN_API_URL, TOKEN, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK, LINK_TYPE, DEFAULT_SETTINGS,
 };

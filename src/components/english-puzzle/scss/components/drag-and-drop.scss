@@ -1,0 +1,77 @@
+.english-puzzle-main {
+  position: relative;
+}
+
+.game__field_container {
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.field__container {
+  flex-direction: column;
+  align-items: center;
+}
+
+.background-picture {
+  min-height: 800px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.data__container {
+  display: flex;
+}
+
+.drop-place {
+  min-height: 48px;
+}
+
+.drop-place .dragable {
+  cursor: grab;
+}
+
+.sentence {
+  display: flex;
+  align-content: start;
+  background-color: $color-sentence-box;
+  box-shadow: 0 0 10px 2px $color-sentence-box;
+
+  @include media-mobile {
+    justify-content: center;
+    flex-wrap: wrap;
+    overflow: hidden;
+  }
+}
+
+.sentence-clear {
+  background-color: transparent;
+  box-shadow: none;
+}
+
+.sentence:first-of-type {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.sentence:last-of-type {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.moveable {
+  position: absolute;
+  cursor: grab;
+}
+
+.hidden {
+  visibility: hidden;
+}
+
+.shadow {
+  background-color: $color-sentence-box;
+  opacity: .6;
+  box-shadow: 1px 1px 5px 5px $color-sentence-box;
+}

@@ -22,10 +22,5 @@ module.exports = {
     'no-multi-assign': 'off',
     'no-console': ['error', { allow: [ 'info'] }],
   },
-  // settings: {
-  //   'import/extensions': [
-  //     '.js', '.jsx', '.ts', '.tsx',
-  //   ],
-  // },
   root: true,
 };

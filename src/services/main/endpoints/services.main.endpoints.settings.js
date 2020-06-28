@@ -7,8 +7,12 @@ export default class SettingsApi {
   }
 
   async getSettings({ userId }) {
-    const res = await this._apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true, type: LINK_TYPE.Settings });
-    return (res) ? this._transformUserSettings(res) : res;
+    const res = await this._apiService.getResource({
+      url: `/users/${userId}/settings`,
+      hasToken: true,
+      type: LINK_TYPE.Settings,
+    });
+    return res ? this._transformUserSettings(res) : res;
   }
 
   async updateSettings({ userId, wordsPerDay, optional = {} }) {

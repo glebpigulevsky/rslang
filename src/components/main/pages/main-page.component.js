@@ -1,6 +1,6 @@
 export const mainPageComponent = {
   render: () => `
-     <div class="wrapper">
+    <div class="wrapper">
       <div class="main__game">
         <h1 class="main__title">Learn anytime and anywhere</h1>
         <p class="main__subtitle">You will find a fascinating and interesting way.<br>
