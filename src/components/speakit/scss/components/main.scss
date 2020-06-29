@@ -48,32 +48,5 @@
 // }
 
 .disabled {
-  background-color: lightcoral;
-}
-
-.speakit-button {
-  margin: 10px;
-  text-transform: uppercase;
-  border: 1px solid $color-border;
-  box-shadow: 0 4px 22px $color-shadow;
-
-  @include button($color: $color-light, $background: $color-btn, $width: 200px, $height: 40px, $radius: 30px);
-
-  @include segoe-additional($color: $color-light, $weight: bold);
-
-  &:focus {
-    outline: none;
-  }
-
-  &:hover {
-    background-color: $color-hovered;
-    border-color: transparent;
-
-    @include transition($time: .4s, $property: all, $method: ease-out);
-
-    &.active {
-      background-color: $color-orange;
-      box-shadow: none;
-    }
-  }
+  background-color: $color-orange;
 }

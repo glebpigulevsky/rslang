@@ -39,7 +39,7 @@ class Controller {
     this.onGameButtonClick = this.onGameButtonClick.bind(this);
     this.onChangeSpeechInput = this.onChangeSpeechInput.bind(this);
     this.onStopButtonClick = this.onStopButtonClick.bind(this);
-    this.onDifficultChange = this.onDifficultChange.bind(this);
+    // this.onDifficultChange = this.onDifficultChange.bind(this);
     this.onNewButtonClick = this.onNewButtonClick.bind(this);
     this.onResultButtonClick = this.onResultButtonClick.bind(this);
     this.onResultCardClick = this.onResultCardClick.bind(this);
@@ -220,18 +220,18 @@ class Controller {
     view.removeActiveStates();
   }
 
-  onDifficultChange(event) {
-    const button = event.target;
-    if (!isButtonClicked(event)) return;
+  // onDifficultChange(event) {
+  //   const button = event.target;
+  //   if (!isButtonClicked(event)) return;
 
-    view.removeActiveStates(view.difficultiesContainer);
-    button.classList.add(CLASS_NAMES.ACTIVE);
+  //   view.removeActiveStates(view.difficultiesContainer);
+  //   button.classList.add(CLASS_NAMES.ACTIVE);
 
-    const newDifficult = +button.innerText - 1;
-    if (newDifficult === this.difficult) return;
-    showSpinner();
-    this.newGame(newDifficult);
-  }
+  //   const newDifficult = +button.innerText - 1;
+  //   if (newDifficult === this.difficult) return;
+  //   showSpinner();
+  //   this.newGame(newDifficult);
+  // }
 
   onNewButtonClick() {
     showSpinner();
@@ -352,7 +352,7 @@ class Controller {
     view.initGameButton(this.onGameButtonClick);
     view.initSpeechInput(this.onChangeSpeechInput);
     view.initStopButton(this.onStopButtonClick);
-    view.initDifficulties(this.onDifficultChange);
+    // view.initDifficulties(this.onDifficultChange);
     view.initNewButton(this.onNewButtonClick);
     view.initResultButton(this.onResultButtonClick);
     view.initResultsNewGameButton(this.onResultsNewGameButtonClick);

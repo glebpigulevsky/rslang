@@ -1,4 +1,4 @@
-.english-puzzle-body {
+.speakit-body {
   .results__container {
     display: none;
   }
@@ -18,76 +18,50 @@
     padding: 20px;
   }
   
-  .picture__container {
-    @include flex-center;
+  // .spealit-cards__item {
+  //   width: 15vw;
+  //   max-width: 200px;
+  //   margin: auto;
+  //   // width: 260px;
+  //   // margin: 20px;
+  //   overflow: hidden;
+  //   text-overflow: ellipsis;
+  //   border: 1px solid $color-dark-blue;
+  //   border-radius: 10px;
+  //   transition: .2s ease-in;
   
-    flex-direction: column;
+  //   &:focus,
+  //   &:hover,
+  //   &:active {
+  //     transform: scale(1.05);
+  //   }
+  // }
   
-    @include media-tablet {
-      display: none;
-    }
-  }
+  // .speakit-card__link {
+  //   @include flex-center;
   
-  .statistic__picture {
-    width: 400px;
-    border: 5px solid $color-dark-blue;
-    border-radius: 20px;
-    transition: .2s ease-in;
+  //   flex-direction: column;
+  //   min-height: 60px;
+  //   padding: 5px;
+  //   font-size: 16px;
+  //   line-height: 24px;
+  //   color: $color-text-additional;
+  //   border-radius: 10px;
+  //   background-color: $color-light;
+  //   background-image: url('../assets/img/dinamic-icon.png');
+  //   background-repeat: no-repeat;
+  //   background-position: 11px, 0;
+  //   background-size: 36px;
   
-    &:focus,
-    &:hover,
-    &:active {
-      outline: none;
-      border: 5px solid $color-hovered;
-      transform: scale(1.05);
-    }
-  }
+  //   &:focus,
+  //   &:hover,
+  //   &:active {
+  //     color: $color-light;
+  //     background-color: $color-hovered;
+  //   }
+  // }
   
-  .cards__item-english-for-puzzle {
-    width: 260px;
-    margin: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border: 1px solid $color-dark-blue;
-    border-radius: 10px;
-    transition: .2s ease-in;
-  
-    &:focus,
-    &:hover,
-    &:active {
-      transform: scale(1.05);
-    }
-  }
-  
-  .english-puzzle-wrapper .card__link {
-    @include flex-center;
-  
-    flex-direction: column;
-    min-height: 60px;
-    padding: 5px;
-    font-size: 16px;
-    line-height: 24px;
-    color: $color-text-additional;
-    border-radius: 10px;
-    background-color: $color-light;
-    background-image: url('../assets/img/dinamic-icon.png');
-    background-repeat: no-repeat;
-    background-position: 11px, 0;
-    background-size: 36px;
-  
-    &:focus,
-    &:hover,
-    &:active {
-      color: $color-light;
-      background-color: $color-hovered;
-    }
-  }
-  
-  .english-puzzle-wrapper .card__link.active {
-    color: $color-light;
-    background-color: $color-orange;
-  }
-  
+   
   .correct__title,
   .errors__title,
   .time {
@@ -123,7 +97,7 @@
     .card__word,
     .card__transcription {
       margin: 0;
-      margin-bottom: 5px;
+      // margin-bottom: 5px;
     }
   
     .card__translation {
@@ -167,7 +141,7 @@
     font-size: 25px;
     line-height: 40px;
   
-    .cards__item-english-for-puzzle {
+    .speakit-cards__item {
       width: auto;
       margin: 10px;
       padding: 10px;

@@ -15,7 +15,7 @@ export const speakItPageComponent = {
           </nav>
           <div class="game__controls">
             <div class="buttons__wrapper">
-              <div class="difficulties">
+            <!-- <div class="difficulties">
                 <span class="difficult__description">Level:</span>
                 <button class="game__difficult game__difficult-1 speakit-button active">1</button>
                 <button class="game__difficult game__difficult-2 speakit-button">2</button>
@@ -23,7 +23,7 @@ export const speakItPageComponent = {
                 <button class="game__difficult game__difficult-4 speakit-button">4</button>
                 <button class="game__difficult game__difficult-5 speakit-button">5</button>
                 <button class="game__difficult game__difficult-6 speakit-button">6</button>
-              </div>
+              </div> -->
               <div class="button__container">
                 <button class="game__button game__button-new speakit-button">New game</button>
                 <button class="game__button game__button-start speakit-button">Start game</button>
@@ -35,9 +35,9 @@ export const speakItPageComponent = {
           </div>
 
           <div class="main-card">
-            <div>
+            <div class="main-card__description">
               <p class="main-card__translation"></p>
-              <input class="main-card__speech-input input" type="text" readonly>
+              <input class="main-card__speech-input" type="text" readonly>
             </div>
             <div class="picture__container">
               <img class="main-card__picture" alt="current word picture">

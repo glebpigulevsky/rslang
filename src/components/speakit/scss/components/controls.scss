@@ -1,70 +1,58 @@
-.difficulties {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: baseline;
-  margin: 5px;
-  padding-top: 10px;
-}
-
-.buttons__wrapper {
-  display: flex;
-  justify-content: space-evenly;
-  align-items: baseline;
+.game__controls {
+  @include flex-center;
+  flex-direction: column;
   flex-wrap: wrap;
 }
 
-.game__difficult {
-  box-sizing: border-box;
-  display: block;
-  width: 35px;
-  height: 35px;
-  margin: 0 5px;
-  padding: 0;
-
-  line-height: 30px;
-  border-radius: 50%;
-}
-
-.button__container {
+.speakit-body .game__controls,
+.speakit-body .button__container,
+.speakit-body .button__container-results {
   display: flex;
   justify-content: center;
+  flex-wrap: wrap;
 }
 
-.game__button {
-  margin: 0 10px;
+.speakit-body .game__controls {
+  align-items: center;
 }
 
-.disabled.game__button {
-  background-color: lightcoral;
-  box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4);
+.speakit-button {
+  margin: 10px;
+  text-transform: uppercase;
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px $color-shadow;
 
-  &:focus,
-  &:hover,
-  &:active {
-    color: white;
+  @include button($color: $color-light, $background: $color-btn, $width: 200px, $height: 40px, $radius: 30px);
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+
+    &.active {
+      background-color: $color-orange;
+      box-shadow: none;
+    }
   }
 }
 
-.active.game__difficult{
- box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4);
+@keyframes speakit-resize {
+  40% {
+    transform: scale(.9);
+  }
 
-  &:focus,
-  &:hover,
-  &:active {
-    color: white;
-    box-shadow: 0 0 10px 0 #335e97 inset, 0 0 10px 4px #335e97;
+  80% {
+    transform: scale(1.1);
   }
 }
 
-.difficult__description {
-  align-self: center;
-  display: block;
-  margin-right: 10px;
-  font-size: 25px;
-  font-family: Montserrat, sans-serif;
-  font-weight: 900;
-  color: rgb(0, 189, 129);
-
-  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.8);
-    -webkit-text-fill-color: rgb(0, 189, 129);
+.speakit-body .animated {
+  animation: speakit-resize .8s infinite linear;
 }
