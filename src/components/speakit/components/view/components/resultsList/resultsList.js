@@ -70,10 +70,11 @@ export default class ResultsList {
 
     this.sliderItem.append(this.correctContainer);
     this.sliderItem.append(this.errorsContainer);
+
+    // view.swiper.appendSlide(this.sliderItem);
     this.gallery.append(this.sliderItem);
 
     if (this.longResults) {
-      debugger;
       this.longResults.forEach((resultItem, index) => {
         const card = new LongStatisticCard(this.longStatisticList, index, resultItem);
         card.render();
@@ -91,7 +92,8 @@ export default class ResultsList {
   }
 
   init() {
-    this.gallery = this.container.querySelector(`.${CLASS_NAMES.RESULT.GALLERY}`);
+    // this.gallery = this.container.querySelector(`.${CLASS_NAMES.RESULT.GALLERY}`);
+    this.gallery = this.container.querySelector('.swiper-wrapper'); // todo gallery
 
     this.sliderItem = document.body.querySelector(`.${CLASS_NAMES.RESULT.TEMPLATE}`).content.cloneNode(true).querySelector(`.${CLASS_NAMES.SLIDER.ITEM}`);
     if (this.additionalClass) this.sliderItem.classList.add(this.additionalClass);
@@ -107,7 +109,8 @@ export default class ResultsList {
     this.errorsList = document.createElement('ul');
     this.errorsList.className = CLASS_NAMES.RESULT.ERRORS__LIST;
 
-    this.longStatisticsContainer = document.querySelector(`.${CLASS_NAMES.RESULT.TEMPLATE}`).content.cloneNode(true).querySelector(`.${CLASS_NAMES.RESULT.LONG_CONTAINER}`);
+    this.longStatisticsContainer = document.querySelector(`.${CLASS_NAMES.RESULT.TEMPLATE}`)
+      .content.cloneNode(true).querySelector(`.${CLASS_NAMES.RESULT.LONG_STATISTIC_CONTAINER}`);
     this.longStatisticList = document.createElement('ul');
     this.longStatisticList.className = CLASS_NAMES.RESULT.LONG_STATISTIC_LIST;
 

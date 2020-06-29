@@ -61,7 +61,6 @@ class Model {
     };
 
     this.currentResults.push(currentResult);
-
     localStorage.setItem('speakit-currentResults', JSON.stringify(this.currentResults));
 
     this.saveLongResults(guessedList, currentResult.time);

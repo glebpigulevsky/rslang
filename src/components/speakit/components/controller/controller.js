@@ -45,6 +45,7 @@ class Controller {
     this.onResultCardClick = this.onResultCardClick.bind(this);
     this.onResultsNewGameButtonClick = this.onResultsNewGameButtonClick.bind(this);
     this.onResultsResumeGameButtonClick = this.onResultsResumeGameButtonClick.bind(this);
+    this.onResultsLongStatisticButtonClick = this.onResultsLongStatisticButtonClick.bind(this);
     this.beforeUnloadHandler = this.beforeUnloadHandler.bind(this);
 
     this.onLevelChangeHandlerBinded = this.onLevelChangeHandler.bind(this);
@@ -197,8 +198,8 @@ class Controller {
     model.saveCompletedRounds(completedRoundsData);
 
     view.playSuccessSound();
-    this.onResultButtonClick();
     this.onStopButtonClick();
+    this.onResultButtonClick();
   }
 
   onStopButtonClick() {
@@ -252,6 +253,10 @@ class Controller {
     if (this.recognition) this.recognition.start();
   }
 
+  onResultsLongStatisticButtonClick() {
+    view.resultsContainer.classList.toggle(CLASS_NAMES.RESULT.LONG_STATISTIC);
+  }
+
   onResultButtonClick() {
     togglePageState(CLASS_NAMES.RESULT.PAGE);
 
@@ -261,7 +266,7 @@ class Controller {
         event: EVENTS.CLICK,
         handler: this.onResultCardClick,
       }],
-      model.translationsMap,
+      // model.translationsMap,
       this.guessedList,
       model.currentResults,
       model.longResults,
@@ -358,6 +363,7 @@ class Controller {
     view.initResultButton(this.onResultButtonClick);
     view.initResultsNewGameButton(this.onResultsNewGameButtonClick);
     view.initResultsResumeGameButton(this.onResultsResumeGameButtonClick);
+    view.initResultsLongStatisticButton(this.onResultsLongStatisticButtonClick);
 
     window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
   }

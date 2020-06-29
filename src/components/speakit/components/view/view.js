@@ -1,3 +1,5 @@
+import Swiper from 'swiper';
+
 import correctSound from '../../assets/audio/correct.mp3';
 import successSound from '../../assets/audio/success.mp3';
 import starWin from '../../assets/img/star-win.svg';
@@ -13,8 +15,47 @@ import { setActiveState, createStar } from '../../common/speakit.utils';
 
 import PageList from './components/pageList/pageList';
 import ResultsList from './components/resultsList/resultsList';
-import Slider from './components/slider/slider';
+// import Slider from './components/slider/slider';
 import Menu from './components/menu/menu';
+
+import 'swiper/css/swiper.min.css';
+
+const SWIPER_CONFIG = {
+  watchOverflow: true,
+  updateOnWindowResize: true,
+  preloadImages: true,
+  updateOnImagesReady: true,
+  grabCursor: true,
+  slidesPerView: 1,
+  spaceBetween: 10,
+  simulateTouch: true,
+  centerInsufficientSlides: true,
+  // breakpoints: {
+  //   650: {
+  //     slidesPerView: 1,
+  //     spaceBetween: 50,
+  //   },
+  //   950: {
+  //     slidesPerView: 3,
+  //     spaceBetween: 50,
+  //   },
+  //   1200: {
+  //     slidesPerView: 4,
+  //     spaceBetween: 50,
+  //   },
+  // },
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+  // pagination: {
+  //   el: '.swiper-pagination',
+  //   type: 'fraction',
+  //   clickable: true,
+  //   dynamicBullets: true,
+  //   dynamicMainBullets: 10,
+  // },
+};
 
 class View {
   constructor() {
@@ -33,7 +74,8 @@ class View {
     this.speechInput = null;
     // this.difficultiesContainer = null;
     this.statusBar = null;
-    this.slider = null;
+    // this.slider = null;
+    this.swiper = null;
 
     this.correctSound = new Audio(correctSound);
     this.successSound = new Audio(successSound);
@@ -47,7 +89,9 @@ class View {
     this.currentList.render();
   }
 
-  renderResultsList(pageData, listenersList, translationData, guessedList, currentResults, longResults) {
+  renderResultsList(pageData, listenersList, guessedList, currentResults, longResults) {
+    if (this.swiper.slides && this.swiper.slides.length) this.swiper.removeAllSlides();
+
     this.resultList = new ResultsList(
       this.resultsContainer,
       pageData,
@@ -71,8 +115,11 @@ class View {
       ).render();
     });
 
-    this.slider = new Slider();
-    this.slider.init();
+    // this.swiper = new Swiper('.swiper-container', SWIPER_CONFIG);
+    // this.slider.init();
+    // debugger;
+    // this.swiper.updateSlides();
+    this.swiper.update();
   }
 
   removeActiveStates(container = this.container) {
@@ -154,6 +201,10 @@ class View {
     this.resultsResumeGameButton.addEventListener(EVENTS.CLICK, onResultsResumeGameButtonClick);
   }
 
+  initResultsLongStatisticButton(onResultsLongStatisticClick) {
+    this.resultsLongStatisticButton.addEventListener(EVENTS.CLICK, onResultsLongStatisticClick);
+  }
+
   addStar() {
     const star = createStar(starWin);
     this.statusBar.append(star);
@@ -188,11 +239,14 @@ class View {
     this.resultsContainer = document.body.querySelector('.statistics__container');
     this.resultsNewGameButton = document.querySelector('.game__button-results_new');
     this.resultsResumeGameButton = document.querySelector('.game__button-results_return');
+    this.resultsLongStatisticButton = document.querySelector('.game__button_results-statistic');
     this.statusBar = document.querySelector('.status-bar');
 
     this.introduction = document.querySelector('.introduction');
     this.spinner = document.querySelector('.spinner');
     this.centralizer = document.querySelector('.speakit-centralizer');
+
+    this.swiper = new Swiper('.swiper-container', SWIPER_CONFIG);
 
     // export const ELEMENTS = {
     //   CENTRALIZER: document.querySelector('.centralizer'),

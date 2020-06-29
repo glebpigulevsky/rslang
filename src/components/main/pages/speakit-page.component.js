@@ -15,15 +15,6 @@ export const speakItPageComponent = {
           </nav>
           <div class="game__controls">
             <div class="buttons__wrapper">
-            <!-- <div class="difficulties">
-                <span class="difficult__description">Level:</span>
-                <button class="game__difficult game__difficult-1 speakit-button active">1</button>
-                <button class="game__difficult game__difficult-2 speakit-button">2</button>
-                <button class="game__difficult game__difficult-3 speakit-button">3</button>
-                <button class="game__difficult game__difficult-4 speakit-button">4</button>
-                <button class="game__difficult game__difficult-5 speakit-button">5</button>
-                <button class="game__difficult game__difficult-6 speakit-button">6</button>
-              </div> -->
               <div class="button__container">
                 <button class="game__button game__button-new speakit-button">New game</button>
                 <button class="game__button game__button-start speakit-button">Start game</button>
@@ -51,21 +42,27 @@ export const speakItPageComponent = {
             <div class="button__container-results">
               <button class="game__button game__button-results_return speakit-button">Return</button>
               <button class="game__button game__button-results_new speakit-button">New game</button>
+              <button class="game__button game__button_results-statistic speakit-button">Statistic</button>
             </div>
 
             <div class="statistics__container">
-              <div class="slider__wrapper wrapper">
-                <div class="button__container-slider button__container_left">
-                  <button class="slider__button slider__button_previous">
-                    <span class="slider__button-icon"></span>
-                  </button>
-                </div>
-                <div class="button__container-slider button__container_right">
-                  <button class="slider__button slider__button_next">
-                    <span class="slider__button-icon"></span>
-                  </button>
-                </div>
-                <div class="gallery">
+              <div class="swiper-container">
+                <div class="swiper-button-prev"></div>
+                <div class="swiper-button-next"></div>
+                <div class="swiper-wrapper wrapper">
+                  <!-- <div class="button__container-slider button__container_left">
+                    <button class="slider__button slider__button_previous">
+                      <span class="slider__button-icon"></span>
+                    </button>
+                  </div>
+                  <div class="button__container-slider button__container_right">
+                    <button class="slider__button slider__button_next">
+                      <span class="slider__button-icon"></span>
+                    </button>
+                  </div>
+                  
+                  <div class="gallery">
+                  </div> -->
                 </div>
               </div>
             </div>
@@ -100,7 +97,7 @@ export const speakItPageComponent = {
       </div>
 
       <template class="statistic-template">
-        <div class="slider__item">
+        <div class="slider__item swiper-slide">
           <p class="time"></p>
           <div class="results__correct">
             <p class="correct__title">
