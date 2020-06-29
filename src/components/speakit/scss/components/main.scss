@@ -1,13 +1,19 @@
 .speakit-body {
-  font-size: 16px;
-  font-family: Verdana, Helvetica, sans-serif;
-  font-weight: 400;
+  @include segoe-additional($color: $color-text, $weight: 400);
+  font-size: px-to-rem(16px);
+  line-height: px-to-rem(20px);
 
   background: #d6eaf8;
-
+  background: url('./../assets/img/main_bg.png');
+  // background-position: center;
+  // background-repeat: no-repeat;
+  // background-size: cover;
   user-select: none;
 
-  background: url('./../assets/img/main_bg.png');
+  @include media-tablet {
+    font-size: px-to-rem(12px);
+    line-height: px-to-rem(16px);
+  }
 }
 
 .speakit-centralizer {

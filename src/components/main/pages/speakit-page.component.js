@@ -89,7 +89,12 @@ export const speakItPageComponent = {
 
       <div class="introduction">
         <div class="introduction__container">
-          <button class="introduction__button speakit-button">start</button>
+          <div class="introduction__description-container">
+            <h1 class="introduction__logo">Mini-game "SpeakIt"</h1>
+            <button class="introduction__button speakit-button">start</button>
+            <p class="introduction__description">Train words spelling, collect stars, select levels, rounds.</p>
+            <p class="introduction__description">Current session game statistic slider/swiper</p>
+          </div>
         </div>
       </div>
 

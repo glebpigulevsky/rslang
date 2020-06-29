@@ -1,50 +1,57 @@
 .speakit-body .introduction {
   width: 100vw;
-  height: 100vh;
-
-  background-color: rgba(182, 203, 230, 0.9);
+  min-height: 100vh;
+  background-color: $color-introduction-bg;
   background-image: url('./../assets/img/introduction_bg.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
   background-blend-mode: multiply;
-
   z-index: 1000;
 }
 
 .speakit-body .introduction__container {
   position: relative;
 
+  @include flex-center;
+
+  flex-direction: column;
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
+  color: $color-text-additional;
 
   backdrop-filter: opacity(0.8) brightness(1.2);
 }
 
-.speakit-body .introduction.hidden {
-  display: none;
+.speakit-body .introduction__logo {
+  font-size: px-to-rem(20px);
+  line-height: px-to-rem(30px);
+  text-align: center;
 }
 
 .speakit-body .introduction__button {
-  position: absolute;
-  bottom: 100px;
-  left: 100px;
+  min-width: 10vw;
+  min-height: 60px;
+  font-size: px-to-rem(14px);
+  line-height: px-to-rem(20px);
+}
 
-  min-width: 20vw;
-  min-height: 50px;
+.speakit-body .introduction__description-container {
+  @include flex-center;
 
-  font-size: 30px;
-  background-color: #00bf82;
+  flex-direction: column;
+  margin: 20px;
+  padding: 20px;
+  background-color: $color-introduction-description-bg;
+  border-radius: 20px;
 
-  box-shadow:  5px 10px 0 rgba(0, 0, 0, 0.2), 0px 5px 10px 0 rgba(0, 0, 0, 0.4),
-               0 0 40px 40px #335e97 inset, 0 0 0 0 #00bf82;
-  transition: .03s ease-in-out;
-
-  &:focus,
-  &:hover,
-  &:active {
-    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2), 0px 5px 10px 0 rgba(0, 0, 0, 0.4),
-                0 0 10px 0 #00bf82 inset, 0 0 10px 4px white;
-    color: white;
+  @include media-tablet {
+    margin: 10px;
+    padding: 10px;
   }
+}
+
+.speakit-body .introduction__description {
+  font-weight: bold;
+  text-align: center;
 }
