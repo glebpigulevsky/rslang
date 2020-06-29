@@ -120,6 +120,8 @@ class Menu {
       window.history.pushState({ pageId: '/' }, 'main', `${window.location.pathname}#`);
       const main = document.querySelector('.main');
       main.innerHTML = mainPageComponent.render();
+      const mainButton = document.querySelector('.main-button__start');
+      mainButton.addEventListener('click', this.mainButtonHandler.bind(this));
     }
     console.info('UserDoesNotHaveAccess');
   }
