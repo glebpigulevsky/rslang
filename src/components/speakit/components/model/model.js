@@ -9,6 +9,9 @@ class Model {
     this.pageData = null;
     this.translationsMap = null;
     this.isWordGuessed = this.isWordGuessed.bind(this);
+
+    this.currentResults = null;
+    this.longResults = null;
   }
 
   loadPage(response) {
@@ -45,15 +48,11 @@ class Model {
     return this.pageData.find((wordData) => wordData.word === word);
   }
 
-  loadResults() {
-    this.results = JSON.parse(localStorage.getItem(CLASS_NAMES.RESULT.PAGE)) || [];
+  loadCurrentResults() {
+    this.currentResults = JSON.parse(localStorage.getItem('speakit-currentResults')) || [];
   }
 
-  getTranslationByWord(word) {
-    return this.pageData.find((wordData) => wordData.word === word).wordTranslate;
-  }
-
-  saveResults(guessedList) {
+  saveCurrentResults(guessedList) {
     const currentResult = {
       pageData: this.pageData,
       // translations: Array.from(this.translationsMap),
@@ -61,21 +60,43 @@ class Model {
       time: new Date().toLocaleString(),
     };
 
-    this.results.push(currentResult);
+    this.currentResults.push(currentResult);
 
-    localStorage.setItem(CLASS_NAMES.RESULT.PAGE, JSON.stringify(this.results));
+    localStorage.setItem('speakit-currentResults', JSON.stringify(this.currentResults));
+
+    this.saveLongResults(guessedList, currentResult.time);
+  }
+
+  loadLongResults() {
+    this.longResults = JSON.parse(localStorage.getItem('speakit-longResults')) || [];
+  }
+
+  saveLongResults(guessedList, finalTime) {
+    const currentResult = {
+      guessedList,
+      finalTime,
+    };
+
+    this.longResults.push(currentResult);
+
+    localStorage.setItem('speakit-longResults', JSON.stringify(this.longResults));
+  }
+
+  getTranslationByWord(word) {
+    return this.pageData.find((wordData) => wordData.word === word).wordTranslate;
   }
 
   saveCompletedRounds(completedRoundsData) {
-    localStorage.setItem('completedRoundsData', JSON.stringify(completedRoundsData));
+    localStorage.setItem('speakit-completedRoundsData', JSON.stringify(completedRoundsData));
   }
 
   loadCompletedRounds() {
-    return JSON.parse(localStorage.getItem('completedRoundsData'));
+    return JSON.parse(localStorage.getItem('speakit-completedRoundsData'));
   }
 
   init() {
-    this.loadResults();
+    this.loadCurrentResults();
+    this.loadLongResults();
     this.wordsAPI = new WordsApi();
   }
 }

@@ -31,7 +31,7 @@ class View {
     this.resultsNewGameButton = null;
     this.resultsResumeGameButton = null;
     this.speechInput = null;
-    this.difficultiesContainer = null;
+    // this.difficultiesContainer = null;
     this.statusBar = null;
     this.slider = null;
 
@@ -47,7 +47,7 @@ class View {
     this.currentList.render();
   }
 
-  renderResultsList(pageData, listenersList, translationData, guessedList, results) {
+  renderResultsList(pageData, listenersList, translationData, guessedList, currentResults, longResults) {
     this.resultList = new ResultsList(
       this.resultsContainer,
       pageData,
@@ -55,11 +55,12 @@ class View {
       // Array.from(translationData),
       guessedList,
       new Date().toLocaleString(),
+      longResults,
       CLASS_NAMES.SLIDER.ACTIVE,
     );
     this.resultList.render();
 
-    results.forEach((result) => {
+    currentResults.forEach((result) => {
       new ResultsList(
         this.resultsContainer,
         result.pageData,
@@ -137,9 +138,9 @@ class View {
     this.newButton.addEventListener(EVENTS.CLICK, onNewButtonClick);
   }
 
-  initDifficulties(onDifficultChange) {
-    this.difficultiesContainer.addEventListener(EVENTS.CLICK, onDifficultChange);
-  }
+  // initDifficulties(onDifficultChange) {
+  //   this.difficultiesContainer.addEventListener(EVENTS.CLICK, onDifficultChange);
+  // }
 
   initResultButton(onResultButtonClick) {
     this.resultButton.addEventListener(EVENTS.CLICK, onResultButtonClick);
@@ -181,10 +182,10 @@ class View {
     this.gameButton = document.querySelector('.game__button-start');
     this.speechInput = document.querySelector('.main-card__speech-input');
     this.stopButton = document.querySelector('.game__button-stop');
-    this.difficultiesContainer = document.querySelector('.difficulties');
+    // this.difficultiesContainer = document.querySelector('.difficulties');
     this.newButton = document.querySelector('.game__button-new');
     this.resultButton = document.querySelector('.game__button-results');
-    this.resultsContainer = document.body.querySelector('.gallery');
+    this.resultsContainer = document.body.querySelector('.statistics__container');
     this.resultsNewGameButton = document.querySelector('.game__button-results_new');
     this.resultsResumeGameButton = document.querySelector('.game__button-results_return');
     this.statusBar = document.querySelector('.status-bar');

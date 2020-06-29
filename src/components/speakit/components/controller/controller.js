@@ -109,8 +109,8 @@ class Controller {
     //   this.addPageList();
     //   hideSpinner();
     // });
-    // this.roundFetchedData = await model.fetchCardsPage(this.currentLevel, this.currentRound); // todo without Internet!
-    this.roundFetchedData = defaultData;
+    this.roundFetchedData = await model.fetchCardsPage(this.currentLevel, this.currentRound); // todo without Internet!
+    // this.roundFetchedData = defaultData; // todo without Internet!
 
     if (view.currentList) view.removeCurrentList();
     model.loadPage(this.roundFetchedData);
@@ -204,7 +204,7 @@ class Controller {
   onStopButtonClick() {
     if (!this.isGameStarts) return;
 
-    model.saveResults(this.guessedList);
+    model.saveCurrentResults(this.guessedList);
 
     this.recognition.abort();
     this.recognition.onresult = null;
@@ -263,7 +263,8 @@ class Controller {
       }],
       model.translationsMap,
       this.guessedList,
-      model.results,
+      model.currentResults,
+      model.longResults,
     );
 
     if (this.recognition) this.recognition.abort();
@@ -282,7 +283,7 @@ class Controller {
   }
 
   beforeUnloadHandler() {
-    if (this.isGameStarts) model.saveResults(this.guessedList);
+    if (this.isGameStarts) model.saveCurrentResults(this.guessedList);
     window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
   }
 

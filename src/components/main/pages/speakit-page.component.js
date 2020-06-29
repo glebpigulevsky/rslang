@@ -53,19 +53,20 @@ export const speakItPageComponent = {
               <button class="game__button game__button-results_new speakit-button">New game</button>
             </div>
 
-            <div class="slider__wrapper wrapper">
-              <div class="button__container-slider button__container_left">
-                <button class="slider__button slider__button_previous">
-                  <span class="slider__button-icon"></span>
-                </button>
-              </div>
-              <div class="button__container-slider button__container_right">
-                <button class="slider__button slider__button_next">
-                  <span class="slider__button-icon"></span>
-                </button>
-              </div>
-
-              <div class="gallery">
+            <div class="statistics__container">
+              <div class="slider__wrapper wrapper">
+                <div class="button__container-slider button__container_left">
+                  <button class="slider__button slider__button_previous">
+                    <span class="slider__button-icon"></span>
+                  </button>
+                </div>
+                <div class="button__container-slider button__container_right">
+                  <button class="slider__button slider__button_next">
+                    <span class="slider__button-icon"></span>
+                  </button>
+                </div>
+                <div class="gallery">
+                </div>
               </div>
             </div>
           </div>
@@ -98,7 +99,7 @@ export const speakItPageComponent = {
         </div>
       </div>
 
-      <template class="slider__item-template">
+      <template class="statistic-template">
         <div class="slider__item">
           <p class="time"></p>
           <div class="results__correct">
@@ -115,6 +116,8 @@ export const speakItPageComponent = {
             </span>
             </p>
           </div>
+        </div>
+        <div class="long-statistic__container">
         </div>
       </template>
     </div>

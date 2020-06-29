@@ -3,9 +3,11 @@
     display: none;
   }
   
-  .result {
-    .header,
-    .main-game__container {
+  &.result {
+    .main-card,
+    .game__controls,
+    .cards__container,
+    .introduction {
       display: none;
     }
   

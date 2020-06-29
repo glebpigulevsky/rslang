@@ -25,6 +25,11 @@ export const CLASS_NAMES = {
     ERRORS__ITEM: 'errors__item',
     CORRECT: 'correct',
     ERRORS: 'errors',
+    TEMPLATE: 'statistic-template',
+    LONG_STATISTIC_LIST: 'long-statistic__list list',
+    LONG_CONTAINER: 'long-statistic__container',
+    CONTAINER: 'statistics__container',
+    GALLERY: 'gallery',
   },
   SLIDER: {
     ITEM: 'slider__item',
