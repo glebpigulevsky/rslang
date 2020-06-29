@@ -24,8 +24,8 @@ class AuthenticateUserService {
       }
       const { expiredTime } = userInfo;
       const now = Date.now();
+      console.info(`token now ${getHumanDateUtc(now)}`);
       console.info(`token expiredTime ${getHumanDateUtc(expiredTime)}`);
-      console.info(`token now ${getTokenExpiresMs(now)}`);
       if (expiredTime < now) {
         storage.deleteUserInfo();
         return false;

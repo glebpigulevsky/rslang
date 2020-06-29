@@ -128,7 +128,7 @@ class Menu {
 
   addMainButtonEventListener() {
     const el = document.querySelector('.main-button__start');
-    el.addEventListener('click', this.mainButtonHandler.bind(this));
+    if (el) el.addEventListener('click', this.mainButtonHandler.bind(this));
   }
 
   hasAccessUser() {
