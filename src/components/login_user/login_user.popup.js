@@ -8,15 +8,6 @@ import * as observable from '../../common/utils/common.utils.observable';
 class LoginUser {
   constructor() {
     this._authUserService = new AuthenticateUserService();
-    this._loginContainer = null;
-    this._closeBtn = null;
-    this._createBtn = null;
-    this._trainSwitch = null;
-    this._createInfo = null;
-    this._switchLabelSignUp = null;
-    this._switchLabelSignIn = null;
-    this._inputEmail = null;
-    this._inputPassword = null;
   }
 
   showLoginPopup() {
