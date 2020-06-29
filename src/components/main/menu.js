@@ -3,6 +3,7 @@ import { ERRORS_DESCRIPTION } from '../../services/services.methods';
 import { AuthenticateUserService, LocalStorageService } from '../../common/common.helper';
 import { mainHeaderLogout } from './components/main_header_logout';
 import { mainHeaderNavigation } from './components/main_header_navigation';
+import { mainPageComponent } from './pages/main-page.component';
 import * as observable from '../../common/utils/common.utils.observable';
 
 class Menu {
@@ -116,7 +117,9 @@ class Menu {
       mainHeaderLogoutNode = null;
     }
     if (window.location.hash !== '') {
-      window.location.replace(`${window.location.origin}${window.location.pathname}#`);
+      window.history.pushState({ pageId: '/' }, 'Main', `${window.location.pathname}#`);
+      const main = document.querySelector('.main');
+      main.innerHTML = mainPageComponent.render();
     }
     console.info('UserDoesNotHaveAccess');
   }
