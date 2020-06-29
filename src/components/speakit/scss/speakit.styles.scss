@@ -1,15 +1,7 @@
 @import './../../../scss/normalize.scss';
 @import './../../../scss/constants.scss';
 @import './../../../scss/mixins.scss';
-
 @import './../../../scss/fonts.css';
 @import './../../../scss/wrapper.scss';
 
-@import './../components/view/scss/introduction.scss';
-@import './../components/view/scss/spinner.scss';
-@import './../components/view/scss/card.scss';
-@import './../components/view/scss/controls.scss';
-@import './../components/view/scss/status-bar.scss';
-@import './../components/view/scss/selectors.scss';
-
-@import './../main/scss/common.scss';
+@import './components/view.styles.scss'; 

@@ -17,18 +17,18 @@ export const speakItPageComponent = {
             <div class="buttons__wrapper">
               <div class="difficulties">
                 <span class="difficult__description">Level:</span>
-                <button class="game__difficult game__difficult-1 button-rounded active">1</button>
-                <button class="game__difficult game__difficult-2 button-rounded">2</button>
-                <button class="game__difficult game__difficult-3 button-rounded">3</button>
-                <button class="game__difficult game__difficult-4 button-rounded">4</button>
-                <button class="game__difficult game__difficult-5 button-rounded">5</button>
-                <button class="game__difficult game__difficult-6 button-rounded">6</button>
+                <button class="game__difficult game__difficult-1 speakit-button active">1</button>
+                <button class="game__difficult game__difficult-2 speakit-button">2</button>
+                <button class="game__difficult game__difficult-3 speakit-button">3</button>
+                <button class="game__difficult game__difficult-4 speakit-button">4</button>
+                <button class="game__difficult game__difficult-5 speakit-button">5</button>
+                <button class="game__difficult game__difficult-6 speakit-button">6</button>
               </div>
               <div class="button__container">
-                <button class="game__button game__button-new button-rounded">New game</button>
-                <button class="game__button game__button-start button-rounded">Start game</button>
-                <button class="game__button game__button-stop button-rounded">Stop game</button>
-                <button class="game__button game__button-results button-rounded">Results</button>
+                <button class="game__button game__button-new speakit-button">New game</button>
+                <button class="game__button game__button-start speakit-button">Start game</button>
+                <button class="game__button game__button-stop speakit-button">Stop game</button>
+                <button class="game__button game__button-results speakit-button">Results</button>
               </div>
             </div>
             <p class="status-bar"></p>
@@ -49,8 +49,8 @@ export const speakItPageComponent = {
 
           <div class="results__container">
             <div class="button__container-results">
-              <button class="game__button game__button-results_return button-rounded">Return</button>
-              <button class="game__button game__button-results_new button-rounded">New game</button>
+              <button class="game__button game__button-results_return speakit-button">Return</button>
+              <button class="game__button game__button-results_new speakit-button">New game</button>
             </div>
 
             <div class="slider__wrapper wrapper">
@@ -89,7 +89,7 @@ export const speakItPageComponent = {
 
       <div class="introduction">
         <div class="introduction__container">
-          <button class="introduction__button button-rounded">start</button>
+          <button class="introduction__button speakit-button">start</button>
         </div>
       </div>
 

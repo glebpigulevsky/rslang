@@ -1,7 +1,7 @@
-import correctSound from './assets/audio/correct.mp3';
-import successSound from './assets/audio/success.mp3';
-import starWin from './assets/img/star-win.svg';
-import logo from './assets/img/logo.jpg';
+import correctSound from '../../assets/audio/correct.mp3';
+import successSound from '../../assets/audio/success.mp3';
+import starWin from '../../assets/img/star-win.svg';
+import logo from '../../assets/img/logo.jpg';
 
 import {
   CLASS_NAMES,

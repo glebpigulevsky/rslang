@@ -36,7 +36,7 @@ export const CLASS_NAMES = {
     LEFT: 'navigation__box_left',
     RIGHT: 'navigation__box_right',
   },
-  SELECT: 'select',
+  SELECTOR: 'selector',
 };
 
 export const EVENTS = {

@@ -1,6 +1,8 @@
 import model from '../model/model';
 import view from '../view/view';
 
+import { defaultData } from '../../data';
+
 import {
   initIntroButton,
   toggleDocumentScroll,
@@ -107,8 +109,9 @@ class Controller {
     //   this.addPageList();
     //   hideSpinner();
     // });
-    this.roundFetchedData = await model.fetchCardsPage(this.currentLevel, this.currentRound);
-    debugger;
+    // this.roundFetchedData = await model.fetchCardsPage(this.currentLevel, this.currentRound); // todo without Internet!
+    this.roundFetchedData = defaultData;
+
     if (view.currentList) view.removeCurrentList();
     model.loadPage(this.roundFetchedData);
     this.addPageList();

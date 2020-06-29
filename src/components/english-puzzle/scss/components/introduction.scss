@@ -1,4 +1,4 @@
-.introduction {
+.english-puzzle-body .introduction {
   width: 100vw;
   min-height: 100vh;
   background-color: $color-introduction-bg;
@@ -10,7 +10,7 @@
   z-index: 1000;
 }
 
-.introduction__container {
+.english-puzzle-body .introduction__container {
   position: relative;
 
   @include flex-center;
@@ -21,20 +21,20 @@
   color: $color-text-additional;
 }
 
-.introduction__logo {
+.english-puzzle-body .introduction__logo {
   font-size: px-to-rem(20px);
   line-height: px-to-rem(30px);
   text-align: center;
 }
 
-.introduction .introduction__button {
+.english-puzzle-body .introduction__button {
   min-width: 10vw;
   min-height: 60px;
   font-size: px-to-rem(14px);
   line-height: px-to-rem(20px);
 }
 
-.introduction__description-container {
+.english-puzzle-body .introduction__description-container {
   @include flex-center;
 
   flex-direction: column;
@@ -49,7 +49,7 @@
   }
 }
 
-.introduction__description {
+.english-puzzle-body .introduction__description {
   font-weight: bold;
   text-align: center;
 }

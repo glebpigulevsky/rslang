@@ -1,0 +1,73 @@
+.speakit-body {
+  font-size: 16px;
+  font-family: Verdana, Helvetica, sans-serif;
+  font-weight: 400;
+
+  background: #d6eaf8;
+
+  user-select: none;
+
+  background: url('./../assets/img/main_bg.png');
+}
+
+.speakit-centralizer {
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.list {
+  padding: 0;
+
+  list-style: none;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+// .active {
+//   color: white;
+
+//   background-color: lightcoral;
+// }
+
+.disabled {
+  background-color: lightcoral;
+}
+
+.speakit-button {
+  margin: 10px;
+  text-transform: uppercase;
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px $color-shadow;
+
+  @include button($color: $color-light, $background: $color-btn, $width: 200px, $height: 40px, $radius: 30px);
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+
+    &.active {
+      background-color: $color-orange;
+      box-shadow: none;
+    }
+  }
+}

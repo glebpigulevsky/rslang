@@ -1,9 +1,9 @@
-.introduction {
+.speakit-body .introduction {
   width: 100vw;
   height: 100vh;
 
   background-color: rgba(182, 203, 230, 0.9);
-  background-image: url('./../components/view/assets/img/introduction_bg.jpg');
+  background-image: url('./../assets/img/introduction_bg.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -12,7 +12,7 @@
   z-index: 1000;
 }
 
-.introduction__container {
+.speakit-body .introduction__container {
   position: relative;
 
   width: 100vw;
@@ -21,11 +21,11 @@
   backdrop-filter: opacity(0.8) brightness(1.2);
 }
 
-.introduction.hidden {
+.speakit-body .introduction.hidden {
   display: none;
 }
 
-.introduction__button {
+.speakit-body .introduction__button {
   position: absolute;
   bottom: 100px;
   left: 100px;
