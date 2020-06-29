@@ -1,11 +1,11 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL, TOKEN, MEDIA_LINK } from '../../common/services.common.constants';
+import { MAIN_API_URL, MEDIA_LINK } from '../../common/services.common.constants';
 
 const WORDS_REQUEST = { Group: { min: 0, max: 5 }, Page: { min: 0, max: 29 } };
 
 export default class WordsApi {
   constructor() {
-    this._apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._apiService = new ApiService(MAIN_API_URL);
   }
 
   async getWordsCollection({

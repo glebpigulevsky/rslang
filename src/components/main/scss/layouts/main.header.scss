@@ -31,6 +31,7 @@
 }
 
 .main-header__logout {
+  display: block;
   position: fixed;
   top: px-to-rem(8px);
   right: px-to-rem(20px);

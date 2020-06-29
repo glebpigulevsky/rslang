@@ -12,10 +12,6 @@ import { errorPageComponent } from './pages/error-page.component';
 import { englishPuzzleComponent } from './pages/english-puzzle.component';
 
 class Main {
-  constructor() {
-    this.init();
-  }
-
   init() {
     menu.init();
   }
@@ -36,11 +32,13 @@ const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
 const findComponentByPath = (path) => appRoutes.find((route) => route.path.match(new RegExp(`^\\${path}$`, 'gm'))) || undefined;
 
 const router = () => {
-  const main = document.querySelector('.main');
-  const path = parseLocation();
-  const { component = errorPageComponent } = findComponentByPath(path) || {};
-  main.innerHTML = component.render();
-  if (component.init) component.init();
+  if (menu.hasAccessUser() || window.location.hash === '') {
+    const main = document.querySelector('.main');
+    const path = parseLocation();
+    const { component = errorPageComponent } = findComponentByPath(path) || {};
+    main.innerHTML = component.render();
+    if (component.init) component.init();
+  }
 };
 
 const initRouter = () => {
