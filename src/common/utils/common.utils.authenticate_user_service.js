@@ -1,6 +1,6 @@
 import { LocalStorageService } from './common.utils.local_storage_service';
 import { UsersApi } from '../../services/services.methods';
-import { TOKEN_EXPIRES_MS, GET_HUMAN_DATE_UTC } from './common.utils.helper';
+import { getTokenExpiresMs, getHumanDateUtc } from './common.utils.helper';
 
 class AuthenticateUserService {
   constructor() {
@@ -24,8 +24,8 @@ class AuthenticateUserService {
       }
       const { expiredTime } = userInfo;
       const now = Date.now();
-      console.info(`token expiredTime ${GET_HUMAN_DATE_UTC(expiredTime)}`);
-      console.info(`token now ${GET_HUMAN_DATE_UTC(now)}`);
+      console.info(`token expiredTime ${getHumanDateUtc(expiredTime)}`);
+      console.info(`token now ${getTokenExpiresMs(now)}`);
       if (expiredTime < now) {
         storage.deleteUserInfo();
         return false;
@@ -49,7 +49,7 @@ class AuthenticateUserService {
   async _authUser({ email, password }) {
     const { token, userId, message } = await this.userApi.authenticateUser({ email, password });
     if (message === 'Authenticated') {
-      this.localStorageService.setUserInfo({ userId, token, expiredTime: TOKEN_EXPIRES_MS() });
+      this.localStorageService.setUserInfo({ userId, token, expiredTime: getTokenExpiresMs() });
       console.info(`User got token: ${token}, userId: ${userId}}`);
       return message;
     }

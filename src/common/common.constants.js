@@ -3,3 +3,6 @@ export const CLASS_NAMES = {
     LOGO: 'main__logo',
   },
 };
+
+// Token lifetime in milliseconds, default 4 hours
+export const FOUR_HOURES_IN_MS = 4 * 60 * 60 * 1000;
