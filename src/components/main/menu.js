@@ -117,7 +117,7 @@ class Menu {
       mainHeaderLogoutNode = null;
     }
     if (window.location.hash !== '') {
-      window.history.pushState({ pageId: '/' }, 'Main', `${window.location.pathname}#`);
+      window.history.pushState({ pageId: '/' }, 'main', `${window.location.pathname}#`);
       const main = document.querySelector('.main');
       main.innerHTML = mainPageComponent.render();
     }
