@@ -34,9 +34,6 @@
     width: px-to-rem(170px);
     height: px-to-rem(345px);
   }
-  @include media-mobilesmall {
-    width: px-to-rem(150px);
-  }
 }
 
 .login__title {
@@ -124,7 +121,7 @@
 
 .login__title_switcharea {
   display: flex;
-  padding: 1rem;
+  padding: 1rem 0;
 }
 
 .login__mode_selected {
@@ -147,6 +144,9 @@
   height: px-to-rem(30px);
   user-select: none;
   margin: 0 2rem;
+  @include media-mobilesmall {
+    margin: 0 1rem;
+  }
 }
 
 .login__switch input {
