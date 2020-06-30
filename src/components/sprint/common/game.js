@@ -16,6 +16,8 @@ export default class GameSprint {
     this.counterElement = null;
     this.correctAnswer = [];
     this.wrongAnswer = [];
+    this.answerTrue = this.handleButtonClick(true);
+    this.answerFalse = this.handleButtonClick(false);
   }
 
   async getWords() {
@@ -68,8 +70,8 @@ export default class GameSprint {
   startGame() {
     const btnTrue = document.getElementById('true');
     const btnFalse = document.getElementById('false');
-    btnTrue.addEventListener('click', this.handleButtonClick(true));
-    btnFalse.addEventListener('click', this.handleButtonClick(false));
+    btnTrue.addEventListener('click', this.answerTrue);
+    btnFalse.addEventListener('click', this.answerFalse);
     this.gameWords = this.shuffleArray(this.words);
     this.gameResults = [];
     console.log(this.gameResults);
@@ -133,8 +135,8 @@ export default class GameSprint {
         const rightField = document.getElementById('right');
         const btnTrue = document.getElementById('true');
         const btnFalse = document.getElementById('false');
-        btnTrue.removeEventListener('click', this.handleButtonClick(true));
-        btnFalse.removeEventListener('click', this.handleButtonClick(false));
+        btnTrue.removeEventListener('click', this.answerTrue);
+        btnFalse.removeEventListener('click', this.answerTrue);
         this.counterElement = 0;
         this.correctAnswer.splice(0);
         this.wrongAnswer.splice(0);
@@ -147,7 +149,6 @@ export default class GameSprint {
   }
 
   handleButtonClick(flag) {
-    const rightField = document.getElementById('right');
     return (event) => {
       if (this.currentGameWord.isCorrectTranslation === flag) {
         success.play();
@@ -159,6 +160,7 @@ export default class GameSprint {
           word: this.currentGameWord,
         });
       } else {
+        const rightField = document.getElementById('right');
         fail.play();
         rightField.innerHTML = '';
         this.gameResults.push({
