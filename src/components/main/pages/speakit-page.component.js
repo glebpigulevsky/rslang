@@ -72,21 +72,6 @@ export const speakItPageComponent = {
         </div>
       </div>
 
-      <div class="spinner hidden">
-        <div class="spinner__gear">
-          <div class="spinner__inner">
-            <div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-              <div></div>
-            </div>
-          </div>
-        </div>
-        <span class="spinner__description">loading...</span>
-      </div>
-
       <div class="introduction">
         <div class="introduction__container">
           <div class="introduction__description-container">

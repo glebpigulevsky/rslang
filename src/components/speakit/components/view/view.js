@@ -13,6 +13,7 @@ import { setActiveState, createStar, getPreloadedImage } from '../../common/spea
 import PageList from './components/pageList/pageList';
 import ResultsList from './components/resultsList/resultsList';
 import Menu from './components/menu/menu';
+import { Spinner } from '../../../spinner/spinner';
 
 import 'swiper/css/swiper.min.css';
 
@@ -77,6 +78,7 @@ class View {
     // this.slider = null;
     this.swiper = null;
     this.menu = null;
+    this.spinner = null;
 
     this.correctSound = new Audio(correctSound);
     this.successSound = new Audio(successSound);
@@ -236,6 +238,9 @@ class View {
   }
 
   init() {
+    this.spinner = new Spinner(document.body.querySelector('.main'));
+    this.spinner.init();
+
     this.container = document.querySelector('.cards__container');
     this.picture = document.querySelector('.main-card__picture');
     this.translation = document.querySelector('.main-card__translation');
@@ -252,7 +257,7 @@ class View {
     this.statusBar = document.querySelector('.status-bar');
 
     this.introduction = document.querySelector('.introduction');
-    this.spinner = document.querySelector('.spinner');
+    // this.spinner = document.querySelector('.spinner');
     this.centralizer = document.querySelector('.speakit-centralizer');
 
     this.swiper = new Swiper('.swiper-container', SWIPER_CONFIG);

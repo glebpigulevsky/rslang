@@ -113,7 +113,7 @@ class Controller {
     // });
     this.roundFetchedData = await model.fetchCardsPage(this.currentLevel, this.currentRound)
       .catch((error) => {
-        hideSpinner();
+        view.spinner.hide();
         new ErrorPopup().openPopup({ text: error.message });
         return null;
       }); // todo without Internet!
@@ -123,7 +123,7 @@ class Controller {
     if (view.currentList) view.removeCurrentList();
     model.loadPage(this.roundFetchedData);
     this.addPageList();
-    hideSpinner();
+    view.spinner.hide();
   }
 
   onPageCardClick(event) {
@@ -259,7 +259,7 @@ class Controller {
   // }
 
   onNewButtonClick() {
-    showSpinner();
+    view.spinner.show();
     this.newGame();
   }
 
@@ -322,7 +322,8 @@ class Controller {
 
   onIntroButtonClick({ target }) {
     view.introduction.classList.add(CLASS_NAMES.HIDDEN);
-    view.spinner.classList.remove(CLASS_NAMES.HIDDEN);
+    view.spinner.show();
+    // view.spinner.classList.remove(CLASS_NAMES.HIDDEN);
     view.centralizer.classList.remove(CLASS_NAMES.HIDDEN);
     toggleDocumentScroll();
     this.newGame();
@@ -334,7 +335,7 @@ class Controller {
     this.setCurrentLevel(+evt.target.value);
     this.setCurrentRound();
 
-    showSpinner();
+    view.spinner.show();
 
     if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove();
     // this.setCurrentRound();
@@ -348,7 +349,7 @@ class Controller {
   }
 
   onRoundChangeHandler(evt) {
-    showSpinner();
+    view.spinner.show();
     this.setCurrentRound(+evt.target.value);
     // this.newRound(this.currentLevel, this.currentRound);
     this.newGame();
