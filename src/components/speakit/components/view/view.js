@@ -15,20 +15,23 @@ import { setActiveState, createStar } from '../../common/speakit.utils';
 
 import PageList from './components/pageList/pageList';
 import ResultsList from './components/resultsList/resultsList';
-// import Slider from './components/slider/slider';
 import Menu from './components/menu/menu';
 
 import 'swiper/css/swiper.min.css';
 
 const SWIPER_CONFIG = {
-  watchOverflow: true,
+  // watchOverflow: true,
   updateOnWindowResize: true,
-  preloadImages: true,
-  updateOnImagesReady: true,
+  // preloadImages: true,
+  // updateOnImagesReady: true,
   grabCursor: true,
-  slidesPerView: 1,
-  spaceBetween: 10,
+  slidesPerView: 'auto',
+  // cssWidthAndHeight: true,
+  // sliderWidth: '800px',
+  spaceBetween: 0,
   simulateTouch: true,
+  // centeredSlides: true,
+  // slidesPerViewFit: false,
   centerInsufficientSlides: true,
   // breakpoints: {
   //   650: {
@@ -76,6 +79,7 @@ class View {
     this.statusBar = null;
     // this.slider = null;
     this.swiper = null;
+    this.menu = null;
 
     this.correctSound = new Audio(correctSound);
     this.successSound = new Audio(successSound);

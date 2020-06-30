@@ -33,6 +33,7 @@ class Controller {
     this.currentLevel = null;
     this.currentRound = null;
     this.roundFetchedData = null;
+    this.completedRoundsByLevels = null;
 
     this.onPageCardClick = this.onPageCardClick.bind(this);
     this.onIntroButtonClick = this.onIntroButtonClick.bind(this);
@@ -65,23 +66,22 @@ class Controller {
       this.setCurrentLevel(this.currentLevel + 1);
       this.currentRound = 0;
 
-      if (view.menu.ELEMENTS.SELECTORS.LEVEL) {
+      if (view.menu && view.menu.ELEMENTS.SELECTORS.LEVEL) {
         view.menu.ELEMENTS.SELECTORS.LEVEL.remove();
         view.menu.renderLevelSelector(this.currentLevel);
       }
-
-      if (view.menu.ELEMENTS.SELECTORS.ROUND) {
-        view.menu.ELEMENTS.SELECTORS.ROUND.remove();
-        view.menu.renderRoundSelector(
-          MAX_ROUNDS_COUNT,
-          this.currentRound,
-          this.completedRoundsByLevels[this.currentLevel],
-        );
-      }
-      return;
+    } else {
+      this.currentRound = round;
     }
 
-    this.currentRound = round;
+    if (view.menu && view.menu.ELEMENTS.SELECTORS.ROUND) {
+      view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+      view.menu.renderRoundSelector(
+        MAX_ROUNDS_COUNT,
+        this.currentRound,
+        this.completedRoundsByLevels[this.currentLevel],
+      );
+    }
   }
 
   addPageList() {
@@ -190,6 +190,18 @@ class Controller {
 
     if (this.guessedList.length !== MAX_WORDS_IN_ROUND) return;
 
+    if (!this.completedRoundsByLevels[this.currentLevel].includes(this.currentRound)) {
+      this.completedRoundsByLevels[this.currentLevel].push(this.currentRound);
+    }
+
+    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+
+    view.menu.renderRoundSelector(
+      MAX_ROUNDS_COUNT,
+      this.currentRound,
+      this.completedRoundsByLevels[[this.currentLevel]],
+    );
+
     const completedRoundsData = {
       completedRoundsByLevels: this.completedRoundsByLevels,
       lastLevelWithLastCompletedRound: this.currentLevel,
@@ -200,6 +212,7 @@ class Controller {
     view.playSuccessSound();
     this.onStopButtonClick();
     this.onResultButtonClick();
+    view.swiper.slideTo(view.swiper.slides.length - 1, 0);
   }
 
   onStopButtonClick() {
@@ -243,6 +256,7 @@ class Controller {
     togglePageState(CLASS_NAMES.RESULT.PAGE);
     view.resultList.remove();
 
+    this.setCurrentRound(this.currentRound + 1);
     this.onNewButtonClick();
   }
 
@@ -271,6 +285,7 @@ class Controller {
       model.currentResults,
       model.longResults,
     );
+    view.swiper.slideTo(0, 0);
 
     if (this.recognition) this.recognition.abort();
   }
