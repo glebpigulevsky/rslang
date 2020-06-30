@@ -18,6 +18,7 @@ export default class GameSprint {
     this.wrongAnswer = [];
     this.answerTrue = this.handleButtonClick(true);
     this.answerFalse = this.handleButtonClick(false);
+    this.removeField = this.clearGameFieldAndState();
   }
 
   async getWords() {
@@ -128,9 +129,15 @@ export default class GameSprint {
     containerWrongWords.innerHTML = htmlTamplateWrongWords;
 
     const buttonContinue = document.getElementById('start');
-    buttonContinue.addEventListener('click', (event) => {
+    buttonContinue.addEventListener('click', this.removeField);
+  }
+
+  clearGameFieldAndState() {
+    return (event) => {
       const target = event.target.className;
       if (target === 'btn') {
+        document.querySelector('.score-result-know').remove();
+        document.querySelector('.score-result-dont-know').remove();
         document.querySelector('.wrapper-score').classList.add('hidden');
         const rightField = document.getElementById('right');
         const btnTrue = document.getElementById('true');
@@ -138,18 +145,18 @@ export default class GameSprint {
         btnTrue.removeEventListener('click', this.answerTrue);
         btnFalse.removeEventListener('click', this.answerTrue);
         this.counterElement = 0;
-        this.correctAnswer.splice(0);
-        this.wrongAnswer.splice(0);
+        this.gameWords = [];
+        this.correctAnswer = [];
+        this.wrongAnswer = [];
         rightField.innerHTML = '';
+
         this.startGame();
       }
-    });
-    // show results
-    // clear game field and state
+    };
   }
 
   handleButtonClick(flag) {
-    return (event) => {
+    return () => {
       if (this.currentGameWord.isCorrectTranslation === flag) {
         success.play();
         this.counterElement += 1;
