@@ -1,6 +1,6 @@
 /* eslint-disable no-undef */
 import 'isomorphic-fetch';
-import { WordsApi } from './services.main.endpoints.words';
+import  WordsApi  from './services.main.endpoints.words';
 import { ERRORS_DESCRIPTION, MEDIA_LINK } from '../../common/services.common.constants';
 
 const wordsApi = new WordsApi();
