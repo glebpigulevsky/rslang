@@ -127,18 +127,23 @@
   }
   
   .main-card__picture {
-    max-width: 390px;
     display: block;
+    width: 400px;
     height: 300px;
     margin-bottom: 20px;
     border-radius: 40px;
+
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    transition: background-image 0.3s;
   
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2), 3px 10px 20px 0 rgba(0, 0, 0, 0.4);
   
-    object-fit: cover;
+    // object-fit: cover;
 
     @include media-tablet {
-      max-width: 300px;
+      width: 300px;
     }
   }
 
@@ -157,7 +162,7 @@
   
     border-radius: 10px;
   
-    font-size: 25px;
+    font-size: px-to-rem(14px);
     text-align: center;
     line-height: 40px;
     color: #335e97;
@@ -170,8 +175,12 @@
     box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2), 3px 10px 20px 0 rgba(0, 0, 0, 0.4);
 
     @include media-tablet {
-      width: 300px;
       margin: 10px;
+    }
+
+    @media (max-width: 400px) {
+      width: 300px;
+      font-size: px-to-rem(12px);
     }
   }
   
@@ -180,7 +189,7 @@
     margin: 20px;
     padding: 5px;
   
-    font-size: 25px;
+    font-size: px-to-rem(14px);
     color: #335e97;
   
     overflow: hidden;
@@ -203,8 +212,12 @@
     }
 
     @include media-tablet {
-      width: 290px;
       margin: 10px;
+    }
+
+    @media (max-width: 400px) {
+      width: 290px;
+      font-size: px-to-rem(12px);
     }
   }
 }

@@ -3,18 +3,7 @@ import {
   EVENTS,
 } from './speakit.constants';
 
-export const createCard = ({
-  word,
-  image,
-  audio,
-  transcription,
-  wordTranslate,
-}) => `
-  <a class="speakit-card__link link" href="#" data-word="${word}" data-audio="${audio}" data-image="${image}" data-translation="${wordTranslate}">
-    <p class="card__word">${word}</p>
-    <p class="card__transcription">${transcription}</p>
-  </a>
-`;
+import DEFAULT_IMAGE from '../assets/img/logo.png';
 
 export const createCardWithTranslation = ({
   word,
@@ -29,6 +18,30 @@ export const createCardWithTranslation = ({
     <p class="card__translation">${wordTranslate}</p>
   </a>
 `;
+
+function onSuccessLoadImage() {
+  this.resolve(this);
+  this.removeEventListener(EVENTS.LOAD, onSuccessLoadImage);
+}
+
+function onErrorLoadImage() {
+  this.src = DEFAULT_IMAGE;
+  this.resolve(this);
+  this.removeEventListener(EVENTS.ERROR, onErrorLoadImage);
+}
+
+const loadImage = (url) => new Promise((resolve) => {
+  const img = new Image();
+  img.resolve = resolve;
+  img.addEventListener(EVENTS.LOAD, onSuccessLoadImage);
+  img.addEventListener(EVENTS.ERROR, onErrorLoadImage);
+  img.src = url;
+});
+
+export const getPreloadedImage = async (url) => {
+  const preloadedImg = await loadImage(url);
+  return preloadedImg;
+};
 
 export const setActiveState = (target) => {
   target.classList.add(CLASS_NAMES.ACTIVE);

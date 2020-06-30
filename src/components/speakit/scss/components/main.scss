@@ -4,10 +4,10 @@
   line-height: px-to-rem(20px);
 
   background: #d6eaf8;
-  background: url('./../assets/img/main_bg.png');
-  // background-position: center;
-  // background-repeat: no-repeat;
-  // background-size: cover;
+  background: url('./../assets/img/main-bg.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
   user-select: none;
 
   @include media-tablet {

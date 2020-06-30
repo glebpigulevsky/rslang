@@ -1,6 +1,7 @@
 import model from '../model/model';
 import view from '../view/view';
 
+import { ErrorPopup } from '../../../error/error.error_popup';
 import { defaultData } from '../../data';
 
 import {
@@ -110,7 +111,13 @@ class Controller {
     //   this.addPageList();
     //   hideSpinner();
     // });
-    this.roundFetchedData = await model.fetchCardsPage(this.currentLevel, this.currentRound); // todo without Internet!
+    this.roundFetchedData = await model.fetchCardsPage(this.currentLevel, this.currentRound)
+      .catch((error) => {
+        hideSpinner();
+        new ErrorPopup().openPopup({ text: error.message });
+        return null;
+      }); // todo without Internet!
+    if (!this.roundFetchedData) return;
     // this.roundFetchedData = defaultData; // todo without Internet!
 
     if (view.currentList) view.removeCurrentList();
@@ -137,11 +144,14 @@ class Controller {
 
     const audioSrc = selectedCard.dataset.audio;
     // const audio = new Audio(`${DATA_PATH}${audioSrc}`);
-    const audio = new Audio(audioSrc);
+    const audio = new Audio();
+    audio.addEventListener(EVENTS.ERROR, view.onErrorSpellingHandler);
+    audio.src = audioSrc;
     audio.play();
   }
 
   onGameButtonClick() {
+    if (!this.roundFetchedData) return;
     if (this.isGameStarts) return;
     this.isGameStarts = true;
     if (!this.guessedList.length) view.removeActiveStates();
@@ -217,6 +227,7 @@ class Controller {
 
   onStopButtonClick() {
     if (!this.isGameStarts) return;
+    if (!this.roundFetchedData) return;
 
     model.saveCurrentResults(this.guessedList);
 
@@ -249,12 +260,13 @@ class Controller {
 
   onNewButtonClick() {
     showSpinner();
-    this.newGame(this.currentLevel);
+    this.newGame();
   }
 
   onResultsNewGameButtonClick() {
     togglePageState(CLASS_NAMES.RESULT.PAGE);
     view.resultList.remove();
+    view.resultsContainer.classList.remove(CLASS_NAMES.RESULT.LONG_STATISTIC);
 
     this.setCurrentRound(this.currentRound + 1);
     this.onNewButtonClick();
@@ -263,6 +275,7 @@ class Controller {
   onResultsResumeGameButtonClick() {
     togglePageState(CLASS_NAMES.RESULT.PAGE);
     view.resultList.remove();
+    view.resultsContainer.classList.remove(CLASS_NAMES.RESULT.LONG_STATISTIC);
 
     if (this.recognition) this.recognition.start();
   }

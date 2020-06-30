@@ -50,15 +50,17 @@ export default class ResultsList {
   }
 
   render() {
-    this.pageData.forEach((cardData) => {
-      let card;
-      if (this.guessedList.includes(cardData.word)) {
-        card = new PageCard(this.correctList, cardData);
-      } else {
-        card = new PageCard(this.errorsList, cardData);
-      }
-      card.render();
-    });
+    if (this.pageData) {
+      this.pageData.forEach((cardData) => {
+        let card;
+        if (this.guessedList.includes(cardData.word)) {
+          card = new PageCard(this.correctList, cardData);
+        } else {
+          card = new PageCard(this.errorsList, cardData);
+        }
+        card.render();
+      });
+    }
 
     this.correctContainer.append(this.correctList);
     const correctCount = this.sliderItem.querySelector(`.${CLASS_NAMES.RESULT.CORRECT}`);

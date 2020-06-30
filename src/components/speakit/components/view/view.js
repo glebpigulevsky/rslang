@@ -3,15 +3,12 @@ import Swiper from 'swiper';
 import correctSound from '../../assets/audio/correct.mp3';
 import successSound from '../../assets/audio/success.mp3';
 import starWin from '../../assets/img/star-win.svg';
-import logo from '../../assets/img/logo.jpg';
+import logo from '../../assets/img/logo.png';
+import error_audio from '../../assets/audio/server-error.mp3';
 
-import {
-  CLASS_NAMES,
-  EVENTS,
-  DATA_PATH,
-} from '../../common/speakit.constants';
+import { CLASS_NAMES, EVENTS } from '../../common/speakit.constants';
 
-import { setActiveState, createStar } from '../../common/speakit.utils';
+import { setActiveState, createStar, getPreloadedImage } from '../../common/speakit.utils';
 
 import PageList from './components/pageList/pageList';
 import ResultsList from './components/resultsList/resultsList';
@@ -83,9 +80,11 @@ class View {
 
     this.correctSound = new Audio(correctSound);
     this.successSound = new Audio(successSound);
+    this.errorAudio = new Audio(error_audio);
 
     this.renderTranslation = this.renderTranslation.bind(this);
     this.renderSpeechInput = this.renderSpeechInput.bind(this);
+    this.onErrorSpellingHandler = this.onErrorSpellingHandler.bind(this);
   }
 
   renderPageList(pageData, listenersList) {
@@ -153,8 +152,9 @@ class View {
     this.currentList.remove();
   }
 
-  renderPicture(imageSrc = logo) {
-    this.picture.src = imageSrc;
+  async renderPicture(imageSrc = logo) {
+    const img = await getPreloadedImage(imageSrc);
+    this.picture.style.backgroundImage = `url(${img.src})`;
   }
 
   renderTranslation(translation = '') {
@@ -167,6 +167,11 @@ class View {
     if (!speechInput) return;
     const changeEvent = new Event(EVENTS.CHANGE);
     this.speechInput.dispatchEvent(changeEvent);
+  }
+
+  onErrorSpellingHandler({ target }) {
+    target.removeEventListener(EVENTS.ERROR, this.onErrorSpellingHandler);
+    this.errorAudio.play();
   }
 
   initGameButton(onGameButtonClick) {

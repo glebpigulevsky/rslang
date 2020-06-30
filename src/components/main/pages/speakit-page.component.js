@@ -31,7 +31,9 @@ export const speakItPageComponent = {
               <input class="main-card__speech-input" type="text" readonly>
             </div>
             <div class="picture__container">
-              <img class="main-card__picture" alt="current word picture">
+              <!-- <img class="main-card__picture" alt="current word picture"> -->
+              <div class="main-card__picture">
+              </div>
             </div>
           </div>
 
