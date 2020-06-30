@@ -33,7 +33,7 @@ export default class GameSprint {
   createObjectWords(words) {
     const translations = words.map((word) => word.wordTranslate);
     return words.map(({ id, word, wordTranslate }) => {
-      const randomTranslation = this.getRandomElement(translations) 
+      const randomTranslation = this.getRandomElement(translations);
       return {
         id,
         word,
@@ -63,7 +63,7 @@ export default class GameSprint {
     }
     return result;
   }
-//?________------------------
+  // ?________------------------
 
   startGame() {
     const btnTrue = document.getElementById('true');
@@ -73,9 +73,10 @@ export default class GameSprint {
     this.gameWords = this.shuffleArray(this.words);
     this.gameResults = [];
     console.log(this.gameResults);
-  // clear field
+    document.querySelector('.game__container').classList.remove('hidden');
+    // clear field
     this.makeTurn();
-  };
+  }
 
   makeTurn() {
     this.renderScore();
@@ -89,14 +90,16 @@ export default class GameSprint {
 
   finishGame() {
     document.querySelector('.wrapper-score').classList.remove('hidden');
-    document.querySelector('.game__container').classList.add('hidden');
+    // document.querySelector('.game__container').classList.add('hidden');
 
-    this.gameResults.forEach(word => {
+    this.gameResults.forEach((word) => {
+      // eslint-disable-next-line no-unused-expressions
       word.isCorrect === true ? this.correctAnswer.push(word.word) : this.wrongAnswer.push(word.word);
     });
-
+    console.log(this.correctAnswer);
+    console.log(this.wrongAnswer);
     const knowElement = document.querySelector('.know');
-    const dntKnowElement =document.querySelector('.dntKnow');
+    const dntKnowElement = document.querySelector('.dntKnow');
     const resultKnow = document.createElement('div');
     resultKnow.className = 'score-result-know';
     const tamplateScoreKnow = `<p>Know : ${this.correctAnswer.length}</p><div class = 'correctly'></div>`;
@@ -111,14 +114,13 @@ export default class GameSprint {
     dntKnowElement.append(resultDntknow);
 
     const containerCorrectWords = document.querySelector('.correctly');
-    const objectWordsCorrect = this.correctAnswer.map(word => word);
+    const objectWordsCorrect = this.correctAnswer.map((word) => word);
     const addTamplateCorrectWords = (objectWordsCorrect) => `<span>${objectWordsCorrect.word}</span>`;
     const htmlTamplateCorrectWords = objectWordsCorrect.map(addTamplateCorrectWords).join('');
     containerCorrectWords.innerHTML = htmlTamplateCorrectWords;
 
-
     const containerWrongWords = document.querySelector('.error');
-    const objectWordsWrong = this.wrongAnswer.map(word => word);
+    const objectWordsWrong = this.wrongAnswer.map((word) => word);
     const addTamplateWrongWords = (objectWordsWrong) => `<span>${objectWordsWrong.word}</span>`;
     const htmlTamplateWrongWords = objectWordsWrong.map(addTamplateWrongWords).join('');
     containerWrongWords.innerHTML = htmlTamplateWrongWords;
@@ -126,12 +128,20 @@ export default class GameSprint {
     const buttonContinue = document.getElementById('start');
     buttonContinue.addEventListener('click', (event) => {
       const target = event.target.className;
-      console.log(target);
       if (target === 'btn') {
         document.querySelector('.wrapper-score').classList.add('hidden');
-        document.querySelector('.game__container').classList.remove('hidden');
+        const rightField = document.getElementById('right');
+        const btnTrue = document.getElementById('true');
+        const btnFalse = document.getElementById('false');
+        btnTrue.removeEventListener('click', this.handleButtonClick(true));
+        btnFalse.removeEventListener('click', this.handleButtonClick(false));
+        this.counterElement = 0;
+        this.correctAnswer.splice(0);
+        this.wrongAnswer.splice(0);
+        rightField.innerHTML = '';
+        this.startGame();
       }
-    })
+    });
     // show results
     // clear game field and state
   }
@@ -140,28 +150,29 @@ export default class GameSprint {
     const rightField = document.getElementById('right');
     return (event) => {
       if (this.currentGameWord.isCorrectTranslation === flag) {
-         success.play();
-         this.addElemenet(this.counterElement +=1);
-         this.gameResults.push({ 
-         isCorrect: true,
+        success.play();
+        this.counterElement += 1;
+        console.log(this.counterElement);
+        this.addElemenet(this.counterElement);
+        this.gameResults.push({
+          isCorrect: true,
           word: this.currentGameWord,
         });
       } else {
         fail.play();
         rightField.innerHTML = '';
-        this.gameResults.push({ 
+        this.gameResults.push({
           isCorrect: false,
           word: this.currentGameWord,
-         });
+        });
       }
 
       this.makeTurn();
     };
-  };
- 
+  }
+
   renderScore() {
     const scoreField = document.getElementById('score');
-    // const rightField = document.getElementById('right');
     const [score, correctCounter] = this.gameResults.reduce(([score, correctCounter], result) => {
       if (!result.isCorrect) {
         return [score, 0];
@@ -187,7 +198,8 @@ export default class GameSprint {
   }
 
   addElemenet(add) {
-      const rightField = document.getElementById('right');
+    console.log(add);
+    const rightField = document.getElementById('right');
     if (add <= 4) {
       rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
     } else if (add === 5) {
@@ -218,7 +230,7 @@ export default class GameSprint {
       await this.getWords();
       this.startGame();
     } catch (error) {
-      
+
     }
   }
 }
