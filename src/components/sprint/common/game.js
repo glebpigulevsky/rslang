@@ -18,15 +18,15 @@ export default class GameSprint {
     this.gameResults = null;
     this.currentGameWord = null;
     this.counterElement = null;
+    this.correctAnswer = [];
+    this.wrongAnswer = [];
+    // this.onClickButtonTrueBinded = this.onClickButtonTrue.bind(this);
   }
 
-  async getWords() {
+  async getWords(group = 0, page = 0) {
     let response;
     try {
-      response = await wordsAPI.getWordsCollection({
-        group: 0,
-        page: 1,
-      });
+      response = await wordsAPI.getWordsCollection({ group, page });
     } catch (error) {
       new ErrorPopup().openPopup({
         text: error.message,
@@ -34,6 +34,14 @@ export default class GameSprint {
       return null;
     }
     this.words = this.createObjectWords(response);
+  }
+
+  onChangeLevel() {
+    // const select = document.querySelector('#selector');
+    // const option = document.querySelector('option');
+    // select.addEventListener('change', () => {
+    console.log('select.selectedIndex');
+    // });
   }
 
   createObjectWords(words) {
@@ -90,9 +98,7 @@ export default class GameSprint {
   }
 
   finishGame() {
-    console.log(this.gameResults);
-    // show results
-    // clear game field and state
+
   }
 
   handleButtonClick(flag) {
@@ -183,14 +189,17 @@ export default class GameSprint {
 
   async init() {
     try {
+    //   this.btnTrue = document.getElementById('true');
+      showSpinner();
       await this.getWords();
+      hideSpinner();
       this.startbtn = document.querySelector('.preview__btn');
       this.gameField = document.querySelector('.inner__game-sprint');
       this.previewsStatrt();
       this.startGame();
       this.spinner.init();
+      this.onChangeLevel();
     } catch (error) {
-        
     }
   }
 }

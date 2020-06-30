@@ -6,9 +6,53 @@ export const sprintComponent = {
       <div class="body__game-sprint overflow-hidden">
         <div class="sprint-game__wrapper display-none">
             <div class="navigation">
-                <div class="controls__level"><span>Level</span></div>
+                <div class="navigation__box navigation__box_left">
+                    <span class="navigation__description level__description">Level:</span>
+                    <select id="selector" class="navigation__level selector" name="select">
+                        <option value="0">1</option>
+                        <option value="1">2</option>
+                        <option value="2">3</option>
+                        <option value="3">4</option>
+                        <option value="4">5</option>
+                        <option value="5">6</option>
+                    </select>
+                </div>
                 <button class="btn__my-words">repeat my words</button>
-                <div class="controls__round"><span>Round</span></div>
+                <div class="navigation__box navigation__box_right">
+                    <span class="navigation__description round__description">Round:</span>
+                     <select class="navigation__level selector" name="select">
+                        <option value="0">1</option>
+                        <option value="1">2</option>
+                        <option value="2">3</option>
+                        <option value="3">4</option>
+                        <option value="4">5</option>
+                        <option value="5">6</option>
+                        <option value="6">7</option>
+                        <option value="7">8</option>
+                        <option value="8">9</option>
+                        <option value="9">10</option>
+                        <option value="10">11</option>
+                        <option value="11">12</option>
+                        <option value="12">13</option>
+                        <option value="13">14</option>
+                        <option value="14">15</option>
+                        <option value="15">16</option>
+                        <option value="16">17</option>
+                        <option value="17">18</option>
+                        <option value="18">19</option>
+                        <option value="19">20</option>
+                        <option value="20">21</option>
+                        <option value="21">22</option>
+                        <option value="22">23</option>
+                        <option value="23">24</option>
+                        <option value="24">25</option>
+                        <option value="25">26</option>
+                        <option value="26">27</option>
+                        <option value="27">28</option>
+                        <option value="28">29</option>
+                        <option value="29">30</option>
+                    </select>
+                </div>
             </div>
             <div class="sprint-game__container">
                 <div class="inner__game-sprint">
@@ -54,5 +98,15 @@ export const sprintComponent = {
                 </div>
             </div>
         </div>
+        <div class="wrapper-score hidden">
+    <div class="score">
+    <div class="container-answers">
+      <div class ='know'></div><div class ='dntKnow'></div>
+    </div> 
+      <div class="button-wrapper">
+        <button class="btn" id="start">New game</button><button class="btn statistic">Statistic</button>
+      </div>
+      </div>
+    </div>
       </div>`,
 };

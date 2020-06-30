@@ -5,6 +5,13 @@
   padding: 40px;
 }
 
+.navigation__description {
+  font-weight: bold;
+  font-size: px-to-rem(16px);
+
+  $color: $color-text-additional;
+}
+
 .btn__my-words {
   display: flex;
   justify-content: center;
@@ -28,4 +35,43 @@
 
     @include transition($time: 0.4s, $property: all, $method: ease-out);
   }
+}
+
+.navigation__description {
+  font-weight: bold;
+  color: $color-text-additional;
+}
+
+.selector {
+  font-size: px-to-rem(16px);
+
+  background-color: $color-light-grey;
+  border-color: $color-border;
+  border-radius: 5px;
+  cursor: pointer;
+
+  @include segoe-subtitle($color: $color-text-additional, $weight: normal);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: 0.4s, $property: all, $method: ease-out);
+  }
+}
+
+.selector option {
+  font-size: px-to-rem(16px);
+
+  background-color: $color-light;
+}
+
+.selector option.completed {
+  color: $color-dark-orange;
+
+  background-color: $color-hovered;
 }
