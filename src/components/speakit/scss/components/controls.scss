@@ -1,5 +1,6 @@
 .game__controls {
   @include flex-center;
+
   flex-direction: column;
   flex-wrap: wrap;
 }

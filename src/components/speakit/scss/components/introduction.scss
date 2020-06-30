@@ -19,8 +19,7 @@
   width: 100vw;
   min-height: 100vh;
   color: $color-text-additional;
-
-  backdrop-filter: opacity(0.8) brightness(1.2);
+  backdrop-filter: opacity(.8) brightness(1.2);
 }
 
 .speakit-body .introduction__logo {

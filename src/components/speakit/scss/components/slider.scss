@@ -3,25 +3,23 @@
 }
 
 .swiper-container {
-  width: 85%; 
+  width: 85%;
 }
 
 .swiper-container .swiper-button-prev,
 .swiper-container .swiper-button-next {
   color: $color-btn;
-
-  transition: all 0.5s;
+  transition: all .5s;
 
   &:hover,
   &:focus,
   &:active {
     color: $color-orange;
     outline: none;
-
     opacity: 1;
   }
 
   @include media-mobile {
     display: none;
   }
-}  
+}

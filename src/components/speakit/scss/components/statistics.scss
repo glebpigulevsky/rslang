@@ -2,7 +2,7 @@
   .results__container {
     display: none;
   }
-  
+
   &.result {
     .main-card,
     .game__controls,
@@ -11,16 +11,16 @@
     .speakit-main .navigation {
       display: none;
     }
-  
+
     .results__container {
       display: block;
     }
   }
-  
+
   .button__container_results {
     padding: 20px;
   }
-     
+
   .correct__title,
   .errors__title,
   .time {
@@ -29,54 +29,54 @@
     text-align: center;
     margin: 0;
   }
-  
+
   .time {
     margin-top: 10px;
     margin-bottom: 10px;
     color: $color-text-additional;
   }
-  
+
   .results__correct,
   .results__errors {
     max-width: 70vw;
     margin: 0 auto;
   }
-  
+
   .errors__list,
   .correct__list {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-  
+
     .card__link {
       min-height: 100px;
     }
-  
+
     .card__word,
     .card__transcription {
       margin: 0;
     }
-  
+
     .card__translation {
       margin: 0;
     }
-  
+
     .card__content {
       padding-right: 10px;
       padding-left: 40px;
       text-align: center;
     }
   }
-  
+
   .correct__lead {
     color: $color-correct;
   }
-  
+
   .errors__lead {
     color: $color-wrong;
   }
-  
+
   .correct,
   .errors {
     display: inline-block;
@@ -85,20 +85,20 @@
     border-radius: 10px;
     color: $color-light;
   }
-  
+
   .correct {
     background-color: $color-correct;
   }
-  
+
   .errors {
     background-color: $color-wrong;
   }
-  
+
   .long-statistic__container {
     display: none;
     font-size: 25px;
     line-height: 40px;
-  
+
     .speakit-cards__item {
       width: auto;
       margin: 10px;
@@ -106,35 +106,35 @@
       overflow: hidden;
       text-overflow: ellipsis;
       color: $color-text-additional;
-  
+
       &:focus,
       &:hover,
       &:active {
         transform: none;
       }
     }
-  
+
     .card__content {
       @include flex-center;
-  
+
       flex-wrap: wrap;
       margin: 0;
-  
+
       span {
         margin-left: 10px;
       }
     }
-  
+
     .time {
       margin: 0;
     }
   }
-  
+
   .long-statistic {
     .swiper-wrapper {
       display: none;
     }
-  
+
     .long-statistic__container {
       display: block;
     }

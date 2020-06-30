@@ -1,8 +1,8 @@
 .speakit-body {
   @include segoe-additional($color: $color-text, $weight: 400);
+
   font-size: px-to-rem(16px);
   line-height: px-to-rem(20px);
-
   background: $color-light-grey;
   background: url('./../assets/img/main-bg.png');
   background-position: center;
@@ -29,7 +29,6 @@
 
 .list {
   padding: 0;
-
   list-style: none;
 }
 
