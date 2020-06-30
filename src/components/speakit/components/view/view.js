@@ -1,92 +1,57 @@
 import Swiper from 'swiper';
 
-import correctSound from '../../assets/audio/correct.mp3';
-import successSound from '../../assets/audio/success.mp3';
-import starWin from '../../assets/img/star-win.svg';
-import logo from '../../assets/img/logo.png';
-import error_audio from '../../assets/audio/server-error.mp3';
-
-import { CLASS_NAMES, EVENTS } from '../../common/speakit.constants';
-
-import { setActiveState, createStar, getPreloadedImage } from '../../common/speakit.utils';
-
 import PageList from './components/pageList/pageList';
 import ResultsList from './components/resultsList/resultsList';
 import Menu from './components/menu/menu';
 import { Spinner } from '../../../spinner/spinner';
 
-import 'swiper/css/swiper.min.css';
+import { setActiveState, createStar, getPreloadedImage } from '../../common/speakit.utils';
+import {
+  CLASS_NAMES,
+  EVENTS,
+  SWIPER_CONFIG,
+  EMPTY,
+} from '../../common/speakit.constants';
 
-const SWIPER_CONFIG = {
-  // watchOverflow: true,
-  updateOnWindowResize: true,
-  // preloadImages: true,
-  // updateOnImagesReady: true,
-  grabCursor: true,
-  slidesPerView: 'auto',
-  // cssWidthAndHeight: true,
-  // sliderWidth: '800px',
-  spaceBetween: 0,
-  simulateTouch: true,
-  // centeredSlides: true,
-  // slidesPerViewFit: false,
-  centerInsufficientSlides: true,
-  // breakpoints: {
-  //   650: {
-  //     slidesPerView: 1,
-  //     spaceBetween: 50,
-  //   },
-  //   950: {
-  //     slidesPerView: 3,
-  //     spaceBetween: 50,
-  //   },
-  //   1200: {
-  //     slidesPerView: 4,
-  //     spaceBetween: 50,
-  //   },
-  // },
-  navigation: {
-    nextEl: '.swiper-button-next',
-    prevEl: '.swiper-button-prev',
-  },
-  // pagination: {
-  //   el: '.swiper-pagination',
-  //   type: 'fraction',
-  //   clickable: true,
-  //   dynamicBullets: true,
-  //   dynamicMainBullets: 10,
-  // },
-};
+import correctSound from '../../assets/audio/correct.mp3';
+import successSound from '../../assets/audio/success.mp3';
+import errorAudio from '../../assets/audio/server-error.mp3';
+import starWin from '../../assets/img/star-win.svg';
+import logo from '../../assets/img/logo.png';
+
+import 'swiper/css/swiper.min.css';
 
 class View {
   constructor() {
-    this.container = null;
-    this.resultsContainer = null;
-    this.picture = null;
-    this.currentList = null;
-    this.resultList = null;
-    this.translation = null;
-    this.newButton = null;
-    this.gameButton = null;
-    this.stopButton = null;
-    this.resultButton = null;
-    this.resultsNewGameButton = null;
-    this.resultsResumeGameButton = null;
-    this.speechInput = null;
-    // this.difficultiesContainer = null;
-    this.statusBar = null;
-    // this.slider = null;
-    this.swiper = null;
-    this.menu = null;
-    this.spinner = null;
+    this.container = EMPTY;
+    this.resultsContainer = EMPTY;
+    this.picture = EMPTY;
+    this.currentList = EMPTY;
+    this.resultList = EMPTY;
+    this.translation = EMPTY;
+    this.newButton = EMPTY;
+    this.gameButton = EMPTY;
+    this.stopButton = EMPTY;
+    this.resultButton = EMPTY;
+    this.resultsNewGameButton = EMPTY;
+    this.resultsResumeGameButton = EMPTY;
+    this.speechInput = EMPTY;
+    this.statusBar = EMPTY;
+
+    this.swiper = EMPTY;
+    this.menu = EMPTY;
+    this.spinner = EMPTY;
+
+    this.listenersList = EMPTY;
 
     this.correctSound = new Audio(correctSound);
     this.successSound = new Audio(successSound);
-    this.errorAudio = new Audio(error_audio);
+    this.errorAudio = new Audio(errorAudio);
 
     this.renderTranslation = this.renderTranslation.bind(this);
     this.renderSpeechInput = this.renderSpeechInput.bind(this);
     this.onErrorSpellingHandler = this.onErrorSpellingHandler.bind(this);
+    this.beforeUnloadHandler = this.beforeUnloadHandler.bind(this);
   }
 
   renderPageList(pageData, listenersList) {
@@ -101,7 +66,6 @@ class View {
       this.resultsContainer,
       pageData,
       listenersList,
-      // Array.from(translationData),
       guessedList,
       new Date().toLocaleString(),
       longResults,
@@ -114,16 +78,11 @@ class View {
         this.resultsContainer,
         result.pageData,
         listenersList,
-        // result.translations,
         result.guessedList,
         result.time,
       ).render();
     });
 
-    // this.swiper = new Swiper('.swiper-container', SWIPER_CONFIG);
-    // this.slider.init();
-    // debugger;
-    // this.swiper.updateSlides();
     this.swiper.update();
   }
 
@@ -137,7 +96,7 @@ class View {
       .find((link) => link.dataset.word === speechInputValue);
     card.classList.add(CLASS_NAMES.ACTIVE);
 
-    this.renderPicture(card.dataset.image); // todo
+    this.renderPicture(card.dataset.image);
   }
 
   resetLinksStates(target) {
@@ -176,8 +135,31 @@ class View {
     this.errorAudio.play();
   }
 
+  addListener(element, event, listener) {
+    element.addEventListener(event, listener);
+    this.listenersList.push({ element, event, listener });
+  }
+
+  removeListeners() {
+    this.listenersList.forEach(({ element, event, listener }) => {
+      element.removeEventListener(event, listener);
+    });
+  }
+
+  initIntroButton(onIntroButtonClick) {
+    this.addListener(
+      this.introButton,
+      EVENTS.CLICK,
+      onIntroButtonClick,
+    );
+  }
+
   initGameButton(onGameButtonClick) {
-    this.gameButton.addEventListener(EVENTS.CLICK, onGameButtonClick);
+    this.addListener(
+      this.gameButton,
+      EVENTS.CLICK,
+      onGameButtonClick,
+    );
   }
 
   toggleGameButtonState() {
@@ -185,35 +167,59 @@ class View {
   }
 
   initSpeechInput(onChangeSpeechInput) {
-    this.speechInput.addEventListener(EVENTS.CHANGE, onChangeSpeechInput);
+    this.addListener(
+      this.speechInput,
+      EVENTS.CHANGE,
+      onChangeSpeechInput,
+    );
   }
 
   initStopButton(onStopButtonClick) {
-    this.stopButton.addEventListener(EVENTS.CLICK, onStopButtonClick);
+    this.addListener(
+      this.stopButton,
+      EVENTS.CLICK,
+      onStopButtonClick,
+    );
   }
 
   initNewButton(onNewButtonClick) {
-    this.newButton.addEventListener(EVENTS.CLICK, onNewButtonClick);
+    this.addListener(
+      this.newButton,
+      EVENTS.CLICK,
+      onNewButtonClick,
+    );
   }
 
-  // initDifficulties(onDifficultChange) {
-  //   this.difficultiesContainer.addEventListener(EVENTS.CLICK, onDifficultChange);
-  // }
-
   initResultButton(onResultButtonClick) {
-    this.resultButton.addEventListener(EVENTS.CLICK, onResultButtonClick);
+    this.addListener(
+      this.resultButton,
+      EVENTS.CLICK,
+      onResultButtonClick,
+    );
   }
 
   initResultsNewGameButton(onResultsNewGameButtonClick) {
-    this.resultsNewGameButton.addEventListener(EVENTS.CLICK, onResultsNewGameButtonClick);
+    this.addListener(
+      this.resultsNewGameButton,
+      EVENTS.CLICK,
+      onResultsNewGameButtonClick,
+    );
   }
 
   initResultsResumeGameButton(onResultsResumeGameButtonClick) {
-    this.resultsResumeGameButton.addEventListener(EVENTS.CLICK, onResultsResumeGameButtonClick);
+    this.addListener(
+      this.resultsResumeGameButton,
+      EVENTS.CLICK,
+      onResultsResumeGameButtonClick,
+    );
   }
 
   initResultsLongStatisticButton(onResultsLongStatisticClick) {
-    this.resultsLongStatisticButton.addEventListener(EVENTS.CLICK, onResultsLongStatisticClick);
+    this.addListener(
+      this.resultsLongStatisticButton,
+      EVENTS.CLICK,
+      onResultsLongStatisticClick,
+    );
   }
 
   addStar() {
@@ -237,17 +243,28 @@ class View {
     this.menu = new Menu(onLevelChangeHandler, onRoundChangeHandler);
   }
 
+  beforeUnloadHandler() {
+    this.removeListeners();
+    if (this.correctSound) this.correctSound.pause();
+    if (this.successSound) this.successSound.pause();
+    if (this.errorAudio) this.errorAudio.pause();
+
+    window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
+  }
+
   init() {
+    this.listenersList = [];
+
     this.spinner = new Spinner(document.body.querySelector('.main'));
     this.spinner.init();
 
     this.container = document.querySelector('.cards__container');
     this.picture = document.querySelector('.main-card__picture');
     this.translation = document.querySelector('.main-card__translation');
+    this.introButton = document.querySelector('.introduction__button');
     this.gameButton = document.querySelector('.game__button-start');
     this.speechInput = document.querySelector('.main-card__speech-input');
     this.stopButton = document.querySelector('.game__button-stop');
-    // this.difficultiesContainer = document.querySelector('.difficulties');
     this.newButton = document.querySelector('.game__button-new');
     this.resultButton = document.querySelector('.game__button-results');
     this.resultsContainer = document.body.querySelector('.statistics__container');
@@ -257,34 +274,8 @@ class View {
     this.statusBar = document.querySelector('.status-bar');
 
     this.introduction = document.querySelector('.introduction');
-    // this.spinner = document.querySelector('.spinner');
     this.centralizer = document.querySelector('.speakit-centralizer');
-
     this.swiper = new Swiper('.swiper-container', SWIPER_CONFIG);
-
-    // export const ELEMENTS = {
-    //   CENTRALIZER: document.querySelector('.centralizer'),
-    //   INTRODUCTION: document.querySelector('.introduction'),
-    //   SPINNER: document.querySelector('.spinner'),
-    //   CARDS_CONTAINER: document.querySelector('.cards__container'),
-    //   PICTURE: document.querySelector('.main-card__picture'),
-    //   TRANSLATION: document.querySelector('.main-card__translation'),
-    //   SPEECH_INPUT: document.querySelector('.main-card__speech-input'),
-    //   STATUS_BAR: document.querySelector('.status-bar'),
-    //   RESULT: {
-    //     TEMPLATE: document.body.querySelector('.slider__item-template'),
-    //     CONTAINER: document.body.querySelector('.gallery'),
-    //   },
-    //   BUTTONS: {
-    //     INTRODUCTION: document.querySelector('.introduction__button'),
-    //     NEW: document.querySelector('.game__button-new'),
-    //     GAME: document.querySelector('.game__button-start'),
-    //     STOP: document.querySelector('.game__button-stop'),
-    //     RESULTS: document.querySelector('.game__button-results'),
-    //     DIFFICULTIES: document.querySelector('.difficulties'),
-    //     RESULTS_NEW_GAME: document.querySelector('.game__button-results_new'),
-    //     RESULTS_RESUME_GAME: document.querySelector('.game__button-results_return'),
-    //   },
   }
 }
 

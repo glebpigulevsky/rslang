@@ -5,36 +5,37 @@ import {
   CLASS_NAMES,
   MAX_LEVELS_COUNT,
   MAX_ROUNDS_COUNT,
+  EMPTY,
 } from '../../../../common/speakit.constants';
 
 const SELECT_NAMES = {
-  LEVEL: 'LEVEL',
-  ROUND: 'ROUND',
+  LEVEL: 'level',
+  ROUND: 'round',
 };
 
 export default class Menu {
   constructor(onLevelChangeHandler, onRoundChangeHandler) {
-    this.ELEMENTS = {
-      MENU: null,
-      SELECTORS: {
-        LEVEL: null,
-        ROUND: null,
+    this.elements = {
+      menu: EMPTY,
+      selectors: {
+        level: EMPTY,
+        round: EMPTY,
       },
     };
 
     this.onChangeHandlers = {
-      LEVEL: onLevelChangeHandler,
-      ROUND: onRoundChangeHandler,
+      level: onLevelChangeHandler,
+      round: onRoundChangeHandler,
     };
 
     this.init();
   }
 
   renderSelector(valuesCount, containerClass, name, currentOption, visitedOptions) {
-    const container = this.ELEMENTS.MENU.querySelector(`.${containerClass}`);
+    const container = this.elements.menu.querySelector(`.${containerClass}`);
     const values = new Array(valuesCount).fill(0).map((item, index) => index);
     const contents = values.map((item) => item + 1);
-    this.ELEMENTS.SELECTORS[name] = new Selector(
+    this.elements.selectors[name] = new Selector(
       values,
       contents,
       [{ event: EVENTS.CHANGE, handler: this.onChangeHandlers[name] }],
@@ -43,7 +44,7 @@ export default class Menu {
       currentOption,
       visitedOptions,
     );
-    container.append(this.ELEMENTS.SELECTORS[name].render());
+    container.append(this.elements.selectors[name].render());
   }
 
   renderLevelSelector(currentLevel, levelsCount = MAX_LEVELS_COUNT) {
@@ -66,6 +67,6 @@ export default class Menu {
   }
 
   init() {
-    this.ELEMENTS.MENU = document.querySelector(`.${CLASS_NAMES.NAVIGATION}`);
+    this.elements.menu = document.querySelector(`.${CLASS_NAMES.NAVIGATION}`);
   }
 }

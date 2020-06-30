@@ -1,6 +1,7 @@
 import speakItApp from '../../speakit/speakit.app';
 
 export const speakItPageComponent = {
+  init: speakItApp,
   render: () => `
     <div class="speakit-body overflow-hidden">
       <div class="speakit-centralizer hidden">
@@ -31,7 +32,6 @@ export const speakItPageComponent = {
               <input class="main-card__speech-input" type="text" readonly>
             </div>
             <div class="picture__container">
-              <!-- <img class="main-card__picture" alt="current word picture"> -->
               <div class="main-card__picture">
               </div>
             </div>
@@ -52,19 +52,6 @@ export const speakItPageComponent = {
                 <div class="swiper-button-prev"></div>
                 <div class="swiper-button-next"></div>
                 <div class="swiper-wrapper wrapper">
-                  <!-- <div class="button__container-slider button__container_left">
-                    <button class="slider__button slider__button_previous">
-                      <span class="slider__button-icon"></span>
-                    </button>
-                  </div>
-                  <div class="button__container-slider button__container_right">
-                    <button class="slider__button slider__button_next">
-                      <span class="slider__button-icon"></span>
-                    </button>
-                  </div>
-                  
-                  <div class="gallery">
-                  </div> -->
                 </div>
               </div>
             </div>
@@ -105,6 +92,5 @@ export const speakItPageComponent = {
         </div>
       </template>
     </div>
-    `,
-  init: speakItApp,
+  `,
 };

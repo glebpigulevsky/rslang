@@ -2,17 +2,11 @@ import model from '../model/model';
 import view from '../view/view';
 
 import { ErrorPopup } from '../../../error/error.error_popup';
-import { defaultData } from '../../data';
 
 import {
-  initIntroButton,
   toggleDocumentScroll,
   getClosestLink,
-  loadCardsJSON,
-  isButtonClicked,
   togglePageState,
-  hideSpinner,
-  showSpinner,
 } from '../../common/speakit.utils';
 
 import {
@@ -21,41 +15,42 @@ import {
   MAX_LEVELS_COUNT,
   MAX_ROUNDS_COUNT,
   EVENTS,
-  DATA_PATH,
   CLASS_NAMES,
+  SLIDER_ITEM_CHANGE_DELAY,
+  FIRST_SLIDER_ITEM_INDEX,
+  DEFAULT_START_LEVEL,
+  DEFAULT_START_ROUND,
+  EMPTY,
 } from '../../common/speakit.constants';
 
 class Controller {
   constructor() {
-    this.recognition = null;
+    this.recognition = EMPTY;
+    this.guessedList = EMPTY;
     this.isGameStarts = false;
-    this.guessedList = null;
 
-    this.currentLevel = null;
-    this.currentRound = null;
-    this.roundFetchedData = null;
-    this.completedRoundsByLevels = null;
+    this.currentLevel = EMPTY;
+    this.currentRound = EMPTY;
+    this.roundFetchedData = EMPTY;
+    this.completedRoundsByLevels = EMPTY;
 
     this.onPageCardClick = this.onPageCardClick.bind(this);
     this.onIntroButtonClick = this.onIntroButtonClick.bind(this);
     this.onGameButtonClick = this.onGameButtonClick.bind(this);
     this.onChangeSpeechInput = this.onChangeSpeechInput.bind(this);
     this.onStopButtonClick = this.onStopButtonClick.bind(this);
-    // this.onDifficultChange = this.onDifficultChange.bind(this);
     this.onNewButtonClick = this.onNewButtonClick.bind(this);
+
     this.onResultButtonClick = this.onResultButtonClick.bind(this);
     this.onResultCardClick = this.onResultCardClick.bind(this);
     this.onResultsNewGameButtonClick = this.onResultsNewGameButtonClick.bind(this);
     this.onResultsResumeGameButtonClick = this.onResultsResumeGameButtonClick.bind(this);
     this.onResultsLongStatisticButtonClick = this.onResultsLongStatisticButtonClick.bind(this);
+
+    this.onLevelChangeHandler = this.onLevelChangeHandler.bind(this);
+    this.onRoundChangeHandler = this.onRoundChangeHandler.bind(this);
+
     this.beforeUnloadHandler = this.beforeUnloadHandler.bind(this);
-
-    this.onLevelChangeHandlerBinded = this.onLevelChangeHandler.bind(this);
-    this.onRoundChangeHandlerBinded = this.onRoundChangeHandler.bind(this);
-  }
-
-  loadPage(data) {
-    model.loadPage(data);
   }
 
   setCurrentLevel(level) {
@@ -67,16 +62,16 @@ class Controller {
       this.setCurrentLevel(this.currentLevel + 1);
       this.currentRound = 0;
 
-      if (view.menu && view.menu.ELEMENTS.SELECTORS.LEVEL) {
-        view.menu.ELEMENTS.SELECTORS.LEVEL.remove();
+      if (view.menu && view.menu.elements.selectors.level) {
+        view.menu.elements.selectors.level.remove();
         view.menu.renderLevelSelector(this.currentLevel);
       }
     } else {
       this.currentRound = round;
     }
 
-    if (view.menu && view.menu.ELEMENTS.SELECTORS.ROUND) {
-      view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+    if (view.menu && view.menu.elements.selectors.round) {
+      view.menu.elements.selectors.round.remove();
       view.menu.renderRoundSelector(
         MAX_ROUNDS_COUNT,
         this.currentRound,
@@ -92,11 +87,9 @@ class Controller {
     }]);
   }
 
-  // newGame(currentLevel = 0) {
   newGame() {
     this.onStopButtonClick();
     this.guessedList = [];
-    // this.setCurrentLevel(currentLevel);
     this.newPage();
     view.clearStatusBar();
     view.renderPicture();
@@ -105,23 +98,16 @@ class Controller {
   }
 
   async newPage() {
-    // loadCardsJSON(this.currentLevel, (cardsData) => {
-    //   if (view.currentList) view.removeCurrentList();
-    //   model.loadPage(cardsData);
-    //   this.addPageList();
-    //   hideSpinner();
-    // });
     this.roundFetchedData = await model.fetchCardsPage(this.currentLevel, this.currentRound)
       .catch((error) => {
         view.spinner.hide();
         new ErrorPopup().openPopup({ text: error.message });
         return null;
-      }); // todo without Internet!
+      });
     if (!this.roundFetchedData) return;
-    // this.roundFetchedData = defaultData; // todo without Internet!
 
     if (view.currentList) view.removeCurrentList();
-    model.loadPage(this.roundFetchedData);
+    model.parseCardsPage(this.roundFetchedData);
     this.addPageList();
     view.spinner.hide();
   }
@@ -134,16 +120,12 @@ class Controller {
     if (this.isGameStarts) return;
     view.resetLinksStates(selectedCard);
 
-    // const { word } = selectedCard.dataset;
-    // const translation = model.translationsMap.get(word);
     view.renderTranslation(selectedCard.dataset.translation);
 
     const imageSrc = selectedCard.dataset.image;
-    // view.renderPicture(`${DATA_PATH}${imageSrc}`);
     view.renderPicture(imageSrc);
 
     const audioSrc = selectedCard.dataset.audio;
-    // const audio = new Audio(`${DATA_PATH}${audioSrc}`);
     const audio = new Audio();
     audio.addEventListener(EVENTS.ERROR, view.onErrorSpellingHandler);
     audio.src = audioSrc;
@@ -190,7 +172,6 @@ class Controller {
     if (!model.isWordGuessed(recognitionResult)
       || this.guessedList.includes(recognitionResult)) return;
 
-    // const translation = model.translationsMap.get(recognitionResult);
     view.renderTranslation(model.getTranslationByWord(recognitionResult));
 
     this.guessedList.push(recognitionResult);
@@ -204,7 +185,7 @@ class Controller {
       this.completedRoundsByLevels[this.currentLevel].push(this.currentRound);
     }
 
-    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+    if (view.menu.elements.selectors.round) view.menu.elements.selectors.round.remove();
 
     view.menu.renderRoundSelector(
       MAX_ROUNDS_COUNT,
@@ -222,7 +203,7 @@ class Controller {
     view.playSuccessSound();
     this.onStopButtonClick();
     this.onResultButtonClick();
-    view.swiper.slideTo(view.swiper.slides.length - 1, 0);
+    view.swiper.slideTo(view.swiper.slides.length - 1, SLIDER_ITEM_CHANGE_DELAY);
   }
 
   onStopButtonClick() {
@@ -244,19 +225,6 @@ class Controller {
     view.renderSpeechInput();
     view.removeActiveStates();
   }
-
-  // onDifficultChange(event) {
-  //   const button = event.target;
-  //   if (!isButtonClicked(event)) return;
-
-  //   view.removeActiveStates(view.difficultiesContainer);
-  //   button.classList.add(CLASS_NAMES.ACTIVE);
-
-  //   const newDifficult = +button.innerText - 1;
-  //   if (newDifficult === this.difficult) return;
-  //   showSpinner();
-  //   this.newGame(newDifficult);
-  // }
 
   onNewButtonClick() {
     view.spinner.show();
@@ -293,12 +261,11 @@ class Controller {
         event: EVENTS.CLICK,
         handler: this.onResultCardClick,
       }],
-      // model.translationsMap,
       this.guessedList,
       model.currentResults,
       model.longResults,
     );
-    view.swiper.slideTo(0, 0);
+    view.swiper.slideTo(FIRST_SLIDER_ITEM_INDEX, SLIDER_ITEM_CHANGE_DELAY);
 
     if (this.recognition) this.recognition.abort();
   }
@@ -315,15 +282,9 @@ class Controller {
     audio.play();
   }
 
-  beforeUnloadHandler() {
-    if (this.isGameStarts) model.saveCurrentResults(this.guessedList);
-    window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
-  }
-
   onIntroButtonClick({ target }) {
     view.introduction.classList.add(CLASS_NAMES.HIDDEN);
     view.spinner.show();
-    // view.spinner.classList.remove(CLASS_NAMES.HIDDEN);
     view.centralizer.classList.remove(CLASS_NAMES.HIDDEN);
     toggleDocumentScroll();
     this.newGame();
@@ -331,32 +292,35 @@ class Controller {
   }
 
   onLevelChangeHandler(evt) {
-    // this.setCurrentLevel(+evt.target.value);
     this.setCurrentLevel(+evt.target.value);
     this.setCurrentRound();
 
     view.spinner.show();
 
-    if (view.menu.ELEMENTS.SELECTORS.ROUND) view.menu.ELEMENTS.SELECTORS.ROUND.remove();
-    // this.setCurrentRound();
+    if (view.menu.elements.selectors.round) view.menu.elements.selectors.round.remove();
     view.menu.renderRoundSelector(
       MAX_ROUNDS_COUNT,
       this.currentRound,
       this.completedRoundsByLevels[this.currentLevel],
     );
-    // this.newRound(this.currentLevel, this.currentRound);
     this.newGame();
   }
 
   onRoundChangeHandler(evt) {
     view.spinner.show();
     this.setCurrentRound(+evt.target.value);
-    // this.newRound(this.currentLevel, this.currentRound);
     this.newGame();
   }
 
-  init(startLevel = 0, startRound = 0) {
-    initIntroButton(this.onIntroButtonClick);
+  beforeUnloadHandler() {
+    if (this.isGameStarts) model.saveCurrentResults(this.guessedList);
+    if (view.menu.elements.selectors.level) view.menu.elements.selectors.level.remove();
+    if (view.menu.elements.selectors.round) view.menu.elements.selectors.round.remove();
+    window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
+  }
+
+  init(startLevel = DEFAULT_START_LEVEL, startRound = DEFAULT_START_ROUND) {
+    view.initIntroButton(this.onIntroButtonClick);
 
     const completedRoundsData = model.loadCompletedRounds();
     this.completedRoundsByLevels = (completedRoundsData
@@ -369,14 +333,15 @@ class Controller {
     this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1)
       || startRound);
 
-    view.initMenu(this.onLevelChangeHandlerBinded, this.onRoundChangeHandlerBinded);
+    view.initMenu(this.onLevelChangeHandler, this.onRoundChangeHandler);
 
-    if (view.menu.ELEMENTS.SELECTORS.LEVEL) {
-      view.menu.ELEMENTS.SELECTORS.LEVEL.remove();
+    if (view.menu.elements.selectors.level) {
+      view.menu.elements.selectors.level.remove();
     }
     view.menu.renderLevelSelector(this.currentLevel);
-    if (view.menu.ELEMENTS.SELECTORS.ROUND) {
-      view.menu.ELEMENTS.SELECTORS.ROUND.remove();
+
+    if (view.menu.elements.selectors.round) {
+      view.menu.elements.selectors.round.remove();
     }
     view.menu.renderRoundSelector(
       MAX_ROUNDS_COUNT,
@@ -387,7 +352,6 @@ class Controller {
     view.initGameButton(this.onGameButtonClick);
     view.initSpeechInput(this.onChangeSpeechInput);
     view.initStopButton(this.onStopButtonClick);
-    // view.initDifficulties(this.onDifficultChange);
     view.initNewButton(this.onNewButtonClick);
     view.initResultButton(this.onResultButtonClick);
     view.initResultsNewGameButton(this.onResultsNewGameButtonClick);

@@ -1,4 +1,4 @@
-import { CLASS_NAMES } from '../../../../common/speakit.constants';
+import { CLASS_NAMES, EMPTY } from '../../../../common/speakit.constants';
 
 export default class Select {
   constructor(
@@ -10,7 +10,7 @@ export default class Select {
     currentOption,
     visitedOptions,
   ) {
-    this.selectElement = null;
+    this.selectElement = EMPTY;
     this.valueList = valueList;
     this.contentList = contentList;
     this.listenersList = listenersList;

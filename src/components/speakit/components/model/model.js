@@ -1,21 +1,34 @@
 import { WordsApi } from '../../../../services/services.methods';
-import { CLASS_NAMES, MAX_WORDS_IN_ROUND } from '../../common/speakit.constants';
-import { shuffleArray, translateWord } from '../../common/speakit.utils';
+import { shuffleArray } from '../../common/speakit.utils';
+import {
+  MAX_WORDS_IN_ROUND,
+  MAX_WORDS_PER_EXAMPLE,
+  LOCAL_STORAGE,
+  EMPTY,
+} from '../../common/speakit.constants';
 
 class Model {
   constructor() {
-    this.cardsData = null;
+    this.cardsData = EMPTY;
+    this.pageData = EMPTY;
 
-    this.pageData = null;
-    this.translationsMap = null;
+    this.currentResults = EMPTY;
+    this.longResults = EMPTY;
+
     this.isWordGuessed = this.isWordGuessed.bind(this);
-
-    this.currentResults = null;
-    this.longResults = null;
   }
 
-  loadPage(response) {
-    const shuffledResponse = shuffleArray(response)
+  fetchCardsPage(difficult, page) {
+    return this.wordsAPI.getWordsCollection({
+      group: difficult,
+      page,
+      wordsPerExampleSentence: MAX_WORDS_PER_EXAMPLE,
+      wordsPerPage: MAX_WORDS_IN_ROUND,
+    });
+  }
+
+  parseCardsPage(response) {
+    this.pageData = shuffleArray(response)
       .map((wordData) => {
         const {
           word,
@@ -32,42 +45,31 @@ class Model {
           wordTranslate,
         };
       });
-    this.pageData = shuffledResponse;
-  }
-
-  fetchCardsPage(difficult, page) {
-    return this.wordsAPI.getWordsCollection({
-      group: difficult,
-      page,
-      wordsPerExampleSentence: 100, // todo
-      wordsPerPage: MAX_WORDS_IN_ROUND,
-    });
   }
 
   isWordGuessed(word) {
     return this.pageData.find((wordData) => wordData.word === word);
   }
 
-  loadCurrentResults() {
-    this.currentResults = JSON.parse(localStorage.getItem('speakit-currentResults')) || [];
+  getTranslationByWord(word) {
+    return this.pageData.find((wordData) => wordData.word === word).wordTranslate;
   }
 
   saveCurrentResults(guessedList) {
     const currentResult = {
       pageData: this.pageData,
-      // translations: Array.from(this.translationsMap),
       guessedList,
       time: new Date().toLocaleString(),
     };
 
     this.currentResults.push(currentResult);
-    localStorage.setItem('speakit-currentResults', JSON.stringify(this.currentResults));
+    localStorage.setItem(LOCAL_STORAGE.CURRENT_RESULTS, JSON.stringify(this.currentResults));
 
     this.saveLongResults(guessedList, currentResult.time);
   }
 
-  loadLongResults() {
-    this.longResults = JSON.parse(localStorage.getItem('speakit-longResults')) || [];
+  loadCurrentResults() {
+    this.currentResults = JSON.parse(localStorage.getItem(LOCAL_STORAGE.CURRENT_RESULTS)) || [];
   }
 
   saveLongResults(guessedList, finalTime) {
@@ -78,19 +80,19 @@ class Model {
 
     this.longResults.push(currentResult);
 
-    localStorage.setItem('speakit-longResults', JSON.stringify(this.longResults));
+    localStorage.setItem(LOCAL_STORAGE.LONG_RESULTS, JSON.stringify(this.longResults));
   }
 
-  getTranslationByWord(word) {
-    return this.pageData.find((wordData) => wordData.word === word).wordTranslate;
+  loadLongResults() {
+    this.longResults = JSON.parse(localStorage.getItem(LOCAL_STORAGE.LONG_RESULTS)) || [];
   }
 
   saveCompletedRounds(completedRoundsData) {
-    localStorage.setItem('speakit-completedRoundsData', JSON.stringify(completedRoundsData));
+    localStorage.setItem(LOCAL_STORAGE.COMPLETED_ROUNDS_DATA, JSON.stringify(completedRoundsData));
   }
 
   loadCompletedRounds() {
-    return JSON.parse(localStorage.getItem('speakit-completedRoundsData'));
+    return JSON.parse(localStorage.getItem(LOCAL_STORAGE.COMPLETED_ROUNDS_DATA));
   }
 
   init() {

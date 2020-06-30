@@ -1,8 +1,44 @@
 export const MAX_WORDS_IN_ROUND = 10;
+export const MAX_WORDS_PER_EXAMPLE = 100;
 export const MAX_LEVELS_COUNT = 6;
 export const MAX_ROUNDS_COUNT = 60;
 
+export const DEFAULT_START_LEVEL = 0;
+export const DEFAULT_START_ROUND = 0;
+
 export const LANGUAGE = 'en-US';
+export const EMPTY = null;
+
+export const SLIDER_ITEM_CHANGE_DELAY = 0;
+export const FIRST_SLIDER_ITEM_INDEX = 0;
+
+export const SWIPER_CONFIG = {
+  updateOnWindowResize: true,
+  grabCursor: true,
+  slidesPerView: 'auto',
+  spaceBetween: 0,
+  simulateTouch: true,
+  centerInsufficientSlides: true,
+  navigation: {
+    nextEl: '.swiper-button-next',
+    prevEl: '.swiper-button-prev',
+  },
+};
+
+export const LOCAL_STORAGE = {
+  CURRENT_RESULTS: 'speakit-currentResults',
+  LONG_RESULTS: 'speakit-longResults',
+  COMPLETED_ROUNDS_DATA: 'speakit-completedRoundsData',
+};
+
+export const EVENTS = {
+  CLICK: 'click',
+  CHANGE: 'change',
+  INPUT: 'input',
+  BEFORE_UNLOAD: 'beforeunload',
+  ERROR: 'error',
+  LOAD: 'load',
+};
 
 export const CLASS_NAMES = {
   STAR: 'star',
@@ -43,15 +79,5 @@ export const CLASS_NAMES = {
     RIGHT: 'navigation__box_right',
   },
   SELECTOR: 'selector',
+  SWIPER_WRAPPER: 'swiper-wrapper',
 };
-
-export const EVENTS = {
-  CLICK: 'click',
-  CHANGE: 'change',
-  INPUT: 'input',
-  BEFORE_UNLOAD: 'beforeunload',
-  ERROR: 'error',
-  LOAD: 'load',
-};
-
-// export const DATA_PATH = 'https://raw.githubusercontent.com/musmen/rslang-data/master/data/';

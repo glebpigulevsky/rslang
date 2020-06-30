@@ -1,38 +1,34 @@
-// import './scss/results.scss';
-
-import { CLASS_NAMES } from '../../../../common/speakit.constants';
-import PageCard from '../pageCard/pageCard';
 import LongStatisticCard from '../longStatisticCard/longStatisticCard';
+import PageCard from '../pageCard/pageCard';
+import { CLASS_NAMES, EMPTY } from '../../../../common/speakit.constants';
 
 export default class ResultsList {
   constructor(
     container,
     pageData,
     listenersList,
-    // translationMap,
     guessedList,
     time,
     longResults,
-    additionalClass = null,
+    additionalClass = EMPTY,
   ) {
     this.container = container;
-    this.gallery = null;
+    this.gallery = EMPTY;
     this.pageData = pageData;
     this.listenersList = listenersList;
-    // this.translationMap = new Map(translationMap);
     this.guessedList = guessedList;
     this.time = time;
     this.additionalClass = additionalClass;
     this.longResults = longResults;
 
-    this.sliderItem = null;
-    this.correctContainer = null;
-    this.errorsContainer = null;
-    this.correctList = null;
-    this.errorsList = null;
+    this.sliderItem = EMPTY;
+    this.correctContainer = EMPTY;
+    this.errorsContainer = EMPTY;
+    this.correctList = EMPTY;
+    this.errorsList = EMPTY;
 
-    this.longStatisticsContainer = null;
-    this.longStatisticList = null;
+    this.longStatisticsContainer = EMPTY;
+    this.longStatisticList = EMPTY;
 
     this.init();
   }
@@ -73,7 +69,6 @@ export default class ResultsList {
     this.sliderItem.append(this.correctContainer);
     this.sliderItem.append(this.errorsContainer);
 
-    // view.swiper.appendSlide(this.sliderItem);
     this.gallery.append(this.sliderItem);
 
     if (this.longResults) {
@@ -94,8 +89,7 @@ export default class ResultsList {
   }
 
   init() {
-    // this.gallery = this.container.querySelector(`.${CLASS_NAMES.RESULT.GALLERY}`);
-    this.gallery = this.container.querySelector('.swiper-wrapper'); // todo gallery
+    this.gallery = this.container.querySelector(`.${CLASS_NAMES.SWIPER_WRAPPER}`);
 
     this.sliderItem = document.body.querySelector(`.${CLASS_NAMES.RESULT.TEMPLATE}`).content.cloneNode(true).querySelector(`.${CLASS_NAMES.SLIDER.ITEM}`);
     if (this.additionalClass) this.sliderItem.classList.add(this.additionalClass);

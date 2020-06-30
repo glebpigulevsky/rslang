@@ -1,6 +1,6 @@
 import { CLASS_NAMES, MAX_WORDS_IN_ROUND } from '../../../../common/speakit.constants';
 
-export default class StatisticCard {
+export default class LongStatisticCard {
   constructor(container, index, longStatisticItem) {
     this.container = container;
     this.index = index;

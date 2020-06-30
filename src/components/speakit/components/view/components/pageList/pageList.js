@@ -1,12 +1,12 @@
-import { CLASS_NAMES } from '../../../../common/speakit.constants';
 import PageCard from '../pageCard/pageCard';
+import { CLASS_NAMES, EMPTY } from '../../../../common/speakit.constants';
 
 export default class PageList {
   constructor(container, pageData, listenersList) {
     this.container = container;
     this.pageData = pageData;
     this.listenersList = listenersList;
-    this.list = null;
+    this.list = EMPTY;
 
     this.init();
   }
