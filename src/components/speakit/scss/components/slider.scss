@@ -8,12 +8,14 @@
 
 .swiper-container .swiper-button-prev,
 .swiper-container .swiper-button-next {
+  color: $color-btn;
+
   transition: all 0.5s;
 
   &:hover,
   &:focus,
   &:active {
-    color: #fe5f55; // todo
+    color: $color-orange;
     outline: none;
 
     opacity: 1;

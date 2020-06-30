@@ -20,51 +20,7 @@
   .button__container_results {
     padding: 20px;
   }
-  
-  // .spealit-cards__item {
-  //   width: 15vw;
-  //   max-width: 200px;
-  //   margin: auto;
-  //   // width: 260px;
-  //   // margin: 20px;
-  //   overflow: hidden;
-  //   text-overflow: ellipsis;
-  //   border: 1px solid $color-dark-blue;
-  //   border-radius: 10px;
-  //   transition: .2s ease-in;
-  
-  //   &:focus,
-  //   &:hover,
-  //   &:active {
-  //     transform: scale(1.05);
-  //   }
-  // }
-  
-  // .speakit-card__link {
-  //   @include flex-center;
-  
-  //   flex-direction: column;
-  //   min-height: 60px;
-  //   padding: 5px;
-  //   font-size: 16px;
-  //   line-height: 24px;
-  //   color: $color-text-additional;
-  //   border-radius: 10px;
-  //   background-color: $color-light;
-  //   background-image: url('../assets/img/dinamic-icon.png');
-  //   background-repeat: no-repeat;
-  //   background-position: 11px, 0;
-  //   background-size: 36px;
-  
-  //   &:focus,
-  //   &:hover,
-  //   &:active {
-  //     color: $color-light;
-  //     background-color: $color-hovered;
-  //   }
-  // }
-  
-   
+     
   .correct__title,
   .errors__title,
   .time {
@@ -100,7 +56,6 @@
     .card__word,
     .card__transcription {
       margin: 0;
-      // margin-bottom: 5px;
     }
   
     .card__translation {

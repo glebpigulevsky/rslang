@@ -3,7 +3,7 @@
   font-size: px-to-rem(16px);
   line-height: px-to-rem(20px);
 
-  background: #d6eaf8;
+  background: $color-light-grey;
   background: url('./../assets/img/main-bg.png');
   background-position: center;
   background-repeat: no-repeat;
@@ -40,12 +40,6 @@
 .overflow-hidden {
   overflow: hidden;
 }
-
-// .active {
-//   color: white;
-
-//   background-color: lightcoral;
-// }
 
 .disabled {
   background-color: $color-orange;

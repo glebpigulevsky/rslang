@@ -1,18 +1,12 @@
 .speakit-cards__list {
   @include flex-center;
   flex-wrap: wrap;
-  // display: grid;
-  // grid-template: repeat(2, 1fr) / repeat(5, 1fr);
-  // grid-gap: 20px;
 
   margin: 0;
 }
 
 .speakit-cards__item {
-  // width: 15vw;
   min-width: 200px;
-  // margin: auto;
-  // width: 260px;
   margin: 10px;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -56,48 +50,10 @@
   background-color: $color-orange;
 }
 
-// .speakit-card__link {
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   min-height: 60px;
-//   padding: 5px;
-
-//   font-size: 16px;
-//   box-shadow: 0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4),
-//               0 0 10px 5px #335e97 inset, 0 0 0 0 #335e97;
-//   color: #335e97;
-//   transition: .05s ease-in;
-
-//   border-radius: 10px;
-
-//   background-color: white;
-//   background-image: url('./../assets/img/audio.png');
-//   background-repeat: no-repeat;
-//   background-position: 10px, 0;
-//   background-size: 32px;
-
-//   &:focus,
-//   &:hover,
-//   &:active {
-//     box-shadow: 0 0 10px 0 #335e97 inset, 0 0 10px 4px #335e97;
-//     color: #335e97;
-//   }
-// }
-
-// .speakit-active.speakit-card__link {
-//   color: white;
-//   background-color: lightcoral;
-//   box-shadow:  0 5px 10px 0 rgba(0, 0, 0, 0.2), 0 8px 10px 0 rgba(0, 0, 0, 0.4),
-//                0 0 10px 0 lightcoral inset, 0 0 10px 4px lightcoral;
-// }
-
 .speakit-body {
   .card__word,
   .card__transcription,
   .card__translation {
-    // margin: 5px;
     margin: 0;
     line-height: px-to-rem(16px);
   
@@ -110,10 +66,6 @@
     margin: 10px auto;
     @include flex-center;
     flex-wrap: wrap;
-    // display: flex;
-    // justify-content: space-around;
-    // justify-content: center;
-    // align-items: center;
   }
   
   .picture__container {
@@ -138,10 +90,8 @@
     background-position: center;
     transition: background-image 0.3s;
   
-    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2), 3px 10px 20px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
   
-    // object-fit: cover;
-
     @include media-tablet {
       width: 300px;
     }
@@ -165,14 +115,14 @@
     font-size: px-to-rem(14px);
     text-align: center;
     line-height: 40px;
-    color: #335e97;
-    background-color: white;
+    color: $color-text-additional;
+    background-color: $color-light;
     background-image: url('./../assets/img/dictionary.png');
     background-repeat: no-repeat;
     background-position: 10px 50%;
     background-size: 32px;
   
-    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2), 3px 10px 20px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
 
     @include media-tablet {
       margin: 10px;
@@ -190,7 +140,7 @@
     padding: 5px;
   
     font-size: px-to-rem(14px);
-    color: #335e97;
+    color: $color-text-additional;;
   
     overflow: hidden;
     text-align: center;
@@ -198,12 +148,12 @@
     border: none;
     border-radius: 10px;
   
-    background-color: white;
+    background-color: $color-light;
     background-image: url('./../assets/img/micro.png');
     background-repeat: no-repeat;
     background-position: 10px 50%;
     background-size: 28px;
-    box-shadow: 0 5px 15px 0 rgba(0, 0, 0, 0.2), 3px 10px 20px 0 rgba(0, 0, 0, 0.4);
+    box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
   
     &:focus,
     &:hover,
