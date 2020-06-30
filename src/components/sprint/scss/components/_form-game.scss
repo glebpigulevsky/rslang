@@ -21,12 +21,6 @@
   margin: 0 20px;
 }
 
-.btn {
-  width: 100px;
-  height: 50px;
-  margin: 20px;
-}
-
 .game__button {
   display: flex;
   align-items: center;
@@ -50,15 +44,14 @@
 .wrapper-score {
   margin: 0 auto;
   width: 100%;
-  background: rgba(0, 0, 0, 0.25);
+  background: rgba(0, 0, 0, .25);
   position: fixed;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-z-index: 2;
-
+  z-index: 2;
 }
 
 .score {
@@ -74,9 +67,10 @@ z-index: 2;
 }
 
 .container-answers {
-    display:flex;
-    justify-content: space-around;
+  display: flex;
+  justify-content: space-around;
 }
+
 .correctly {
   display: flex;
   flex-direction: column;
@@ -86,6 +80,7 @@ z-index: 2;
   font-weight: 400;
   line-height: 1.6rem;
 }
+
 .error {
   display: flex;
   flex-direction: column;
@@ -95,7 +90,6 @@ z-index: 2;
   font-weight: 400;
   line-height: 1.6rem;
 }
-
 
 .score-result-know {
   display: flex;
@@ -109,7 +103,6 @@ z-index: 2;
   flex-direction: column;
 }
 
-
 .button-wrapper {
   width: 100%;
   display: flex;
@@ -118,6 +111,8 @@ z-index: 2;
 }
 
 .btn {
+  width: 100px;
+  height: 50px;
   display: inline-block;
   margin: 0 auto;
   appearance: none;
@@ -131,16 +126,15 @@ z-index: 2;
   border-radius: 4px;
   visibility: visible;
   border: none;
-  margin: 5px;
   cursor: pointer;
-}
-.btn:hover {
-  background: #16379f;
-  transition: .6s;
-  box-shadow: 0 0 10px rgba(118, 118, 118, .25);;
+
+  &:hover {
+    background: #16379f;
+    transition: .6s;
+    box-shadow: 0 0 10px rgba(118, 118, 118, .25);
+  }
 }
 
 .hidden {
   display: none;
 }
-

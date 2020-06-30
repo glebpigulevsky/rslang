@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { WordsApi } from '../../../services/services.methods';
 import correct from '../assets/audio/correct.mp3';
 import wrong from '../assets/audio/error.mp3';
@@ -26,7 +27,6 @@ export default class GameSprint {
     try {
       response = await wordsAPI.getWordsCollection({ group: 0, page: 1 });
     } catch (error) {
-      console.log(error);
       return;
     }
 
@@ -75,12 +75,12 @@ export default class GameSprint {
     btnFalse.addEventListener('click', this.answerFalse);
     this.gameWords = this.shuffleArray(this.words);
     this.gameResults = [];
-    console.log(this.gameResults);
     document.querySelector('.game__container').classList.remove('hidden');
     // clear field
     this.makeTurn();
   }
 
+  // eslint-disable-next-line consistent-return
   makeTurn() {
     this.renderScore();
     if (this.gameWords.length === 0) {
@@ -96,11 +96,12 @@ export default class GameSprint {
     // document.querySelector('.game__container').classList.add('hidden');
 
     this.gameResults.forEach((word) => {
-      // eslint-disable-next-line no-unused-expressions
-      word.isCorrect === true ? this.correctAnswer.push(word.word) : this.wrongAnswer.push(word.word);
+      if (word.isCorrect === true) {
+        this.correctAnswer.push(word.word);
+      } else {
+        this.wrongAnswer.push(word.word);
+      }
     });
-    console.log(this.correctAnswer);
-    console.log(this.wrongAnswer);
     const knowElement = document.querySelector('.know');
     const dntKnowElement = document.querySelector('.dntKnow');
     const resultKnow = document.createElement('div');
@@ -118,12 +119,14 @@ export default class GameSprint {
 
     const containerCorrectWords = document.querySelector('.correctly');
     const objectWordsCorrect = this.correctAnswer.map((word) => word);
+    // eslint-disable-next-line no-shadow
     const addTamplateCorrectWords = (objectWordsCorrect) => `<span>${objectWordsCorrect.word}</span>`;
     const htmlTamplateCorrectWords = objectWordsCorrect.map(addTamplateCorrectWords).join('');
     containerCorrectWords.innerHTML = htmlTamplateCorrectWords;
 
     const containerWrongWords = document.querySelector('.error');
     const objectWordsWrong = this.wrongAnswer.map((word) => word);
+    // eslint-disable-next-line no-shadow
     const addTamplateWrongWords = (objectWordsWrong) => `<span>${objectWordsWrong.word}</span>`;
     const htmlTamplateWrongWords = objectWordsWrong.map(addTamplateWrongWords).join('');
     containerWrongWords.innerHTML = htmlTamplateWrongWords;
@@ -160,7 +163,6 @@ export default class GameSprint {
       if (this.currentGameWord.isCorrectTranslation === flag) {
         success.play();
         this.counterElement += 1;
-        console.log(this.counterElement);
         this.addElemenet(this.counterElement);
         this.gameResults.push({
           isCorrect: true,
@@ -182,6 +184,8 @@ export default class GameSprint {
 
   renderScore() {
     const scoreField = document.getElementById('score');
+    // eslint-disable-next-line no-unused-vars
+    // eslint-disable-next-line no-shadow
     const [score, correctCounter] = this.gameResults.reduce(([score, correctCounter], result) => {
       if (!result.isCorrect) {
         return [score, 0];
@@ -207,7 +211,6 @@ export default class GameSprint {
   }
 
   addElemenet(add) {
-    console.log(add);
     const rightField = document.getElementById('right');
     if (add <= 4) {
       rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
@@ -234,12 +237,13 @@ export default class GameSprint {
     }
   }
 
+  // eslint-disable-next-line consistent-return
   async init() {
     try {
       await this.getWords();
       this.startGame();
     } catch (error) {
-
+      return error;
     }
   }
 }

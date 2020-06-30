@@ -1,6 +1,4 @@
 class View {
-  constructor() {}
-
   init() {
     this.renderDOM();
   }
