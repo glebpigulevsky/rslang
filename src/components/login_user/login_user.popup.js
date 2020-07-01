@@ -40,6 +40,7 @@ class LoginUser {
       .loginUser({ email, password, hasSignUp })
       .then((res) => {
         if (res === 'Authenticated') {
+          this._createBtn.disabled = true;
           this._createInfo.textContent = res;
           setTimeout(() => {
             observable.publish('Authenticate', res);
