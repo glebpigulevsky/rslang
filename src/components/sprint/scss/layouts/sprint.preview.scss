@@ -44,6 +44,9 @@
   border-radius: 20px;
 
   @include segoe-subtitle($color: $color-text-additional, $weight: 600);
+  h1 {
+    text-align: center;
+  }
 }
 
 .preview__content {

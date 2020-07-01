@@ -3,6 +3,11 @@
   justify-content: space-between;
   align-items: center;
   padding: 40px;
+
+  @include media-mobile {
+    flex-wrap: wrap;
+    padding: 20px;
+  }
 }
 
 .navigation__description {
@@ -22,8 +27,12 @@
   border: 1px solid $color-border;
   box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
 
-  @include button($color: $color-light, $background: $color-btn, $width: 220px, $height: 55px, $radius: 30px);
+  @include button($color: $color-light, $background: $color-btn, $width: 220px, $height: 40px, $radius: 30px);
   @include segoe-additional($color: $color-light, $weight: bold);
+  @include media-mobile {
+    order: 3;
+    margin: 20px auto;
+  }
 
   &:focus {
     outline: none;
@@ -68,6 +77,10 @@
   font-size: px-to-rem(16px);
 
   background-color: $color-light;
+
+  @include media-mobile {
+    font-size: px-to-rem(14px);
+  }
 }
 
 .selector option.completed {

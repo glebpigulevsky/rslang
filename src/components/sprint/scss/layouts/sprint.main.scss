@@ -4,9 +4,13 @@
   margin: 0 auto;
 
   background: rgba(255, 255, 255, 0.95);
-  border-radius: 30px;
+  border-radius: 20px;
 
   backdrop-filter: blur(40px);
+  @include media-mobile {
+    width: 280px;
+    height: 350px;
+  }
 }
 
 .game-sprint__header {
@@ -18,9 +22,13 @@
   height: 90px;
 
   background: rgba(158, 241, 246, 0.3);
-  border-radius: 30px 30px 0 0;
+  border-radius: 20px 20px 0 0;
 
-  @include segoe-title($color: $color-text);
+  @include segoe-subtitle($color: $color-text, $weight: bold);
+  @include media-mobile {
+    width: 280px;
+    height: 65px;
+  }
 }
 
 .progress {
@@ -39,6 +47,10 @@
   display: flex;
   flex: 1 0 auto;
   justify-content: center;
+
+  @include media-mobile {
+    font-size: 1.8rem;
+  }
 }
 
 .game-sprint__rating {
@@ -47,6 +59,10 @@
   align-items: center;
   height: 50px;
   margin-top: 15px;
+
+  @include media-mobile {
+    margin-top: 10px;
+  }
 }
 
 .game-sprint__field {
@@ -54,6 +70,11 @@
   flex-direction: column;
   height: 94px;
   margin-top: 15px;
+
+  @include media-mobile {
+    height: 80px;
+    margin-top: 0;
+  }
 }
 
 .game-sprint__word {
@@ -63,6 +84,11 @@
   text-transform: uppercase;
 
   @include segoe-subtitle($color: $color-text, $weight: 600);
+  @include media-mobile {
+    padding: 7px 0;
+
+    font-size: 1.1rem;
+  }
 }
 
 .game-sprint__controls {
@@ -70,6 +96,10 @@
   flex-direction: row;
   justify-content: space-between;
   padding: 20px 200px;
+
+  @include media-mobile {
+    padding: 0 20px;
+  }
 }
 
 .game-sprint__footer {
@@ -81,7 +111,17 @@
   margin-top: 20px;
 
   background: rgba(158, 241, 246, 0.3);
-  border-radius: 0 0 30px 30px;
+  border-radius: 0 0 20px 20px;
+
+  @include media-mobile {
+    width: 280px;
+    height: 55px;
+    img {
+      width: 32px;
+      height: 32px;
+      padding: 0 5px;
+    }
+  }
 
   img {
     padding: 0 10px;
@@ -94,4 +134,11 @@
   padding: 0 30px;
 
   @include segoe-additional($color: $color-text, $weight: 600);
+  @include media-mobile {
+    padding-right: 0;
+    padding-left: 5px;
+
+    font-size: 0.875rem;
+    text-align: center;
+  }
 }
