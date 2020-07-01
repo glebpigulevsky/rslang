@@ -1,6 +1,6 @@
-import Select from './common/change-level';
-import Timer from './common/timer';
-import GameSprint from './common/game';
+import Select from './components/controls';
+import Timer from './components/timer';
+import GameSprint from './components/game';
 import './scss/sprint.styles.scss';
 
 const timerJS = new Timer();

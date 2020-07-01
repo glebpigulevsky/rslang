@@ -1,5 +1,5 @@
-// import game from './game'
 import GameSprint from './game';
+// import { ErrorPopup } from '../../error/error.error_popup';
 
 const game = new GameSprint();
 
@@ -7,21 +7,21 @@ export default class Select {
   constructor() {
     this.currentLevel = null;
     this.currentRound = null;
+    this.levelGetData = null;
   }
 
   onLevelChangeHandler() {
     this.select.addEventListener('change', () => {
-      console.log(this.select.selectedIndex);
+      this.currentLevel = this.select.selectedIndex;
+      if (!this.currentLevel === 0) {
+        // console.log('figji');
+      }
     });
-  }
-
-  onRoundChangeHandler() {
-
   }
 
   init() {
     this.select = document.querySelector('#selector');
     this.onLevelChangeHandler();
-    this.onRoundChangeHandler();
+    // this.onRoundChangeHandler();
   }
 }

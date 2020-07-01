@@ -2,8 +2,12 @@ import { WordsApi } from '../../../services/services.methods';
 import { ErrorPopup } from '../../error/error.error_popup';
 import correct from '../assets/audio/correct.mp3';
 import wrong from '../assets/audio/error.mp3';
-import { showSpinner, hideSpinner } from './sprint.utils';
+import { showSpinner, hideSpinner } from '../common/sprint.utils';
+import { shuffleArray, getRandomElement } from '../common/sprint.helper';
+// import { Data } from './getData'
 
+
+// const getData = new Data;
 const success = new Audio(correct);
 const fail = new Audio(wrong);
 
@@ -11,8 +15,6 @@ const wordsAPI = new WordsApi();
 
 export default class GameSprint {
   constructor() {
-    this.currentLevel = null;
-    this.currentRound = null;
     this.words = null;
     this.gameWords = null;
     this.gameResults = null;
@@ -20,7 +22,6 @@ export default class GameSprint {
     this.counterElement = null;
     this.correctAnswer = [];
     this.wrongAnswer = [];
-    // this.onClickButtonTrueBinded = this.onClickButtonTrue.bind(this);
   }
 
   async getWords(group = 0, page = 0) {
@@ -36,18 +37,11 @@ export default class GameSprint {
     this.words = this.createObjectWords(response);
   }
 
-  onChangeLevel() {
-    // const select = document.querySelector('#selector');
-    // const option = document.querySelector('option');
-    // select.addEventListener('change', () => {
-    console.log('select.selectedIndex');
-    // });
-  }
-
   createObjectWords(words) {
     const translations = words.map((word) => word.wordTranslate);
     return words.map(({ id, word, wordTranslate }) => {
-      const randomTranslation = this.getRandomElement(translations);
+      const randomTranslation = getRandomElement(translations);
+      console.log(randomTranslation);
       return {
         id,
         word,
@@ -58,31 +52,12 @@ export default class GameSprint {
     });
   }
 
-  getRandomElement(array) {
-    const result = array.slice();
-
-    for (let i = array.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [result[i], result[j]] = [result[j], result[i]];
-    }
-    return result[0];
-  }
-
-  shuffleArray(array) {
-    const result = array.slice();
-    for (let i = array.length - 1; i > 0; i -= 1) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [result[i], result[j]] = [result[j], result[i]];
-    }
-    return result;
-  }
-
   startGame() {
     const btnTrue = document.getElementById('true');
     const btnFalse = document.getElementById('false');
     btnTrue.addEventListener('click', this.handleButtonClick(true));
     btnFalse.addEventListener('click', this.handleButtonClick(false));
-    this.gameWords = this.shuffleArray(this.words);
+    this.gameWords = shuffleArray(this.words);
     this.gameResults = [];
     this.makeTurn();
   }
@@ -189,7 +164,6 @@ export default class GameSprint {
 
   async init() {
     try {
-    //   this.btnTrue = document.getElementById('true');
       showSpinner();
       await this.getWords();
       hideSpinner();
@@ -200,6 +174,7 @@ export default class GameSprint {
       this.spinner.init();
       this.onChangeLevel();
     } catch (error) {
+      return error;
     }
   }
 }
