@@ -8,7 +8,7 @@ export const sprintComponent = {
             <div class="navigation">
                 <div class="navigation__box navigation__box_left">
                     <span class="navigation__description level__description">Level:</span>
-                    <select id="selector" class="navigation__level selector" name="select">
+                    <select id="level" class="navigation__level selector" name="select">
                         <option value="0">1</option>
                         <option value="1">2</option>
                         <option value="2">3</option>
@@ -20,7 +20,7 @@ export const sprintComponent = {
                 <button class="btn__my-words">repeat my words</button>
                 <div class="navigation__box navigation__box_right">
                     <span class="navigation__description round__description">Round:</span>
-                     <select class="navigation__level selector" name="select">
+                     <select id="round" class = "navigation__level selector" name="select">
                         <option value="0">1</option>
                         <option value="1">2</option>
                         <option value="2">3</option>

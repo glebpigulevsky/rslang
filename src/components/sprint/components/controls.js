@@ -1,30 +1,45 @@
 // import GameSprint from './game';
-// import { ErrorPopup } from '../../error/error.error_popup';
-
-// const game = new GameSprint();
+import { WordsApi } from '../../../services/services.methods';
+import { ErrorPopup } from '../../error/error.error_popup';
 import Timer from './timer';
 
-const timerJS = new Timer();
+const wordsAPI = new WordsApi();
+// const timerJS = new Timer();
 
 export default class Select {
   constructor() {
     this.currentLevel = null;
     this.currentRound = null;
-    this.levelGetData = null;
+  }
+
+  async getWords(group = 0, page = 0) {
+    let response;
+    try {
+      response = await wordsAPI.getWordsCollection({ group, page });
+    } catch (error) {
+      new ErrorPopup().openPopup({
+        text: error.message,
+      });
+    }
+    console.log(response);
   }
 
   onLevelChangeHandler() {
-    this.select.addEventListener('change', () => {
-      this.currentLevel = this.select.selectedIndex;
-      if (!this.currentLevel == 0) {
-        timerJS.stopTime();
-        // timerJS.startTimer();
-      }
+    this.round = document.querySelector('#round');
+    this.round.addEventListener('change', () => {
+      this.level = document.querySelector('#level').selectedIndex;
+      this.currentRound = this.round.selectedIndex;
+      console.log(this.level);
+      console.log(this.currentRound);
+      this.getWords(this.level, this.currentRound);
     });
   }
 
-  init() {
-    this.select = document.querySelector('#selector');
-    this.onLevelChangeHandler();
+  async init() {
+    try {
+      await this.getWords();
+      this.onLevelChangeHandler();
+    } catch (error) {
+    }
   }
 }

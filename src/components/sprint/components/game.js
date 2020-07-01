@@ -166,7 +166,7 @@ export default class GameSprint {
 
   async init() {
     try {
-      showSpinner();
+    //   showSpinner();
       await this.getWords();
       hideSpinner();
       this.startbtn = document.querySelector('.preview__btn');
