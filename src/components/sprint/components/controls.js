@@ -4,7 +4,6 @@ import { ErrorPopup } from '../../error/error.error_popup';
 import Timer from './timer';
 
 const wordsAPI = new WordsApi();
-// const timerJS = new Timer();
 
 export default class Select {
   constructor() {
