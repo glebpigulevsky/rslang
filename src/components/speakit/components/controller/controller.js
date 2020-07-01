@@ -154,7 +154,7 @@ class Controller {
       renderSpeechInput(recognitionResult);
     };
 
-    this.recognition.onend = () => this.recognition.start;
+    this.recognition.onend = this.recognition.start;
 
     this.recognition.start();
   }
@@ -209,6 +209,8 @@ class Controller {
   onStopButtonClick() {
     if (!this.isGameStarts) return;
     if (!this.roundFetchedData) return;
+    view.renderPicture();
+    view.renderTranslation();
 
     model.saveCurrentResults(this.guessedList);
 
@@ -245,7 +247,10 @@ class Controller {
     view.resultList.remove();
     view.resultsContainer.classList.remove(CLASS_NAMES.RESULT.LONG_STATISTIC);
 
-    if (this.recognition) this.recognition.start();
+    if (this.isGameStarts && this.recognition) {
+      this.recognition.start();
+      this.recognition.onend = this.recognition.start;
+    }
   }
 
   onResultsLongStatisticButtonClick() {
@@ -253,6 +258,11 @@ class Controller {
   }
 
   onResultButtonClick() {
+    if (this.isGameStarts && this.recognition) {
+      this.recognition.abort();
+      this.recognition.onend = null;
+    }
+
     togglePageState(CLASS_NAMES.RESULT.PAGE);
 
     view.renderResultsList(

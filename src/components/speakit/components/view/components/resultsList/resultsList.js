@@ -9,6 +9,7 @@ export default class ResultsList {
     listenersList,
     guessedList,
     time,
+    hasTranslation = false,
     longResults,
     additionalClass = EMPTY,
   ) {
@@ -20,6 +21,7 @@ export default class ResultsList {
     this.time = time;
     this.additionalClass = additionalClass;
     this.longResults = longResults;
+    this.hasTranslation = hasTranslation;
 
     this.sliderItem = EMPTY;
     this.correctContainer = EMPTY;
@@ -50,9 +52,9 @@ export default class ResultsList {
       this.pageData.forEach((cardData) => {
         let card;
         if (this.guessedList.includes(cardData.word)) {
-          card = new PageCard(this.correctList, cardData);
+          card = new PageCard(this.correctList, cardData, this.hasTranslation);
         } else {
-          card = new PageCard(this.errorsList, cardData);
+          card = new PageCard(this.errorsList, cardData, this.hasTranslation);
         }
         card.render();
       });

@@ -50,6 +50,7 @@ class View {
 
     this.renderTranslation = this.renderTranslation.bind(this);
     this.renderSpeechInput = this.renderSpeechInput.bind(this);
+    this.renderPicture = this.renderPicture.bind(this);
     this.onErrorSpellingHandler = this.onErrorSpellingHandler.bind(this);
     this.beforeUnloadHandler = this.beforeUnloadHandler.bind(this);
   }
@@ -59,7 +60,14 @@ class View {
     this.currentList.render();
   }
 
-  renderResultsList(pageData, listenersList, guessedList, currentResults, longResults) {
+  renderResultsList(
+    pageData,
+    listenersList,
+    guessedList,
+    currentResults,
+    longResults,
+    hasTranslation = true,
+  ) {
     if (this.swiper.slides && this.swiper.slides.length) this.swiper.removeAllSlides();
 
     this.resultList = new ResultsList(
@@ -68,6 +76,7 @@ class View {
       listenersList,
       guessedList,
       new Date().toLocaleString(),
+      hasTranslation,
       longResults,
       CLASS_NAMES.SLIDER.ACTIVE,
     );
@@ -80,6 +89,7 @@ class View {
         listenersList,
         result.guessedList,
         result.time,
+        hasTranslation,
       ).render();
     });
 
