@@ -24,7 +24,6 @@ export default class Timer {
     this.info = COLOR_CODES.info.color;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   addTemplateTimer() {
     const temp = `<div class="base-timer">
     <svg class="base-timer__svg" viewBox="0 0 100 100" >
@@ -48,7 +47,6 @@ export default class Timer {
     document.querySelector('.game-sprint__timer').insertAdjacentHTML('afterbegin', temp);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   formatTimeLeft(time) {
     let seconds = time % 60;
     if (seconds < 10) {
@@ -93,9 +91,5 @@ export default class Timer {
 
   stopTime() {
     clearInterval(this.timerInterval);
-  }
-
-  init() {
-    this.startTimer();
   }
 }

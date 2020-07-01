@@ -4,10 +4,10 @@ import correct from '../assets/audio/correct.mp3';
 import wrong from '../assets/audio/error.mp3';
 import { showSpinner, hideSpinner } from '../common/sprint.utils';
 import { shuffleArray, getRandomElement } from '../common/sprint.helper';
-// import { Data } from './getData'
+import Timer from './timer';
 
+const timerJS = new Timer();
 
-// const getData = new Data;
 const success = new Audio(correct);
 const fail = new Audio(wrong);
 
@@ -22,6 +22,8 @@ export default class GameSprint {
     this.counterElement = null;
     this.correctAnswer = [];
     this.wrongAnswer = [];
+    this.answerTrue = this.handleButtonClick(true);
+    this.answerFalse = this.handleButtonClick(false);
   }
 
   async getWords(group = 0, page = 0) {
@@ -32,7 +34,6 @@ export default class GameSprint {
       new ErrorPopup().openPopup({
         text: error.message,
       });
-      return null;
     }
     this.words = this.createObjectWords(response);
   }
@@ -41,7 +42,6 @@ export default class GameSprint {
     const translations = words.map((word) => word.wordTranslate);
     return words.map(({ id, word, wordTranslate }) => {
       const randomTranslation = getRandomElement(translations);
-      console.log(randomTranslation);
       return {
         id,
         word,
@@ -65,11 +65,12 @@ export default class GameSprint {
   makeTurn() {
     this.renderScore();
     if (this.gameWords.length === 0) {
-      return this.finishGame();
-    }
-    this.currentGameWord = this.gameWords.pop();
+      this.finishGame();
+    } else {
+      this.currentGameWord = this.gameWords.pop();
 
-    this.renderWord(this.currentGameWord);
+      this.renderWord(this.currentGameWord);
+    }
   }
 
   finishGame() {
@@ -81,7 +82,7 @@ export default class GameSprint {
     return () => {
       if (this.currentGameWord.isCorrectTranslation === flag) {
         success.play();
-        this.addElemenet((this.counterElement += 1));
+        this.addImageRating((this.counterElement += 1));
         this.gameResults.push({
           isCorrect: true,
           word: this.currentGameWord,
@@ -101,7 +102,7 @@ export default class GameSprint {
 
   renderScore() {
     const scoreField = document.getElementById('score');
-    const [score] = this.gameResults.reduce(
+    const [value] = this.gameResults.reduce(
       ([score, correctCounter], result) => {
         if (!result.isCorrect) {
           return [score, 0];
@@ -110,7 +111,7 @@ export default class GameSprint {
       },
       [0, 0],
     );
-    scoreField.innerHTML = score;
+    scoreField.innerHTML = value;
   }
 
   renderWord(objectWord) {
@@ -125,7 +126,7 @@ export default class GameSprint {
      <div class="game-sprint__word game-sprint__word--rus">${wordObj.randomTranslation}</div>`;
   }
 
-  addElemenet(add) {
+  addImageRating(add) {
     const rightField = document.getElementById('rating');
     if (add <= 4) {
       rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
@@ -158,6 +159,7 @@ export default class GameSprint {
       if (event.target.classList.contains('preview__btn')) {
         document.querySelector('.sprint-game__wrapper').classList.remove('display-none');
         document.querySelector('.preview').classList.add('display-none');
+        timerJS.startTimer();
       }
     });
   }
@@ -174,7 +176,6 @@ export default class GameSprint {
       this.spinner.init();
       this.onChangeLevel();
     } catch (error) {
-      return error;
     }
   }
 }

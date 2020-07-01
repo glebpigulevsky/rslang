@@ -9,6 +9,4 @@ export const shuffleArray = (array) => {
   return result;
 };
 
-export const getRandomElement = (array) => {
-  return array[Math.floor(Math.random() * array.length)];
-};
+export const getRandomElement = (array) => array[Math.floor(Math.random() * array.length)];
