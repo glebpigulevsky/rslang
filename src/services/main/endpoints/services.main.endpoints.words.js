@@ -56,7 +56,7 @@ export default class WordsApi {
   _wordsPageValidator(page) {
     const isErrorPage = page < WORDS_REQUEST.Page.min || page > WORDS_REQUEST.Page.max;
     if (isErrorPage) {
-      console.info(`Words: 'page' must be in range (${WORDS_REQUEST.Page.min}, ${WORDS_REQUEST.Page.max})`);
+      console.info(`Words: 'page' must be in range (${WORDS_REQUEST.Page.min}, ${WORDS_REQUEST.Page.max}) (Not always, it's releted on wordsPerPage)`);
     }
   }
 

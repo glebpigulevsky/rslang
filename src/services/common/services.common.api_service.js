@@ -26,6 +26,9 @@ export default class ApiService {
         if (res.status === 404 && type === LINK_TYPE.Statictics) {
           return LINK_TYPE.Statictics[404];
         }
+        if (res.status === 404 && type === LINK_TYPE.UserAggregatedWords) {
+          return LINK_TYPE.UserAggregatedWords[404];
+        }
         await this._checkResponse(res);
       }
       return res.json();

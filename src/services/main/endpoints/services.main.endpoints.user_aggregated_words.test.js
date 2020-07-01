@@ -1,0 +1,84 @@
+/* eslint-disable no-undef */
+import 'isomorphic-fetch';
+import UserAggregatedWords from './services.main.endpoints.user_aggregated_words';
+import UsersApi from './services.main.endpoints.users';
+import { MAIN_API_URL, GET_RANDOM, ERRORS_DESCRIPTION, USER_AGGREGATED_WORDS_FILTER } from '../../common/services.common.constants';
+import ApiService from '../../common/services.common.api_service';
+
+const userAggregatedWords = new UserAggregatedWords();
+const user = new UsersApi();
+
+  describe('get user aggregated words by group', () => {
+    const userDefault = {
+      email: 'jest_useraggregatedwords_two@mail.com',
+      password: '12345678Aa@',
+    };
+    it('should return words collection"', async () => {
+      const auth = await user.authenticateUser({
+        email: userDefault.email,
+        password: userDefault.password,
+      });
+      userAggregatedWords._apiService = new ApiService(MAIN_API_URL);
+      const res = await userAggregatedWords.getAllUserAggregatedWords({ group: 1 },{ userId: auth.userId, token: auth.token });
+      expect(res).toBeDefined();
+      expect(res.paginatedResults.length).toBe(10);
+      expect(res.totalCount).toBe(3600);
+    });
+  });
+
+  describe('get user aggregated words by group and wordsPerPage', () => {
+    const userDefault = {
+      email: 'jest_useraggregatedwords_three@mail.com',
+      password: '12345678Aa@',
+    };
+    it('should return words collection"', async () => {
+      const auth = await user.authenticateUser({
+        email: userDefault.email,
+        password: userDefault.password,
+      });
+      userAggregatedWords._apiService = new ApiService(MAIN_API_URL);
+      const res = await userAggregatedWords.getAllUserAggregatedWords({ group: 1, wordsPerPage: 30 },{ userId: auth.userId, token: auth.token });
+      expect(res).toBeDefined();
+      expect(res.paginatedResults.length).toBe(30);
+      expect(res.totalCount).toBe(3600);
+    });
+  }); 
+
+   describe('get user aggregated words with filter difficulty = hard', () => {
+    const userDefault = {
+      email: 'jest_useraggregatedwords_four@mail.com',
+      password: '12345678Aa@',
+    };
+    it('should return words collection"', async () => {
+      const auth = await user.authenticateUser({
+        email: userDefault.email,
+        password: userDefault.password,
+      });
+      userAggregatedWords._apiService = new ApiService(MAIN_API_URL);
+      const res = await userAggregatedWords.getAllUserAggregatedWords({group: 0, filter:USER_AGGREGATED_WORDS_FILTER.byDifficultyHard},{ userId: auth.userId, token: auth.token });
+      expect(res).toBeDefined();
+      expect(res.paginatedResults.length).toBe(2);
+      expect(res.totalCount).toBe(2);
+    });
+  }); 
+
+   describe('get user aggregated words with filter difficulty = easy and optional.repeat = true', () => {
+    const userDefault = {
+      email: 'jest_useraggregatedwords_five@mail.com',
+      password: '12345678Aa@',
+    };
+    it('should return words collection"', async () => {
+      const auth = await user.authenticateUser({
+        email: userDefault.email,
+        password: userDefault.password,
+      });
+      userAggregatedWords._apiService = new ApiService(MAIN_API_URL);
+      const res = await userAggregatedWords.getAllUserAggregatedWords({group: 0, filter: USER_AGGREGATED_WORDS_FILTER.byDifficultyHardAndRepeat},{ userId: auth.userId, token: auth.token });
+      expect(res).toBeDefined();
+      expect(res.paginatedResults.length).toBe(1);
+      expect(res.totalCount).toBe(1);
+    });
+  }); 
+
+
+
