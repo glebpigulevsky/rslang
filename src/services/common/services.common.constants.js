@@ -45,7 +45,10 @@ const DEFAULT_SETTINGS = {
   },
 };
 
-const USER_AGGREGATED_WORDS_FILTER = { byDifficultyHard: '{"userWord.difficulty":"hard"}', byDifficultyHardAndRepeat: '{"$and":[{"userWord.difficulty":"hard", "userWord.optional.repeat":true}]}' };
+const USER_AGGREGATED_WORDS_FILTER = {
+  byDifficultyHard: '{"userWord.difficulty":"hard"}',
+  byDifficultyHardAndRepeat: '{"$and":[{"userWord.difficulty":"hard", "userWord.optional.repeat":true}]}',
+};
 
 export {
   MAIN_API_URL,
