@@ -35,9 +35,9 @@
   align-items: center;
   background-color: $color-light-grey;
   border-radius: 10px;
-  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, .5);
 
-  @include transition($time: 0.3s, $property: all, $method: ease-out);
+  @include transition($time: .3s, $property: all, $method: ease-out);
   @include media-mobile {
     margin-bottom: 25px;
   }

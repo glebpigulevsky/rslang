@@ -29,7 +29,7 @@
     background-color: $color-hovered;
     border-color: transparent;
 
-    @include transition($time: 0.4s, $property: all, $method: ease-out);
+    @include transition($time: .4s, $property: all, $method: ease-out);
 
     &.active {
       background-color: $color-orange;
@@ -83,7 +83,7 @@
 
 @keyframes resize {
   40% {
-    transform: scale(0.9);
+    transform: scale(.9);
   }
 
   80% {
@@ -92,5 +92,5 @@
 }
 
 .animated {
-  animation: resize 0.8s infinite linear;
+  animation: resize .8s infinite linear;
 }

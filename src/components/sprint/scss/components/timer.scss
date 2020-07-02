@@ -2,7 +2,6 @@
   position: absolute;
   top: 2%;
   right: 4%;
-
   width: 70px;
   height: 70px;
 
@@ -29,9 +28,7 @@
 .base-timer__path-remaining {
   transform: rotate(90deg);
   transform-origin: center;
-
   transition: 1s linear all;
-
   fill-rule: nonzero;
   stroke: currentColor;
   stroke-linecap: round;
@@ -53,19 +50,16 @@
 .base-timer__label {
   position: absolute;
   top: 0;
-
   display: flex;
   justify-content: center;
   align-items: center;
   width: 70px;
   height: 65px;
-
   font-size: 24px;
 
   @include media-mobile {
     width: 52px;
     height: 52px;
-
     font-size: 20px;
   }
 }

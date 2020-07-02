@@ -2,18 +2,14 @@
   position: absolute;
   top: px-to-rem(45px);
   left: px-to-rem(-70px);
-
   display: flex;
   flex-direction: column;
   align-items: center;
   width: px-to-rem(70px);
   height: 100vh;
-
   list-style: none;
-
   background-color: $color-light-grey;
-
-  transition: 0.3s ease-out;
+  transition: .3s ease-out;
 }
 
 .navigation__list {
@@ -22,31 +18,26 @@
   align-items: center;
   margin-top: 0;
   padding: 0;
-
   list-style-type: none;
 }
 
 .hamburger-menu__line {
   width: 100%;
-  height: 0.25rem;
-
+  height: .25rem;
   background-color: $color-light;
   border-radius: 5px;
-
-  transition: 0.2s ease-out;
+  transition: .2s ease-out;
 }
 
 .toggle {
   top: px-to-rem(45px);
   left: 0;
-
   text-align: center;
-
-  box-shadow: 1px 0 15px 2px rgba(0, 0, 0, 0.4);
+  box-shadow: 1px 0 15px 2px rgba(0, 0, 0, .4);
 
   & .first {
     background-color: $color-light;
-    transform: scale(0.9) rotateZ(-45deg) translate(-7px, 6px);
+    transform: scale(.9) rotateZ(-45deg) translate(-7px, 6px);
   }
 
   & .second {
@@ -55,7 +46,7 @@
 
   & .third {
     background-color: $color-light;
-    transform: scale(0.9) rotateZ(45deg) translate(-6px, -6px);
+    transform: scale(.9) rotateZ(45deg) translate(-6px, -6px);
   }
 }
 
@@ -67,7 +58,7 @@
   &:hover {
     background-color: $color-hovered;
 
-    @include transition($time: 0.3s, $property: all, $method: ease-out);
+    @include transition($time: .3s, $property: all, $method: ease-out);
 
     & .navigation__link {
       color: $color-light;
@@ -90,12 +81,11 @@
 .active {
   background-color: $color-hovered;
 
-  @include transition($time: 0.3s, $property: all, $method: ease-out);
+  @include transition($time: .3s, $property: all, $method: ease-out);
 }
 
 .navigation__link {
   position: relative;
-
   font-size: 1.2rem;
   color: $color-text-additional;
   text-decoration: none;

@@ -21,11 +21,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
-
   text-transform: uppercase;
-
   border: 1px solid $color-border;
-  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, .3);
 
   @include button($color: $color-light, $background: $color-btn, $width: 220px, $height: 40px, $radius: 30px);
   @include segoe-additional($color: $color-light, $weight: bold);
@@ -42,18 +40,12 @@
     background-color: $color-hovered;
     border-color: transparent;
 
-    @include transition($time: 0.4s, $property: all, $method: ease-out);
+    @include transition($time: .4s, $property: all, $method: ease-out);
   }
-}
-
-.navigation__description {
-  font-weight: bold;
-  color: $color-text-additional;
 }
 
 .selector {
   font-size: px-to-rem(16px);
-
   background-color: $color-light-grey;
   border-color: $color-border;
   border-radius: 5px;
@@ -69,13 +61,12 @@
     background-color: $color-hovered;
     border-color: transparent;
 
-    @include transition($time: 0.4s, $property: all, $method: ease-out);
+    @include transition($time: .4s, $property: all, $method: ease-out);
   }
 }
 
 .selector option {
   font-size: px-to-rem(16px);
-
   background-color: $color-light;
 
   @include media-mobile {
@@ -85,6 +76,5 @@
 
 .selector option.completed {
   color: $color-dark-orange;
-
   background-color: $color-hovered;
 }

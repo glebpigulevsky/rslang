@@ -73,10 +73,16 @@ export const sprintComponent = {
                     </div>
                 </div>
           </div>
-          <div class="result__container display-none">
-            <div class="result-correct"></div>
-            <div class="result-error"></div>
-          </div>
+          <div class="statistics display-none">
+            <div class="result__container">
+                <div class="button__controller-result">
+                    <button class="button-result__new sprint-button">New Game</button>
+                    <button class="button-result__statistics sprint-button">Statistics</button>
+                </div>
+                <div class="result-correct"></div>
+                <div class="result-errors"></div>
+            </div>
+            </div>
         </div>
         <div class="spinner display-none">
             <div class="spinner__gear">
@@ -101,16 +107,6 @@ export const sprintComponent = {
                     <button class="preview__btn">start</button>
                 </div>
             </div>
-        </div>
-        <div class="wrapper-score hidden">
-    <div class="score">
-    <div class="container-answers">
-      <div class ='know'></div><div class ='dntKnow'></div>
-    </div> 
-      <div class="button-wrapper">
-        <button class="btn" id="start">New game</button><button class="btn statistic">Statistic</button>
-      </div>
-      </div>
-    </div>
-      </div>`,
+        </div> 
+</div>`,
 };

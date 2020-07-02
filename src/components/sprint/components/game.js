@@ -77,7 +77,9 @@ export default class GameSprint {
   }
 
   finishGame() {
-    document.querySelector('.result__container').classList.remove('display-none');
+    document.querySelector('.sprint-game__container').classList.add('display-none');
+    document.querySelector('.navigation').classList.add('display-none');
+    document.querySelector('.statistics').classList.remove('display-none');
 
     this.gameResults.forEach((word) => {
       if (word.isCorrect === true) {
@@ -86,14 +88,44 @@ export default class GameSprint {
         this.wrongAnswer.push(word.word);
       }
     });
-    const correct = `<span class="correct">${this.correctAnswer.length}</span>`;
-    const error = ` <span class="error">${this.wrongAnswer.length}</span>`;
-    this.correctAnswer.map((word) => word);
-    this.wrongAnswer.map((word) => word);
+    const knowElement = document.querySelector('.result-correct');
+    const dntKnowElement = document.querySelector('.result-errors');
+    const resultKnow = document.createElement('p');
+    resultKnow.className = 'correct__title';
+    const tamplateScoreKnow = `
+            <span class="correct__lead">Correctly <span class="correct">${this.correctAnswer.length}</span></span>
+            <ul class = 'correctly__list list'></ul>`;
+    resultKnow.innerHTML = tamplateScoreKnow;
+
+    const resultDntknow = document.createElement('p');
+    resultDntknow.className = 'errors__title';
+    const tamplateScoreDntknow = ` 
+            <span class="errors__lead">Errors <span class="errors">${this.wrongAnswer.length}</span></span>
+            <ul class = 'error__list list'></ul>`;
+    resultDntknow.innerHTML = tamplateScoreDntknow;
+
+    knowElement.append(resultKnow);
+    dntKnowElement.append(resultDntknow);
+
+    const containerCorrectWords = document.querySelector('.correctly__list');
+    const objectWordsCorrect = this.correctAnswer.map((word) => word);
+
+    const addTamplateCorrectWords = (Correct) => `<li class="list__item">${Correct.word}</li>`;
+    const htmlTamplateCorrectWords = objectWordsCorrect.map(addTamplateCorrectWords).join('');
+    containerCorrectWords.innerHTML = htmlTamplateCorrectWords;
+
+    const containerWrongWords = document.querySelector('.error__list');
+    const objectWordsWrong = this.wrongAnswer.map((word) => word);
+
+    const addTamplateWrongWords = (Wrong) => `<li class="list__item">${Wrong.word}</li>`;
+    const htmlTamplateWrongWords = objectWordsWrong.map(addTamplateWrongWords).join('');
+    containerWrongWords.innerHTML = htmlTamplateWrongWords;
+
+    const buttonContinue = document.getElementById('start');
+    buttonContinue.addEventListener('click', this.removeField);
   }
 
   handleButtonClick(flag) {
-    const rightField = document.getElementById('rating');
     return () => {
       if (this.currentGameWord.isCorrectTranslation === flag) {
         success.play();
@@ -103,6 +135,7 @@ export default class GameSprint {
           word: this.currentGameWord,
         });
       } else {
+        const rightField = document.getElementById('rating');
         fail.play();
         rightField.innerHTML = '';
         this.gameResults.push({
@@ -181,7 +214,7 @@ export default class GameSprint {
 
   async init() {
     try {
-    //   showSpinner();
+      //   showSpinner();
       await this.getWords();
       hideSpinner();
       this.startbtn = document.querySelector('.preview__btn');
@@ -190,7 +223,6 @@ export default class GameSprint {
       this.startGame();
       this.spinner.init();
       this.onChangeLevel();
-    } catch (error) {
-    }
+    } catch (error) {}
   }
 }

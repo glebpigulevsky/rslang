@@ -27,12 +27,11 @@ export default class Select {
   }
 
   async newPage() {
-    this.roundFetchedData = await game.getWords(this.currentLevel, this.currentRound)
-      .catch((error) => {
-        hideSpinner();
-        new ErrorPopup().openPopup({ text: error.message });
-        return null;
-      });
+    this.roundFetchedData = await game.getWords(this.currentLevel, this.currentRound).catch((error) => {
+      hideSpinner();
+      new ErrorPopup().openPopup({ text: error.message });
+      return null;
+    });
     if (!this.roundFetchedData) return;
   }
 
@@ -53,7 +52,6 @@ export default class Select {
     this.newGame(this.roundData);
   }
 
-
   // onLevelChangeHandler() {
   //   this.round = document.querySelector('#round');
   //   this.round.addEventListener('change', () => {
@@ -70,11 +68,10 @@ export default class Select {
       await this.getWords();
       this.spinner.init();
       // this.onLevelChangeHandler();
-    } catch (error) {
-    }
+    } catch (error) {}
   }
   // init() {
-  
+
   //   console.log();
   // }
 }
