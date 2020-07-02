@@ -39,17 +39,17 @@ class LoginUser {
   _createBtnHandler(e) {
     e.preventDefault();
     this._createInfo.textContent = '';
+    const hasSignUp = this._trainSwitch.checked;
     const email = this._inputEmail.value.toString();
-    if (!this._isValidEmail(email)) {
+    if (hasSignUp && !this._isValidEmail(email)) {
       this._createInfo.textContent = EMAIL_VALIDATION_MSG;
       return;
     }
     const password = this._inputPassword.value.toString();
-    if (!this._isValidPassword(password)) {
+    if (hasSignUp && !this._isValidPassword(password)) {
       this._createInfo.textContent = PASSWORD_VALIDATION_MSG;
       return;
     }
-    const hasSignUp = this._trainSwitch.checked;
     this._createInfo.insertAdjacentHTML('beforeend', getLoader());
     this._authUserService
       .loginUser({ email, password, hasSignUp })
@@ -67,7 +67,7 @@ class LoginUser {
   }
 
   _isValidEmail(email) {
-    return EMAIL_REG_EXP.test(email);
+    return email.match(EMAIL_REG_EXP);
   }
 
   _isValidPassword(password) {
