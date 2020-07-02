@@ -24,13 +24,7 @@ export default class GameSprint {
     this.wrongAnswer = [];
     this.answerTrue = this.handleButtonClick(true);
     this.answerFalse = this.handleButtonClick(false);
-  }
-
-  fetchCardsPage(difficult, page) {
-    return this.wordsAPI.getWordsCollection({
-      group: difficult,
-      page,
-    });
+    // this.removeField = this.clearGameFieldAndState();
   }
 
   async getWords(group = 0, page = 0) {
@@ -62,10 +56,12 @@ export default class GameSprint {
   startGame() {
     const btnTrue = document.getElementById('true');
     const btnFalse = document.getElementById('false');
-    btnTrue.addEventListener('click', this.handleButtonClick(true));
-    btnFalse.addEventListener('click', this.handleButtonClick(false));
+    btnTrue.addEventListener('click', this.answerTrue);
+    btnFalse.addEventListener('click', this.answerFalse);
     this.gameWords = shuffleArray(this.words);
     this.gameResults = [];
+    document.querySelector('.sprint-game__container').classList.remove('display-block');
+    document.querySelector('.navigation').classList.remove('display-block');
     this.makeTurn();
   }
 
@@ -81,7 +77,19 @@ export default class GameSprint {
   }
 
   finishGame() {
+    document.querySelector('.result__container').classList.remove('display-none');
 
+    this.gameResults.forEach((word) => {
+      if (word.isCorrect === true) {
+        this.correctAnswer.push(word.word);
+      } else {
+        this.wrongAnswer.push(word.word);
+      }
+    });
+    const correct = `<span class="correct">${this.correctAnswer.length}</span>`;
+    const error = ` <span class="error">${this.wrongAnswer.length}</span>`;
+    this.correctAnswer.map((word) => word);
+    this.wrongAnswer.map((word) => word);
   }
 
   handleButtonClick(flag) {

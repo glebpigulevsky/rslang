@@ -73,6 +73,10 @@ export const sprintComponent = {
                     </div>
                 </div>
           </div>
+          <div class="result__container display-none">
+            <div class="result-correct"></div>
+            <div class="result-error"></div>
+          </div>
         </div>
         <div class="spinner display-none">
             <div class="spinner__gear">
