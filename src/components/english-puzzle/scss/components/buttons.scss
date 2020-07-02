@@ -1,17 +1,18 @@
-.game__controls,
-.hints__controls,
-.field__controls,
-.button__container-results {
+.english-puzzle-body .game__controls,
+.english-puzzle-body .hints__controls,
+.english-puzzle-body .field__controls,
+.english-puzzle-body .button__container-results {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
 }
 
-.game__controls {
+.english-puzzle-body .game__controls {
   align-items: center;
+  flex-direction: row;
 }
 
-.button {
+.english-puzzle-body .button {
   margin: 10px;
   text-transform: uppercase;
   border: 1px solid $color-border;
@@ -38,11 +39,11 @@
   }
 }
 
-.game-hints_bg,
-.game-hints_translation,
-.game-hints_spelling,
-.game-hints_auto-spelling,
-.button-repeat-spelling {
+.english-puzzle-body .game-hints_bg,
+.english-puzzle-body .game-hints_translation,
+.english-puzzle-body .game-hints_spelling,
+.english-puzzle-body .game-hints_auto-spelling,
+.english-puzzle-body .button-repeat-spelling {
   width: 40px;
   height: 40px;
   border-radius: 5px;
@@ -51,7 +52,7 @@
   background-size: 32px;
 }
 
-.game-hints_bg {
+.english-puzzle-body .game-hints_bg {
   background-image: url('../assets/img/bg-icon.png');
 
   @include media-mobile {
@@ -59,20 +60,20 @@
   }
 }
 
-.game-hints_translation {
+.english-puzzle-body .game-hints_translation {
   background-image: url('../assets/img/translation-icon.png');
   background-size: 20px;
 }
 
-.game-hints_spelling {
+.english-puzzle-body .game-hints_spelling {
   background-image: url('../assets/img/spell-icon.png');
 }
 
-.game-hints_auto-spelling {
+.english-puzzle-body .game-hints_auto-spelling {
   background-image: url('../assets/img/auto-spell-icon.png');
 }
 
-.button-repeat-spelling {
+.english-puzzle-body .button-repeat-spelling {
   background-image: url('../assets/img/dinamic-icon.png');
 }
 
@@ -81,7 +82,7 @@
   box-shadow: none;
 }
 
-@keyframes resize {
+@keyframes english-puzzle-resize {
   40% {
     transform: scale(.9);
   }
@@ -91,6 +92,6 @@
   }
 }
 
-.animated {
-  animation: resize .8s infinite linear;
+.english-puzzle-body .animated {
+  animation: english-puzzle-resize .8s infinite linear;
 }

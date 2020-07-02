@@ -1,4 +1,4 @@
-.navigation {
+.english-puzzle-body .navigation {
   display: flex;
   justify-content: space-between;
   max-width: 1400px;
@@ -6,12 +6,12 @@
   padding-top: 10px;
 }
 
-.navigation__description {
+.english-puzzle-body .navigation__description {
   color: $color-text-additional;
   font-weight: bold;
 }
 
-.selector {
+.english-puzzle-body .selector {
   color: $color-text-additional;
   background-color: $color-light-grey;
   border-color: $color-border;
@@ -30,11 +30,11 @@
   }
 }
 
-.selector option {
+.english-puzzle-body .selector option {
   background-color: $color-light;
 }
 
-.selector option.completed {
+.english-puzzle-body .selector option.completed {
   color: $color-dark-orange;
   background-color: $color-hovered;
 }
