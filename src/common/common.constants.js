@@ -5,3 +5,5 @@ export const CLASS_NAMES = {
     LOGO: 'main__logo',
   },
 };
+
+export const EMPTY = null;
