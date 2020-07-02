@@ -1,6 +1,13 @@
 import { AuthenticateUserService } from '../../common/common.helper';
 import { getLoginComponent } from './common/login_user.component';
-import { LOGIN_BUTTONS_NAME, LOGIN_BUTTONS_COLOR_CLASS } from './common/login_user.common.constants';
+import {
+  LOGIN_BUTTONS_NAME,
+  LOGIN_BUTTONS_COLOR_CLASS,
+  PASSWORD_VALIDATION_MSG,
+  PASSWORD_REG_EXP,
+  EMAIL_REG_EXP,
+  EMAIL_VALIDATION_MSG,
+} from './common/login_user.common.constants';
 import { getLoader } from './common/login_user.loader';
 import './scss/login.styles.scss';
 import * as observable from '../../common/utils/common.utils.observable';
@@ -32,14 +39,23 @@ class LoginUser {
   _createBtnHandler(e) {
     e.preventDefault();
     this._createInfo.textContent = '';
-    const email = this._inputEmail.value.toString();
-    const password = this._inputPassword.value.toString();
     const hasSignUp = this._trainSwitch.checked;
+    const email = this._inputEmail.value.toString();
+    if (hasSignUp && !this._isValidEmail(email)) {
+      this._createInfo.textContent = EMAIL_VALIDATION_MSG;
+      return;
+    }
+    const password = this._inputPassword.value.toString();
+    if (hasSignUp && !this._isValidPassword(password)) {
+      this._createInfo.textContent = PASSWORD_VALIDATION_MSG;
+      return;
+    }
     this._createInfo.insertAdjacentHTML('beforeend', getLoader());
     this._authUserService
       .loginUser({ email, password, hasSignUp })
       .then((res) => {
         if (res === 'Authenticated') {
+          this._createBtn.disabled = true;
           this._createInfo.textContent = res;
           setTimeout(() => {
             observable.publish('Authenticate', res);
@@ -48,6 +64,14 @@ class LoginUser {
         }
       })
       .catch((err) => { this._createInfo.textContent = err; });
+  }
+
+  _isValidEmail(email) {
+    return email.match(EMAIL_REG_EXP);
+  }
+
+  _isValidPassword(password) {
+    return password.match(PASSWORD_REG_EXP);
   }
 
   _emptyFieldsValidator() {
