@@ -23,7 +23,7 @@ export default class WordsApi {
       url += `&wordsPerPage=${wordsPerPage}`;
     }
     const res = await this._apiService.getResource({ url, hasToken: false });
-    return res.map(this._transformWord);
+    return res.map(this._transformWord, false);
   }
 
   async getWordsCount({ group, wordsPerExampleSentence = null, wordsPerPage = null }) {
@@ -43,7 +43,7 @@ export default class WordsApi {
 
   async getWord({ id }) {
     const res = await this._apiService.getResource({ url: `/words/${id}`, hasToken: false });
-    return this._transformWord(res);
+    return this._transformWord(res, true);
   }
 
   _wordsGroupValidator(group) {
@@ -88,21 +88,21 @@ export default class WordsApi {
     textExampleTranslate,
     wordTranslate,
     wordsPerExampleSentence,
-  }) {
+  }, isSingleWord) {
     return {
       id,
       group,
       page,
       word,
-      image: `${MEDIA_LINK}${image}`,
-      audio: `${MEDIA_LINK}${audio}`,
-      audioMeaning: `${MEDIA_LINK}${audioMeaning}`,
-      audioExample: `${MEDIA_LINK}${audioExample}`,
+      image: isSingleWord ? `data:image/jpg;base64,${image}` : `${MEDIA_LINK}${image}`,
+      audio: isSingleWord ? `data:audio/mpeg;base64,${audio}` : `${MEDIA_LINK}${audio}`,
+      audioMeaning: isSingleWord ? `data:audio/mpeg;base64,${audioMeaning}` : `${MEDIA_LINK}${audioMeaning}`,
+      audioExample: isSingleWord ? `data:audio/mpeg;base64,${audioExample}` : `${MEDIA_LINK}${audioExample}`,
       textMeaning,
       textExample,
+      textExampleTranslate,
       transcription,
       textMeaningTranslate,
-      textExampleTranslate,
       wordTranslate,
       wordsPerExampleSentence,
     };
