@@ -76,7 +76,7 @@ export const sprintComponent = {
           <div class="statistics display-none">
             <div class="result__container">
                 <div class="button__controller-result">
-                    <button class="button-result__new sprint-button">New Game</button>
+                    <button id="game" class="button-result__new sprint-button">New Game</button>
                     <button class="button-result__statistics sprint-button">Statistics</button>
                 </div>
                 <div class="result-correct"></div>

@@ -24,7 +24,7 @@ export default class GameSprint {
     this.wrongAnswer = [];
     this.answerTrue = this.handleButtonClick(true);
     this.answerFalse = this.handleButtonClick(false);
-    // this.removeField = this.clearGameFieldAndState();
+    this.removeField = this.clearGameFieldAndState();
   }
 
   async getWords(group = 0, page = 0) {
@@ -121,8 +121,31 @@ export default class GameSprint {
     const htmlTamplateWrongWords = objectWordsWrong.map(addTamplateWrongWords).join('');
     containerWrongWords.innerHTML = htmlTamplateWrongWords;
 
-    const buttonContinue = document.getElementById('start');
+    const buttonContinue = document.querySelector('#game');
     buttonContinue.addEventListener('click', this.removeField);
+  }
+
+  clearGameFieldAndState() {
+    return (event) => {
+      const target = event.target.className;
+      if (target === 'button-result__new') {
+        document.querySelector('.result-correct').remove();
+        document.querySelector('.result-errors').remove();
+        document.querySelector('.statistics').classList.add('display-none');
+        const rightField = document.getElementById('rating');
+        const btnTrue = document.getElementById('true');
+        const btnFalse = document.getElementById('false');
+        btnTrue.removeEventListener('click', this.answerTrue);
+        btnFalse.removeEventListener('click', this.answerTrue);
+        this.counterElement = 0;
+        this.gameWords = [];
+        this.correctAnswer = [];
+        this.wrongAnswer = [];
+        rightField.innerHTML = '';
+
+        this.startGame();
+      }
+    };
   }
 
   handleButtonClick(flag) {
@@ -214,7 +237,7 @@ export default class GameSprint {
 
   async init() {
     try {
-      //   showSpinner();
+      showSpinner();
       await this.getWords();
       hideSpinner();
       this.startbtn = document.querySelector('.preview__btn');
