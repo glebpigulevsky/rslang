@@ -26,6 +26,13 @@ export default class GameSprint {
     this.answerFalse = this.handleButtonClick(false);
   }
 
+  fetchCardsPage(difficult, page) {
+    return this.wordsAPI.getWordsCollection({
+      group: difficult,
+      page,
+    });
+  }
+
   async getWords(group = 0, page = 0) {
     let response;
     try {
