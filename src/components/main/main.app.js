@@ -9,6 +9,7 @@ import { statisticsPageComponent } from './pages/statistics-page.component';
 import { teamPageComponent } from './pages/team-page.component';
 import { settingsPageComponent } from './pages/settings-page.component';
 import { errorPageComponent } from './pages/error-page.component';
+import { speakItPageComponent } from './pages/speakit-page.component';
 import { englishPuzzleComponent } from './pages/english-puzzle.component';
 
 class Main {
@@ -25,6 +26,7 @@ const appRoutes = [
   { path: '/statistics', component: statisticsPageComponent },
   { path: '/team', component: teamPageComponent },
   { path: '/settings', component: settingsPageComponent },
+  { path: '/speakit', component: speakItPageComponent },
   { path: '/english-puzzle', component: englishPuzzleComponent },
 ];
 

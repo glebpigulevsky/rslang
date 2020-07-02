@@ -64,11 +64,11 @@ class Model {
   }
 
   saveCompletedRounds(completedRoundsData) {
-    localStorage.setItem('completedRoundsData', JSON.stringify(completedRoundsData));
+    localStorage.setItem('english-puzzle-completedRoundsData', JSON.stringify(completedRoundsData));
   }
 
   loadCompletedRounds() {
-    return JSON.parse(localStorage.getItem('completedRoundsData'));
+    return JSON.parse(localStorage.getItem('english-puzzle-completedRoundsData'));
   }
 
   init() {

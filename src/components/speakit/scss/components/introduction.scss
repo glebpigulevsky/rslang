@@ -1,8 +1,8 @@
-.english-puzzle-body .introduction {
+.speakit-body .introduction {
   width: 100vw;
   min-height: 100vh;
   background-color: $color-introduction-bg;
-  background-image: url('../assets/img/introduction-bg.png');
+  background-image: url('./../assets/img/introduction_bg.jpg');
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -10,7 +10,7 @@
   z-index: 1000;
 }
 
-.english-puzzle-body .introduction__container {
+.speakit-body .introduction__container {
   position: relative;
 
   @include flex-center;
@@ -19,22 +19,23 @@
   width: 100vw;
   min-height: 100vh;
   color: $color-text-additional;
+  backdrop-filter: opacity(.8) brightness(1.2);
 }
 
-.english-puzzle-body .introduction__logo {
+.speakit-body .introduction__logo {
   font-size: px-to-rem(20px);
   line-height: px-to-rem(30px);
   text-align: center;
 }
 
-.english-puzzle-body .introduction__button {
+.speakit-body .introduction__button {
   min-width: 10vw;
   min-height: 60px;
   font-size: px-to-rem(14px);
   line-height: px-to-rem(20px);
 }
 
-.english-puzzle-body .introduction__description-container {
+.speakit-body .introduction__description-container {
   @include flex-center;
 
   flex-direction: column;
@@ -49,7 +50,7 @@
   }
 }
 
-.english-puzzle-body .introduction__description {
+.speakit-body .introduction__description {
   font-weight: bold;
   text-align: center;
 }

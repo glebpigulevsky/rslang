@@ -1,10 +1,14 @@
-.english-puzzle-body {
+.speakit-body {
   .results__container {
     display: none;
   }
 
   &.result {
-    .main-game__container {
+    .main-card,
+    .game__controls,
+    .cards__container,
+    .introduction,
+    .speakit-main .navigation {
       display: none;
     }
 
@@ -15,76 +19,6 @@
 
   .button__container_results {
     padding: 20px;
-  }
-
-  .picture__container {
-    @include flex-center;
-
-    flex-direction: column;
-
-    @include media-tablet {
-      display: none;
-    }
-  }
-
-  .statistic__picture {
-    width: 400px;
-    border: 5px solid $color-dark-blue;
-    border-radius: 20px;
-    transition: .2s ease-in;
-
-    &:focus,
-    &:hover,
-    &:active {
-      outline: none;
-      border: 5px solid $color-hovered;
-      transform: scale(1.05);
-    }
-  }
-
-  .cards__item-english-for-puzzle {
-    width: 260px;
-    margin: 20px;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    border: 1px solid $color-dark-blue;
-    border-radius: 10px;
-    transition: .2s ease-in;
-
-    &:focus,
-    &:hover,
-    &:active {
-      transform: scale(1.05);
-    }
-  }
-
-  .english-puzzle-wrapper .card__link {
-    @include flex-center;
-
-    flex-direction: column;
-    min-height: 60px;
-    padding: 5px;
-    font-size: 16px;
-    line-height: 24px;
-    color: $color-text-additional;
-    border-radius: 10px;
-    background-color: $color-light;
-    background-image: url('../assets/img/dinamic-icon.png');
-    background-repeat: no-repeat;
-    background-position: 11px, 0;
-    background-size: 36px;
-
-    &:focus,
-    &:hover,
-    &:active {
-      color: $color-light;
-      background-color: $color-hovered;
-    }
-  }
-
-  .english-puzzle-wrapper .card__link.active {
-    color: $color-light;
-    background-color: $color-orange;
   }
 
   .correct__title,
@@ -122,7 +56,6 @@
     .card__word,
     .card__transcription {
       margin: 0;
-      margin-bottom: 5px;
     }
 
     .card__translation {
@@ -166,7 +99,7 @@
     font-size: 25px;
     line-height: 40px;
 
-    .cards__item-english-for-puzzle {
+    .speakit-cards__item {
       width: auto;
       margin: 10px;
       padding: 10px;
@@ -198,7 +131,7 @@
   }
 
   .long-statistic {
-    .current-statistic__container {
+    .swiper-wrapper {
       display: none;
     }
 

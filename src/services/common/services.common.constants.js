@@ -20,7 +20,11 @@ const GET_RANDOM = (min, max) => {
 };
 
 const LINK_TYPE = {
-  Settings: { 404: null }, Statictics: { 404: null }, Authenticate: { 403: 'Incorrect e-mail or password' }, User: { 417: 'This user already exists' },
+  Settings: { 404: null },
+  Statictics: { 404: null },
+  Authenticate: { 403: 'Incorrect e-mail or password' },
+  User: { 417: 'This user already exists' },
+  UserAggregatedWords: { 404: [] },
 };
 
 const DEFAULT_SETTINGS = {
@@ -40,6 +44,18 @@ const DEFAULT_SETTINGS = {
     isAudio: 'false',
   },
 };
+
+const USER_AGGREGATED_WORDS_FILTER = {
+  byDifficultyHard: '{"userWord.difficulty":"hard"}',
+  byDifficultyHardAndRepeat: '{"$and":[{"userWord.difficulty":"hard", "userWord.optional.repeat":true}]}',
+};
+
 export {
-  MAIN_API_URL, GET_RANDOM, ERRORS_DESCRIPTION, MEDIA_LINK, LINK_TYPE, DEFAULT_SETTINGS,
+  MAIN_API_URL,
+  GET_RANDOM,
+  ERRORS_DESCRIPTION,
+  MEDIA_LINK,
+  LINK_TYPE,
+  DEFAULT_SETTINGS,
+  USER_AGGREGATED_WORDS_FILTER,
 };
