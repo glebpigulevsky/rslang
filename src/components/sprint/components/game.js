@@ -121,7 +121,7 @@ export default class GameSprint {
     const htmlTamplateWrongWords = objectWordsWrong.map(addTamplateWrongWords).join('');
     containerWrongWords.innerHTML = htmlTamplateWrongWords;
 
-    const buttonContinue = document.querySelector('#game');
+    const buttonContinue = document.querySelector('#new');
     buttonContinue.addEventListener('click', this.removeField);
   }
 

@@ -41,7 +41,7 @@ export default class Select {
     showSpinner();
     this.roundData = await this.fetchRoundData(this.currentLevel, this.currentRound);
     hideSpinner();
-    this.newGame(this.roundData);
+    // this.newGame(this.roundData);
   }
 
   async onRoundChangeHandler(event) {
@@ -49,29 +49,14 @@ export default class Select {
     showSpinner();
     this.roundData = await this.fetchRoundData(this.currentLevel, this.currentRound);
     hideSpinner.hide();
-    this.newGame(this.roundData);
+    // this.newGame(this.roundData);
   }
-
-  // onLevelChangeHandler() {
-  //   this.round = document.querySelector('#round');
-  //   this.round.addEventListener('change', () => {
-  //     this.level = document.querySelector('#level').selectedIndex;
-  //     this.currentRound = this.round.selectedIndex;
-  //     console.log(this.level);
-  //     console.log(this.currentRound);
-  //     this.getWords(this.level, this.currentRound);
-  //   });
-  // }
 
   async init() {
     try {
       await this.getWords();
       this.spinner.init();
-      // this.onLevelChangeHandler();
+      console.log()
     } catch (error) {}
   }
-  // init() {
-
-  //   console.log();
-  // }
 }
