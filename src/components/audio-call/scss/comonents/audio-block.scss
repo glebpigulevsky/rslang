@@ -1,0 +1,124 @@
+.audio-block {
+    height: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.img-block {
+    margin-bottom: 20px;
+}
+
+.speaker-eng-word {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.answer-image {
+    border-radius: 50%;
+    width: 90px;
+    height: 90px;
+}
+
+.speaker {
+    width: 60%;
+    fill: rgb(189, 188, 188);
+    stroke: rgba(41, 34, 34, 0.479);
+}
+
+.speaker-block {
+    display: flex;
+    justify-content: center;
+    background: rgba(236, 229, 229, 0.315);
+    height: 150px;
+    width: 150px;
+    border-radius: 50%;
+    transition-duration: 0.5s;
+    box-shadow: 0 5px 23px 5px rgba(0,0,0,0.2);
+}
+
+.speaker-block-answer {
+    height: 40px;
+    width: 40px;
+}
+
+.speaker-block-active {
+    animation: gradient-2 0.9s ease-in-out;
+    background: linear-gradient(45deg, rgba(236, 229, 229, 0.561), rgba(71, 45, 144, 0.623), rgba(236, 229, 229, 0.315));  
+    background-size: 800% 800%;
+    // box-shadow: 0 5px 23px 40px rgba(0,0,0,0.8);
+}
+
+@keyframes gradient-2 {
+    0% {
+        background-position: 0 50%;
+        box-shadow: 0 0px 0px 0px rgba(206, 201, 201, 0.397);
+    }
+    50% {
+        background-position: 100% 50%;
+        box-shadow: 0 0px 0px 30px rgba(206, 201, 201, 0.397);
+    }
+    100% {
+        background-position: 0 50%;
+        box-shadow: 0 0px 0px 0px rgba(206, 201, 201, 0.397);
+        
+    }
+}
+
+.answer-word-eng {
+    margin-left: 20px;
+    font-size: 1.5em;
+    font-weight: bold;
+    color: rgb(228, 220, 220);
+    user-select: none;
+}
+
+
+
+@media (max-width: 900px) {
+    
+    .audio-block {
+        justify-content: flex-start;
+        height: 30%;
+        margin-top: 30px;
+    }
+
+    .speaker-block {
+        width: 100px;
+        height: 100px;
+        transition-duration: 0s;
+    }
+
+    .answer-image {
+        width: 60px;
+        height: 60px;
+    }
+
+    .answer-word-eng {
+        font-size: 1em;
+    }
+
+    .speaker-block-answer {
+        height: 35px;
+        width: 35px;
+    }
+
+    @keyframes gradient-2 {
+        0% {
+            background-position: 0 50%;
+            box-shadow: 0 0px 0px 0px rgba(206, 201, 201, 0.397);
+        }
+        50% {
+            background-position: 100% 50%;
+            box-shadow: 0 0px 0px 15px rgba(206, 201, 201, 0.397);
+        }
+        100% {
+            background-position: 0 50%;
+            box-shadow: 0 0px 0px 0px rgba(206, 201, 201, 0.397);
+            
+        }
+    }
+
+}

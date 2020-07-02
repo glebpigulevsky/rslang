@@ -1,0 +1,81 @@
+span {
+    user-select: none;
+}
+
+body {
+    font-family: "Segoe";
+    font-size: 20px;
+}
+
+.audio-call-wrapper {
+    background: linear-gradient(45deg, #03001e, #7303c0, #ec38bc, #7c06b3);  
+    background-size: 400% 400%;
+    overflow: hidden;
+    animation: gradient 15s ease-in infinite;
+}
+
+@keyframes gradient {
+    0% {
+        background-position: 0 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0 50%;
+    }
+}
+
+.audio-game-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.audio-results-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-top: 10vh;
+}
+
+.audio-call-container {
+    width: 100%;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: relative;
+}
+
+.move {
+    animation: move-container 3s ease;
+}
+
+@keyframes move-container {
+    0% {
+        left: 0px;
+    }
+
+    10% {
+        left: 50px;
+    }
+
+    100% {
+        left: -2000px;
+    }
+}
+
+
+
+
+@media (max-width: 900px) {
+  
+    .audio-call-container {
+        height: 70vh;
+        justify-content: flex-start;
+    }
+
+    
+
+}

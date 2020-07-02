@@ -1,0 +1,52 @@
+.words-block {
+    height: 30%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.word {
+    margin-right: 40px;
+    display: flex;
+    align-items: flex-start;
+    cursor: pointer;
+    padding: 10px;
+    border-radius: 5px;
+    color: rgb(228, 220, 220);
+}
+
+.word:hover {
+    background: rgba(184, 181, 181, 0.274);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+}
+
+.wrong-main-answer {
+    text-decoration: line-through;
+}
+
+.correct-icon {
+    height: 1.5em;
+}
+
+.number {
+    font-size: .7em;
+    margin-right: 8px;
+}
+
+.wrong-answer {
+    opacity: .4;
+}
+
+@media (max-width: 900px) {
+    .words-block {
+        flex-direction: column;    
+        justify-content: flex-end;
+        margin-top: 90px;
+    }
+
+    .word {
+        margin-right: 1vw;
+        font-size: .9em;
+    }
+}

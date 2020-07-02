@@ -1,0 +1,125 @@
+.results {
+    width: 500px;
+    height: 400px;
+    border-bottom: 20px;
+    background: rgba(70, 68, 68, 0.274);
+    padding: 30px 40px 0px 40px;
+    overflow-y: scroll;
+    border-top-left-radius: 30px;
+    border-bottom-left-radius: 30px;
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+
+.results::-webkit-scrollbar {
+    width: 10px;
+}
+ 
+.results::-webkit-scrollbar-track {
+    border: 1px solid rgba(0, 0, 0, 0.119); 
+    border-radius: 10px;
+}
+ 
+.results::-webkit-scrollbar-thumb {
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.24);
+}
+
+
+li img {
+    height: 30px;
+    margin-right: 30px;
+    border-radius: 29%;
+    cursor: pointer;
+}
+
+li img:hover {
+    animation: gradient-4 1.5s ease-in-out infinite;
+}
+
+
+@keyframes gradient-4 {
+    0% {
+        background-position: 0 50%;
+        box-shadow: 0 0px 0px 0px rgba(206, 201, 201, 0.3);
+    }
+    50% {
+        background-position: 100% 50%;
+        box-shadow: 0 0px 0px 10px rgba(206, 201, 201, 0.3);
+    }
+    100% {
+        background-position: 0 50%;
+        box-shadow: 0 0px 0px 0px rgba(206, 201, 201, 0.3);
+        
+    }
+}
+
+.mistakes-block, .correct-block {
+    border-bottom: 1px solid rgba(184, 181, 181, 0.24);
+}
+
+.mistakes {
+    color: rgb(197, 197, 197);
+    user-select: none;
+}
+
+.mistakes-count, .correct-count, .dont-know-count {
+    margin-left: 10px;
+    color: white;
+    padding: 0px 13px 2px 13px;
+    border-top-left-radius: 15px;
+    border-top-right-radius: 15px;
+    border-bottom-left-radius: 15px;
+    border-bottom-right-radius: 15px;
+}
+
+.mistakes-count {
+    background: rgb(187, 42, 5);
+}
+.correct-count {
+    background: rgb(5, 187, 90);
+}
+
+.dont-know-count {
+    background: rgb(0, 0, 0);
+}
+
+
+.mistakes-list, .correct-list, .dont-know-list {
+    padding: 0px 0px;
+    user-select: none;
+}
+
+
+
+.mistakes-list li, .correct-list li, .dont-know-list li {
+    display: flex;
+    align-items: center;
+    margin: 0;
+	padding: 10px 0 9px 0px;
+	list-style: none;
+	background-repeat: no-repeat;
+	background-position: left center;
+    background-size: 23px;
+}
+
+
+.results-ru-word {
+    color: rgb(180, 180, 180);
+}
+
+.results-eng-word {
+    color: white;
+    font-weight: 600;
+    text-transform: capitalize;
+}
+
+@media (max-width: 900px) {
+    
+    .results {
+        height: 70Vh;
+        font-size: 0.8em;
+    }
+
+}

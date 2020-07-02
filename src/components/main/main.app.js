@@ -1,15 +1,14 @@
-import { audioCallAppInit } from '../audio-call/audio-call.app';
+import { audioCallStartScreen } from '../audio-call/audio-call.app';
 import Menu from './main_menu';
 import { CLASS_NAMES } from '../../common/common.constants';
 import MAIN_GREETINGS from './common/main.constants';
 
 
 import './scss/main.styles.scss';
-// import '../audio-call/scss/audio-call.css'
 
 
-// audioCallAppInit(); //УДАЛИТЬ КАК ЗАКОНЧУ
-// document.querySelector('main').classList.add('audio-call-wrapper'); //УДАЛИТЬ КАК ЗАКОНЧУ
+
+// document.querySelector('body').classList.add('audio-call-wrapper'); //УДАЛИТЬ КАК ЗАКОНЧУ
 
 
 const burgerMenu = new Menu();
@@ -30,7 +29,7 @@ class Main {
 
   onAudioCallButtonClickHandler() {
     this.gameButtons.audioCall.removeEventListener('click', this.onAudioCallButtonClickHandlerBinded);
-    audioCallAppInit();
+    audioCallStartScreen();
   }
 
   sayHello() {
