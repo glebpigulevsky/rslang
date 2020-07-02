@@ -26,37 +26,66 @@ export default class Select {
     console.log(response);
   }
 
-  async newPage() {
-    this.roundFetchedData = await game.getWords(this.currentLevel, this.currentRound).catch((error) => {
-      hideSpinner();
-      new ErrorPopup().openPopup({ text: error.message });
-      return null;
+  //   fetchCardsPage(difficult, page) {
+  //     return this.wordsAPI.getWordsCollection({
+  //       group: difficult,
+  //       page,
+  //     });
+  //   }
+
+  onLevelChangeHandler() {
+    this.level = document.querySelector('#level');
+    this.level.addEventListener('change', (event) => {
+      this.currentLevel = +event.target.value;
+      if (this.currentLevel !== 0) {
+        // console.log(this.getWords(this.currentLevel));
+        this.getWords(this.currentLevel);
+      }
     });
-    if (!this.roundFetchedData) return;
   }
 
-  async onLevelChangeHandler(event) {
-    this.setCurrentLevel(+event.target.value);
-    this.setCurrentRound(0);
-    showSpinner();
-    this.roundData = await this.fetchRoundData(this.currentLevel, this.currentRound);
-    hideSpinner();
-    // this.newGame(this.roundData);
+  onRoundChangeHandler() {
+    this.round = document.querySelector('#round');
+    this.round.addEventListener('change', (event) => {
+      this.currentRound = +event.target.value;
+      if (this.currentRound !== 0) {
+        this.getWords(this.currentRound);
+      }
+    });
   }
+  //   async newPage() {
+  //     this.roundFetchedData = await game.getWords(this.currentLevel, this.currentRound).catch((error) => {
+  //       hideSpinner();
+  //       new ErrorPopup().openPopup({ text: error.message });
+  //       return null;
+  //     });
+  //     if (!this.roundFetchedData) return;
+  //   }
 
-  async onRoundChangeHandler(event) {
-    this.setCurrentRound(+event.target.value);
-    showSpinner();
-    this.roundData = await this.fetchRoundData(this.currentLevel, this.currentRound);
-    hideSpinner.hide();
-    // this.newGame(this.roundData);
-  }
+  //   async onLevelChangeHandler(event) {
+  //     this.setCurrentLevel(+event.target.value);
+  //     this.setCurrentRound(0);
+  //     showSpinner();
+  //     this.roundData = await this.fetchRoundData(this.currentLevel, this.currentRound);
+  //     hideSpinner();
+  //     // this.newGame(this.roundData);
+  //   }
+
+  //   async onRoundChangeHandler(event) {
+  //     this.setCurrentRound(+event.target.value);
+  //     showSpinner();
+  //     this.roundData = await this.fetchRoundData(this.currentLevel, this.currentRound);
+  //     hideSpinner.hide();
+  //     // this.newGame(this.roundData);
+  //   }
 
   async init() {
     try {
-      await this.getWords();
+    //   await this.onLevelChangeHandler();
+    //   this.onRoundChangeHandler();
+    //   this.onLevelChangeHandler();
+      await this.getWords(this.onLevelChangeHandler());
       this.spinner.init();
-      console.log()
     } catch (error) {}
   }
 }
