@@ -43,6 +43,11 @@ class MainGame {
     this.inputModeArrowBinded = this.inputModeArrow.bind(this);
     this.inputModeArrowPrevBinded = this.inputModeArrowPrev.bind(this);
     this.playAudioBinded = this.playAudio.bind(this);
+
+    this.clickHadnlerDeleteUserWord = this.clickHadnlerDeleteUserWord.bind(this);
+    this.clickHadnlerAddUserWordEasy = this.clickHadnlerAddUserWordEasy.bind(this);
+    this.clickHadnlerAddUserWordDiff = this.clickHadnlerAddUserWordDiff.bind(this);
+    this.clickHadnlerDeleteUserWord = this.clickHadnlerDeleteUserWord.bind(this);
   }
 
   render() {
@@ -253,18 +258,18 @@ class MainGame {
   }
 
   clickHadnlerDeleteUserWord() {
-    this.gameButtons.clicked = document.querySelector('.card-header__diff-easy');
+    this.elements.gameButtons.clicked = document.querySelector('.card-header__diff-easy');
     this.deleteUsWords();
   }
 
   clickHadnlerAddUserWordEasy() {
-    this.gameButtons.clicked = document.querySelector('.card-header__diff-easy');
+    this.elements.gameButtons.clicked = document.querySelector('.card-header__diff-easy');
     this.difficult = 'easy';
     this.addUserWords();
   }
 
   clickHadnlerAddUserWordDiff() {
-    this.gameButtons.clicked = document.querySelector('.card-header__diff-diff');
+    this.elements.gameButtons.clicked = document.querySelector('.card-header__diff-diff');
     this.difficult = 'difficult';
     this.addUserWords();
   }
@@ -285,7 +290,7 @@ class MainGame {
       .catch((err) => {
         console.info(err);
       });
-    this.gameButtons.clicked.removeEventListener('click', this.clickHadnlerDeleteUserWord);
+    this.elements.gameButtons.clicked.removeEventListener('click', this.clickHadnlerDeleteUserWord);
   }
 
   async addUserWords() {
@@ -312,7 +317,7 @@ class MainGame {
             console.info(errr);
           });
       });
-    this.gameButtons.clicked.removeEventListener('click', this.clickHadnlerAddUserWordEasy);
+    this.elements.gameButtons.clicked.removeEventListener('click', this.clickHadnlerAddUserWordEasy);
   }
 
   async inputModeEnter(e) {
