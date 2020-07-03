@@ -9,19 +9,28 @@ class LocalStorageService {
   }
 
   getUserInfo() {
-    return this._getFromLocalStorage(this._keyUserInfo);
+    const res = this._getFromLocalStorage(this._keyUserInfo);
+    return (res) ? this._transformUserInfo(res) : res;
+  }
+
+  deleteUserInfo() {
+    this._deleteFromLocalStorage(this._keyUserInfo);
   }
 
   _setLocalStorageData(key, value) {
-    localStorage.setItem(key, JSON.stringify(value));
+    sessionStorage.setItem(key, JSON.stringify(value));
   }
 
   _getFromLocalStorage(key) {
-    return JSON.parse(localStorage.getItem(key));
+    return JSON.parse(sessionStorage.getItem(key));
   }
 
   _deleteFromLocalStorage(key) {
-    localStorage.removeItem(key);
+    sessionStorage.removeItem(key);
+  }
+
+  _transformUserInfo({ userId, token, expiredTime }) {
+    return { userId, token, expiredTime };
   }
 }
 

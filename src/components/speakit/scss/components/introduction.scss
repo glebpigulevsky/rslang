@@ -1,0 +1,56 @@
+.speakit-body .introduction {
+  width: 100vw;
+  min-height: 100vh;
+  background-color: $color-introduction-bg;
+  background-image: url('./../assets/img/introduction_bg.jpg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-blend-mode: multiply;
+  z-index: 1000;
+}
+
+.speakit-body .introduction__container {
+  position: relative;
+
+  @include flex-center;
+
+  flex-direction: column;
+  width: 100vw;
+  min-height: 100vh;
+  color: $color-text-additional;
+  backdrop-filter: opacity(.8) brightness(1.2);
+}
+
+.speakit-body .introduction__logo {
+  font-size: px-to-rem(20px);
+  line-height: px-to-rem(30px);
+  text-align: center;
+}
+
+.speakit-body .introduction__button {
+  min-width: 10vw;
+  min-height: 60px;
+  font-size: px-to-rem(14px);
+  line-height: px-to-rem(20px);
+}
+
+.speakit-body .introduction__description-container {
+  @include flex-center;
+
+  flex-direction: column;
+  margin: 20px;
+  padding: 20px;
+  background-color: $color-introduction-description-bg;
+  border-radius: 20px;
+
+  @include media-tablet {
+    margin: 10px;
+    padding: 10px;
+  }
+}
+
+.speakit-body .introduction__description {
+  font-weight: bold;
+  text-align: center;
+}
