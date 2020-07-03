@@ -1,16 +1,10 @@
-// import { GAME_BLOCK, TEMPLATE_MAIN_GAME } from '../../common/main.constants';
-import {
-  MAIN_API_URL,
-} from '../../../../services/common/services.common.constants';
-import {
-  UserWordsApi, WordsApi,
-} from '../../../../services/services.methods';
 import ErrorInput from '../errorInput/errorInput';
-// import introMainGame from '../introMainGame/introMainGame';
-import { LocalStorageService } from '../../../../common/common.helper';
-import ApiService from '../../../../services/common/services.common.api_service';
 
-// import { defaultData } from './data'; // todo это без Интернета
+import ApiService from '../../../../services/common/services.common.api_service';
+import { UserWordsApi, WordsApi } from '../../../../services/services.methods';
+
+import { LocalStorageService } from '../../../../common/common.helper';
+import { MAIN_API_URL } from '../../../../services/common/services.common.constants';
 
 const userWords = new UserWordsApi();
 const service = new LocalStorageService();
@@ -37,7 +31,6 @@ class MainGame {
     this.collection = [];
     this.indexCard = 0;
     this.inputArea = null;
-    // this.url = 'https://raw.githubusercontent.com/caspercarver/rslang-data/master/';
 
     this.inputModeEnterBinded = this.inputModeEnter.bind(this);
     this.inputModeArrowBinded = this.inputModeArrow.bind(this);
@@ -50,77 +43,15 @@ class MainGame {
     this.clickHadnlerDeleteUserWord = this.clickHadnlerDeleteUserWord.bind(this);
   }
 
-  render() {
-    return `
-      <div class="card-container">
-        <div class="navigate prev hidden"></div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-header__block">
-              <div class="card-header__move-diff">
-              </div>
-              <div class="card-header__delete-word">
-              </div>
-              <div class="card-header__again-word">
-              </div>
-            </div>
-
-            <div class="card-header__block">
-              <div class="card-header__diff-diff">
-              </div>
-              <div class="card-header__diff-good">
-              </div>
-              <div class="card-header__diff-easy">
-              </div>
-            </div>
-          </div>
-
-          <div class="card-main">
-            <div class="learn-content">
-              <div class="learn-content__container">
-              </div>
-            </div>
-
-            <div class="learn-content__translation">
-            </div>
-            <div class="learn-content__meaning">
-            </div>
-          </div>
-
-          <div class="card-footer">
-            <div class="card-footer__answer-button">
-            </div>
-          </div>
-        </div>
-
-        <div class="navigate next"></div>
-      </div>
-
-      <div class="card-helper">
-        <div class="translate"></div>
-        <div class="text-example"></div>
-        <div class="transcription"></div>
-        <div class="card-image"></div>
-      </div>
-    `;
-  }
-
   async addMdGameScreen() {
-    // GAME_BLOCK.innerHTML = '';
-    // GAME_BLOCK.append(TEMPLATE_MAIN_GAME.content.cloneNode(true));
-    // const mainGameTemplate = document.getElementById('template-main__game')
-    // .content.cloneNode(true);
     const mainElement = document.querySelector('.main');
     mainElement.innerHTML = '';
     mainElement.insertAdjacentHTML('afterbegin', this.render());
-    await this.fetchWords(); // todo это с Интернетом
-    // this.collection = defaultData; // todo это без Интернета
+    await this.fetchWords();
     this.playMode(this.indexCard);
   }
 
   async fetchWords() {
-    this.collection = null; // для чего эта строка?
     this.collection = await wordsApi.getWordsCollection({ group: this.level, page: this.page });
     console.info(this.collection);
     this.currentCard = this.collection[this.indexCard];
@@ -129,12 +60,6 @@ class MainGame {
   init(settingsFetch, englishLevel) {
     this.level = englishLevel;
     this.settings = settingsFetch;
-    // document.addEventListener('keyup', (e) => {
-    //   if (e.key === 'Escape') {
-    //     introMainGame.appendIntoDom();
-    //     introMainGame.init();
-    //   }
-    // });
     this.addMdGameScreen();
   }
 
@@ -161,7 +86,8 @@ class MainGame {
     }
     wordsArr[wordsArr.length - 1] = wordsArr[wordsArr.length - 1].slice(0, -1);
     wordsArr.find((element, index) => {
-      if (element === this.currentCard.word) { // || element === this.currentCard.word + 's'
+    // we also need to check this `|| element === this.currentCard.word + 's'`
+      if (element === this.currentCard.word) {
         wordsArr[index] = '';
         if (index === 0) {
           this.currentCard.word = this.currentCard.word[0]
@@ -214,10 +140,10 @@ class MainGame {
       document.querySelector('.transcription').innerHTML = '';
       document.querySelector('.transcription').innerHTML = this.currentCard.transcription;
     }
-    // if (settings.optional.isAddSentExplWord === 'true') {
-    //   document.querySelector('.learn-content__meaning').innerHTML = '';
-    //   document.querySelector('.learn-content__meaning').innerHTML = this.currentCard.textMeaning;
-    // }
+    if (settings.optional.isAddSentExplWord === 'true') {
+      document.querySelector('.learn-content__meaning').innerHTML = '';
+      document.querySelector('.learn-content__meaning').innerHTML = this.currentCard.textMeaning;
+    }
     if (this.settings.optional.isPicture === 'true') {
       document.querySelector('.card-image').innerHTML = '';
       document.querySelector('.card-image').innerHTML = `<img src="${this.currentCard.image}"></img>`;
@@ -226,7 +152,6 @@ class MainGame {
       document.querySelector('.learn-content__translation').innerHTML = '';
       document.querySelector('.learn-content__translation').innerHTML = this.currentCard.textExampleTranslate;
     }
-    // buttons
     if (this.settings.optional.isShowAnswerButton === 'true') {
       document.querySelector('.card-footer__answer-button').innerHTML = '';
       document.querySelector('.card-footer__answer-button').innerHTML = '<button class="show__answer-button">Ответ</button>';
@@ -396,84 +321,62 @@ class MainGame {
       }
     });
   }
+
+  render() {
+    return `
+      <div class="card-container">
+        <div class="navigate prev hidden"></div>
+
+        <div class="card">
+          <div class="card-header">
+            <div class="card-header__block">
+              <div class="card-header__move-diff">
+              </div>
+              <div class="card-header__delete-word">
+              </div>
+              <div class="card-header__again-word">
+              </div>
+            </div>
+
+            <div class="card-header__block">
+              <div class="card-header__diff-diff">
+              </div>
+              <div class="card-header__diff-good">
+              </div>
+              <div class="card-header__diff-easy">
+              </div>
+            </div>
+          </div>
+
+          <div class="card-main">
+            <div class="learn-content">
+              <div class="learn-content__container">
+              </div>
+            </div>
+
+            <div class="learn-content__translation">
+            </div>
+            <div class="learn-content__meaning">
+            </div>
+          </div>
+
+          <div class="card-footer">
+            <div class="card-footer__answer-button">
+            </div>
+          </div>
+        </div>
+
+        <div class="navigate next"></div>
+      </div>
+
+      <div class="card-helper">
+        <div class="translate"></div>
+        <div class="text-example"></div>
+        <div class="transcription"></div>
+        <div class="card-image"></div>
+      </div>
+    `;
+  }
 }
-
-// async function inputModeEnter(e) {
-//   this.inputArea = document.querySelector('.answer-input');
-//   if (e.key === 'Enter') {
-//     debugger;
-//     if (this.settings.optional.isAudio === 'true') {
-//       if (this.inputArea.value === this.currentCard.word) {
-//         document.removeEventListener('keypress', () => {});
-//         const audio = new Audio();
-//         audio.src = this.currentCard.audio;
-//         audio.autoplay = true;
-//         audio.addEventListener('ended', () => {
-//           playAudioBinded(this.currentCard.audioExample);
-//         });
-//       } else {
-//         const audio = new Audio();
-//         audio.src = this.currentCard.audio;
-//         audio.autoplay = true;
-//         await errorInput.init();
-//       }
-//     } else if (this.inputArea.value === this.currentCard.word) {
-//       document.removeEventListener('keypress', () => {});
-//       playAudioBinded(this.currentCard.audio);
-//     } else {
-//       const audio = new Audio();
-//       audio.src = this.currentCard.audio;
-//       audio.autoplay = true;
-//       await errorInput.init();
-//     }
-//   }
-// }
-
-// async function inputModeArrow() {
-//   this.inputArea = document.querySelector('.answer-input');
-//   if (this.settings.optional.isAudio === 'true') {
-//     if (this.inputArea.value === this.currentCard.word) {
-//       playAudioBinded(this.currentCard.audioExample);
-//     } else {
-//       const audio = new Audio();
-//       audio.src = this.currentCard.audio;
-//       audio.autoplay = true;
-//       await errorInput.init();
-//     }
-//   } else if (this.inputArea.value === this.currentCard.word) {
-//     playAudioBinded(this.currentCard.audio);
-//   } else {
-//     const audio = new Audio();
-//     audio.src = this.currentCard.audio;
-//     audio.autoplay = true;
-//     await errorInput.init();
-//   }
-// }
-
-// function inputModeArrowPrev() {
-//   this.indexCard -= 1;
-//   this.playMode(this.indexCard);
-//   if (this.indexCard === 0) {
-//     this.gameButtons.prev.classList.add('hidden');
-//   }
-// }
-
-// function playAudio(path) {
-//   const audio = new Audio();
-//   audio.src = path;
-//   audio.autoplay = true;
-//   audio.addEventListener('ended', () => {
-//     if (this.indexCard === (this.collection.length - 1)) {
-//       document.querySelector('.learn-content__meaning').innerHTML = '';
-//       this.page += 1;
-//       this.indexCard = 0;
-//       this.addMdGameScreen();
-//     } else {
-//       document.querySelector('.learn-content__meaning').innerHTML = '';
-//       this.indexCard += 1;
-//       this.playMode(this.indexCard);
-//     }
-//   });
-// }
 
 export default new MainGame();

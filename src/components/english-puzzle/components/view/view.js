@@ -110,7 +110,6 @@ class View {
       this.audio.pause();
       this.onEndSpellingHandlerBinded();
     }
-    debugger;
     this.audio = new Audio(src);
     this.audio.addEventListener(EVENTS.ENDED, this.onEndSpellingHandlerBinded);
     this.audio.addEventListener(EVENTS.ERROR, this.onErrorSpellingHandlerBinded);

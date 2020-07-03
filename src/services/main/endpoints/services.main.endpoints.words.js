@@ -23,7 +23,7 @@ export default class WordsApi {
       url += `&wordsPerPage=${wordsPerPage}`;
     }
     const res = await this._apiService.getResource({ url, hasToken: false });
-    return res.map(this._transformWord, false);
+    return res.map((word) => this._transformWord(word, false));
   }
 
   async getWordsCount({ group, wordsPerExampleSentence = null, wordsPerPage = null }) {
@@ -94,14 +94,10 @@ export default class WordsApi {
       group,
       page,
       word,
-      // image: isSingleWord ? `data:image/jpg;base64,${image}` : `${MEDIA_LINK}${image}`,
-      image: `${MEDIA_LINK}${image}`,
-      // audio: isSingleWord ? `data:audio/mpeg;base64,${audio}` : `${MEDIA_LINK}${audio}`,
-      audio: `${MEDIA_LINK}${audio}`,
-      // audioMeaning: isSingleWord ? `data:audio/mpeg;base64,${audioMeaning}` : `${MEDIA_LINK}${audioMeaning}`,
-      audioMeaning: `${MEDIA_LINK}${audioMeaning}`,
-      // audioExample: isSingleWord ? `data:audio/mpeg;base64,${audioExample}` : `${MEDIA_LINK}${audioExample}`,
-      audioExample: `${MEDIA_LINK}${audioExample}`,
+      image: isSingleWord ? `data:image/jpg;base64,${image}` : `${MEDIA_LINK}${image}`,
+      audio: isSingleWord ? `data:audio/mpeg;base64,${audio}` : `${MEDIA_LINK}${audio}`,
+      audioMeaning: isSingleWord ? `data:audio/mpeg;base64,${audioMeaning}` : `${MEDIA_LINK}${audioMeaning}`,
+      audioExample: isSingleWord ? `data:audio/mpeg;base64,${audioExample}` : `${MEDIA_LINK}${audioExample}`,
       textMeaning,
       textExample,
       textExampleTranslate,

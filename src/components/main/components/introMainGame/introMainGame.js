@@ -1,16 +1,4 @@
-// import { GAME_BLOCK, TEMPLATE_MAIN_GAMEINTRO } from '../../common/main.constants';
-import SettingsApi from '../../../../services/main/endpoints/services.main.endpoints.settings';
-// import { MAIN_API_URL } from '../../../../services/common/services.common.constants';
-import game from '../mainGame/mainGame';
-import { Spinner } from '../../../spinner/spinner';
-// import ApiService from '../../../../services/common/services.common.api_service';
-// import { LocalStorageService } from '../../../../common/common.helper';
-
-// const settings = new SettingsApi();
-// const service = new LocalStorageService();
-
 import { EMPTY } from '../../../../common/common.constants';
-import { DEFAULT_SETTINGS } from '../../../../services/common/services.common.constants'; // это добавил я для дефолтных настроек
 
 class IntroMainGame {
   constructor() {
@@ -22,12 +10,8 @@ class IntroMainGame {
     this.englishLevel = EMPTY;
     this.settingsBack = EMPTY;
 
-    this.settingsAPI = new SettingsApi();
-    this.spinner = EMPTY;
-
     this.init = this.init.bind(this);
     this.render = this.render.bind(this);
-    this.onChangeEnglishLevelHandler = this.onChangeEnglishLevelHandler.bind(this);
     this.onMainGameStartClickHandler = this.onMainGameStartClickHandler.bind(this);
     this.beforeUnloadHandler = this.beforeUnloadHandler.bind(this);
   }
@@ -35,16 +19,6 @@ class IntroMainGame {
   appendIntoDom(container = document.querySelector('.main')) {
     container.innerHTML = '';
     container.insertAdjacentHTML('afterbegin', this.render());
-  }
-
-  initEnglishLevel() {
-    this.englishLevel = this.elements.englishLevelInput.value || 0;
-    console.info(this.englishLevel); // todo убрать
-  }
-
-  onChangeEnglishLevelHandler(event) {
-    this.englishLevel = event.target.value;
-    console.info(this.englishLevel); // todo убрать
   }
 
   addChangeEnglishLevelHandler() {
@@ -57,7 +31,7 @@ class IntroMainGame {
 
   onMainGameStartClickHandler() {
     this.removeHandlers();
-    game.init(this.settingsBack, this.englishLevel);
+    this.startMainGame();
   }
 
   addMainGameStartButtonHandler() {
@@ -79,35 +53,15 @@ class IntroMainGame {
     window.removeEventListener('beforeunload', this.beforeUnloadHandler);
   }
 
-  async loadUserSettings() {
-    this.spinner.show();
-    this.settingsBack = await this.settingsAPI.getSettings() || { optional: DEFAULT_SETTINGS };
-    this.spinner.hide();
-  }
-
   beforeUnloadHandler() {
     this.removeHandlers();
   }
 
-  async init() {
-    // GAME_BLOCK.innerHTML = '';
-    // GAME_BLOCK.append(TEMPLATE_MAIN_GAMEINTRO.content.cloneNode(true));
-
-    // service.keyUserInfo = 'userInfo'; // * По сути это все Асилия сделала в своей части работы
-    // const res = service.getUserInfo();
-    // settings._apiService = new ApiService(MAIN_API_URL, res.token);
-    // const set = await settings.getSettings({ userId: res.userId });
-    // this.settingsBack = set;
+  init() {
     this.elements.mainGameStartButton = document.querySelector('.main__game-start__button');
     this.elements.englishLevelInput = document.querySelector('#englishlevel');
-    this.spinner = new Spinner(document.querySelector('.main'));
-    this.spinner.init();
 
-    this.initEnglishLevel();
     this.addHandlers();
-    this.loadUserSettings();
-
-    // this.renderMainIntro();
     window.addEventListener('beforeunload', this.beforeUnloadHandler);
   }
 
