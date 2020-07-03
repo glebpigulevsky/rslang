@@ -23,7 +23,7 @@ export default class WordsApi {
       url += `&wordsPerPage=${wordsPerPage}`;
     }
     const res = await this._apiService.getResource({ url, hasToken: false });
-    return res.map(this._transformWord, false);
+    return res.map((word) => this._transformWord(word, false));
   }
 
   async getWordsCount({ group, wordsPerExampleSentence = null, wordsPerPage = null }) {

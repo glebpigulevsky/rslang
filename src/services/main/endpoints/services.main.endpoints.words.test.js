@@ -36,6 +36,10 @@ describe('get word by Id', () => {
       wordTranslate: 'приключение',
       wordsPerExampleSentence: 8,
     });
+    expect(res.image).toMatch('data:image/jpg;base64');
+    expect(res.audio).toMatch('data:audio/mpeg;base64');
+    expect(res.audioExample).toMatch('data:audio/mpeg;base64');
+    expect(res.audioMeaning).toMatch('data:audio/mpeg;base64');
   });
 });
 
