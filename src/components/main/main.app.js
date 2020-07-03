@@ -11,6 +11,7 @@ import { settingsPageComponent } from './pages/settings-page.component';
 import { errorPageComponent } from './pages/error-page.component';
 import { speakItPageComponent } from './pages/speakit-page.component';
 import { englishPuzzleComponent } from './pages/english-puzzle.component';
+import { savannahComponent } from './pages/savannah-page.component';
 
 class Main {
   init() {
@@ -28,6 +29,7 @@ const appRoutes = [
   { path: '/settings', component: settingsPageComponent },
   { path: '/speakit', component: speakItPageComponent },
   { path: '/english-puzzle', component: englishPuzzleComponent },
+  { path: '/savannah', component: savannahComponent },
 ];
 
 const parseLocation = () => window.location.hash.slice(1).toLowerCase() || '/';
