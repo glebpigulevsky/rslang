@@ -5,14 +5,28 @@ export const savannahComponent = {
   render: () => `
 <div class="savannah__container" id="js-savannah-container">
     <div>
-      <div>on/off sound<div> 
-      <div><span>+</span><span>+</span><span>+</span><span>+</span><span>+</span></div>
-      <div>word</div>
-      <div><span>слово</span><span>предложение</span><span>заголовок</span><span>парараф</span></div>
-      <div class="savannah__end">end</div>
-    </div>
+      <div class="savannah__sound"></div> 
+      <div class="savannah__hearts">
+        <div class="savannah__heart savannah__heart_kill"></div>
+        <div class="savannah__heart"></div>
+        <div class="savannah__heart"></div>
+        <div class="savannah__heart"></div>
+        <div class="savannah__heart"></div>
+      </div>
+      <div class="savannah__close_btn"></div> 
+      <div span class="savannah__question">word</div>
+      <div class="savannah__answears">
+        <span class="savannah__answear savannah__answear_select">слово</span>
+        <span class="savannah__answear">предложение</span>
+        <span class="savannah__answear">заголовок</span>
+        <span class="savannah__answear">парагаф</span>
+      </div>
+    
+    </>
 </div> `,
 };
+
+/* <div class="savannah__end">end</div> */
 
 /* <div class "savannah__start" id="js-start_block disabled">
 <span class="savannah__start_title">savannah</span>
