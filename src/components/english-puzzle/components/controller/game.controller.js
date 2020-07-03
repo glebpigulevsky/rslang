@@ -132,6 +132,7 @@ class GameController {
         new ErrorPopup().openPopup({ text: error.message });
         return null;
       });
+    debugger;
     if (!this.fetchedRoundData) return;
     const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
 

@@ -1,7 +1,8 @@
 // import { GAME_BLOCK, TEMPLATE_MAIN_GAMEINTRO } from '../../common/main.constants';
-// import SettingsApi from '../../../../services/main/endpoints/services.main.endpoints.settings';
+import SettingsApi from '../../../../services/main/endpoints/services.main.endpoints.settings';
 // import { MAIN_API_URL } from '../../../../services/common/services.common.constants';
 import game from '../mainGame/mainGame';
+import { Spinner } from '../../../spinner/spinner';
 // import ApiService from '../../../../services/common/services.common.api_service';
 // import { LocalStorageService } from '../../../../common/common.helper';
 
@@ -9,7 +10,7 @@ import game from '../mainGame/mainGame';
 // const service = new LocalStorageService();
 
 import { EMPTY } from '../../../../common/common.constants';
-import { OPTIONAL_DEFAULT } from '../../../../services/common/services.common.constants'; // это добавил я для дефолтных настроек
+import { DEFAULT_SETTINGS } from '../../../../services/common/services.common.constants'; // это добавил я для дефолтных настроек
 
 class IntroMainGame {
   constructor() {
@@ -20,6 +21,9 @@ class IntroMainGame {
     };
     this.englishLevel = EMPTY;
     this.settingsBack = EMPTY;
+
+    this.settingsAPI = new SettingsApi();
+    this.spinner = EMPTY;
 
     this.init = this.init.bind(this);
     this.render = this.render.bind(this);
@@ -75,6 +79,12 @@ class IntroMainGame {
     window.removeEventListener('beforeunload', this.beforeUnloadHandler);
   }
 
+  async loadUserSettings() {
+    this.spinner.show();
+    this.settingsBack = await this.settingsAPI.getSettings() || { optional: DEFAULT_SETTINGS };
+    this.spinner.hide();
+  }
+
   beforeUnloadHandler() {
     this.removeHandlers();
   }
@@ -90,12 +100,12 @@ class IntroMainGame {
     // this.settingsBack = set;
     this.elements.mainGameStartButton = document.querySelector('.main__game-start__button');
     this.elements.englishLevelInput = document.querySelector('#englishlevel');
+    this.spinner = new Spinner(document.querySelector('.main'));
+    this.spinner.init();
+
     this.initEnglishLevel();
     this.addHandlers();
-
-    this.settingsBack = { // todo костыль
-      optional: OPTIONAL_DEFAULT,
-    };
+    this.loadUserSettings();
 
     // this.renderMainIntro();
     window.addEventListener('beforeunload', this.beforeUnloadHandler);
