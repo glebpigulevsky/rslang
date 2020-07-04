@@ -1,4 +1,5 @@
 import { mainPageComponent } from '../../../pages/main-page.component';
+import { errorPageComponent } from '../../../pages/error-page.component';
 import { learnPageComponent } from '../../../pages/learn-page.component';
 import { dictionaryPageComponent } from '../../../pages/dictionary-page.component';
 import { gamesPageComponent } from '../../../pages/games-page.component';
@@ -10,6 +11,7 @@ import { englishPuzzleComponent } from '../../../pages/english-puzzle.component'
 
 const routes = [
   { path: '/', component: mainPageComponent },
+  { path: '/error', component: errorPageComponent },
   { path: '/learn', component: learnPageComponent },
   { path: '/dictionary', component: dictionaryPageComponent },
   { path: '/games', component: gamesPageComponent },

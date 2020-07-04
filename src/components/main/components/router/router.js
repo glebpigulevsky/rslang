@@ -14,7 +14,8 @@ class Router {
 
   findComponentByPath(currentPath) {
     return routes
-      .find((route) => isRouteHasPath(route, currentPath)) || errorPageComponent;
+      .find((route) => isRouteHasPath(route, currentPath))
+        || { path: '/error', component: errorPageComponent };
   }
 
   async rout() {
