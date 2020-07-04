@@ -63,7 +63,6 @@
   background-color: #f8f2ee;
   display: flex;
 
-
   .main__game-stat__today {
     border: 1px solid white;
     height: 83%;
@@ -105,67 +104,9 @@
       justify-content: center;
       @include segoe-subtitle ($color-text, 400);
 
-
-
       .learn-content {
         height: 6rem;
         margin-bottom: 1rem;
-
-        .learn-content__container {
-          position: relative;
-          display: flex;
-          flex-wrap: wrap;
-
-          .word {
-            margin-right: 5px;
-          }
-
-          .input-container {
-            position: relative;
-            padding: .25rem;
-            display: inline-block;
-
-            .background {
-              position: relative;
-              top: -3px;
-
-              span {
-                transition: opacity 1s ease;
-              }
-            }
-
-            .word-container {
-              position: absolute;
-              left: 0;
-              right: 0;
-              top: 0;
-              bottom: 0;
-              transform-origin: 0 50%;
-              padding-bottom: 2px;
-              border-bottom: 2px solid transparent;
-              user-select: none;
-
-              span {
-                visibility: visible;
-                color: #338c99;
-                transition: opacity 2s ease;
-              }
-            }
-
-            .answer-input {
-              display: inline;
-              position: absolute;
-              top: -2px;
-              left: 0;
-              color: #338c99;
-              margin: 0;
-              width: 95%;
-              height: 89%;
-              border-radius: .25rem;
-              border: none;
-            }
-          }
-        }
       }
 
       .learn-content__translation {
@@ -221,7 +162,6 @@
     }
   }
 
-
   .navigate {
     background-image: url('../assets/img/arrNav.png');
     height: 32px;
@@ -231,6 +171,62 @@
 
   .prev {
     transform: rotate(180deg);
+  }
+}
+
+.learn-content .learn-content__container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+
+  .word {
+    margin-right: 5px;
+  }
+
+  .input-container {
+    position: relative;
+    padding: .25rem;
+    display: inline-block;
+
+    .background {
+      position: relative;
+      top: -3px;
+
+      span {
+        transition: opacity 1s ease;
+      }
+    }
+
+    .word-container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      transform-origin: 0 50%;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+      user-select: none;
+
+      span {
+        visibility: visible;
+        color: #338c99;
+        transition: opacity 2s ease;
+      }
+    }
+
+    .answer-input {
+      display: inline;
+      position: absolute;
+      top: -2px;
+      left: 0;
+      color: #338c99;
+      margin: 0;
+      width: 95%;
+      height: 89%;
+      border-radius: .25rem;
+      border: none;
+    }
   }
 }
 
