@@ -1,0 +1,59 @@
+.game__controls {
+  @include flex-center;
+
+  flex-direction: column;
+  flex-wrap: wrap;
+}
+
+.speakit-body .game__controls,
+.speakit-body .button__container,
+.speakit-body .button__container-results {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.speakit-body .game__controls {
+  align-items: center;
+}
+
+.speakit-button {
+  margin: 10px;
+  text-transform: uppercase;
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px $color-shadow;
+
+  @include button($color: $color-light, $background: $color-btn, $width: 200px, $height: 40px, $radius: 30px);
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+
+    &.active {
+      background-color: $color-orange;
+      box-shadow: none;
+    }
+  }
+}
+
+@keyframes speakit-resize {
+  40% {
+    transform: scale(.9);
+  }
+
+  80% {
+    transform: scale(1.1);
+  }
+}
+
+.speakit-body .animated {
+  animation: speakit-resize .8s infinite linear;
+}

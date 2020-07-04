@@ -1,6 +1,6 @@
 import 'isomorphic-fetch';
 import { LocalStorageService } from './common.utils.local_storage_service';
-import { TOKEN_EXPIRES_MS } from './common.utils.helper';
+import { getTokenExpiresMs } from './common.utils.helper';
 
 const service = new LocalStorageService();
 
@@ -10,7 +10,7 @@ describe('set userinfo into local storage', () => {
     const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTdhM2FjNDM5YzQ3MDAxN2M0ZTYzMCIsImlhdCI6MTU5MjM1MjMwMywiZXhwIjoxNTkyMzY2NzAzfQ.OakuZlZUBRUlZKtvRdvLl5-w7YLSMY2esQCjsPxImcs';
     service.keyUserInfo = `userInfo_TEST`;
-    const res = service.setUserInfo({ userId, token, expiredTime: TOKEN_EXPIRES_MS() });
+    const res = service.setUserInfo({ userId, token, expiredTime: getTokenExpiresMs() });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       userId: userId,
@@ -27,7 +27,7 @@ describe('get userinfo into local storage', () => {
     const token =
       'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVlZTdhM2FjNDM5YzQ3MDAxN2M0ZTYzMCIsImlhdCI6MTU5MjM1MjMwMywiZXhwIjoxNTkyMzY2NzAzfQ.OakuZlZUBRUlZKtvRdvLl5-w7YLSMY2esQCjsPxImcs';
     service.keyUserInfo = `userInfo_TEST`;
-    service.setUserInfo({ userId, token, expiredTime: TOKEN_EXPIRES_MS() });
+    service.setUserInfo({ userId, token, expiredTime: getTokenExpiresMs() });
     const res = service.getUserInfo();
     expect(res).toBeDefined();
     expect(res).toMatchObject({

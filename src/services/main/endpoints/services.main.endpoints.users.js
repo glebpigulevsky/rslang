@@ -1,39 +1,42 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
+import { MAIN_API_URL, LINK_TYPE } from '../../common/services.common.constants';
+import { checkUserInfo } from '../../common/services.common.api_service.helper';
 
 export default class UsersApi {
   constructor() {
-    this._apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._apiService = new ApiService(MAIN_API_URL);
   }
 
-  async getUser({ id }) {
-    const res = await this._apiService.getResource({ url: `/users/${id}`, hasToken: true });
+  async getUser({ token, userId } = checkUserInfo()) {
+    const res = await this._apiService.getResource({ url: `/users/${userId}`, hasToken: true, token });
     return this._transformUser(res);
   }
 
-  async updateUser({ id, email, password }) {
+  async updateUser({ email, password }, { token, userId } = checkUserInfo()) {
     const res = await this._apiService.putResourse({
-      url: `/users/${id}`,
-      params: { email, password },
-      hasToken: true,
+      url: `/users/${userId}`, params: { email, password }, hasToken: true, token,
     });
     return this._transformUser(res);
   }
 
   async createUser({ email, password }) {
-    const res = await this._apiService.postResourse({ url: '/users', params: { email, password }, hasToken: false });
+    const res = await this._apiService.postResourse({
+      url: '/users', params: { email, password }, hasToken: false, type: LINK_TYPE.User,
+    });
     return this._transformUser(res);
   }
 
-  async deleteUser({ id }) {
-    const res = await this._apiService.deleteResourse({ url: `/users/${id}`, hasToken: true });
+  async deleteUser({ token, userId } = checkUserInfo()) {
+    const res = await this._apiService.deleteResourse({ url: `/users/${userId}`, hasToken: true, token });
     return {
       isDeleted: res,
     };
   }
 
   async authenticateUser({ email, password }) {
-    const res = await this._apiService.postResourse({ url: '/signin', params: { email, password } });
+    const res = await this._apiService.postResourse({
+      url: '/signin', params: { email, password }, hasToken: false, type: LINK_TYPE.Authenticate,
+    });
     return this._transformAuthentication(res);
   }
 

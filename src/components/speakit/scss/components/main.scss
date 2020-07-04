@@ -1,0 +1,45 @@
+.speakit-body {
+  @include segoe-additional($color: $color-text, $weight: 400);
+
+  font-size: px-to-rem(16px);
+  line-height: px-to-rem(20px);
+  background: $color-light-grey;
+  background: url('./../assets/img/main-bg.png');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  user-select: none;
+
+  @include media-tablet {
+    font-size: px-to-rem(12px);
+    line-height: px-to-rem(16px);
+  }
+}
+
+.speakit-centralizer {
+  max-width: 1200px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.hidden {
+  display: none;
+}
+
+.list {
+  padding: 0;
+  list-style: none;
+}
+
+.link {
+  text-decoration: none;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.disabled {
+  background-color: $color-orange;
+}

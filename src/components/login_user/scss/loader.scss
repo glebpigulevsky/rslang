@@ -1,0 +1,48 @@
+.login__loader,
+.login__loader:before,
+.login__loader:after {
+  border-radius: 50%;
+  width: 3em;
+  height: 2.5em;
+  animation: load7 1.8s infinite ease-in-out;
+  animation-fill-mode: both;
+}
+
+.login__loader {
+  color: #fff;
+  font-size: 5px;
+  margin: 0 auto;
+  position: relative;
+  text-indent: -9999em;
+  transform: translateZ(0);
+  animation-delay: -.16s;
+}
+
+.login__loader:before,
+.login__loader:after {
+  content: '';
+  position: absolute;
+  top: 0;
+}
+
+.login__loader:before {
+  left: -3.5em;
+  -webkit-animation-delay: -.32s;
+  animation-delay: -.32s;
+}
+
+.login__loader:after {
+  left: 3.5em;
+}
+
+@keyframes load7 {
+  0%,
+  80%,
+  100% {
+    box-shadow: 0 2.5em 0 -1.3em;
+  }
+
+  40% {
+    box-shadow: 0 2.5em 0 0;
+  }
+}
