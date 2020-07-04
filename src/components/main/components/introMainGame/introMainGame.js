@@ -1,3 +1,6 @@
+import mainController from '../controller/main.controller';
+import mainGame from '../mainGame/mainGame';
+
 import { EMPTY } from '../../../../common/common.constants';
 
 class IntroMainGame {
@@ -7,8 +10,6 @@ class IntroMainGame {
       mainGameStartButton: EMPTY,
       englishLevelInput: EMPTY,
     };
-    this.englishLevel = EMPTY;
-    this.settingsBack = EMPTY;
 
     this.init = this.init.bind(this);
     this.render = this.render.bind(this);
@@ -22,16 +23,16 @@ class IntroMainGame {
   }
 
   addChangeEnglishLevelHandler() {
-    this.elements.englishLevelInput.addEventListener('change', this.onChangeEnglishLevelHandler);
+    this.elements.englishLevelInput.addEventListener('change', mainController.onChangeEnglishLevelHandler);
   }
 
   removeChangeEnglishLevelHandler() {
-    this.elements.englishLevelInput.removeEventListener('change', this.onChangeEnglishLevelHandler);
+    this.elements.englishLevelInput.removeEventListener('change', mainController.onChangeEnglishLevelHandler);
   }
 
   onMainGameStartClickHandler() {
     this.removeHandlers();
-    this.startMainGame();
+    mainGame.init(mainController.settingsBack, mainController.englishLevel);
   }
 
   addMainGameStartButtonHandler() {
@@ -50,11 +51,11 @@ class IntroMainGame {
   removeHandlers() {
     this.removeChangeEnglishLevelHandler();
     this.removeMainGameStartButtonHandler();
-    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
   }
 
   beforeUnloadHandler() {
     this.removeHandlers();
+    window.removeEventListener('beforeunload', this.beforeUnloadHandler);
   }
 
   init() {

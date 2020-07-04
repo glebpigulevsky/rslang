@@ -1,3 +1,4 @@
+import mainController from '../controller/main.controller';
 import ErrorInput from '../errorInput/errorInput';
 
 import ApiService from '../../../../services/common/services.common.api_service';
@@ -52,14 +53,16 @@ class MainGame {
   }
 
   async fetchWords() {
+    mainController.spinner.show();
     this.collection = await wordsApi.getWordsCollection({ group: this.level, page: this.page });
+    mainController.spinner.hide();
     console.info(this.collection);
     this.currentCard = this.collection[this.indexCard];
   }
 
-  init(settingsFetch, englishLevel) {
+  init(userSetting = mainController.userSettings, englishLevel = mainController.englishLevel) {
     this.level = englishLevel;
-    this.settings = settingsFetch;
+    this.settings = userSetting;
     this.addMdGameScreen();
   }
 

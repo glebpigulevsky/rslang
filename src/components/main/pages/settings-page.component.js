@@ -1,4 +1,4 @@
-import settingsPage from '../components/settings/settings.app';
+import settingsPage from '../components/settingsPage/settingsPage';
 
 export const settingsPageComponent = {
   init: settingsPage.init,
