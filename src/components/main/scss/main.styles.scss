@@ -3,7 +3,7 @@
 @import '../../../scss/mixins.scss';
 @import '../../../scss/constants.scss';
 @import '../../../scss/wrapper.scss';
-
+@import './maingame.styles.scss';
 @import './layouts/main.header.scss';
 @import './layouts/main.main.scss';
 @import './layouts/main.error.scss';
@@ -12,5 +12,3 @@
 @import './component/main.button.scss';
 @import './component/cards.button.scss';
 @import './component/cards.scss';
-
-@import './../components/settings/scss/settings.style';

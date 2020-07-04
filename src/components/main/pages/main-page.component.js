@@ -1,4 +1,7 @@
+import menu from '../components/menu/menu';
+
 export const mainPageComponent = {
+  init: menu.init,
   render: () => `
     <div class="wrapper">
       <div class="main__game">
