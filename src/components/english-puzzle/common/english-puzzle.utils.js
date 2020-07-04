@@ -12,13 +12,14 @@ function onErrorLoadImage() {
   this.removeEventListener(EVENTS.ERROR, onErrorLoadImage);
 }
 
-const loadImage = (url) => new Promise((resolve) => {
-  const img = new Image();
-  img.resolve = resolve;
-  img.addEventListener(EVENTS.LOAD, onSuccessLoadImage);
-  img.addEventListener(EVENTS.ERROR, onErrorLoadImage);
-  img.src = url;
-});
+const loadImage = (url) =>
+  new Promise((resolve) => {
+    const img = new Image();
+    img.resolve = resolve;
+    img.addEventListener(EVENTS.LOAD, onSuccessLoadImage);
+    img.addEventListener(EVENTS.ERROR, onErrorLoadImage);
+    img.src = url;
+  });
 
 export const getPreloadedImage = async (url) => {
   const preloadedImg = await loadImage(url);
@@ -40,11 +41,13 @@ export const setActiveState = (target) => {
   target.classList.add(CLASS_NAMES.ACTIVE);
 };
 
-export const togglePageState = (className) => document.body.querySelector('.english-puzzle-body').classList.toggle(className);
+export const togglePageState = (className) =>
+  document.body.querySelector('.english-puzzle-body').classList.toggle(className);
 
 export const getClosestLink = ({ target }) => target.closest(`.${CLASS_NAMES.LINK}`);
 
-export const toggleDocumentScroll = () => document.querySelector('.english-puzzle-body').classList.toggle(CLASS_NAMES.OVERFLOW_HIDDEN);
+export const toggleDocumentScroll = () =>
+  document.querySelector('.english-puzzle-body').classList.toggle(CLASS_NAMES.OVERFLOW_HIDDEN);
 
 export const hideSpinner = () => document.querySelector('.spinner').classList.add(CLASS_NAMES.DISPLAY_NONE);
 export const showSpinner = () => document.querySelector('.spinner').classList.remove(CLASS_NAMES.DISPLAY_NONE);
@@ -54,4 +57,5 @@ export const showElement = (element) => element.classList.remove(CLASS_NAMES.DIS
 
 export const getPuzzleIndex = (puzzle) => +puzzle.dataset.item.slice(-2).replace('-', '') - 1;
 
-export const getSentenceWordsArray = (roundData, currentSentence) => roundData[currentSentence].textExample.replace('<b>', '').replace('</b>', '').split(' ');
+export const getSentenceWordsArray = (roundData, currentSentence) =>
+  roundData[currentSentence].textExample.replace('<b>', '').replace('</b>', '').split(' ');

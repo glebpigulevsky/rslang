@@ -3,11 +3,7 @@ import view from '../view/view';
 
 import { ErrorPopup } from '../../../error/error.error_popup';
 
-import {
-  toggleDocumentScroll,
-  getClosestLink,
-  togglePageState,
-} from '../../common/speakit.utils';
+import { toggleDocumentScroll, getClosestLink, togglePageState } from '../../common/speakit.utils';
 
 import {
   LANGUAGE,
@@ -81,10 +77,12 @@ class Controller {
   }
 
   addPageList() {
-    view.renderPageList(model.pageData, [{
-      event: EVENTS.CLICK,
-      handler: this.onPageCardClick,
-    }]);
+    view.renderPageList(model.pageData, [
+      {
+        event: EVENTS.CLICK,
+        handler: this.onPageCardClick,
+      },
+    ]);
   }
 
   newGame() {
@@ -98,12 +96,11 @@ class Controller {
   }
 
   async newPage() {
-    this.roundFetchedData = await model.fetchCardsPage(this.currentLevel, this.currentRound)
-      .catch((error) => {
-        view.spinner.hide();
-        new ErrorPopup().openPopup({ text: error.message });
-        return null;
-      });
+    this.roundFetchedData = await model.fetchCardsPage(this.currentLevel, this.currentRound).catch((error) => {
+      view.spinner.hide();
+      new ErrorPopup().openPopup({ text: error.message });
+      return null;
+    });
     if (!this.roundFetchedData) return;
 
     if (view.currentList) view.removeCurrentList();
@@ -162,15 +159,16 @@ class Controller {
   onRecognitionResult(event) {
     const last = event.results.length - 1;
 
-    return Array.from(event.results[last])
-      .map((spelledWordData) => spelledWordData.transcript.toLowerCase().trim())
-      .find(model.isWordGuessed) || event.results[last][0].transcript;
+    return (
+      Array.from(event.results[last])
+        .map((spelledWordData) => spelledWordData.transcript.toLowerCase().trim())
+        .find(model.isWordGuessed) || event.results[last][0].transcript
+    );
   }
 
   onChangeSpeechInput({ target }) {
     const recognitionResult = target.value;
-    if (!model.isWordGuessed(recognitionResult)
-      || this.guessedList.includes(recognitionResult)) return;
+    if (!model.isWordGuessed(recognitionResult) || this.guessedList.includes(recognitionResult)) return;
 
     view.renderTranslation(model.getTranslationByWord(recognitionResult));
 
@@ -267,10 +265,12 @@ class Controller {
 
     view.renderResultsList(
       model.pageData,
-      [{
-        event: EVENTS.CLICK,
-        handler: this.onResultCardClick,
-      }],
+      [
+        {
+          event: EVENTS.CLICK,
+          handler: this.onResultCardClick,
+        },
+      ],
       this.guessedList,
       model.currentResults,
       model.longResults,
@@ -308,11 +308,7 @@ class Controller {
     view.spinner.show();
 
     if (view.menu.elements.selectors.round) view.menu.elements.selectors.round.remove();
-    view.menu.renderRoundSelector(
-      MAX_ROUNDS_COUNT,
-      this.currentRound,
-      this.completedRoundsByLevels[this.currentLevel],
-    );
+    view.menu.renderRoundSelector(MAX_ROUNDS_COUNT, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
     this.newGame();
   }
 
@@ -333,15 +329,12 @@ class Controller {
     view.initIntroButton(this.onIntroButtonClick);
 
     const completedRoundsData = model.loadCompletedRounds();
-    this.completedRoundsByLevels = (completedRoundsData
-      && completedRoundsData.completedRoundsByLevels)
-      || new Array(MAX_LEVELS_COUNT).fill('').map(() => []);
+    this.completedRoundsByLevels =
+      (completedRoundsData && completedRoundsData.completedRoundsByLevels) ||
+      new Array(MAX_LEVELS_COUNT).fill('').map(() => []);
 
-    this.setCurrentLevel((completedRoundsData
-      && completedRoundsData.lastLevelWithLastCompletedRound)
-      || startLevel);
-    this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1)
-      || startRound);
+    this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
+    this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);
 
     view.initMenu(this.onLevelChangeHandler, this.onRoundChangeHandler);
 
@@ -353,11 +346,7 @@ class Controller {
     if (view.menu.elements.selectors.round) {
       view.menu.elements.selectors.round.remove();
     }
-    view.menu.renderRoundSelector(
-      MAX_ROUNDS_COUNT,
-      this.currentRound,
-      this.completedRoundsByLevels[this.currentLevel],
-    );
+    view.menu.renderRoundSelector(MAX_ROUNDS_COUNT, this.currentRound, this.completedRoundsByLevels[this.currentLevel]);
 
     view.initGameButton(this.onGameButtonClick);
     view.initSpeechInput(this.onChangeSpeechInput);

@@ -26,9 +26,7 @@ class DragAndDropController {
   }
 
   onCloneCellMouseMoveHandler(evt) {
-    const {
-      startX, startY, shiftX, shiftY,
-    } = this.coordinates;
+    const { startX, startY, shiftX, shiftY } = this.coordinates;
 
     if (!this.isDragging) {
       const moveX = evt.pageX;
@@ -78,7 +76,8 @@ class DragAndDropController {
     const droppedCells = Array.from(this.belowElement.querySelectorAll(`.${CLASS_NAMES.DRAGABLE}`));
     if (droppedCells && droppedCells.length) {
       const rightCell = droppedCells.find(
-        (droppedCell) => droppedCell.getBoundingClientRect().x + droppedCell.getBoundingClientRect().width / 2 > evt.clientX,
+        (droppedCell) =>
+          droppedCell.getBoundingClientRect().x + droppedCell.getBoundingClientRect().width / 2 > evt.clientX,
       );
 
       if (rightCell) {
@@ -117,7 +116,8 @@ class DragAndDropController {
   }
 
   onFieldMouseDownHandler(evt) {
-    if (!evt.target.classList.contains(CLASS_NAMES.DRAGABLE) || !evt.target.closest(`.${CLASS_NAMES.DROP_PLACE}`)) return;
+    if (!evt.target.classList.contains(CLASS_NAMES.DRAGABLE) || !evt.target.closest(`.${CLASS_NAMES.DROP_PLACE}`))
+      return;
 
     view.resetPuzzlesStates(
       gameController.currentSentence,

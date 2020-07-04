@@ -6,9 +6,7 @@ export default class ApiService {
     this.baseUrl = baseUrl;
   }
 
-  async getResource({
-    url, hasToken, token = null, type = null,
-  }) {
+  async getResource({ url, hasToken, token = null, type = null }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'GET',
@@ -38,9 +36,7 @@ export default class ApiService {
     }
   }
 
-  async postResourse({
-    url, params, hasToken, token = null, type = null,
-  }) {
+  async postResourse({ url, params, hasToken, token = null, type = null }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'POST',
@@ -68,9 +64,7 @@ export default class ApiService {
     }
   }
 
-  async putResourse({
-    url, params, hasToken, token = null,
-  }) {
+  async putResourse({ url, params, hasToken, token = null }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'PUT',
@@ -152,8 +146,8 @@ export default class ApiService {
     let errorDescription = '';
     try {
       const errorRes = await res.json();
-      errorDescription = (errorRes.error !== undefined) ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
-      status = (errorRes.error !== undefined) ? 0 : res.status;
+      errorDescription = errorRes.error !== undefined ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
+      status = errorRes.error !== undefined ? 0 : res.status;
     } catch (e) {
       status = cloned.status;
       errorDescription = '';

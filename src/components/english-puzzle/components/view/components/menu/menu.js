@@ -1,8 +1,6 @@
 import Selector from '../selector/selector';
 
-import {
-  EVENTS, CLASS_NAMES, MAX_LEVELS_COUNT, MAX_ROUNDS_COUNT,
-} from '../../../../common/english-puzzle.constants';
+import { EVENTS, CLASS_NAMES, MAX_LEVELS_COUNT, MAX_ROUNDS_COUNT } from '../../../../common/english-puzzle.constants';
 
 const SELECT_NAMES = {
   LEVEL: 'level',

@@ -1,10 +1,13 @@
 import { WordsApi } from '../../../services/services.methods';
 import { ErrorPopup } from '../../error/error.error_popup';
+import Rating from './rating';
 import correct from '../assets/audio/correct.mp3';
 import wrong from '../assets/audio/error.mp3';
 import { showSpinner, hideSpinner } from '../common/sprint.utils';
 import { shuffleArray, getRandomElement } from '../common/sprint.helper';
 import Timer from './timer';
+
+const rating = new Rating();
 
 const timerJS = new Timer();
 
@@ -22,9 +25,39 @@ export default class GameSprint {
     this.counterElement = null;
     this.correctAnswer = [];
     this.wrongAnswer = [];
+    this.currentLevel = 0;
+    this.currentRound = 0;
     this.answerTrue = this.handleButtonClick(true);
     this.answerFalse = this.handleButtonClick(false);
     this.removeField = this.clearGameFieldAndState();
+  }
+
+  onLevelChangeHandler() {
+    this.level = document.querySelector('#level');
+    this.level.addEventListener('change', async (event) => {
+      this.currentLevel = +event.target.value;
+      showSpinner();
+      await this.getWords();
+      hideSpinner();
+      this.startbtn = document.querySelector('.preview__btn');
+      this.gameField = document.querySelector('.inner__game-sprint');
+      this.previewsStatrt();
+      this.startGame();
+    });
+  }
+
+  onRoundChangeHandler() {
+    this.round = document.querySelector('#round');
+    this.round.addEventListener('change', async (event) => {
+      this.currentLevel = +event.target.value;
+      showSpinner();
+      await this.getWords();
+      hideSpinner();
+      this.startbtn = document.querySelector('.preview__btn');
+      this.gameField = document.querySelector('.inner__game-sprint');
+      this.previewsStatrt();
+      this.startGame();
+    });
   }
 
   async getWords(group = 0, page = 0) {
@@ -152,7 +185,7 @@ export default class GameSprint {
     return () => {
       if (this.currentGameWord.isCorrectTranslation === flag) {
         success.play();
-        this.addImageRating((this.counterElement += 1));
+        rating.addImageRating((this.counterElement += 1));
         this.gameResults.push({
           isCorrect: true,
           word: this.currentGameWord,
@@ -197,34 +230,6 @@ export default class GameSprint {
      <div class="game-sprint__word game-sprint__word--rus">${wordObj.randomTranslation}</div>`;
   }
 
-  addImageRating(add) {
-    const rightField = document.getElementById('rating');
-    if (add <= 4) {
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add === 5) {
-      rightField.innerHTML = '';
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add > 5 && add < 9) {
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add === 9) {
-      rightField.innerHTML = '';
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add > 9 && add < 13) {
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add === 13) {
-      rightField.innerHTML = '';
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add > 13 && add < 17) {
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add === 17) {
-      rightField.innerHTML = '';
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    }
-    if (add > 17) {
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    }
-  }
-
   previewsStatrt() {
     this.startbtn.addEventListener('click', (event) => {
       if (event.target.classList.contains('preview__btn')) {
@@ -239,13 +244,14 @@ export default class GameSprint {
     try {
       showSpinner();
       await this.getWords();
+      this.onLevelChangeHandler();
+      this.onRoundChangeHandler();
       hideSpinner();
       this.startbtn = document.querySelector('.preview__btn');
       this.gameField = document.querySelector('.inner__game-sprint');
       this.previewsStatrt();
       this.startGame();
       this.spinner.init();
-      this.onChangeLevel();
     } catch (error) {}
   }
 }
