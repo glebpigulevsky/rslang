@@ -1,5 +1,6 @@
+import learnPage from '../components/learnPage/learnPage';
+
 export const learnPageComponent = {
-  render: () => `
-       
-    `,
+  init: learnPage.init,
+  render: learnPage.render,
 };

@@ -1,3 +1,3 @@
-const MAIN_GREETINGS = 'Hello from Main';
+const DEFAULT_ENGLISH_LEVEL = 0;
 
-export default MAIN_GREETINGS;
+export { DEFAULT_ENGLISH_LEVEL };
