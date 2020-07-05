@@ -64,7 +64,7 @@ class Controller {
       model.errorsList,
       gameController.lastGameFinalTime,
       gameController.fetchedPictureData,
-      model.results,
+      model.longResults,
     );
   }
 

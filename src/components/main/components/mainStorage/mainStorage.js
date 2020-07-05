@@ -1,43 +1,37 @@
 import mainController from '../controller/main.controller';
 import { checkUserInfo } from '../../../../services/common/services.common.api_service.helper';
 
-export const MINI_GAMES_NAMES = {
-  ENGLISH_PUZZLE: 'englishPuzzle',
-  SPEAK_IT: 'speakIt',
-  SAVANNA: 'savanna',
-  AUDIO_CALL: 'audioCall',
-  SPRINT: 'sprint',
-  DROP: 'drop',
-};
+import { EMPTY, EMPTY_ARRAY } from '../../../../common/common.constants';
+import { MINI_GAMES_NAMES } from '../../common/main.constants';
 
 class MainStorage {
   constructor() {
-    this.wordsToLearn = null;
+    this.wordsToLearn = EMPTY;
 
     this.miniGamesResults = {
       englishPuzzle: {
-        wrong: [],
-        correct: [],
+        wrong: EMPTY_ARRAY,
+        correct: EMPTY_ARRAY,
       },
       speakIt: {
-        wrong: [],
-        correct: [],
+        wrong: EMPTY_ARRAY,
+        correct: EMPTY_ARRAY,
       },
       savanna: {
-        wrong: [],
-        correct: [],
+        wrong: EMPTY_ARRAY,
+        correct: EMPTY_ARRAY,
       },
       audioCall: {
-        wrong: [],
-        correct: [],
+        wrong: EMPTY_ARRAY,
+        correct: EMPTY_ARRAY,
       },
       sprint: {
-        wrong: [],
-        correct: [],
+        wrong: EMPTY_ARRAY,
+        correct: EMPTY_ARRAY,
       },
       drop: {
-        wrong: [],
-        correct: [],
+        wrong: EMPTY_ARRAY,
+        correct: EMPTY_ARRAY,
       },
     };
 
@@ -69,14 +63,22 @@ class MainStorage {
   }
 
   saveMiniGameResults() {
-    const { userId } = checkUserInfo();
-    localStorage.setItem(`miniGamesResults-${userId}`, JSON.stringify(this.miniGamesResults));
+    try {
+      const { userId } = checkUserInfo();
+      localStorage.setItem(`miniGamesResults-${userId}`, JSON.stringify(this.miniGamesResults));
+    } catch (error) {
+      console.info(error.message);
+    }
   }
 
   loadMiniGamesResults() {
-    const { userId } = checkUserInfo();
-    const loadedMiniGamesResults = JSON.parse(localStorage.getItem(`miniGamesResults-${userId}`));
-    if (loadedMiniGamesResults) this.miniGamesResults = loadedMiniGamesResults;
+    try {
+      const { userId } = checkUserInfo();
+      const loadedMiniGamesResults = JSON.parse(localStorage.getItem(`miniGamesResults-${userId}`));
+      if (loadedMiniGamesResults) this.miniGamesResults = loadedMiniGamesResults;
+    } catch (error) {
+      console.info(error.message);
+    }
   }
 
   beforeUnloadHandler() {
@@ -98,4 +100,10 @@ class MainStorage {
   }
 }
 
-export const mainStorage = new MainStorage();
+const mainStorage = new MainStorage();
+export {
+  MINI_GAMES_NAMES,
+  mainStorage,
+  mainController,
+  checkUserInfo,
+};
