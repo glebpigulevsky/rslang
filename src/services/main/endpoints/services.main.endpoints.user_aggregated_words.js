@@ -76,9 +76,9 @@ export default class UserAggregatedWords {
       wordsPerExampleSentence,
       userWord: userWord
         ? {
-            difficulty: userWord.difficulty,
-            optional: userWord.optional || null,
-          }
+          difficulty: userWord.difficulty,
+          optional: userWord.optional || null,
+        }
         : null,
     };
   }

@@ -1,6 +1,8 @@
 import { WordsApi } from '../../../../services/services.methods';
 import { shuffleArray } from '../../common/speakit.utils';
-import { MAX_WORDS_IN_ROUND, MAX_WORDS_PER_EXAMPLE, LOCAL_STORAGE, EMPTY } from '../../common/speakit.constants';
+import {
+  MAX_WORDS_IN_ROUND, MAX_WORDS_PER_EXAMPLE, LOCAL_STORAGE, EMPTY,
+} from '../../common/speakit.constants';
 
 class Model {
   constructor() {
@@ -24,7 +26,9 @@ class Model {
 
   parseCardsPage(response) {
     this.pageData = shuffleArray(response).map((wordData) => {
-      const { word, transcription, audio, image, wordTranslate } = wordData;
+      const {
+        word, transcription, audio, image, wordTranslate,
+      } = wordData;
       return {
         word: word.toLowerCase().trim(),
         transcription,

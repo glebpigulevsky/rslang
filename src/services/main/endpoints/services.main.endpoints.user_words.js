@@ -48,7 +48,9 @@ export default class UserWordsApi {
     };
   }
 
-  _transformUserWord({ id, wordId, difficulty, optional }) {
+  _transformUserWord({
+    id, wordId, difficulty, optional,
+  }) {
     return {
       id,
       wordId,

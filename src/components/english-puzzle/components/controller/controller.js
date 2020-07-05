@@ -221,8 +221,7 @@ class Controller {
   }
 
   onRepeatSpellingButtonClick() {
-    if (!gameController.hints.isSpellingEnabled || !gameController.fetchedRoundData || gameController.isPictureShown)
-      return;
+    if (!gameController.hints.isSpellingEnabled || !gameController.fetchedRoundData || gameController.isPictureShown) return;
     view.playSentenceSpelling(gameController.fetchedRoundData[gameController.currentSentence].audioExample);
   }
 

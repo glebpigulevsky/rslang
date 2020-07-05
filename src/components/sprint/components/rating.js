@@ -1,34 +1,33 @@
 export default class Rating {
   constructor() {
-    this.gameResults = null;
-  }
-  
-  addImageRating(add) {
-    const rightField = document.getElementById('rating');
-    if (add <= 4) {
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add === 5) {
-      rightField.innerHTML = '';
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add > 5 && add < 9) {
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add === 9) {
-      rightField.innerHTML = '';
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add > 9 && add < 13) {
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add === 13) {
-      rightField.innerHTML = '';
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add > 13 && add < 17) {
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    } else if (add === 17) {
-      rightField.innerHTML = '';
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    }
-    if (add > 17) {
-      rightField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
-    }
+    this.elem = null;
   }
 
+  addImageRating(elem) {
+    this.ratingField = document.getElementById('rating');
+    if (elem <= 4) {
+      this.ratingField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (elem === 5) {
+      this.ratingField.innerHTML = '';
+      this.ratingField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (elem > 5 && elem < 9) {
+      this.ratingField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (elem === 9) {
+      this.ratingField.innerHTML = '';
+      this.ratingField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (elem > 9 && elem < 13) {
+      this.ratingField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (elem === 13) {
+      this.ratingField.innerHTML = '';
+      this.ratingField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (elem > 13 && elem < 17) {
+      this.ratingField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    } else if (elem === 17) {
+      this.ratingField.innerHTML = '';
+      this.ratingField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    }
+    if (elem > 17) {
+      this.ratingField.insertAdjacentHTML('afterbegin', '<img src="./assets/main/img/icon/mark.svg" alt="logo">');
+    }
+  }
 }

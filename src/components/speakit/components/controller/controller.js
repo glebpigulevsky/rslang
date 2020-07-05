@@ -329,9 +329,8 @@ class Controller {
     view.initIntroButton(this.onIntroButtonClick);
 
     const completedRoundsData = model.loadCompletedRounds();
-    this.completedRoundsByLevels =
-      (completedRoundsData && completedRoundsData.completedRoundsByLevels) ||
-      new Array(MAX_LEVELS_COUNT).fill('').map(() => []);
+    this.completedRoundsByLevels = (completedRoundsData && completedRoundsData.completedRoundsByLevels)
+      || new Array(MAX_LEVELS_COUNT).fill('').map(() => []);
 
     this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
     this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);

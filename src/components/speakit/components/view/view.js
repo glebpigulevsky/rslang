@@ -6,7 +6,9 @@ import Menu from './components/menu/menu';
 import { Spinner } from '../../../spinner/spinner';
 
 import { setActiveState, createStar, getPreloadedImage } from '../../common/speakit.utils';
-import { CLASS_NAMES, EVENTS, SWIPER_CONFIG, EMPTY } from '../../common/speakit.constants';
+import {
+  CLASS_NAMES, EVENTS, SWIPER_CONFIG, EMPTY,
+} from '../../common/speakit.constants';
 
 import correctSound from '../../assets/audio/correct.mp3';
 import successSound from '../../assets/audio/success.mp3';

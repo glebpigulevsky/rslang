@@ -6,7 +6,9 @@ export default class ApiService {
     this.baseUrl = baseUrl;
   }
 
-  async getResource({ url, hasToken, token = null, type = null }) {
+  async getResource({
+    url, hasToken, token = null, type = null,
+  }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'GET',
@@ -36,7 +38,9 @@ export default class ApiService {
     }
   }
 
-  async postResourse({ url, params, hasToken, token = null, type = null }) {
+  async postResourse({
+    url, params, hasToken, token = null, type = null,
+  }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'POST',
@@ -64,7 +68,9 @@ export default class ApiService {
     }
   }
 
-  async putResourse({ url, params, hasToken, token = null }) {
+  async putResourse({
+    url, params, hasToken, token = null,
+  }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'PUT',

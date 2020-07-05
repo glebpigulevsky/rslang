@@ -94,7 +94,9 @@ class GameController {
     this.newRound(this.currentLevel, this.currentRound);
   }
 
-  getCanvasElement({ currentSentence, isImage = false, isRegular = true, isCorrect = false }) {
+  getCanvasElement({
+    currentSentence, isImage = false, isRegular = true, isCorrect = false,
+  }) {
     if (isImage) {
       if (isRegular) return this.canvasElements.withImage.regular[currentSentence];
       if (isCorrect) return this.canvasElements.withImage.correct[currentSentence];
@@ -277,9 +279,8 @@ class GameController {
     view.initMenu(this.onLevelChangeHandlerBinded, this.onRoundChangeHandlerBinded);
 
     const completedRoundsData = model.loadCompletedRounds();
-    this.completedRoundsByLevels =
-      (completedRoundsData && completedRoundsData.completedRoundsByLevels) ||
-      new Array(MAX_LEVELS_COUNT).fill('').map(() => []);
+    this.completedRoundsByLevels = (completedRoundsData && completedRoundsData.completedRoundsByLevels)
+      || new Array(MAX_LEVELS_COUNT).fill('').map(() => []);
 
     showSpinner();
     this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);

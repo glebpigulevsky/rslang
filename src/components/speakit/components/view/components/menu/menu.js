@@ -1,6 +1,8 @@
 import Selector from '../selector/selector';
 
-import { EVENTS, CLASS_NAMES, MAX_LEVELS_COUNT, MAX_ROUNDS_COUNT, EMPTY } from '../../../../common/speakit.constants';
+import {
+  EVENTS, CLASS_NAMES, MAX_LEVELS_COUNT, MAX_ROUNDS_COUNT, EMPTY,
+} from '../../../../common/speakit.constants';
 
 const SELECT_NAMES = {
   LEVEL: 'level',

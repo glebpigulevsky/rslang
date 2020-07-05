@@ -12,14 +12,13 @@ function onErrorLoadImage() {
   this.removeEventListener(EVENTS.ERROR, onErrorLoadImage);
 }
 
-const loadImage = (url) =>
-  new Promise((resolve) => {
-    const img = new Image();
-    img.resolve = resolve;
-    img.addEventListener(EVENTS.LOAD, onSuccessLoadImage);
-    img.addEventListener(EVENTS.ERROR, onErrorLoadImage);
-    img.src = url;
-  });
+const loadImage = (url) => new Promise((resolve) => {
+  const img = new Image();
+  img.resolve = resolve;
+  img.addEventListener(EVENTS.LOAD, onSuccessLoadImage);
+  img.addEventListener(EVENTS.ERROR, onErrorLoadImage);
+  img.src = url;
+});
 
 export const getPreloadedImage = async (url) => {
   const preloadedImg = await loadImage(url);
@@ -34,8 +33,7 @@ export const togglePageState = (className) => document.querySelector('.speakit-b
 
 export const getClosestLink = ({ target }) => target.closest(`.${CLASS_NAMES.LINK}`);
 
-export const toggleDocumentScroll = () =>
-  document.querySelector('.speakit-body').classList.toggle(CLASS_NAMES.OVERFLOW_HIDDEN);
+export const toggleDocumentScroll = () => document.querySelector('.speakit-body').classList.toggle(CLASS_NAMES.OVERFLOW_HIDDEN);
 
 export const shuffleArray = (array) => {
   const result = array.slice();
