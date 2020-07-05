@@ -5,6 +5,21 @@
   @include segoe-subtitle($color-light, 400);
 }
 
+.savannah__start {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  color: #a52a2a;
+  background-color: rgba(250, 249, 252, 0.714) !important;
+  height: 100%;
+}
+
+.savannah__start_title {
+  @include segoe-title(#a52a2a);
+  text-transform: uppercase!important;
+}
+
 .savannah__answears {
   position: absolute;
   right: 0;
@@ -47,9 +62,8 @@
 }
 
 .savannah__question {
-  position: fixed;
+  position: absolute;
   text-align: center;
-  top: 30px;
   font-size: 48px;
   line-height: 1;
   font-weight: 300;
@@ -58,13 +72,26 @@
   letter-spacing: 1px;
   height: 100%;
   width: 100%;
-  transform: translate(0);
-  transition: transform 5s ease-in;
+  position: relative;
+  top: 5px;
 }
 
+.savannah__question:hover{
+  animation-play-state: paused;
+}
+
+.savannah__question_move {
+  animation: move-highlight 5s linear;
+}
+
+@keyframes move-highlight {
+  100% {
+    top: 10em;
+  }
+}
 .savannah__hearts {
     position: absolute;
-    right: 150px;
+    right: 20%;
     top: 37px;
     height: 16px;
     display: flex;
@@ -95,7 +122,8 @@
     cursor: pointer;
     position: relative;
     top: 27px;
-    left: 57px;
+    left: 10%;
+    z-index: 5;
 }
 
 .savannah__close_btn{
@@ -107,7 +135,8 @@
   background-size: contain;
   position: absolute;
   top: 37px;
-  right: 57px;
+  right: 10%;
+  z-index: 5;
 }
 
 $plant-border: #aad670;
@@ -123,7 +152,10 @@ $flowerpot-color2: #d6c8a5;
 	display:flex;
 	align-items: flex-end;
 	justify-content: center;
-	height: 95vh;
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 .base {
@@ -141,7 +173,6 @@ $flowerpot-color2: #d6c8a5;
   border-radius: 30px;
   z-index: 3;
 
-	
 		&:after {
 			content: " ";
 			position:absolute;
