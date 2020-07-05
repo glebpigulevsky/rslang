@@ -36,6 +36,7 @@ export default class GameSprint {
     if (event.target.classList.contains('preview__btn')) {
       this.wrapper.classList.remove('display-none');
       this.previewSection.classList.add('display-none');
+      this.startTimer.classList.add('game-sprint__timer');
       timer.startTimer();
     }
   }
@@ -48,12 +49,12 @@ export default class GameSprint {
     this.previewButton.addEventListener('click', this.onInitIntroButtonBinded);
   }
 
-  async getWords(group = 0, page = 0) {
+  async getWords() {
     let response;
     try {
       response = await wordsAPI.getWordsCollection({
-        group,
-        page,
+        group: this.currentLevel,
+        page: this.currentRound,
       });
     } catch (error) {
       new ErrorPopup().openPopup({
@@ -105,6 +106,8 @@ export default class GameSprint {
   handleButtonClick(flag) {
     return () => {
       if (this.currentGameWord.isCorrectTranslation === flag) {
+        this.gameField.classList.remove('regress');
+        this.gameField.classList.add('progress');
         success.play();
         rating.addImageRating((this.counterElement += 1));
         this.gameResults.push({
@@ -112,6 +115,8 @@ export default class GameSprint {
           word: this.currentGameWord,
         });
       } else {
+        this.gameField.classList.remove('progress');
+        this.gameField.classList.add('regress');
         fail.play();
         this.ratingField.innerHTML = '';
         this.gameResults.push({
@@ -152,7 +157,9 @@ export default class GameSprint {
     this.gameContainer.classList.add('display-none');
     this.navigation.classList.add('display-none');
     this.statistics.classList.remove('display-none');
-    timer.stopTime();
+    this.startTimer.classList.remove('game-sprint__timer');
+    this.gameField.classList.remove('regress');
+    this.gameField.classList.remove('progress');
 
     this.gameResults.forEach((word) => {
       if (word.isCorrect === true) {
@@ -161,36 +168,37 @@ export default class GameSprint {
         this.wrongAnswer.push(word.word);
       }
     });
-    const correctly = document.createElement('p');
-    correctly.className = 'correct__title';
-    const tamplateScoreCorrectly = `
-            <span class="correct__lead">Correctly <span class="correct">${this.correctAnswer.length}</span></span>
-            <ul class = 'correctly__list list'></ul>`;
-    correctly.innerHTML = tamplateScoreCorrectly;
 
-    const errors = document.createElement('p');
-    errors.className = 'errors__title';
-    const tamplateScoreDntErrors = `
-            <span class="errors__lead">Errors <span class="errors">${this.wrongAnswer.length}</span></span>
-            <ul class = 'error__list list'></ul>`;
-    errors.innerHTML = tamplateScoreDntErrors;
+    const resultCorrect = document.querySelector('.result-correct');
+    const resultErrorst = document.querySelector('.result-errors');
+    const correctList = document.createElement('div');
+    correctList.className = 'correctly__list';
+    const tamplateScoreCorrectly = `<p class="correct__title"><span class="correct__lead">Correctly <span class="correct-descr">${this.correctAnswer.length}</span></span></p>
+    <ul class = 'correctly list'></ul>`;
+    correctList.innerHTML = tamplateScoreCorrectly;
 
-    this.correctResult.append(correctly);
-    this.errorResult.append(errors);
+    const errorList = document.createElement('div');
+    errorList.className = 'error__list';
+    const tamplateScoreErrors = `<p class="errors__title"><span class="errors__lead">Errors <span class="errors-descr">${this.wrongAnswer.length}</span></span></p>
+    <ul class = 'errors list'></ul>`;
+    errorList.innerHTML = tamplateScoreErrors;
 
-    const correctList = document.querySelector('.correctly__list');
+    resultCorrect.append(correctList);
+    resultErrorst.append(errorList);
+
+    const containerCorrectWords = document.querySelector('.correctly');
     const objectWordsCorrect = this.correctAnswer.map((word) => word);
 
-    const addTamplateCorrectWords = (Correct) => `<li class="list__item">${Correct.word}</li>`;
+    const addTamplateCorrectWords = (objectCorrect) => `<span class="list__item">${objectCorrect.word}</span>`;
     const htmlTamplateCorrectWords = objectWordsCorrect.map(addTamplateCorrectWords).join('');
-    correctList.innerHTML = htmlTamplateCorrectWords;
+    containerCorrectWords.innerHTML = htmlTamplateCorrectWords;
 
-    const errorList = document.querySelector('.error__list');
+    const containerWrongWords = document.querySelector('.errors');
     const objectWordsWrong = this.wrongAnswer.map((word) => word);
 
-    const addTamplateWrongWords = (Wrong) => `<li class="list__item">${Wrong.word}</li>`;
+    const addTamplateWrongWords = (objectWrong) => `<span class="list__item">${objectWrong.word}</span>`;
     const htmlTamplateWrongWords = objectWordsWrong.map(addTamplateWrongWords).join('');
-    errorList.innerHTML = htmlTamplateWrongWords;
+    containerWrongWords.innerHTML = htmlTamplateWrongWords;
 
     const buttonContinue = document.querySelector('#new');
     buttonContinue.addEventListener('click', this.removeField);
@@ -200,19 +208,10 @@ export default class GameSprint {
     return (event) => {
       const target = event.target.className;
       if (target === 'button-result__new sprint-button') {
-        this.resultCorrect.remove();
-        this.resultErrors.remove();
-        this.statistics.classList.add('display-none');
-        this.btnTrue.removeEventListener('click', this.answerTrue);
-        this.btnFalse.removeEventListener('click', this.answerTrue);
-        this.counterElement = 0;
-        this.gameWords = [];
-        this.correctAnswer = [];
-        this.wrongAnswer = [];
-        this.ratingField.innerHTML = '';
-
+        document.querySelector('.error__list').remove();
+        document.querySelector('.correctly__list').remove();
+        this.newGame();
         this.startGame();
-        // timer.startTimer();
       }
     };
   }
@@ -229,8 +228,6 @@ export default class GameSprint {
   }
 
   newGame() {
-    this.resultCorrect.remove();
-    this.resultErrors.remove();
     this.statistics.classList.add('display-none');
     this.btnTrue.removeEventListener('click', this.answerTrue);
     this.btnFalse.removeEventListener('click', this.answerTrue);
@@ -243,10 +240,11 @@ export default class GameSprint {
 
   onRoundChangeHandler() {
     this.round.addEventListener('change', async (event) => {
-      this.currentLevel = +event.target.value;
+      this.currentRound = +event.target.value;
       showSpinner();
       await this.getWords();
       hideSpinner();
+      this.newGame();
       this.startGame();
     });
   }
@@ -268,25 +266,18 @@ export default class GameSprint {
       this.wrapper = document.querySelector('.sprint-game__wrapper');
       this.previewSection = document.querySelector('.preview');
       this.previewButton = document.querySelector('.preview__btn');
-      this.correctResult = document.querySelector('.result-correct');
-      this.errorResult = document.querySelector('.result-errors');
       this.gameField = document.querySelector('.inner__game-sprint');
+      this.startTimer = document.querySelector('.start-time');
 
       showSpinner();
-
       await this.getWords();
-
       this.onLevelChangeHandler();
       this.onRoundChangeHandler();
-
       hideSpinner();
-
       this.addInitIntroButton();
-
       this.startGame();
       this.spinner.init();
     } catch (error) {
-      return null;
     }
   }
 }
