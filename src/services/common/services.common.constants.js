@@ -45,6 +45,14 @@ const DEFAULT_SETTINGS = {
   },
 };
 
+const DEFAULT_USER_WORD_OPTIONS = {
+  difficulty: 'fetched',
+  optional: {
+    repeatTimes: '0',
+    lastRepeat: 'no repeat',
+  },
+};
+
 const USER_AGGREGATED_WORDS_FILTER = {
   byDifficultyHard: '{"userWord.difficulty":"hard"}',
   byDifficultyHardAndRepeat: '{"$and":[{"userWord.difficulty":"hard", "userWord.optional.repeat":true}]}',
@@ -57,5 +65,6 @@ export {
   MEDIA_LINK,
   LINK_TYPE,
   DEFAULT_SETTINGS,
+  DEFAULT_USER_WORD_OPTIONS,
   USER_AGGREGATED_WORDS_FILTER,
 };

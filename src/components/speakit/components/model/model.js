@@ -1,4 +1,6 @@
+import { MINI_GAMES_NAMES, mainStorage } from '../../../main/components/mainStorage/mainStorage';
 import { WordsApi } from '../../../../services/services.methods';
+
 import { shuffleArray } from '../../common/speakit.utils';
 import {
   MAX_WORDS_IN_ROUND,
@@ -9,13 +11,12 @@ import {
 
 class Model {
   constructor() {
-    this.cardsData = EMPTY;
     this.pageData = EMPTY;
 
     this.currentResults = EMPTY;
     this.longResults = EMPTY;
 
-    this.isWordGuessed = this.isWordGuessed.bind(this);
+    this.getGuessedWord = this.getGuessedWord.bind(this);
   }
 
   fetchCardsPage(difficult, page) {
@@ -30,24 +31,13 @@ class Model {
   parseCardsPage(response) {
     this.pageData = shuffleArray(response)
       .map((wordData) => {
-        const {
-          word,
-          transcription,
-          audio,
-          image,
-          wordTranslate,
-        } = wordData;
-        return {
-          word: word.toLowerCase().trim(),
-          transcription,
-          audio,
-          image,
-          wordTranslate,
-        };
+        const newWordData = wordData;
+        newWordData.word = newWordData.word.toLowerCase().trim();
+        return newWordData;
       });
   }
 
-  isWordGuessed(word) {
+  getGuessedWord(word) {
     return this.pageData.find((wordData) => wordData.word === word);
   }
 
@@ -66,6 +56,16 @@ class Model {
     localStorage.setItem(LOCAL_STORAGE.CURRENT_RESULTS, JSON.stringify(this.currentResults));
 
     this.saveLongResults(guessedList, currentResult.time);
+
+    this.pageData.forEach((wordData) => {
+      if (!guessedList.includes(wordData.word)) {
+        mainStorage.addMiniGameResult({
+          miniGameName: MINI_GAMES_NAMES.SPEAK_IT,
+          isCorrect: false,
+          wordData,
+        });
+      }
+    });
   }
 
   loadCurrentResults() {
