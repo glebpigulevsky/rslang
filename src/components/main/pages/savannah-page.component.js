@@ -57,9 +57,9 @@ export const savannahComponent = {
     </div>
   </div> `,
 };
-/* 
+/*
 <div class="savannah__main">
-<div class="savannah__sound"></div> 
+<div class="savannah__sound"></div>
 <div class="savannah__hearts">
   <div class="savannah__heart savannah__heart_kill"></div>
   <div class="savannah__heart"></div>
@@ -67,7 +67,7 @@ export const savannahComponent = {
   <div class="savannah__heart"></div>
   <div class="savannah__heart"></div>
 </div>
-<div class="savannah__close_btn"></div> 
+<div class="savannah__close_btn"></div>
 <div class="savannah__question">word</div>
 <div class="savannah__answears">
   <div class="savannah__answear savannah__answear_select">слово<span class="savannah__answear_number">1</span></div>
@@ -86,4 +86,3 @@ export const savannahComponent = {
 <div class="blade blade-right-l"></div>
 </div>
 </div> */
-

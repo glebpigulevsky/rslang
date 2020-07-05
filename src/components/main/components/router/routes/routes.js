@@ -8,6 +8,7 @@ import { teamPageComponent } from '../../../pages/team-page.component';
 import { settingsPageComponent } from '../../../pages/settings-page.component';
 import { speakItPageComponent } from '../../../pages/speakit-page.component';
 import { englishPuzzleComponent } from '../../../pages/english-puzzle.component';
+import { savannahComponent } from '../../../pages/savannah-page.component';
 
 const routes = [
   { path: '/', component: mainPageComponent },
@@ -20,6 +21,7 @@ const routes = [
   { path: '/settings', component: settingsPageComponent },
   { path: '/speakit', component: speakItPageComponent },
   { path: '/english-puzzle', component: englishPuzzleComponent },
+  { path: '/savannah', component: savannahComponent },
 ];
 
 export default routes;
