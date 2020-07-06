@@ -48,19 +48,19 @@ const MAIN_GAME = document.querySelector('.main__game');
             </div>
           </div> 
       `;
+      if (window.localStorage.getItem('group')) {
+        document.querySelector('.group').querySelectorAll('*')[window.localStorage.getItem('group')].selected = true;
+        document.querySelector('.page').querySelectorAll('*')[window.localStorage.getItem('page')].selected = true;
+      }
+   
     document.querySelector('.start').addEventListener('click', () => {
-      console.log(window.localStorage.getItem('group') === null)
-      if (!window.localStorage.getItem('group')) {
         const audioCallGame = new dataGetter(+document.querySelector('.group').value, +document.querySelector('.page').value);
         audioCallGame.getData();
-      } else {
-        console.log( typeof +window.localStorage.getItem('group'))
-        const audioCallGame = new dataGetter(+window.localStorage.getItem('group'), +window.localStorage.getItem('page'));
-        audioCallGame.getData();
-      }
+        this.init();
+    })
       
-      this.init();
-    });
+      
+    
   }
 
   init () {

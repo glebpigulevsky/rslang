@@ -24,13 +24,13 @@ export default class dataGetter {
         this.wordsClickHandlerBinded = this.wordsClickHandler.bind(this);
         this.dontKnowButtonBinded = this.dontKnowButton.bind(this);
         this.enterCount = 0;
+        this.keyCount = 0;
         this.roundState = 'game';
     }
 
     getData () {
         window.localStorage.setItem('group', this.group);
         window.localStorage.setItem('page', this.page);
-        console.log('Page', window.localStorage.getItem('group'))
         wordsGetter.getWordsCollection({ group: this.group, page: this.page })
             .then((res) => {
               this.page += 1;
@@ -51,9 +51,10 @@ export default class dataGetter {
     }
 
     renderData (res) {
-        if (this.round < 1) { 
+        if (this.round < 10) { 
             this.roundState = 'game';
             this.enterCount = 0;
+            this.keyCount = 0;
             this.progress += 10;
             document.querySelector('.progress-bar').style.width = `${this.progress}%`;
             document.querySelector('.words-block').innerHTML = '';
@@ -83,12 +84,6 @@ export default class dataGetter {
         } else {                   //Показать статистику
             
 
-
-            
-
-
-
-
             MAIN_GAME.classList.remove('audio-game-wrapper');
             MAIN_GAME.classList.add('audio-results-wrapper');
             audioCallInit.showShortStats();
@@ -104,9 +99,9 @@ export default class dataGetter {
                 document.querySelector('.mistakes-list').insertAdjacentHTML('beforeend', `
                 <li><img class="speaker-small-${i}" src="./assets/main/img/speakersmall.png" alt="small speaker"><span class="results-eng-word">${this.resultsWrongArray[i].word}</span><div style="width: 20px;"></div><span class="results-ru-word">${this.resultsWrongArray[i].wordTranslate}</span></li>
                 `);
-                let audioWrond = new Audio(this.resultsWrongArray[i].audio);
+                let audioWrong = new Audio(this.resultsWrongArray[i].audio);
                 document.querySelector(`.speaker-small-${i}`).addEventListener('click', () => {
-                    audioWrond.play();
+                    audioWrong.play();
                 });
             }
 
@@ -129,9 +124,6 @@ export default class dataGetter {
                     audioCorrect.play();
                 });
             }
-
-            console.log('Правильные', this.resultsCorrectArray);
-            console.log('Неправильные', this.resultsWrongArray);
         }
         
     }
@@ -167,18 +159,21 @@ export default class dataGetter {
                 
                 }
                 if (this.enterCount == 1) {
-                    this.dontKnowButtonBinded();
+                        document.removeEventListener('keydown', chooseWordByKey.bind(this));
+                        this.dontKnowButtonBinded();
+                    
                 }
             }  
                    
             
 
-            if(+event.key == this.currentWord + 1 && this.roundState == 'game') {
-                console.log(this.roundState)
+            if(+event.key == this.currentWord + 1 && this.roundState == 'game' && this.keyCount == 0) {
+                this.keyCount += 1;
                 this.correctAnswerKeyBoard(event.key);
-            }  
-            if (+event.key !== this.currentWord + 1 && event.key !== 'Enter' && this.roundState == 'game') {
-                console.log(this.roundState)
+            } 
+            
+            if (+event.key != this.currentWord + 1 && this.roundState == 'game' && this.keyCount == 0 && event.key != 'Enter') {
+                this.keyCount += 1;
                 this.wrongAnswerKeyBoard(+event.key);
             }
 
@@ -250,7 +245,7 @@ export default class dataGetter {
             el.removeEventListener('click', this.wordsClickHandlerBinded)
         })
         this.resultsCorrectArray.push(this.wordsArray[this.globalWord]);
-        document.querySelector('.img-block').insertAdjacentHTML('beforeend', `<img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">`);
+        document.querySelector('.img-block').innerHTML = `<img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">`;
         document.querySelector('.speaker-block').classList.add('speaker-block-answer');
         document.querySelector('.answer-word-eng').innerHTML = `${this.wordsArray[this.globalWord].word}`;
                             
@@ -283,7 +278,7 @@ export default class dataGetter {
         })
         this.resultsWrongArray.push(this.wordsArray[this.globalWord]);
         document.querySelector(`.rus-word-${event - 1}`).classList.add('wrong-main-answer');
-        document.querySelector('.img-block').insertAdjacentHTML('beforeend', `<img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">`);
+        document.querySelector('.img-block').innerHTML = `<img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">`;
         document.querySelector('.speaker-block').classList.add('speaker-block-answer');
         document.querySelector('.answer-word-eng').innerHTML = `${this.wordsArray[this.globalWord].word}`;
                             
