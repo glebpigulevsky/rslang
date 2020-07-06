@@ -1,0 +1,97 @@
+.english-puzzle-body .game__controls,
+.english-puzzle-body .hints__controls,
+.english-puzzle-body .field__controls,
+.english-puzzle-body .button__container-results {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.english-puzzle-body .game__controls {
+  align-items: center;
+  flex-direction: row;
+}
+
+.english-puzzle-body .button {
+  margin: 10px;
+  text-transform: uppercase;
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px $color-shadow;
+
+  @include button($color: $color-light, $background: $color-btn, $width: 200px, $height: 40px, $radius: 30px);
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+
+    &.active {
+      background-color: $color-orange;
+      box-shadow: none;
+    }
+  }
+}
+
+.english-puzzle-body .game-hints_bg,
+.english-puzzle-body .game-hints_translation,
+.english-puzzle-body .game-hints_spelling,
+.english-puzzle-body .game-hints_auto-spelling,
+.english-puzzle-body .button-repeat-spelling {
+  width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 32px;
+}
+
+.english-puzzle-body .game-hints_bg {
+  background-image: url('../assets/img/bg-icon.png');
+
+  @include media-mobile {
+    display: none;
+  }
+}
+
+.english-puzzle-body .game-hints_translation {
+  background-image: url('../assets/img/translation-icon.png');
+  background-size: 20px;
+}
+
+.english-puzzle-body .game-hints_spelling {
+  background-image: url('../assets/img/spell-icon.png');
+}
+
+.english-puzzle-body .game-hints_auto-spelling {
+  background-image: url('../assets/img/auto-spell-icon.png');
+}
+
+.english-puzzle-body .button-repeat-spelling {
+  background-image: url('../assets/img/dinamic-icon.png');
+}
+
+.english-puzzle-body .active {
+  background-color: $color-dark-orange;
+  box-shadow: none;
+}
+
+@keyframes english-puzzle-resize {
+  40% {
+    transform: scale(.9);
+  }
+
+  80% {
+    transform: scale(1.1);
+  }
+}
+
+.english-puzzle-body .animated {
+  animation: english-puzzle-resize .8s infinite linear;
+}

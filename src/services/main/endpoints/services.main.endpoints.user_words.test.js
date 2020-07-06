@@ -19,8 +19,8 @@ describe('get user words if user words was not updated early', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
-    const res = await userWords.getAllUserWords({ userId: userDefault.id });
+    userWords._apiService = new ApiService(MAIN_API_URL);
+    const res = await userWords.getAllUserWords({ userId: userDefault.id, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toStrictEqual([]);
   });
@@ -37,8 +37,8 @@ describe('get user words', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
-    const res = await userWords.getAllUserWords({ userId: userDefault.id });
+    userWords._apiService = new ApiService(MAIN_API_URL);
+    const res = await userWords.getAllUserWords({ userId: userDefault.id, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject([
       {
@@ -62,7 +62,6 @@ describe('create user word', () => {
   const userDefault = {
     email: 'jest_userwords_three@mail.com',
     password: '12345678Aa@',
-    id: '5ee7f1d8439c470017c4e708',
   };
   const wordId = '5e9f5ee35eb9e72bc21af4b4';
   it('should return correct object', async () => {
@@ -70,20 +69,23 @@ describe('create user word', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
+    userWords._apiService = new ApiService(MAIN_API_URL);
     const res = await userWords.createUserWord({
-      userId: userDefault.id,
       wordId,
       difficulty: 'weak',
+    },
+    {
+      userId: auth.userId,
+      token: auth.token
     });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       difficulty: 'weak',
       optional: null,
       wordId: '5e9f5ee35eb9e72bc21af4b4',
-      // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
+      id: expect.any(String),
     });
-    await userWords.deleteUserWord({ userId: userDefault.id, wordId });
+    await userWords.deleteUserWord({ wordId }, {userId: auth.userId, token: auth.token});
   });
 });
 
@@ -98,12 +100,12 @@ describe('get user word', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
+    userWords._apiService = new ApiService(MAIN_API_URL);
     const res = await userWords.getUserWord({
       userId: userDefault.id,
       wordId: '5e9f5ee35eb9e72bc21af4b4',
       difficulty: 'weak',
-    });
+    }, { userId: auth.userId, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       id: '5ee8ba5c12daba0017bdc993',
@@ -128,18 +130,17 @@ describe('update user word', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
+    userWords._apiService = new ApiService(MAIN_API_URL);
     const res = await userWords.updateUserWord({
-      userId: userDefault.id,
       wordId: '5e9f5ee35eb9e72bc21af4b4',
       difficulty: randomVal,
-    });
+    }, { userId: auth.userId, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       difficulty: randomVal,
       optional: null,
       wordId: '5e9f5ee35eb9e72bc21af4b4',
-      // id: '5e9f5ee35eb9e72bc21af4b4', recordId is created with different value in data base
+      id: expect.any(String),
     });
   });
 });
@@ -154,16 +155,14 @@ describe('delete user word', () => {
   it('should return true', async () => {
     const auth = await user.authenticateUser({
       email: userDefault.email,
-      password: userDefault.password,
+      password: userDefault.password
     });
-    userWords.apiService = new ApiService(MAIN_API_URL, auth.token);
-    userWords
-      .getUserWord({ userId: userDefault.id, wordId })
-      .catch(() => {
-        userWords.createUserWord({ userId: userDefault.id, wordId, difficulty: 'easy' });
-      });
+    userWords._apiService = new ApiService(MAIN_API_URL);
+    userWords.getUserWord({ wordId }, { userId: auth.userId, token: auth.token }).catch(() => {
+      userWords.createUserWord({ wordId, difficulty: 'easy' }, { userId: auth.userId, token: auth.token });
+    });
 
-    const res = await userWords.deleteUserWord({ userId: userDefault.id, wordId });
+    const res = await userWords.deleteUserWord({ wordId }, { userId: auth.userId, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       isDeleted: true,

@@ -1,33 +1,37 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL, TOKEN } from '../../common/services.common.constants';
+import { MAIN_API_URL, LINK_TYPE } from '../../common/services.common.constants';
+import { checkUserInfo } from '../../common/services.common.api_service.helper';
 
 export default class SettingsApi {
   constructor() {
-    this.apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._apiService = new ApiService(MAIN_API_URL);
   }
 
-  async getSettings({ userId }) {
-    const res = await this.apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true });
-    return this.transformUserSettings(res);
+  async getSettings({ token, userId } = checkUserInfo()) {
+    const res = await this._apiService.getResource({
+      url: `/users/${userId}/settings`, hasToken: true, token, type: LINK_TYPE.Settings,
+    });
+    return (res) ? this._transformUserSettings(res) : res;
   }
 
-  async updateSettings({ userId, wordsPerDay, optional = {} }) {
-    this.wordsPerDayValidator(wordsPerDay);
-    const res = await this.apiService.putResourse({
+  async updateSettings({ wordsPerDay, optional = {} }, { token, userId } = checkUserInfo()) {
+    this._wordsPerDayValidator(wordsPerDay);
+    const res = await this._apiService.putResourse({
       url: `/users/${userId}/settings`,
       params: { wordsPerDay, optional },
       hasToken: true,
+      token,
     });
-    return this.transformUserSettings(res);
+    return this._transformUserSettings(res);
   }
 
-  wordsPerDayValidator({ wordsPerDay }) {
+  _wordsPerDayValidator({ wordsPerDay }) {
     if (wordsPerDay < 1) {
       console.info("'wordsPerDay' should be greather then 0");
     }
   }
 
-  transformUserSettings({ id, wordsPerDay, optional }) {
+  _transformUserSettings({ id, wordsPerDay, optional }) {
     return {
       id,
       wordsPerDay,

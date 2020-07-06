@@ -1,0 +1,283 @@
+.main__game-start {
+  margin: 0 auto;
+  border-radius: .75rem;
+  margin-top: 2rem;
+  padding: 1rem;
+  width: 80%;
+  height: 57px;
+  background-color: #f8f2ee;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  .main__game-start__description {
+    @include segoe-subtitle($color-text, 400);
+
+    color: $color-text;
+  }
+
+  .main__game-start__button {
+    color: white;
+    width: 300px;
+    height: 55px;
+    background: $color-btn;
+    font-size: 24px;
+    border: 1px solid $color-border;
+    box-sizing: border-box;
+    box-shadow: 0 4px 4px rgba(0, 0, 0, .25);
+    border-radius: 30px;
+  }
+}
+
+.main__game-level {
+  width: 80%;
+  margin: 0 auto;
+  margin-top: 1rem;
+  @include segoe-subtitle($color-text, 400);
+
+  background-color: #f8f2ee;
+  border-radius: .75rem;
+  padding: 1rem;
+  border: 1px solid white;
+
+  #levellist {
+    display: flex;
+    width: 40%;
+    justify-content: space-between;
+  }
+
+  #englishlevel {
+    width: 40%;
+  }
+}
+
+.main__game-stat {
+  @include segoe-subtitle($color-text, 400);
+
+  margin: 0 auto;
+  margin-top: 1rem;
+  border-radius: .75rem;
+  padding: 1rem;
+  width: 80%;
+  height: 200px;
+  background-color: #f8f2ee;
+  display: flex;
+
+  .main__game-stat__today {
+    border: 1px solid white;
+    height: 83%;
+    flex-grow: 10;
+    padding: 1rem;
+  }
+
+  .main__game-stat__week {
+    height: 83%;
+    padding: 1rem;
+    flex-grow: 4;
+    border: 1px solid white;
+  }
+}
+
+.card-container {
+  display: flex;
+  justify-content: center;
+  align-self: stretch;
+  align-items: center;
+  padding-top: 3rem;
+  margin-bottom: 1rem;
+
+  .card {
+    background-color: #f8f2ee;
+    @include border-radius(.75rem, .75rem,.75rem,.75rem);
+    @include box-shadow(0, 3px, .5rem, $color-light-grey);
+
+    padding: 0 2.5rem;
+
+    .card-main {
+      width: 35rem;
+      max-width: 35rem;
+      height: 20rem;
+      flex: 1 1 auto;
+      align-self: center;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      @include segoe-subtitle ($color-text, 400);
+
+      .learn-content {
+        height: 6rem;
+        margin-bottom: 1rem;
+      }
+
+      .learn-content__translation {
+        display: flex;
+        color: $color-text-additional;
+        margin: 0 auto;
+        opacity: 1;
+        width: 100%;
+        height: auto;
+        padding: 1rem 0 0;
+        border-top: 1px solid #efe6e1;
+        box-sizing: border-box;
+        align-self: center;
+        cursor: default;
+      }
+
+      .learn-content__meaning {
+        opacity: 1;
+        height: auto;
+        padding: 1rem 0 0;
+        cursor: default;
+      }
+    }
+
+    .card-footer,
+    .card-header {
+      margin: 1rem 0;
+
+      .card-footer__answer-button {
+        display: flex;
+        justify-content: flex-end;
+      }
+
+      button {
+        margin-right: 5px;
+        background-color: #085364;
+        border-radius: .8rem;
+        color: #fff;
+        height: 30px;
+        width: 81px;
+        @include segoe-additional(#FFF, 400);
+      }
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+
+      .card-header__block {
+        display: flex;
+        flex-direction: row;
+      }
+    }
+  }
+
+  .navigate {
+    background-image: url('../assets/img/arrNav.png');
+    height: 32px;
+    width: 32px;
+    cursor: pointer;
+  }
+
+  .prev {
+    transform: rotate(180deg);
+  }
+}
+
+.learn-content .learn-content__container {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+
+  .word {
+    margin-right: 5px;
+  }
+
+  .input-container {
+    position: relative;
+    padding: .25rem;
+    display: inline-block;
+
+    .background {
+      position: relative;
+      top: -3px;
+
+      span {
+        transition: opacity 1s ease;
+      }
+    }
+
+    .word-container {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      transform-origin: 0 50%;
+      padding-bottom: 2px;
+      border-bottom: 2px solid transparent;
+      user-select: none;
+
+      span {
+        visibility: visible;
+        color: #338c99;
+        transition: opacity 2s ease;
+      }
+    }
+
+    .answer-input {
+      display: inline;
+      position: absolute;
+      top: -2px;
+      left: 0;
+      color: #338c99;
+      margin: 0;
+      width: 95%;
+      height: 89%;
+      border-radius: .25rem;
+      border: none;
+    }
+  }
+}
+
+.card-helper {
+  margin: 0 auto;
+  width: 35rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  @include segoe-title ($color-text-additional);
+
+  .transcription {
+    @include segoe-subtitle($color-text, 400);
+  }
+
+  .card-image {
+    margin: 0 auto;
+    margin-top: 2rem;
+
+    img {
+      @include border-radius(.75rem, .75rem,.75rem,.75rem);
+    }
+  }
+}
+
+.hidden {
+  display: none;
+}
+
+.opacity-hidden {
+  visibility: hidden;
+}
+
+.visually-hidden {
+  color: transparent;
+}
+
+.opacity {
+  opacity: 0;
+}
+
+.green {
+  color: green;
+}
+
+.red {
+  color: red;
+}
+
+.green,
+.red {
+  position: relative;
+  z-index: 1;
+}

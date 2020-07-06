@@ -1,0 +1,40 @@
+.english-puzzle-body .navigation {
+  display: flex;
+  justify-content: space-between;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding-top: 10px;
+}
+
+.english-puzzle-body .navigation__description {
+  color: $color-text-additional;
+  font-weight: bold;
+}
+
+.english-puzzle-body .selector {
+  color: $color-text-additional;
+  background-color: $color-light-grey;
+  border-color: $color-border;
+  border-radius: 5px;
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+  }
+}
+
+.english-puzzle-body .selector option {
+  background-color: $color-light;
+}
+
+.english-puzzle-body .selector option.completed {
+  color: $color-dark-orange;
+  background-color: $color-hovered;
+}

@@ -1,0 +1,63 @@
+.dictionary__title {
+  padding: px-to-rem(10px) 0 0;
+  text-align: center;
+
+  @include segoe-title($color: $color-text);
+}
+
+.team__title {
+  padding: px-to-rem(10px) 0 0;
+  text-align: center;
+
+  @include segoe-title($color: $color-text);
+}
+
+.cards__inner {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 30px 100px 30px 100px;
+
+  @include media-tablet {
+    padding: 30px 50px 30px 50px;
+  }
+  @include media-mobile {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 50px 0 50px;
+  }
+}
+
+.cards__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: $color-light-grey;
+  border-radius: 10px;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, .5);
+
+  @include transition($time: .3s, $property: all, $method: ease-out);
+  @include media-mobile {
+    margin-bottom: 25px;
+  }
+
+  &:hover {
+    transform: scale(1.1);
+  }
+
+  .cards__img {
+    width: 220px;
+
+    @include media-tablet {
+      width: 190px;
+    }
+  }
+}
+
+.cards__name {
+  text-align: center;
+  text-transform: uppercase;
+
+  @include segoe-additional($color: $color-text, $weight: bold);
+}
