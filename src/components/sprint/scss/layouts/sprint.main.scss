@@ -75,6 +75,8 @@
   height: 94px;
   margin-top: 15px;
 
+  border: 3px solid transparent;
+
   @include media-mobile {
     height: 80px;
     margin-top: 0;
@@ -121,7 +123,7 @@
   align-items: center;
   width: 666px;
   height: 70px;
-  margin-top: 20px;
+  margin-top: 13px;
 
   background: rgba(158, 241, 246, 0.3);
   border-radius: 0 0 20px 20px;

@@ -30,6 +30,7 @@ export default class GameSprint {
     this.removeField = this.clearGameFieldAndState();
 
     this.onInitIntroButtonBinded = this.onInitIntroButton.bind(this);
+    this.onHandleEventKeysBinded = this.onHandleEventKeys.bind(this);
   }
 
   onInitIntroButton(event) {
@@ -46,7 +47,7 @@ export default class GameSprint {
   }
 
   removeInitIntroButton() {
-    this.previewButton.addEventListener('click', this.onInitIntroButtonBinded);
+    this.previewButton.removeEventListener('click', this.onInitIntroButtonBinded);
   }
 
   async getWords() {
@@ -101,6 +102,7 @@ export default class GameSprint {
     this.gameContainer.classList.remove('display-none');
     this.navigation.classList.remove('display-none');
     this.makeCheckListWords();
+    this.addHandleEventKeys();
   }
 
   handleButtonClick(flag) {
@@ -127,6 +129,22 @@ export default class GameSprint {
 
       this.makeCheckListWords();
     };
+  }
+
+  onHandleEventKeys(event) {
+    if (event.keyCode === 39) {
+      this.btnTrue.click();
+    } else if (event.keyCode === 37) {
+      this.btnFalse.click();
+    }
+  }
+
+  addHandleEventKeys() {
+    document.addEventListener('keydown', this.onHandleEventKeysBinded);
+  }
+
+  removeHandleEventKeys() {
+    document.removeEventListener('keydown', this.onHandleEventKeysBinded);
   }
 
   renderScore() {
