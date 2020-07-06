@@ -1,5 +1,5 @@
 .savannah__container {
-  background-image: url('../assets/bgSavannah.jpg');
+  background-image: url('../assets/bgSavannah.jpg'); 
   background-size: cover;
   height: 100vh;
   @include segoe-subtitle($color-light, 400);
@@ -40,7 +40,6 @@
   padding: 10px 10px 10px 20px;
   color: #a52a2a;
   transition: all .15s ease;
-  border-radius: 2px;
   cursor: pointer;
   margin: 5px 5px;
   user-select: none;
@@ -77,12 +76,8 @@
   top: 5px;
 }
 
-.savannah__question:hover {
-  animation-play-state: paused;
-}
-
 .savannah__question_move {
-  animation: move-highlight 5s linear;
+ animation: move-highlight 5s linear;
 }
 
 @keyframes move-highlight {

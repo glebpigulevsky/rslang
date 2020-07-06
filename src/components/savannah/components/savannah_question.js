@@ -1,0 +1,1 @@
+export const getSavannahQuestion = () => '<div class="savannah__question" id="js-savannah__question"></div>';
