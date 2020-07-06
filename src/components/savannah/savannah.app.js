@@ -3,6 +3,7 @@ import { WordsApi, GET_RANDOM } from '../../services/services.methods';
 import { getSavannahStart } from './components/savannah_start';
 import { getSavannahGame } from './components/savannah_game';
 import { getSavannahQuestion } from './components/savannah_question';
+import { getSavannahAnswears } from './components/savannah_answears';
 
 class SavannahApp {
   startGame() {
@@ -12,39 +13,65 @@ class SavannahApp {
   }
 
   gameLoop() {
-    this.isEndGame = false;
     this.getNextWord();
   }
 
-  getNextWord() {
-    if (document.querySelector('#js-savannah__question')) {
-      document.querySelector('#js-savannah__question').parentNode.removeChild(document.querySelector('#js-savannah__question'));
+  getRamdomTranslation(correctTranslation) {
+    const first = correctTranslation;
+    const second = this.getNextVariable([first]);
+    const third = this.getNextVariable([first, second]);
+    const fourth = this.getNextVariable([first, second, third]);
+    console.log(first, second, third, fourth);
+    return {
+      first,
+      second,
+      third,
+      fourth,
+    };
+  }
+
+  getNextVariable(lockedTranslations = []) {
+    let res = '';
+    do {
+      res = this.answears[GET_RANDOM(0, this.answears.length - 1)];
     }
-    const word = this.learningWords.shift();
-    if (!word) {
+    while (lockedTranslations.includes(res));
+    return res;
+  }
+
+  getNextWord() {
+    const quest = document.querySelector('#js-savannah__question');
+    if (quest) {
+      quest.parentNode.removeChild(quest);
+    }
+    const answears = document.querySelector('#js-savannah__answears');
+    if (answears) {
+      answears.parentNode.removeChild(answears);
+    }
+    const learningWord = this.learningWords.shift();
+    if (!learningWord) {
       alert('END GAME');
     }
-    document.querySelector('#js-savannah__main').insertAdjacentHTML('beforeend', getSavannahQuestion());
-    document.querySelector('#js-savannah__question').textContent = word;
+    document.querySelector('#js-savannah__main').insertAdjacentHTML('beforeend', getSavannahQuestion(learningWord.word));
+    document.querySelector('#js-savannah__main').insertAdjacentHTML('beforeend', getSavannahAnswears(this.getRamdomTranslation(learningWord.wordTranslate)));
     document.querySelector('#js-savannah__question').classList.add('savannah__question_move');
     document.querySelector('#js-savannah__question').addEventListener('animationend', () => this.getNextWord());
   }
 
   async selectLearningWords() {
     try {
-      const wordsRes = await this.wordsApi.getWordsCollection({ group: this.level, page: this.round });
+      const wordsRes = await this.wordsApi.getWordsCollection(
+        { group: this.level, page: this.round },
+      );
       const questRes = await this.wordsApi.getWordsCollection({
-        group: GET_RANDOM(0, 5, this.level),
+        group: GET_RANDOM(0, 5, [this.level]),
         page: GET_RANDOM(0, 9),
         wordsPerExampleSentence: 20,
         wordsPerPage: 60,
       });
-      this.learningWords = wordsRes.map((word) => word.word);
+      this.learningWords = wordsRes.map((word) => ({ word: word.word, wordTranslate: word.wordTranslate }));
       this.answears = questRes.map((word) => word.wordTranslate);
       this.startGame();
-      console.log(this.learningWords);
-      console.log(questRes);
-      console.log(this.answears);
     } catch (e) {
       console.log(e);
     }

@@ -39,7 +39,7 @@
   position: relative;
   padding: 10px 10px 10px 20px;
   color: #a52a2a;
-  transition: all .15s ease;
+  transition: all .20s ease;
   cursor: pointer;
   margin: 5px 5px;
   user-select: none;
@@ -74,10 +74,11 @@
   width: 100%;
   position: relative;
   top: 5px;
+  z-index: 5;
 }
 
 .savannah__question_move {
- animation: move-highlight 5s linear;
+ animation: move-highlight 7s linear;
 }
 
 @keyframes move-highlight {
