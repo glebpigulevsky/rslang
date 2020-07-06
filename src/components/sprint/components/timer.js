@@ -25,7 +25,7 @@ export default class Timer {
   }
 
   addTemplateTimer() {
-    const temp = `<div class="base-timer">
+    const temp = `<div class="base-timer time">
     <svg class="base-timer__svg" viewBox="0 0 100 100" >
       <g class="base-timer__circle">
         <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />

@@ -175,7 +175,6 @@ export default class GameSprint {
     this.gameContainer.classList.add('display-none');
     this.navigation.classList.add('display-none');
     this.statistics.classList.remove('display-none');
-    this.startTimer.classList.remove('game-sprint__timer');
     this.gameField.classList.remove('regress');
     this.gameField.classList.remove('progress');
 
