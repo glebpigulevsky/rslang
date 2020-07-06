@@ -17,16 +17,21 @@ class SavannahApp {
   }
 
   getRamdomTranslation(correctTranslation) {
+    this.correctTranslationIndex = GET_RANDOM(0, 3);
     const first = correctTranslation;
     const second = this.getNextVariable([first]);
     const third = this.getNextVariable([first, second]);
     const fourth = this.getNextVariable([first, second, third]);
-    console.log(first, second, third, fourth);
+    const res = [];
+    res.push(second);
+    res.push(third);
+    res.push(fourth);
+    res.splice(this.correctTranslationIndex, 0, first);
     return {
-      first,
-      second,
-      third,
-      fourth,
+      first: res[0],
+      second: res[1],
+      third: res[2],
+      fourth: res[3],
     };
   }
 
@@ -37,6 +42,13 @@ class SavannahApp {
     }
     while (lockedTranslations.includes(res));
     return res;
+  }
+
+  checkAnswear(currentTranslate, correctTranslate) {
+    if (currentTranslate === correctTranslate) {
+      return true;
+    }
+    return false;
   }
 
   getNextWord() {
@@ -56,6 +68,19 @@ class SavannahApp {
     document.querySelector('#js-savannah__main').insertAdjacentHTML('beforeend', getSavannahAnswears(this.getRamdomTranslation(learningWord.wordTranslate)));
     document.querySelector('#js-savannah__question').classList.add('savannah__question_move');
     document.querySelector('#js-savannah__question').addEventListener('animationend', () => this.getNextWord());
+    document.querySelector('#js-savannah__answears').addEventListener('click', (e) => {
+      if (e.target.classList.contains('savannah__answear')) {
+        document.querySelector('#js-savannah__answears').childNodes.forEach((btn) => { btn.disabled = true});
+        console.log(e.target.textContent);
+        const isCorrect = this.checkAnswear(e.target.dataset.answear, learningWord.wordTranslate);
+        if (isCorrect) {
+          e.target.classList.add('savannah__answear_correct');
+        } else {
+          e.target.classList.add('savannah__answear_wrong');
+          document.querySelector('#js-savannah__answears').querySelector(`:nth-child(${this.correctTranslationIndex + 1}`).classList.add('savannah__answear_correct');
+        }
+      }
+    });
   }
 
   async selectLearningWords() {

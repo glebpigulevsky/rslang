@@ -47,9 +47,12 @@
   border-radius: .3rem;
 }
 
-.savannah__answear_select {
+.savannah__answear_correct {
   background-color: rgba(140, 132, 161, .637) !important;
-  border-radius: .3rem;
+}
+
+.savannah__answear_wrong {
+  background-color: rgba(211, 77, 95, 0.637) !important;
 }
 
 .savannah__answear_number {
