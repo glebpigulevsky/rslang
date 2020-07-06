@@ -1,6 +1,6 @@
 import { WordsApi } from '../../../services/services.methods';
 import { ErrorPopup } from '../../error/error.error_popup';
-import Timer from './timer';
+// import Timer from './timer';
 import Rating from './rating';
 import { showSpinner, hideSpinner } from '../common/sprint.utils';
 import { shuffleArray, getRandomElement } from '../common/sprint.helper';
@@ -8,7 +8,7 @@ import correct from '../assets/audio/correct.mp3';
 import wrong from '../assets/audio/error.mp3';
 
 const wordsAPI = new WordsApi();
-const timer = new Timer();
+// const timer = new Timer();
 const rating = new Rating();
 
 const success = new Audio(correct);
@@ -31,14 +31,107 @@ export default class GameSprint {
 
     this.onInitIntroButtonBinded = this.onInitIntroButton.bind(this);
     this.onHandleEventKeysBinded = this.onHandleEventKeys.bind(this);
+    this.init = this.init.bind(this);
+
+    const COLOR_CODES = {
+      info: {
+        color: 'green',
+      },
+      warning: {
+        color: 'orange',
+        threshold: 10,
+      },
+      alert: {
+        color: 'red',
+        threshold: 5,
+      },
+    };
+    this.FULL_DASH_ARRAY = 283;
+    this.TIME_LIMIT = 59;
+    this.timePassed = 0;
+    this.timeLeft = this.TIME_LIMIT;
+    this.timerInterval = null;
+    this.remainingPathColor = COLOR_CODES.info.color;
+    this.warning = COLOR_CODES.warning.color;
+    this.alert = COLOR_CODES.alert.color;
+    this.info = COLOR_CODES.info.color;
+  }
+
+  addTemplateTimer() {
+    const temp = `<div class="base-timer">
+    <svg class="base-timer__svg" viewBox="0 0 100 100" >
+      <g class="base-timer__circle">
+        <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
+        <path
+          id="base-timer-path-remaining"
+          stroke-dasharray="283"
+          class="base-timer__path-remaining ${this.remainingPathColor}"
+          d="
+            M 50, 50
+            m -45, 0
+            a 45,45 0 1,0 90,0
+            a 45,45 0 1,0 -90,0
+          "
+        ></path>
+      </g>
+    </svg>
+    <span id="base-timer-label" class="base-timer__label">
+    ${this.formatTimeLeft(this.timeLeft)}  </span>  </div>  `;
+    document.querySelector('.game-sprint__timer').insertAdjacentHTML('afterbegin', temp);
+  }
+
+  formatTimeLeft(time) {
+    let seconds = time % 60;
+    if (seconds < 10) {
+      seconds = `0${seconds}`;
+    }
+    return `${seconds}`;
+  }
+
+  startTimer() {
+    this.addTemplateTimer();
+    this.timerInterval = setInterval(() => {
+      this.timePassed = this.timePassed += 1;
+      this.timeLeft = this.TIME_LIMIT - this.timePassed;
+      document.getElementById('base-timer-label').innerHTML = this.formatTimeLeft(this.timeLeft);
+      if (this.timeLeft === 0) {
+        this.stopTime();
+        this.resultResumeGame();
+      }
+      this.setCircleDasharray();
+      this.setRemainingPathColor(this.timeLeft);
+    }, 1000);
+  }
+
+  calculateTimeFraction() {
+    const rawTimeFraction = this.timeLeft / this.TIME_LIMIT;
+    return rawTimeFraction - (1 / this.TIME_LIMIT) * (1 - rawTimeFraction);
+  }
+
+  setCircleDasharray() {
+    const circleDasharray = `${(this.calculateTimeFraction() * this.FULL_DASH_ARRAY).toFixed(0)} 283`;
+    document.getElementById('base-timer-path-remaining').setAttribute('stroke-dasharray', circleDasharray);
+  }
+
+  setRemainingPathColor(timeLeft) {
+    if (timeLeft <= 5) {
+      document.getElementById('base-timer-path-remaining').classList.remove(this.warning);
+      document.getElementById('base-timer-path-remaining').classList.add(this.alert);
+    } else if (timeLeft <= 10) {
+      document.getElementById('base-timer-path-remaining').classList.remove(this.info);
+      document.getElementById('base-timer-path-remaining').classList.add(this.warning);
+    }
+  }
+
+  stopTime() {
+    clearInterval(this.timerInterval);
   }
 
   onInitIntroButton(event) {
     if (event.target.classList.contains('preview__btn')) {
       this.wrapper.classList.remove('display-none');
       this.previewSection.classList.add('display-none');
-      this.startTimer.classList.add('game-sprint__timer');
-      timer.startTimer();
+      this.startTimer();
     }
   }
 
@@ -177,6 +270,7 @@ export default class GameSprint {
     this.statistics.classList.remove('display-none');
     this.gameField.classList.remove('regress');
     this.gameField.classList.remove('progress');
+    this.stopTime();
 
     this.gameResults.forEach((word) => {
       if (word.isCorrect === true) {
@@ -229,6 +323,8 @@ export default class GameSprint {
         document.querySelector('.correctly__list').remove();
         this.newGame();
         this.startGame();
+        document.querySelector('.base-timer').remove();
+        this.startTimer();
       }
     };
   }
@@ -241,10 +337,15 @@ export default class GameSprint {
       hideSpinner();
       this.newGame();
       this.startGame();
+      document.querySelector('.base-timer').remove();
+      this.startTimer();
     });
   }
 
   newGame() {
+    this.FULL_DASH_ARRAY = 283;
+    this.TIME_LIMIT = 59;
+    this.timePassed = 0;
     this.statistics.classList.add('display-none');
     this.btnTrue.removeEventListener('click', this.answerTrue);
     this.btnFalse.removeEventListener('click', this.answerTrue);
@@ -263,6 +364,8 @@ export default class GameSprint {
       hideSpinner();
       this.newGame();
       this.startGame();
+      document.querySelector('.base-timer').remove();
+      this.startTimer();
     });
   }
 
@@ -284,7 +387,7 @@ export default class GameSprint {
       this.previewSection = document.querySelector('.preview');
       this.previewButton = document.querySelector('.preview__btn');
       this.gameField = document.querySelector('.inner__game-sprint');
-      this.startTimer = document.querySelector('.start-time');
+      this.spinner = document.querySelector('.spinner');
 
       showSpinner();
       await this.getWords();
@@ -293,8 +396,10 @@ export default class GameSprint {
       hideSpinner();
       this.addInitIntroButton();
       this.startGame();
-      this.spinner.init();
     } catch (error) {
+      new ErrorPopup().openPopup({
+        text: error.message,
+      });
     }
   }
 }

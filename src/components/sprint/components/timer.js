@@ -1,3 +1,6 @@
+// import GameSprint from './game';
+
+// const sprint = new GameSprint();
 export default class Timer {
   constructor() {
     const COLOR_CODES = {
