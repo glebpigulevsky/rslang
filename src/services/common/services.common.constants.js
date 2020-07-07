@@ -42,14 +42,20 @@ const DEFAULT_SETTINGS = {
     isShowGoodButton: 'true',
     isShowEasyButton: 'true',
     isAudio: 'false',
+    cardsPerDay: 50,
+    newWordsFetchedData: Date.now(), // todo
   },
 };
 
 const DEFAULT_USER_WORD_OPTIONS = {
   difficulty: 'fetched',
   optional: {
-    repeatTimes: '0',
+    repeatTimes: 0,
     lastRepeat: 'no repeat',
+    toRepeat: false,
+    isDifficult: false,
+    isDeleted: false,
+    isNew: true,
   },
 };
 
@@ -69,6 +75,8 @@ const USER_AGGREGATED_WORDS_FILTER = {
   byDifficultyHard: '{"userWord.difficulty":"hard"}',
   byDifficultyHardAndRepeat: '{"$and":[{"userWord.difficulty":"hard", "userWord.optional.repeat":true}]}',
   allUserWords: '{"userWord":{"$ne":null}}',
+  allUserNewWords: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isNew":true}]}',
+  notUserWords: '{"userWord":null}',
 };
 
 export {

@@ -1,4 +1,6 @@
 import mainController from '../controller/main.controller';
+import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
+
 import { checkUserInfo } from '../../../../services/common/services.common.api_service.helper';
 
 import { EMPTY, EMPTY_ARRAY } from '../../../../common/common.constants';
@@ -93,10 +95,10 @@ class MainStorage {
     return this.wordsToLearn;
   }
 
-  async init() {
+  init() { // async?
     this.loadMiniGamesResults();
     window.addEventListener('beforeunload', this.beforeUnloadHandler);
-    return this.wordsToLearn;
+    // return this.wordsToLearn;
   }
 }
 

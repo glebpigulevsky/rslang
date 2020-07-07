@@ -12,6 +12,7 @@ import {
   DEFAULT_SETTINGS,
   DEFAULT_USER_WORD_OPTIONS,
   DEFAULT_STATISTICS,
+  USER_AGGREGATED_WORDS_FILTER,
 } from '../../../../services/common/services.common.constants';
 
 class MainController {
@@ -19,6 +20,7 @@ class MainController {
     this.userSettings = EMPTY;
     this.englishLevel = DEFAULT_ENGLISH_LEVEL;
     this.isNewUser = false;
+    this.userWords = EMPTY;
 
     this.settingsAPI = new SettingsApi();
     this.userWordsApi = new UserWordsApi();
@@ -99,10 +101,46 @@ class MainController {
       wordsPerPage,
       filter,
     })
-      .then((res) => res.paginatedResults)
+      .then((res) => {
+        if (res) return res.paginatedResults;
+        return EMPTY;
+      })
       .catch(this.showErrorPopup);
     return response;
   }
+
+  async getAllUserWordsInLearning(wordsPerPage = 6000) { // todo
+    const response = this.getAllUserAggregatedWords({
+      wordsPerPage,
+      filter: USER_AGGREGATED_WORDS_FILTER.allUserWords,
+    });
+    if (response) this.userWords = response;
+    return response;
+  }
+
+  async getAllUserNewWords(wordsPerPage = 6000) { // todo надо ли нам этот метод?
+    return this.getAllUserAggregatedWords({
+      wordsPerPage,
+      filter: USER_AGGREGATED_WORDS_FILTER.allUserNewWords,
+    });
+  }
+
+  async getNotUserNewWords(group = this.englishLevel, wordsPerPage = 6000) {
+    return this.getAllUserAggregatedWords({
+      group,
+      wordsPerPage,
+      filter: USER_AGGREGATED_WORDS_FILTER.notUserWords,
+    });
+  }
+
+  // async getNewWordsToLearn(wordsPerPage = 6000) { // todo
+  //   const response = this.getAllUserAggregatedWords({
+  //     filter: USER_AGGREGATED_WORDS_FILTER.allUserWords,
+  //     wordsPerPage,
+  //   });
+  //   if (response) this.userWords = response;
+  //   return response;
+  // }
 
   async getUserStatistics() {
     this.userStatistics = await this.statisticsApi.getStatictics()
