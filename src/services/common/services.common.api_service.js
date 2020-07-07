@@ -1,19 +1,20 @@
 import { ERRORS_DESCRIPTION, LINK_TYPE } from './services.common.constants';
-import { ApiError } from './services.common.api_service.helper';
+import { ApiError, errorTokenEvent } from './services.common.api_service.helper';
 
 export default class ApiService {
-  constructor(baseUrl, token) {
+  constructor(baseUrl) {
     this.baseUrl = baseUrl;
-    this.token = token;
   }
 
-  async getResource({ url, hasToken, type = null }) {
+  async getResource({
+    url, hasToken, token = null, type = null,
+  }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'GET',
         withCredentials: !!hasToken,
         headers: {
-          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Authorization: hasToken ? `Bearer ${token}` : null,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
@@ -25,7 +26,10 @@ export default class ApiService {
         if (res.status === 404 && type === LINK_TYPE.Statictics) {
           return LINK_TYPE.Statictics[404];
         }
-        this.getError(res.status, `Could not fetch: ${url}, API message: ${res.status} ${res.statusText}`);
+        if (res.status === 404 && type === LINK_TYPE.UserAggregatedWords) {
+          return LINK_TYPE.UserAggregatedWords[404];
+        }
+        await this._checkResponse(res);
       }
       return res.json();
     } catch (e) {
@@ -34,20 +38,28 @@ export default class ApiService {
     }
   }
 
-  async postResourse({ url, params, hasToken }) {
+  async postResourse({
+    url, params, hasToken, token = null, type = null,
+  }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'POST',
         withCredentials: !!hasToken,
         headers: {
-          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Authorization: hasToken ? `Bearer ${token}` : null,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(params),
       });
       if (!res.ok) {
-        this.getError(res.status, res.statusText);
+        if ((res.status === 403 || res.status === 404) && type === LINK_TYPE.Authenticate) {
+          this.getError(0, LINK_TYPE.Authenticate[403], LINK_TYPE.Authenticate[403]);
+        }
+        if (res.status === 417 && type === LINK_TYPE.User) {
+          this.getError(0, LINK_TYPE.User[417], LINK_TYPE.User[417]);
+        }
+        await this._checkResponse(res);
       }
       return res.json();
     } catch (e) {
@@ -56,20 +68,22 @@ export default class ApiService {
     }
   }
 
-  async putResourse({ url, params, hasToken }) {
+  async putResourse({
+    url, params, hasToken, token = null,
+  }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'PUT',
         withCredentials: !!hasToken,
         headers: {
-          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Authorization: hasToken ? `Bearer ${token}` : null,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
         body: JSON.stringify(params),
       });
       if (!res.ok) {
-        this.getError(res.status, res.statusText);
+        await this._checkResponse(res);
       }
       return res.json();
     } catch (e) {
@@ -78,19 +92,19 @@ export default class ApiService {
     }
   }
 
-  async deleteResourse({ url, hasToken }) {
+  async deleteResourse({ url, hasToken, token = null }) {
     try {
       const res = await fetch(`${this.baseUrl}${url}`, {
         method: 'DELETE',
         withCredentials: !!hasToken,
         headers: {
-          Authorization: hasToken ? `Bearer ${this.token}` : null,
+          Authorization: hasToken ? `Bearer ${token}` : null,
           Accept: 'application/json',
           'Content-Type': 'application/json',
         },
       });
       if (!res.ok) {
-        this.getError(res.status, res.statusText);
+        await this._checkResponse(res);
       }
       if (res.status === 204 || res.status === 200) {
         return true;
@@ -102,12 +116,15 @@ export default class ApiService {
     }
   }
 
-  getError(status, message) {
-    console.info(message);
+  getError(status, apiMessage, techMessage) {
+    console.info(techMessage);
     switch (status) {
+      case 0:
+        throw new ApiError(apiMessage);
       case 400:
         throw new ApiError(ERRORS_DESCRIPTION[400]);
       case 401:
+        document.dispatchEvent(errorTokenEvent);
         throw new ApiError(ERRORS_DESCRIPTION[401]);
       case 404:
         throw new ApiError(ERRORS_DESCRIPTION[404]);
@@ -127,5 +144,21 @@ export default class ApiService {
       throw new Error(e.message);
     }
     throw new Error(ERRORS_DESCRIPTION.DEFAULT);
+  }
+
+  async _checkResponse(res) {
+    const cloned = await res.clone();
+    let status = '';
+    let errorDescription = '';
+    try {
+      const errorRes = await res.json();
+      errorDescription = (errorRes.error !== undefined) ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
+      status = (errorRes.error !== undefined) ? 0 : res.status;
+    } catch (e) {
+      status = cloned.status;
+      errorDescription = '';
+    } finally {
+      this.getError(status, errorDescription, `${status} ${res.statusText} ${errorDescription}`);
+    }
   }
 }

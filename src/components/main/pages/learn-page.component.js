@@ -1,5 +1,6 @@
+import learnPage from '../components/learnPage/learnPage';
+
 export const learnPageComponent = {
-  render: () => `
-        <p style="text-align:center">Main game</p>
-    `,
+  init: learnPage.init,
+  render: learnPage.render,
 };

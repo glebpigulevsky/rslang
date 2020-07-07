@@ -1,22 +1,26 @@
 import ApiService from '../../common/services.common.api_service';
-import { MAIN_API_URL, TOKEN, LINK_TYPE } from '../../common/services.common.constants';
+import { MAIN_API_URL, LINK_TYPE } from '../../common/services.common.constants';
+import { checkUserInfo } from '../../common/services.common.api_service.helper';
 
 export default class SettingsApi {
   constructor() {
-    this._apiService = new ApiService(MAIN_API_URL, TOKEN);
+    this._apiService = new ApiService(MAIN_API_URL);
   }
 
-  async getSettings({ userId }) {
-    const res = await this._apiService.getResource({ url: `/users/${userId}/settings`, hasToken: true, type: LINK_TYPE.Settings });
+  async getSettings({ token, userId } = checkUserInfo()) {
+    const res = await this._apiService.getResource({
+      url: `/users/${userId}/settings`, hasToken: true, token, type: LINK_TYPE.Settings,
+    });
     return (res) ? this._transformUserSettings(res) : res;
   }
 
-  async updateSettings({ userId, wordsPerDay, optional = {} }) {
+  async updateSettings({ wordsPerDay, optional = {} }, { token, userId } = checkUserInfo()) {
     this._wordsPerDayValidator(wordsPerDay);
     const res = await this._apiService.putResourse({
       url: `/users/${userId}/settings`,
       params: { wordsPerDay, optional },
       hasToken: true,
+      token,
     });
     return this._transformUserSettings(res);
   }

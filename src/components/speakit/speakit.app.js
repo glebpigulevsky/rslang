@@ -1,24 +1,13 @@
-import { CLASS_NAMES } from '../../common/common.constants';
-import { SPEAKIT_CLASS_NAMES, SPEAKIT_GREETINGS } from './common/speakit.constants';
-
 import './scss/speakit.styles.scss';
 
-class Speakit {
-  constructor() {
-    this.logo = null;
-  }
+import controller from './components/controller/controller';
+import model from './components/model/model';
+import view from './components/view/view';
 
-  sayHello() {
-    const speakitLogo = document.createElement('h2');
-    speakitLogo.className = SPEAKIT_CLASS_NAMES.LOGO;
-    speakitLogo.textContent = this.logo;
+const speakItApp = () => {
+  view.init();
+  model.init();
+  controller.init();
+};
 
-    document.querySelector(`.${CLASS_NAMES.MAIN.LOGO}`).after(speakitLogo);
-  }
-
-  init() {
-    this.logo = SPEAKIT_GREETINGS;
-  }
-}
-
-export default new Speakit();
+export default speakItApp;

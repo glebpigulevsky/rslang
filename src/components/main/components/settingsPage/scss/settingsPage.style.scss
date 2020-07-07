@@ -1,0 +1,102 @@
+@import '../../../../../scss/mixins.scss';
+@import '../../../../../scss/constants.scss';
+
+.settings {
+  width: 80%;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 73px;
+  background: #f4f5fa;
+  @include border-radius(10px, 10px, 10px, 10px);
+  @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, .25));
+
+  border: 2px solid rgba(75, 71, 71, .51);
+
+  .settings_raw {
+    border-bottom: 2px solid rgba(75, 71, 71, .51);
+    @include segoe-additional(#000000, 400);
+
+    .raw__container {
+      height: 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0 14px;
+
+      .raw__container-input {
+        @include border-radius(2px, 2px, 2px, 2px);
+
+        .input-words__day,
+        .input-cards__day {
+          width: 35px;
+          height: 22px;
+        }
+
+        .switch-btn {
+          display: inline-block;
+          width: 60px;
+          height: 25px;
+          border-radius: 12.5px;
+          background: #ffff;
+          z-index: 0;
+          margin: 0;
+          padding: 0;
+          cursor: pointer;
+          position: relative;
+          transition-duration: 300ms;
+          border: 1px solid #e7ecf4;
+        }
+
+        .switch-btn:after {
+          content: "";
+          height: 25px;
+          width: 25px;
+          border-radius: 25px;
+          background: #2564ae;
+          transition-duration: 300ms;
+          position: absolute;
+          z-index: 1;
+        }
+
+        .switch-on {
+          background: #3f89d7;
+        }
+
+        .switch-on:after {
+          left: 37px;
+        }
+      }
+    }
+  }
+
+  .no-border {
+    border-bottom: none;
+  }
+}
+
+.save__settings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: px-to-rem(25px) auto;
+  padding: 0 60px;
+  vertical-align: center;
+  text-transform: uppercase;
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, .3);
+
+  @include button($color: $color-light, $background: $color-btn, $width: 50px, $height: 55px, $radius: 30px);
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+  }
+}

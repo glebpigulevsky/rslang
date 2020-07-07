@@ -19,12 +19,19 @@
 
     .logo {
       width: 70%;
-      padding-top: 12px;
+      padding-top: 6px;
+      padding-left: 13px;
+    }
+  }
+  @include media-mobilesmall {
+    .logo {
+      padding-left: 13px;
     }
   }
 }
 
 .main-header__logout {
+  display: block;
   position: fixed;
   top: px-to-rem(8px);
   right: px-to-rem(20px);
@@ -36,7 +43,6 @@
   cursor: pointer;
 
   @include media-mobile {
-    top: 1.2rem;
     right: .8rem;
   }
 
