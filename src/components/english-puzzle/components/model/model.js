@@ -1,14 +1,18 @@
+import { MINI_GAMES_NAMES, mainController } from '../../../main/components/mainStorage/mainStorage';
 import { WordsApi } from '../../../../services/services.methods';
 import { getPreloadedImage } from '../../common/english-puzzle.utils';
-import { MAX_WORDS_IN_SENTENCE } from '../../common/english-puzzle.constants';
+import { EMPTY, MAX_LONG_STATISTICS_ITEMS } from '../../../../common/common.constants';
+import { MAX_WORDS_IN_SENTENCE, MAX_SENTENCES_IN_ROUND } from '../../common/english-puzzle.constants';
 import levels from '../../data/levelsData';
 
 const PICTURE_URL = 'https://raw.githubusercontent.com/caspercarver/rslang_data_paintings/master/';
 
 class Model {
   constructor() {
-    this.errorsList = null;
-    this.results = null;
+    this.errorsList = EMPTY;
+    this.results = EMPTY;
+    this.longResults = EMPTY;
+    this.allResults = EMPTY;
     this.wordsAPI = new WordsApi();
   }
 
@@ -39,19 +43,45 @@ class Model {
     return getPreloadedImage(`${PICTURE_URL}${levels[difficult][page].imageSrc}`);
   }
 
-  loadResults() {
+  async loadResults() {
     this.results = JSON.parse(localStorage.getItem('english-puzzle-results')) || [];
+
+    try {
+      mainController.spinner.show();
+      this.allResults = await mainController.getUserStatistics()
+        .then((res) => {
+          mainController.spinner.hide();
+          return res;
+        });
+      this.longResults = JSON.parse(this.allResults.optional[MINI_GAMES_NAMES.ENGLISH_PUZZLE]);
+    } catch (error) {
+      this.longResults = JSON.parse(localStorage.getItem('english-puzzle-long-results')) || [];
+      mainController.spinner.hide();
+    }
   }
 
-  saveResults(errorsList, finalTime) {
+  async saveResults(errorsList, finalTime) {
     const currentResult = {
       errorsList,
       finalTime,
     };
 
     this.results.push(currentResult);
-
     localStorage.setItem('english-puzzle-results', JSON.stringify(this.results));
+
+    const longResult = {
+      guessedListLength: MAX_SENTENCES_IN_ROUND - errorsList.length,
+      finalTime,
+    };
+
+    this.longResults.push(longResult);
+    if (this.longResults.length > MAX_LONG_STATISTICS_ITEMS) this.longResults.shift();
+    localStorage.setItem('english-puzzle-long-results', JSON.stringify(this.longResults));
+
+    mainController.spinner.show();
+    this.allResults.optional[MINI_GAMES_NAMES.ENGLISH_PUZZLE] = JSON.stringify(this.longResults);
+    this.allResults = await mainController.updateUserStatistics(this.allResults);
+    mainController.spinner.hide();
   }
 
   loadSettings() {

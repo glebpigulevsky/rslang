@@ -22,7 +22,7 @@
 
     flex-direction: column;
 
-    @include media-tablet {
+    @media (max-width: 600px) {
       display: none;
     }
   }
