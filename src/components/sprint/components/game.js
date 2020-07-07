@@ -226,8 +226,10 @@ export default class GameSprint {
   onHandleEventKeys(event) {
     if (event.code === 'ArrowLeft') {
       this.btnTrue.click();
+      event.preventDefault();
     } else if (event.code === 'ArrowRight') {
       this.btnFalse.click();
+      event.preventDefault();
     }
   }
 
@@ -338,7 +340,6 @@ export default class GameSprint {
   }
 
   onLevelChangeHandler() {
-    this.level.blur();
     this.level.addEventListener('change', async (event) => {
       this.currentLevel = +event.target.value;
       showSpinner();

@@ -2,10 +2,8 @@
   width: 666px;
   height: 463px;
   margin: 0 auto;
-
-  background: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, .95);
   border-radius: 20px;
-
   backdrop-filter: blur(40px);
   @include media-mobile {
     width: 280px;
@@ -20,8 +18,7 @@
   align-items: center;
   width: 666px;
   height: 90px;
-
-  background: rgba(158, 241, 246, 0.3);
+  background: rgba(158, 241, 246, .3);
   border-radius: 20px 20px 0 0;
 
   @include segoe-subtitle($color: $color-text, $weight: bold);
@@ -38,20 +35,19 @@
 .progress {
   border: 3px solid $color-btn-right;
 
-  @include transition($time: 0.2s, $property: all, $method: ease-out);
+  @include transition($time: .2s, $property: all, $method: ease-out);
 }
 
 .regress {
   border: 3px solid $color-btn-wrong;
 
-  @include transition($time: 0.2s, $property: all, $method: ease-out);
+  @include transition($time: .2s, $property: all, $method: ease-out);
 }
 
 .game-sprint__score {
   display: flex;
   flex: 1 0 auto;
   justify-content: center;
-
   font-size: 2rem;
   color: $color-text-additional;
 
@@ -68,7 +64,6 @@
   margin: 0 235px;
   margin-top: 15px;
   padding-left: 49px;
-
   background-image: url("../assets/img/mark.svg");
   background-repeat: no-repeat;
 
@@ -82,7 +77,6 @@
   flex-direction: column;
   height: 94px;
   margin-top: 15px;
-
   border: 3px solid transparent;
 
   @include media-mobile {
@@ -94,7 +88,6 @@
 .score__text {
   position: absolute;
   top: 50px;
-
   font-size: 16px;
 
   $color: $color-text;
@@ -102,14 +95,12 @@
 
 .game-sprint__word {
   padding: 10px 0;
-
   text-align: center;
   text-transform: uppercase;
 
   @include segoe-subtitle($color: $color-text, $weight: 600);
   @include media-mobile {
     padding: 7px 0;
-
     font-size: 1.1rem;
   }
 }
@@ -132,8 +123,7 @@
   width: 666px;
   height: 70px;
   margin-top: 13px;
-
-  background: rgba(158, 241, 246, 0.3);
+  background: rgba(158, 241, 246, .3);
   border-radius: 0 0 20px 20px;
 
   @include media-mobile {
@@ -149,7 +139,6 @@
 
   img {
     padding: 0 10px;
-
     cursor: pointer;
   }
 }
@@ -161,8 +150,7 @@
   @include media-mobile {
     padding-right: 0;
     padding-left: 5px;
-
-    font-size: 0.875rem;
+    font-size: .875rem;
     text-align: center;
   }
 }
