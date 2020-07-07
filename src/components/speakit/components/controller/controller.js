@@ -1,6 +1,7 @@
 import model from '../model/model';
 import view from '../view/view';
 
+import { MINI_GAMES_NAMES, mainStorage } from '../../../main/components/mainStorage/mainStorage';
 import { ErrorPopup } from '../../../error/error.error_popup';
 
 import {
@@ -164,13 +165,13 @@ class Controller {
 
     return Array.from(event.results[last])
       .map((spelledWordData) => spelledWordData.transcript.toLowerCase().trim())
-      .find(model.isWordGuessed) || event.results[last][0].transcript;
+      .find(model.getGuessedWord) || event.results[last][0].transcript;
   }
 
   onChangeSpeechInput({ target }) {
     const recognitionResult = target.value;
-    if (!model.isWordGuessed(recognitionResult)
-      || this.guessedList.includes(recognitionResult)) return;
+    const guessedWord = model.getGuessedWord(recognitionResult);
+    if (!guessedWord || this.guessedList.includes(recognitionResult)) return;
 
     view.renderTranslation(model.getTranslationByWord(recognitionResult));
 
@@ -178,6 +179,12 @@ class Controller {
     view.setLinkActiveStateByWord(recognitionResult);
     view.addStar();
     view.playCorrectSound();
+
+    mainStorage.addMiniGameResult({
+      miniGameName: MINI_GAMES_NAMES.SPEAK_IT,
+      isCorrect: true,
+      wordData: guessedWord,
+    });
 
     if (this.guessedList.length !== MAX_WORDS_IN_ROUND) return;
 
@@ -329,7 +336,7 @@ class Controller {
     window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
   }
 
-  init(startLevel = DEFAULT_START_LEVEL, startRound = DEFAULT_START_ROUND) {
+  async init(startLevel = DEFAULT_START_LEVEL, startRound = DEFAULT_START_ROUND) {
     view.initIntroButton(this.onIntroButtonClick);
 
     const completedRoundsData = model.loadCompletedRounds();
