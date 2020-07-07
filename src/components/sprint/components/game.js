@@ -30,8 +30,7 @@ export default class GameSprint {
     this.removeField = this.clearGameFieldAndState();
 
     this.onInitIntroButtonBinded = this.onInitIntroButton.bind(this);
-    this.onHandleEventKeysBinded = this.onHandleEventKeys.bind(this);
-    this.init = this.init.bind(this);
+    // this.onHandleEventKeysBinded = this.onHandleEventKeys.bind(this);
 
     const COLOR_CODES = {
       info: {
@@ -195,7 +194,7 @@ export default class GameSprint {
     this.gameContainer.classList.remove('display-none');
     this.navigation.classList.remove('display-none');
     this.makeCheckListWords();
-    this.addHandleEventKeys();
+    // this.addHandleEventKeys();
   }
 
   handleButtonClick(flag) {
@@ -224,21 +223,21 @@ export default class GameSprint {
     };
   }
 
-  onHandleEventKeys(event) {
-    if (event.keyCode === 39) {
-      this.btnTrue.click();
-    } else if (event.keyCode === 37) {
-      this.btnFalse.click();
-    }
-  }
+  // onHandleEventKeys(event) {
+  //   if (event.keyCode === 39) {
+  //     this.btnTrue.click();
+  //   } else if (event.keyCode === 37) {
+  //     this.btnFalse.click();
+  //   }
+  // }
 
-  addHandleEventKeys() {
-    document.addEventListener('keydown', this.onHandleEventKeysBinded);
-  }
+  // addHandleEventKeys() {
+  //   document.addEventListener('keydown', this.onHandleEventKeysBinded);
+  // }
 
-  removeHandleEventKeys() {
-    document.removeEventListener('keydown', this.onHandleEventKeysBinded);
-  }
+  // removeHandleEventKeys() {
+  //   document.removeEventListener('keydown', this.onHandleEventKeysBinded);
+  // }
 
   renderScore() {
     const [value] = this.gameResults.reduce(
@@ -321,7 +320,14 @@ export default class GameSprint {
       if (target === 'button-result__new sprint-button') {
         document.querySelector('.error__list').remove();
         document.querySelector('.correctly__list').remove();
-        this.newGame();
+        // this.newGame();
+        this.statistics.classList.add('display-none');
+        this.btnTrue.removeEventListener('click', this.answerTrue);
+        this.btnFalse.removeEventListener('click', this.answerTrue);
+        this.counterElement = 0;
+        this.gameWords = [];
+        this.correctAnswer = [];
+        this.wrongAnswer = [];
         this.startGame();
         document.querySelector('.base-timer').remove();
         this.startTimer();
