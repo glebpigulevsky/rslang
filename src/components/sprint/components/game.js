@@ -1,14 +1,17 @@
 import { WordsApi } from '../../../services/services.methods';
 import { ErrorPopup } from '../../error/error.error_popup';
-// import Timer from './timer';
 import Rating from './rating';
 import { showSpinner, hideSpinner } from '../common/sprint.utils';
 import { shuffleArray, getRandomElement } from '../common/sprint.helper';
 import correct from '../assets/audio/correct.mp3';
 import wrong from '../assets/audio/error.mp3';
+// import {
+//     COLOR_CODES,
+//     FULL_DASH_ARRAY,
+//     TIME_LIMIT
+// } from '../common/sprint.constants';
 
 const wordsAPI = new WordsApi();
-// const timer = new Timer();
 const rating = new Rating();
 
 const success = new Audio(correct);
@@ -46,7 +49,7 @@ export default class GameSprint {
       },
     };
     this.FULL_DASH_ARRAY = 283;
-    this.TIME_LIMIT = 59;
+    this.TIME_LIMIT = 60;
     this.timePassed = 0;
     this.timeLeft = this.TIME_LIMIT;
     this.timerInterval = null;
@@ -194,7 +197,7 @@ export default class GameSprint {
     this.gameContainer.classList.remove('display-none');
     this.navigation.classList.remove('display-none');
     this.makeCheckListWords();
-    this.addHandleEventKeys();
+    // this.addHandleEventKeys();
   }
 
   handleButtonClick(flag) {
@@ -265,14 +268,6 @@ export default class GameSprint {
     }
   }
 
-  // deleteHandleEventKeys() {
-  //   document.addEventListener('keydown', (event) => {
-  //     if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
-  //       event.preventDefault();
-  //     }
-  //   });
-  // }
-
   resultResumeGame() {
     this.gameContainer.classList.add('display-none');
     this.navigation.classList.add('display-none');
@@ -280,7 +275,7 @@ export default class GameSprint {
     this.gameField.classList.remove('regress');
     this.gameField.classList.remove('progress');
     this.stopTime();
-    // this.deleteHandleEventKeys();
+    this.removeHandleEventKeys();
 
     this.gameResults.forEach((word) => {
       if (word.isCorrect === true) {
@@ -347,14 +342,16 @@ export default class GameSprint {
       hideSpinner();
       this.newGame();
       this.startGame();
+      this.stopTime();
       document.querySelector('.base-timer').remove();
       this.startTimer();
+      this.addHandleEventKeys();
     });
   }
 
   newGame() {
     this.FULL_DASH_ARRAY = 283;
-    this.TIME_LIMIT = 59;
+    this.TIME_LIMIT = 60;
     this.timePassed = 0;
     this.statistics.classList.add('display-none');
     this.btnTrue.removeEventListener('click', this.answerTrue);
@@ -374,8 +371,10 @@ export default class GameSprint {
       hideSpinner();
       this.newGame();
       this.startGame();
+      this.stopTime();
       document.querySelector('.base-timer').remove();
       this.startTimer();
+      this.addHandleEventKeys();
     });
   }
 
@@ -405,6 +404,7 @@ export default class GameSprint {
       this.onRoundChangeHandler();
       hideSpinner();
       this.addInitIntroButton();
+      this.addHandleEventKeys();
       this.startGame();
     } catch (error) {
       new ErrorPopup().openPopup({
