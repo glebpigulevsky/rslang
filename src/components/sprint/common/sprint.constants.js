@@ -13,4 +13,4 @@ export const COLOR_CODES = {
 };
 
 export const FULL_DASH_ARRAY = 283;
-export const TIME_LIMIT = 59;
+export const TIME_LIMIT = 60;

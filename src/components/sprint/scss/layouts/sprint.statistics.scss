@@ -1,5 +1,6 @@
 .statistics {
   position: relative;
+
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -15,17 +16,20 @@
   align-items: center;
   margin: 20px;
   padding: 20px;
+
   font-weight: 600;
   font-size: 1.3rem;
   font-family: "Segoe", sans-serif;
   color: #50667b;
-  background-color: rgba(244, 245, 250, .6);
+
+  background-color: rgba(244, 245, 250, 0.6);
   border-radius: 20px;
 }
 
 .correct__title,
 .errors__title {
   margin: 0;
+
   font-size: 25px;
   line-height: 40px;
   text-align: center;
@@ -50,7 +54,9 @@
   display: inline-block;
   min-width: 40px;
   min-height: 40px;
+
   color: $color-light;
+
   border-radius: 10px;
 }
 
@@ -62,22 +68,25 @@
   background-color: #f08080;
 }
 
-.list {
+.sprint-list {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
   max-width: 770px;
+
   list-style-type: none;
 }
 
-.list__item {
+.sprint__item {
   min-width: 170px;
   margin: 10px;
   overflow: hidden;
+
   line-height: 2rem;
   text-align: center;
   text-overflow: ellipsis;
+
   border: 1px solid #085364;
   border-radius: 10px;
 }

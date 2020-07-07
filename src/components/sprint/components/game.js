@@ -1,18 +1,20 @@
 import { WordsApi } from '../../../services/services.methods';
 import { ErrorPopup } from '../../error/error.error_popup';
 import Rating from './rating';
+// import Timer from './timer';
 import { showSpinner, hideSpinner } from '../common/sprint.utils';
 import { shuffleArray, getRandomElement } from '../common/sprint.helper';
 import correct from '../assets/audio/correct.mp3';
 import wrong from '../assets/audio/error.mp3';
-// import {
-//     COLOR_CODES,
-//     FULL_DASH_ARRAY,
-//     TIME_LIMIT
-// } from '../common/sprint.constants';
+import {
+  COLOR_CODES,
+  FULL_DASH_ARRAY,
+  TIME_LIMIT,
+} from '../common/sprint.constants';
 
 const wordsAPI = new WordsApi();
 const rating = new Rating();
+// const timer = new Timer();
 
 const success = new Audio(correct);
 const fail = new Audio(wrong);
@@ -35,23 +37,8 @@ export default class GameSprint {
     this.onInitIntroButtonBinded = this.onInitIntroButton.bind(this);
     this.onHandleEventKeysBinded = this.onHandleEventKeys.bind(this);
 
-    const COLOR_CODES = {
-      info: {
-        color: 'green',
-      },
-      warning: {
-        color: 'orange',
-        threshold: 10,
-      },
-      alert: {
-        color: 'red',
-        threshold: 5,
-      },
-    };
-    this.FULL_DASH_ARRAY = 283;
-    this.TIME_LIMIT = 60;
     this.timePassed = 0;
-    this.timeLeft = this.TIME_LIMIT;
+    this.timeLeft = TIME_LIMIT;
     this.timerInterval = null;
     this.remainingPathColor = COLOR_CODES.info.color;
     this.warning = COLOR_CODES.warning.color;
@@ -94,7 +81,7 @@ export default class GameSprint {
     this.addTemplateTimer();
     this.timerInterval = setInterval(() => {
       this.timePassed = this.timePassed += 1;
-      this.timeLeft = this.TIME_LIMIT - this.timePassed;
+      this.timeLeft = TIME_LIMIT - this.timePassed;
       document.getElementById('base-timer-label').innerHTML = this.formatTimeLeft(this.timeLeft);
       if (this.timeLeft === 0) {
         this.stopTime();
@@ -106,12 +93,12 @@ export default class GameSprint {
   }
 
   calculateTimeFraction() {
-    const rawTimeFraction = this.timeLeft / this.TIME_LIMIT;
-    return rawTimeFraction - (1 / this.TIME_LIMIT) * (1 - rawTimeFraction);
+    const rawTimeFraction = this.timeLeft / TIME_LIMIT;
+    return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
   }
 
   setCircleDasharray() {
-    const circleDasharray = `${(this.calculateTimeFraction() * this.FULL_DASH_ARRAY).toFixed(0)} 283`;
+    const circleDasharray = `${(this.calculateTimeFraction() * FULL_DASH_ARRAY).toFixed(0)} 283`;
     document.getElementById('base-timer-path-remaining').setAttribute('stroke-dasharray', circleDasharray);
   }
 
@@ -197,7 +184,6 @@ export default class GameSprint {
     this.gameContainer.classList.remove('display-none');
     this.navigation.classList.remove('display-none');
     this.makeCheckListWords();
-    // this.addHandleEventKeys();
   }
 
   handleButtonClick(flag) {
@@ -228,10 +214,10 @@ export default class GameSprint {
 
   onHandleEventKeys(event) {
     if (event.code === 'ArrowLeft') {
-      this.btnTrue.click();
+      this.btnFalse.click();
       event.preventDefault();
     } else if (event.code === 'ArrowRight') {
-      this.btnFalse.click();
+      this.btnTrue.click();
       event.preventDefault();
     }
   }
@@ -290,13 +276,13 @@ export default class GameSprint {
     const correctList = document.createElement('div');
     correctList.className = 'correctly__list';
     const tamplateScoreCorrectly = `<p class="correct__title"><span class="correct__lead">Correctly <span class="correct-descr">${this.correctAnswer.length}</span></span></p>
-    <ul class = 'correctly list'></ul>`;
+    <ul class = 'correctly sprint-list'></ul>`;
     correctList.innerHTML = tamplateScoreCorrectly;
 
     const errorList = document.createElement('div');
     errorList.className = 'error__list';
     const tamplateScoreErrors = `<p class="errors__title"><span class="errors__lead">Errors <span class="errors-descr">${this.wrongAnswer.length}</span></span></p>
-    <ul class = 'errors list'></ul>`;
+    <ul class = 'errors sprint-list'></ul>`;
     errorList.innerHTML = tamplateScoreErrors;
 
     resultCorrect.append(correctList);
@@ -305,14 +291,14 @@ export default class GameSprint {
     const containerCorrectWords = document.querySelector('.correctly');
     const objectWordsCorrect = this.correctAnswer.map((word) => word);
 
-    const addTamplateCorrectWords = (objectCorrect) => `<span class="list__item">${objectCorrect.word}</span>`;
+    const addTamplateCorrectWords = (objectCorrect) => `<span class="sprint__item">${objectCorrect.word}</span>`;
     const htmlTamplateCorrectWords = objectWordsCorrect.map(addTamplateCorrectWords).join('');
     containerCorrectWords.innerHTML = htmlTamplateCorrectWords;
 
     const containerWrongWords = document.querySelector('.errors');
     const objectWordsWrong = this.wrongAnswer.map((word) => word);
 
-    const addTamplateWrongWords = (objectWrong) => `<span class="list__item">${objectWrong.word}</span>`;
+    const addTamplateWrongWords = (objectWrong) => `<span class="sprint__item">${objectWrong.word}</span>`;
     const htmlTamplateWrongWords = objectWordsWrong.map(addTamplateWrongWords).join('');
     containerWrongWords.innerHTML = htmlTamplateWrongWords;
 
