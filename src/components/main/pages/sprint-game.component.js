@@ -56,7 +56,7 @@ export const sprintComponent = {
             </div>
             <div class="sprint-game__container">
                 <div class="inner__game-sprint">
-                    <div class="game-sprint__header">
+                    <div id="header" class="game-sprint__header">
                         <div class="game-sprint__score">Score: <span id= "score" class="score__value"></span></div>
                         <div class="game-sprint__timer"></div>
                     </div>

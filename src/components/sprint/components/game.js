@@ -30,7 +30,7 @@ export default class GameSprint {
     this.removeField = this.clearGameFieldAndState();
 
     this.onInitIntroButtonBinded = this.onInitIntroButton.bind(this);
-    // this.onHandleEventKeysBinded = this.onHandleEventKeys.bind(this);
+    this.onHandleEventKeysBinded = this.onHandleEventKeys.bind(this);
 
     const COLOR_CODES = {
       info: {
@@ -194,7 +194,7 @@ export default class GameSprint {
     this.gameContainer.classList.remove('display-none');
     this.navigation.classList.remove('display-none');
     this.makeCheckListWords();
-    // this.addHandleEventKeys();
+    this.addHandleEventKeys();
   }
 
   handleButtonClick(flag) {
@@ -223,21 +223,21 @@ export default class GameSprint {
     };
   }
 
-  // onHandleEventKeys(event) {
-  //   if (event.keyCode === 39) {
-  //     this.btnTrue.click();
-  //   } else if (event.keyCode === 37) {
-  //     this.btnFalse.click();
-  //   }
-  // }
+  onHandleEventKeys(event) {
+    if (event.code === 'ArrowLeft') {
+      this.btnTrue.click();
+    } else if (event.code === 'ArrowRight') {
+      this.btnFalse.click();
+    }
+  }
 
-  // addHandleEventKeys() {
-  //   document.addEventListener('keydown', this.onHandleEventKeysBinded);
-  // }
+  addHandleEventKeys() {
+    document.addEventListener('keydown', this.onHandleEventKeysBinded);
+  }
 
-  // removeHandleEventKeys() {
-  //   document.removeEventListener('keydown', this.onHandleEventKeysBinded);
-  // }
+  removeHandleEventKeys() {
+    document.removeEventListener('keydown', this.onHandleEventKeysBinded);
+  }
 
   renderScore() {
     const [value] = this.gameResults.reduce(
@@ -245,7 +245,7 @@ export default class GameSprint {
         if (!result.isCorrect) {
           return [score, 0];
         }
-        return [score + 10 + 5 * Math.floor(correctCounter / 4), correctCounter + 1];
+        return [score + 10 + 10 * Math.floor(correctCounter / 3), correctCounter + 1];
       },
       [0, 0],
     );
@@ -263,6 +263,14 @@ export default class GameSprint {
     }
   }
 
+  // deleteHandleEventKeys() {
+  //   document.addEventListener('keydown', (event) => {
+  //     if (event.code === 'ArrowLeft' || event.code === 'ArrowRight') {
+  //       event.preventDefault();
+  //     }
+  //   });
+  // }
+
   resultResumeGame() {
     this.gameContainer.classList.add('display-none');
     this.navigation.classList.add('display-none');
@@ -270,6 +278,7 @@ export default class GameSprint {
     this.gameField.classList.remove('regress');
     this.gameField.classList.remove('progress');
     this.stopTime();
+    // this.deleteHandleEventKeys();
 
     this.gameResults.forEach((word) => {
       if (word.isCorrect === true) {
@@ -320,14 +329,7 @@ export default class GameSprint {
       if (target === 'button-result__new sprint-button') {
         document.querySelector('.error__list').remove();
         document.querySelector('.correctly__list').remove();
-        // this.newGame();
-        this.statistics.classList.add('display-none');
-        this.btnTrue.removeEventListener('click', this.answerTrue);
-        this.btnFalse.removeEventListener('click', this.answerTrue);
-        this.counterElement = 0;
-        this.gameWords = [];
-        this.correctAnswer = [];
-        this.wrongAnswer = [];
+        this.newGame();
         this.startGame();
         document.querySelector('.base-timer').remove();
         this.startTimer();
@@ -336,6 +338,7 @@ export default class GameSprint {
   }
 
   onLevelChangeHandler() {
+    this.level.blur();
     this.level.addEventListener('change', async (event) => {
       this.currentLevel = +event.target.value;
       showSpinner();
