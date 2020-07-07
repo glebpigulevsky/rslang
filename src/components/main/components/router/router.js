@@ -23,6 +23,7 @@ class Router {
       const currentPath = getLocationPath();
       const { component } = this.findComponentByPath(currentPath);
       this.mainContainer.innerHTML = '';
+      document.body.classList.remove('audio-call-wrapper'); //В игре audio-call вешаю свой стиль на боди
       this.mainContainer.insertAdjacentHTML('afterbegin', await component.render());
       if (component.init) component.init();
     }

@@ -4,10 +4,6 @@ import { audioCallInit } from '../audio-call.app';
 
 const wordsGetter = new WordsApi();
 
-const BODY = document.querySelector('body');
-const MAIN_GAME = document.querySelector('.main__game');
-
-
 export default class dataGetter {
     constructor (group, page) {
         this.group = group - 1;
@@ -37,9 +33,7 @@ export default class dataGetter {
               this.wordsArray = [...this.wordsArray, ...res];
               this.renderData(this.wordsArray);
             });
-
-            this.addEventListenerToKeyboard();
-
+        this.addEventListenerToKeyboard();
     }
 
     getNewData () {
@@ -52,80 +46,10 @@ export default class dataGetter {
 
     renderData (res) {
         if (this.round < 10) { 
-            this.roundState = 'game';
-            this.enterCount = 0;
-            this.keyCount = 0;
-            this.progress += 10;
-            document.querySelector('.progress-bar').style.width = `${this.progress}%`;
-            document.querySelector('.words-block').innerHTML = '';
-            for (let i = 0; i < 5; i++) {
-                document.querySelector('.words-block').insertAdjacentHTML('beforeend', `
-                <div class="word word-${i}"><span class="number number-${i+1}">${i + 1}</span><span class="rus-word-${i}">${res[this.word].wordTranslate}</span></div>
-                `);
-                this.word += 1;
-            }
-            document.querySelectorAll('.word').forEach( (el) => {
-                el.addEventListener('click', this.wordsClickHandlerBinded)
-            })
-        document.querySelector('.dont-know').addEventListener('click', this.dontKnowButtonBinded); 
-        this.globalWord = Math.round(1 - 0.5 + Math.random() * (5 - 1 + 1)) - 1 + this.round * 5;
-        this.round += 1;
-        this.currentWord = this.globalWord - (this.round - 1) * 5;
-        if (this.round % 3 == 0 && this.round < 9) {
-            this.getNewData();
+            this.playRound(res);
+        } else {
+            this.showStats();
         }
-        let audio = new Audio(res[this.globalWord].audio);
-        document.querySelector('.speaker-block').classList.add('speaker-block-active')
-        audio.play();
-        audio.onended = function() {
-        document.querySelector('.speaker-block').classList.remove('speaker-block-active');            
-        document.querySelector('.dont-know').addEventListener('click', this.dontKnowButton); 
-        };
-        } else {                   //Показать статистику
-            
-
-            MAIN_GAME.classList.remove('audio-game-wrapper');
-            MAIN_GAME.classList.add('audio-results-wrapper');
-            audioCallInit.showShortStats();
-            document.querySelector('.main-button__start').addEventListener('click', () => {
-                BODY.classList.remove('audio-call-wrapper');
-                MAIN_GAME.classList.remove('audio-results-wrapper');
-                audioCallInit.startScreen();
-            });
-            document.querySelector('.correct-count').innerHTML = `${this.resultsCorrectArray.length}`;
-            document.querySelector('.mistakes-count').innerHTML = `${this.resultsWrongArray.length}`;
-            document.querySelector('.dont-know-count').innerHTML = `${this.resultsDontKnowArray.length}`;
-            for (let i = 0; i < this.resultsWrongArray.length; i++) {
-                document.querySelector('.mistakes-list').insertAdjacentHTML('beforeend', `
-                <li><img class="speaker-small-${i}" src="./assets/main/img/speakersmall.png" alt="small speaker"><span class="results-eng-word">${this.resultsWrongArray[i].word}</span><div style="width: 20px;"></div><span class="results-ru-word">${this.resultsWrongArray[i].wordTranslate}</span></li>
-                `);
-                let audioWrong = new Audio(this.resultsWrongArray[i].audio);
-                document.querySelector(`.speaker-small-${i}`).addEventListener('click', () => {
-                    audioWrong.play();
-                });
-            }
-
-            for (let i = 0; i < this.resultsCorrectArray.length; i++) {
-                document.querySelector('.correct-list').insertAdjacentHTML('beforeend', `
-                <li><img class="speaker-small-${i + 10}" src="./assets/main/img/speakersmall.png" alt="small speaker"><span class="results-eng-word">${this.resultsCorrectArray[i].word}</span><div style="width: 20px;"></div><span class="results-ru-word">${this.resultsCorrectArray[i].wordTranslate}</span></li>
-                `);
-                let audioCorrect = new Audio(this.resultsCorrectArray[i].audio);
-                document.querySelector(`.speaker-small-${i + 10}`).addEventListener('click', () => {
-                    audioCorrect.play();
-                });
-            }
-
-            for (let i = 0; i < this.resultsDontKnowArray.length; i++) {
-                document.querySelector('.dont-know-list').insertAdjacentHTML('beforeend', `
-                <li><img class="speaker-small-${i + 20}" src="./assets/main/img/speakersmall.png" alt="small speaker"><span class="results-eng-word">${this.resultsDontKnowArray[i].word}</span><div style="width: 20px;"></div><span class="results-ru-word">${this.resultsDontKnowArray[i].wordTranslate}</span></li>
-                `);
-                let audioCorrect = new Audio(this.resultsDontKnowArray[i].audio);
-                document.querySelector(`.speaker-small-${i + 20}`).addEventListener('click', () => {
-                    audioCorrect.play();
-                });
-            }
-        }
-        
     }
 
     wordsClickHandler () {
@@ -155,18 +79,15 @@ export default class dataGetter {
                     setTimeout(() => {
                         audioCallInit.init();
                         this.renderData(this.wordsArray);
-                    }, 1500)
-                
+                    }, 1500);
                 }
                 if (this.enterCount == 1) {
-                        document.removeEventListener('keydown', chooseWordByKey.bind(this));
-                        this.dontKnowButtonBinded();
-                    
+                    document.removeEventListener('keydown', chooseWordByKey.bind(this));
+                    this.dontKnowButtonBinded();
                 }
             }  
                    
             
-
             if(+event.key == this.currentWord + 1 && this.roundState == 'game' && this.keyCount == 0) {
                 this.keyCount += 1;
                 this.correctAnswerKeyBoard(event.key);
@@ -186,9 +107,11 @@ export default class dataGetter {
         document.querySelector('.dont-know').removeEventListener('click', this.dontKnowButtonBinded); 
         document.querySelectorAll('.word').forEach( (el) => {
             el.removeEventListener('click', this.wordsClickHandlerBinded)
-        })
+        });
         this.resultsCorrectArray.push(this.wordsArray[this.globalWord]);
-        document.querySelector('.img-block').insertAdjacentHTML('beforeend', `<img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">`);
+        document.querySelector('.img-block').insertAdjacentHTML('beforeend', `
+        <img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">
+        `);
         document.querySelector('.speaker-block').classList.add('speaker-block-answer');
         document.querySelector('.answer-word-eng').innerHTML = `${this.wordsArray[this.globalWord].word}`;
                             
@@ -205,7 +128,6 @@ export default class dataGetter {
         `);
         document.querySelector('.dont-know').innerHTML = `<img class="arrow" src="./assets/main/img/arrow.png" alt="arrow">`;
         this.clickArrowStartNextRound();
-
     }
 
     clickArrowStartNextRound () {
@@ -215,7 +137,7 @@ export default class dataGetter {
                 audioCallInit.init();
                 this.renderData(this.wordsArray);
             }, 1500)
-            });
+        });
     }
 
     wrongAnswerClick () {
@@ -268,7 +190,6 @@ export default class dataGetter {
             this.renderData(this.wordsArray);
         }, 1500)
         });
-
     }
 
     wrongAnswerKeyBoard(event) {
@@ -327,6 +248,77 @@ export default class dataGetter {
             this.renderData(this.wordsArray);
         }, 1500)
         });
+    }
+
+    showStats () {
+        audioCallInit.showShortStats();
+            document.querySelector('.main-button__start').addEventListener('click', () => {
+                audioCallInit.startScreen();
+            });
+            document.querySelector('.correct-count').innerHTML = `${this.resultsCorrectArray.length}`;
+            document.querySelector('.mistakes-count').innerHTML = `${this.resultsWrongArray.length}`;
+            document.querySelector('.dont-know-count').innerHTML = `${this.resultsDontKnowArray.length}`;
+            for (let i = 0; i < this.resultsWrongArray.length; i++) {
+                document.querySelector('.mistakes-list').insertAdjacentHTML('beforeend', `
+                <li><img class="speaker-small-${i}" src="./assets/main/img/speakersmall.png" alt="small speaker"><span class="results-eng-word">${this.resultsWrongArray[i].word}</span><div style="width: 20px;"></div><span class="results-ru-word">${this.resultsWrongArray[i].wordTranslate}</span></li>
+                `);
+                let audioWrong = new Audio(this.resultsWrongArray[i].audio);
+                document.querySelector(`.speaker-small-${i}`).addEventListener('click', () => {
+                    audioWrong.play();
+                });
+            }
+
+            for (let i = 0; i < this.resultsCorrectArray.length; i++) {
+                document.querySelector('.correct-list').insertAdjacentHTML('beforeend', `
+                <li><img class="speaker-small-${i + 10}" src="./assets/main/img/speakersmall.png" alt="small speaker"><span class="results-eng-word">${this.resultsCorrectArray[i].word}</span><div style="width: 20px;"></div><span class="results-ru-word">${this.resultsCorrectArray[i].wordTranslate}</span></li>
+                `);
+                let audioCorrect = new Audio(this.resultsCorrectArray[i].audio);
+                document.querySelector(`.speaker-small-${i + 10}`).addEventListener('click', () => {
+                    audioCorrect.play();
+                });
+            }
+
+            for (let i = 0; i < this.resultsDontKnowArray.length; i++) {
+                document.querySelector('.dont-know-list').insertAdjacentHTML('beforeend', `
+                <li><img class="speaker-small-${i + 20}" src="./assets/main/img/speakersmall.png" alt="small speaker"><span class="results-eng-word">${this.resultsDontKnowArray[i].word}</span><div style="width: 20px;"></div><span class="results-ru-word">${this.resultsDontKnowArray[i].wordTranslate}</span></li>
+                `);
+                let audioCorrect = new Audio(this.resultsDontKnowArray[i].audio);
+                document.querySelector(`.speaker-small-${i + 20}`).addEventListener('click', () => {
+                    audioCorrect.play();
+                });
+            }
+    }
+
+    playRound (res) {
+        this.roundState = 'game';
+            this.enterCount = 0;
+            this.keyCount = 0;
+            this.progress += 10;
+            document.querySelector('.progress-bar').style.width = `${this.progress}%`;
+            document.querySelector('.words-block').innerHTML = '';
+            for (let i = 0; i < 5; i++) {
+                document.querySelector('.words-block').insertAdjacentHTML('beforeend', `
+                <div class="word word-${i}"><span class="number number-${i+1}">${i + 1}</span><span class="rus-word-${i}">${res[this.word].wordTranslate}</span></div>
+                `);
+                this.word += 1;
+            }
+            document.querySelectorAll('.word').forEach( (el) => {
+                el.addEventListener('click', this.wordsClickHandlerBinded)
+            })
+        document.querySelector('.dont-know').addEventListener('click', this.dontKnowButtonBinded); 
+        this.globalWord = Math.round(1 - 0.5 + Math.random() * (5 - 1 + 1)) - 1 + this.round * 5;
+        this.round += 1;
+        this.currentWord = this.globalWord - (this.round - 1) * 5;
+        if (this.round % 3 == 0 && this.round < 9) {
+            this.getNewData();
+        }
+        let audio = new Audio(res[this.globalWord].audio);
+        document.querySelector('.speaker-block').classList.add('speaker-block-active')
+        audio.play();
+        audio.onended = function() {
+            document.querySelector('.speaker-block').classList.remove('speaker-block-active');            
+            document.querySelector('.dont-know').addEventListener('click', this.dontKnowButton); 
+        };
     }
 
 }

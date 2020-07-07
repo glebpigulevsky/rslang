@@ -2,9 +2,6 @@
 import './scss/audio-call.scss';
 import dataGetter from './components/data';
 
-const BODY = document.querySelector('body');
-const MAIN_GAME = document.querySelector('.main__game');
-
  class AudioCall {
 
   constructor () {
@@ -12,8 +9,7 @@ const MAIN_GAME = document.querySelector('.main__game');
   }
 
   startScreen () {
-    BODY.classList.add('audio-call-wrapper');
-    MAIN_GAME.classList.add('audio-game-wrapper');
+    document.querySelector('body').classList.add('audio-call-wrapper');
     document.querySelector('.main__game').innerHTML = `
     <div class="start-screen">
             <p class="game-name">Mini-game "Audio-call"</p>
@@ -57,18 +53,13 @@ const MAIN_GAME = document.querySelector('.main__game');
         const audioCallGame = new dataGetter(+document.querySelector('.group').value, +document.querySelector('.page').value);
         audioCallGame.getData();
         this.init();
-    })
-      
-      
-    
+    });
   }
 
   init () {
       document.querySelector('.main__game').innerHTML = `
       <div class="audio-call-container">
-      <div class="modal-window"></div>
       <div class="audio-block">
-
           <div class="img-block"></div>
           <div class="speaker-eng-word">
             <div class="speaker-block">
@@ -86,10 +77,8 @@ const MAIN_GAME = document.querySelector('.main__game');
             </div>
             <div class="answer-word-eng"></div>
           </div>
-        
       </div>
       <div class="words-block">
-      
       </div>
       <div class="answer-block">
         <div class="dont-know">Не знаю</div>
@@ -99,7 +88,6 @@ const MAIN_GAME = document.querySelector('.main__game');
           <div class="progress-bar"></div>
     </div>
       `;
-      
   }
 
   showShortStats () {
@@ -125,9 +113,7 @@ const MAIN_GAME = document.querySelector('.main__game');
     </div>
   </div>
     `;
-    
   }
-
 }
 
 let audioCallInit = new AudioCall();
@@ -136,9 +122,4 @@ const audioCallStartScreen = () => {
   audioCallInit.startScreen();
 };
 
-
-
-
-
 export { audioCallStartScreen, audioCallInit };
-
