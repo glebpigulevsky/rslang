@@ -10,26 +10,41 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: #a52a2a;
-  background-color: rgba(250, 249, 252, .714) !important;
+  color: f7f2f2;
+  background-color: rgba(151, 120, 80, 0.57) !important;
   height: 100%;
 }
 
 .savannah__start_title {
-  @include segoe-title(#a52a2a);
+  @include segoe-title(#6d1e1e);
   text-transform: uppercase !important;
 }
 
 .savannah__start_final {
   display: flex;
-    flex-direction: column;
-    align-items: center;
-    height: 337px;
-    width: 100%;
-    max-width: 542px;
-    margin-top: 0;
-    position: relative;
-    overflow: auto;
+  flex-direction: column;
+  align-items: center;
+  height: 30rem;
+  width: 100%;
+  max-width: 542px;
+  margin-top: 0;
+  position: relative;
+
+  @include media-mobile {
+    width: 25rem;
+  }
+  @include media-mobilesmall {
+    height: 20rem;
+  }
+}
+
+.savannah__start_final_answears {
+  overflow: auto;
+  transition: .5s;
+  height: 100%;
+  width: 80%;
+  box-sizing: border-box;
+  padding: 1rem;
 }
 
 .savannah__start_final_wrong {
@@ -42,7 +57,7 @@
   font-size: 12px;
   font-weight: 700;
   line-height: 1.33;
-  color: #ed593b;
+  color: #bb0e0b;
   text-transform: uppercase;
 }
 
@@ -73,7 +88,7 @@
   font-size: 12px;
   font-weight: 700;
   line-height: 1.33;
-  color: #28c38a;
+  color: #094731;
   text-transform: uppercase;
 }
 
@@ -91,7 +106,7 @@
   font-size: 16px;
     font-weight: 600;
     line-height: 1.25;
-    color: #2582e7;
+    color: #11345a;
     margin-right: 6px;
     cursor: pointer;
     word-break: normal;
@@ -99,6 +114,7 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+    padding: 0 1rem;
 }
 
 .savannah__start_final_transl {
@@ -111,6 +127,7 @@
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  padding: 0 1rem 0 0;
 }
 
 .savannah__answears {
@@ -230,6 +247,10 @@
   top: 37px;
   right: 10%;
   z-index: 5;
+}
+
+.savannah__start_controls, .savannah__start_learning {
+  color: #6d1e1e;
 }
 
 $plant-border: #aad670;

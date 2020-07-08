@@ -3,7 +3,8 @@ export const getSavannahStart = () => `
   <span class="savannah__start_title">savannah</span>
   <span class="savannah__start_phar">Coaching 'Savannah' develops vocabulary.</span>
   <span class="savannah__start_phar">You will receive experience points.</span>
-  <button class="savannah__start_learning" id="js-savannah__start_learning" onclick="this.blur();">Learn my words</button>
+  <button class="savannah__start_learning" id="js-savannah__start_learning">Learn my words</button>
+  <div class="savannah__close_btn"></div>
 <div class="savannah__start_controls">
   <label for="savannah__level">Level:</label>
   <select id="savannah__level" name="savannah__level">
