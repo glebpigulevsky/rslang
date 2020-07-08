@@ -1,5 +1,5 @@
 .savannah__container {
-  background-image: url('../assets/bgSavannah.jpg'); 
+  background-image: url('../assets/bgSavannah.jpg');
   background-size: cover;
   height: 100vh;
   @include segoe-subtitle($color-light, 400);
@@ -11,12 +11,13 @@
   align-items: center;
   flex-direction: column;
   color: f7f2f2;
-  background-color: rgba(151, 120, 80, 0.57) !important;
+  background-color: rgba(151, 120, 80, .57) !important;
   height: 100%;
 }
 
 .savannah__start_title {
   @include segoe-title(#6d1e1e);
+
   text-transform: uppercase !important;
 }
 
@@ -61,7 +62,7 @@
   text-transform: uppercase;
 }
 
-.savannah__start_final_wrong_answears{
+.savannah__start_final_wrong_answears {
   transition: .5s;
   height: 100%;
   width: 100%;
@@ -104,17 +105,18 @@
 
 .savannah__start_final_eng {
   font-size: 16px;
-    font-weight: 600;
-    line-height: 1.25;
-    color: #11345a;
-    margin-right: 6px;
-    cursor: pointer;
-    word-break: normal;
-/*     max-width: calc(50% - 54px); */
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    padding: 0 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #11345a;
+  margin-right: 6px;
+  cursor: pointer;
+  word-break: normal;
+
+  /*     max-width: calc(50% - 54px); */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 1rem;
 }
 
 .savannah__start_final_transl {
@@ -123,7 +125,8 @@
   color: #37383c;
   flex-grow: 1;
   word-break: normal;
-/*   max-width: calc(50% - 54px); */
+
+  /*   max-width: calc(50% - 54px); */
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -148,7 +151,7 @@
   position: relative;
   padding: 10px 10px 10px 20px;
   color: #a52a2a;
-  transition: all .20s ease;
+  transition: all .2s ease;
   cursor: pointer;
   margin: 5px 5px;
   user-select: none;
@@ -161,7 +164,7 @@
 }
 
 .savannah__answear_wrong {
-  background-color: rgba(211, 77, 95, 0.637) !important;
+  background-color: rgba(211, 77, 95, .637) !important;
 }
 
 .savannah__answear_number {
@@ -190,7 +193,7 @@
 }
 
 .savannah__question_move {
- animation: move-highlight 7s linear;
+  animation: move-highlight 7s linear;
 }
 
 @keyframes move-highlight {
@@ -249,7 +252,8 @@
   z-index: 5;
 }
 
-.savannah__start_controls, .savannah__start_learning {
+.savannah__start_controls,
+.savannah__start_learning {
   color: #6d1e1e;
 }
 

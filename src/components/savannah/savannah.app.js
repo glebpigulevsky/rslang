@@ -83,11 +83,8 @@ class SavannahApp {
       this.gameStatistics.wrong.push(this.currentWord);
       this.getNextWord();
     });
-    document.querySelector('#js-savannah__answears').addEventListener('click', (e) => {
-      if (e.target.classList.contains('savannah__answear')) {
-        this.answearHandle(e.target);
-      }
-    });
+    document.querySelectorAll('.savannah__answear').forEach((ans) => ans.addEventListener('click', (e) => this.answearHandle(e.target)));
+    this.isSelectedAnswear = false;
   }
 
   endGame() {
@@ -99,11 +96,17 @@ class SavannahApp {
       }));
     let wrongAnswears = '';
     this.gameStatisticsRound.wrong.forEach((word) => {
-      wrongAnswears += getSavannahResultAnswear({ word: word.word, translate: word.wordTranslate });
+      wrongAnswears += getSavannahResultAnswear({
+        word: word.word,
+        translate: word.wordTranslate,
+      });
     });
     let correctAnswears = '';
     this.gameStatisticsRound.correct.forEach((word) => {
-      correctAnswears += getSavannahResultAnswear({ word: word.word, translate: word.wordTranslate });
+      correctAnswears += getSavannahResultAnswear({
+        word: word.word,
+        translate: word.wordTranslate,
+      });
     });
     document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswears);
     document.querySelector('.savannah__start_final_valid').insertAdjacentHTML('beforeend', correctAnswears);
@@ -111,6 +114,9 @@ class SavannahApp {
   }
 
   answearHandle(answearNode) {
+    if (this.isSelectedAnswear) {
+      return;
+    }
     document.querySelector('#js-savannah__answears').childNodes.forEach((btn) => { btn.disabled = true; });
     const isCorrect = this.checkAnswear(answearNode.dataset.answear);
     if (isCorrect) {
@@ -126,13 +132,12 @@ class SavannahApp {
         .querySelector(`:nth-child(${this.correctTranslationIndex + 1}`)
         .classList.add('savannah__answear_correct');
     }
-    console.log(`${this.gameStatistics.correct}`);
-    console.log(`${this.gameStatisticsRound.correct}`);
     const quest = document.querySelector('#js-savannah__question');
     quest.parentNode.removeChild(quest);
     setTimeout(() => {
       this.getNextWord();
     }, 2000);
+    this.isSelectedAnswear = true;
   }
 
   onPressNumberKey() {
@@ -156,7 +161,11 @@ class SavannahApp {
         wordsPerExampleSentence: 20,
         wordsPerPage: 60,
       });
-      this.learningWords = wordsRes.map((word) => ({ word: word.word, wordTranslate: word.wordTranslate, id: word.id }));
+      this.learningWords = wordsRes.map((word) => ({
+        word: word.word,
+        wordTranslate: word.wordTranslate,
+        id: word.id
+      }));
       this.answears = questRes.map((word) => word.wordTranslate);
       this.startGame();
     } catch (e) {
