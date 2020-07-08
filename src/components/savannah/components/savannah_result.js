@@ -1,10 +1,24 @@
-export const getSavannahStart = () => `
+export const getSavannahResult = ({ correct, wrong }) => `
 <div class="savannah__start" id="js-start_block">
   <span class="savannah__start_title">savannah</span>
-  <span class="savannah__start_phar">Coaching 'Savannah' develops vocabulary.</span>
-  <span class="savannah__start_phar">You will receive experience points.</span>
+  <span class="savannah__start_phar">Your game statistics.</span>
+  <span class="savannah__start_score">You need to learn: ${wrong} You know: ${correct}</span>
+  <div class="savannah__start_final">
+    <div class="savannah__start_final_answears">
+      <div class="savannah__start_final_wrong">
+        <div class="savannah__start_final_wrong_title">
+          <span>Errors:</span> ${wrong}
+        </div>
+      </div>
+      <div class="savannah__start_final_valid">
+        <div class="savannah__start_final_valid_title">
+          <span>Correct:</span> ${correct}
+        <div>
+      </div>
+    </div>
+  </div>
   <button class="savannah__start_learning" id="js-savannah__start_learning" onclick="this.blur();">Learn my words</button>
-<div class="savannah__start_controls">
+  <div class="savannah__start_controls">
   <label for="savannah__level">Level:</label>
   <select id="savannah__level" name="savannah__level">
     <option value="0" selected="selected">1</option>

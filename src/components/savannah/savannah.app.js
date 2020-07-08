@@ -4,8 +4,17 @@ import { getSavannahStart } from './components/savannah_start';
 import { getSavannahGame } from './components/savannah_game';
 import { getSavannahQuestion } from './components/savannah_question';
 import { getSavannahAnswears } from './components/savannah_answears';
+import { getSavannahResult } from './components/savannah_result';
+import { getSavannahResultAnswear } from './components/savannah_result_answear';
+
+const DIGIT_CODES = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Numpad1', 'Numpad2', 'Numpad3', 'Numpad4'];
 
 class SavannahApp {
+  constructor() {
+    this.gameStatistics = { correct: [], wrong: [] };
+    this.gameStatisticsRound = { correct: [], wrong: [] };
+  }
+
   startGame() {
     this.savannahContainer.innerHTML = null;
     this.savannahContainer.insertAdjacentHTML('beforeend', getSavannahGame());
@@ -14,6 +23,7 @@ class SavannahApp {
 
   gameLoop() {
     this.getNextWord();
+    this.onPressNumberKey();
   }
 
   getRamdomTranslation(correctTranslation) {
@@ -44,8 +54,8 @@ class SavannahApp {
     return res;
   }
 
-  checkAnswear(currentTranslate, correctTranslate) {
-    if (currentTranslate === correctTranslate) {
+  checkAnswear(currentTranslate) {
+    if (currentTranslate === this.currentWord.wordTranslate) {
       return true;
     }
     return false;
@@ -60,25 +70,77 @@ class SavannahApp {
     if (answears) {
       answears.parentNode.removeChild(answears);
     }
-    const learningWord = this.learningWords.shift();
-    if (!learningWord) {
-      alert('END GAME');
+    this.currentWord = this.learningWords.shift();
+    if (!this.currentWord) {
+      this.endGame();
+      return;
     }
-    document.querySelector('#js-savannah__main').insertAdjacentHTML('beforeend', getSavannahQuestion(learningWord.word));
-    document.querySelector('#js-savannah__main').insertAdjacentHTML('beforeend', getSavannahAnswears(this.getRamdomTranslation(learningWord.wordTranslate)));
+    document.querySelector('#js-savannah__main').insertAdjacentHTML('beforeend', getSavannahQuestion(this.currentWord.word));
+    document.querySelector('#js-savannah__main').insertAdjacentHTML('beforeend', getSavannahAnswears(this.getRamdomTranslation(this.currentWord.wordTranslate)));
     document.querySelector('#js-savannah__question').classList.add('savannah__question_move');
-    document.querySelector('#js-savannah__question').addEventListener('animationend', () => this.getNextWord());
+    document.querySelector('#js-savannah__question').addEventListener('animationend', () => {
+      this.gameStatisticsRound.wrong.push(this.currentWord);
+      this.gameStatistics.wrong.push(this.currentWord);
+      this.getNextWord();
+    });
     document.querySelector('#js-savannah__answears').addEventListener('click', (e) => {
       if (e.target.classList.contains('savannah__answear')) {
-        document.querySelector('#js-savannah__answears').childNodes.forEach((btn) => { btn.disabled = true});
-        console.log(e.target.textContent);
-        const isCorrect = this.checkAnswear(e.target.dataset.answear, learningWord.wordTranslate);
-        if (isCorrect) {
-          e.target.classList.add('savannah__answear_correct');
-        } else {
-          e.target.classList.add('savannah__answear_wrong');
-          document.querySelector('#js-savannah__answears').querySelector(`:nth-child(${this.correctTranslationIndex + 1}`).classList.add('savannah__answear_correct');
-        }
+        this.answearHandle(e.target);
+      }
+    });
+  }
+
+  endGame() {
+    this.savannahContainer.innerHTML = null;
+    this.savannahContainer.insertAdjacentHTML('beforeend',
+      getSavannahResult({
+        correct: this.gameStatisticsRound.correct.length,
+        wrong: this.gameStatisticsRound.wrong.length,
+      }));
+    let wrongAnswears = '';
+    this.gameStatisticsRound.wrong.forEach((word) => {
+      wrongAnswears += getSavannahResultAnswear({ word: word.word, translate: word.wordTranslate });
+    });
+    let correctAnswears = '';
+    this.gameStatisticsRound.correct.forEach((word) => {
+      correctAnswears += getSavannahResultAnswear({ word: word.word, translate: word.wordTranslate });
+    });
+    document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswears);
+    document.querySelector('.savannah__start_final_valid').insertAdjacentHTML('beforeend', correctAnswears);
+    this.gameStatisticsRound = { correct: [], wrong: [] };
+  }
+
+  answearHandle(answearNode) {
+    document.querySelector('#js-savannah__answears').childNodes.forEach((btn) => { btn.disabled = true; });
+    const isCorrect = this.checkAnswear(answearNode.dataset.answear);
+    if (isCorrect) {
+      answearNode.classList.add('savannah__answear_correct');
+      this.gameStatisticsRound.correct.push(this.currentWord);
+      this.gameStatistics.correct.push(this.currentWord);
+    } else {
+      this.gameStatisticsRound.wrong.push(this.currentWord);
+      this.gameStatistics.wrong.push(this.currentWord);
+      answearNode.classList.add('savannah__answear_wrong');
+      document
+        .querySelector('#js-savannah__answears')
+        .querySelector(`:nth-child(${this.correctTranslationIndex + 1}`)
+        .classList.add('savannah__answear_correct');
+    }
+    console.log(`${this.gameStatistics.correct}`);
+    console.log(`${this.gameStatisticsRound.correct}`);
+    const quest = document.querySelector('#js-savannah__question');
+    quest.parentNode.removeChild(quest);
+    setTimeout(() => {
+      this.getNextWord();
+    }, 2000);
+  }
+
+  onPressNumberKey() {
+    document.addEventListener('keydown', (e) => {
+      if (DIGIT_CODES.includes(e.code)) {
+        e.preventDefault();
+        const answearNode = document.querySelector('#js-savannah__answears').querySelector(`[data-digit="${e.key}"]`);
+        this.answearHandle(answearNode);
       }
     });
   }
@@ -94,7 +156,7 @@ class SavannahApp {
         wordsPerExampleSentence: 20,
         wordsPerPage: 60,
       });
-      this.learningWords = wordsRes.map((word) => ({ word: word.word, wordTranslate: word.wordTranslate }));
+      this.learningWords = wordsRes.map((word) => ({ word: word.word, wordTranslate: word.wordTranslate, id: word.id }));
       this.answears = questRes.map((word) => word.wordTranslate);
       this.startGame();
     } catch (e) {
