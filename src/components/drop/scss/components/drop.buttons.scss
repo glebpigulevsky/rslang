@@ -1,0 +1,57 @@
+.preview-drop__btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 20px 0;
+
+  text-align: center;
+  text-transform: uppercase;
+
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
+
+@include button($color: $color-light, $background: $color-btn, $width: 150px, $height: 60px, $radius: 30px);
+
+@include segoe-subtitle($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+@include transition($time: 0.4s, $property: all, $method: ease-out);
+  }
+}
+
+.drop-navigation__btn {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.drop-buttons {
+  margin: 0 15px 50px;
+
+  text-transform: uppercase;
+
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px $color-shadow;
+
+@include button($color: $color-light, $background: $color-btn, $width: 200px, $height: 40px, $radius: 30px);
+
+@include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+@include transition($time: 0.4s, $property: all, $method: ease-out);
+  }
+}

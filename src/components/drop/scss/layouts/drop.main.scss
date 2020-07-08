@@ -1,0 +1,43 @@
+.drop-game__container {
+  display: flex;
+  justify-content: space-between;
+  width: 1020px;
+  margin: 0 auto;
+  padding: 0 10px;
+}
+
+.drop__words,
+.drop__img {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  width: 450px;
+}
+
+.drop__descr {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  line-height: 30px;
+  text-align: center;
+
+  background-image: url("../assets/img/cursor.png");
+  background-repeat: no-repeat;
+  background-position: 50% 98%;
+@include segoe-additional($color: $color-text, $weight: bold);
+}
+
+.words__item,
+.img__item {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 90px;
+  height: 90px;
+  margin: 10px 0;
+
+  border: 2px solid #50667b;
+  border-radius: 5px;
+  cursor: pointer;
+}
