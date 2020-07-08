@@ -19,6 +19,8 @@ class SavannahApp {
     this.savannahContainer.innerHTML = null;
     this.savannahContainer.insertAdjacentHTML('beforeend', getSavannahGame());
     this.gameLoop();
+    this.burningLives = 5;
+    this.onClickCloseBtn();
   }
 
   gameLoop() {
@@ -45,6 +47,10 @@ class SavannahApp {
     };
   }
 
+  onClickCloseBtn() {
+    document.querySelector('.savannah__close_btn').addEventListener('click', () => { window.location.replace(`${window.location.origin}${window.location.pathname}`);});
+  }
+
   getNextVariable(lockedTranslations = []) {
     let res = '';
     do {
@@ -57,6 +63,12 @@ class SavannahApp {
   checkAnswear(currentTranslate) {
     if (currentTranslate === this.currentWord.wordTranslate) {
       return true;
+    }
+    if (this.burningLives === 0) {
+      this.endGame();
+    } else {
+      document.querySelector(`.savannah__heart[data-pos="${this.burningLives}"]`).classList.add('savannah__heart_kill');
+      this.burningLives -= 1;
     }
     return false;
   }
@@ -110,7 +122,10 @@ class SavannahApp {
     });
     document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswears);
     document.querySelector('.savannah__start_final_valid').insertAdjacentHTML('beforeend', correctAnswears);
+    this.onClickCloseBtn();
+    this.onClickStartBtn();
     this.gameStatisticsRound = { correct: [], wrong: [] };
+    this.burningLives = 0;
   }
 
   answearHandle(answearNode) {
@@ -174,7 +189,7 @@ class SavannahApp {
   }
 
   onClickStartBtn() {
-    this.startBtn.addEventListener('click', () => {
+    document.querySelector('#js-savannah__start_button').addEventListener('click', () => {
       this.selectLearningWords();
     });
   }
@@ -200,7 +215,6 @@ class SavannahApp {
     this.savannahContainer = document.querySelector('#js-savannah-container');
     this.showSavannahStart();
     this.wordsApi = new WordsApi();
-    this.startBtn = document.querySelector('#js-savannah__start_button');
     this.startBlock = document.querySelector('#js-start_block');
     this.savannahLevel = document.querySelector('#savannah__level');
     this.savannahRound = document.querySelector('#savannah__round');
@@ -209,6 +223,7 @@ class SavannahApp {
     this.onChangeLevel();
     this.onChangeRound();
     this.onClickStartBtn();
+    this.onClickCloseBtn();
   }
 }
 
