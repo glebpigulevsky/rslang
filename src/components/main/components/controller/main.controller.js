@@ -52,6 +52,7 @@ class MainController {
         optional: DEFAULT_SETTINGS.optional,
       };
     }
+    this.englishLevel = this.userSettings.optional.englishLevel;
     return this.userSettings;
   }
 

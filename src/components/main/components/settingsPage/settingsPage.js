@@ -13,7 +13,7 @@ class SettingsPage {
     this.saveUserSettings = this.saveUserSettings.bind(this);
   }
 
-  loadSettingsToFront(userSettings) {
+  loadSettingsToFront(userSettings) { // Add cardsPerDay + englishLevel
     document.querySelector('.input-words__day').value = userSettings.wordsPerDay;
     Object.keys(userSettings.optional).forEach((key) => {
       if (userSettings.optional[key] === 'true') {
@@ -30,6 +30,7 @@ class SettingsPage {
         optionalFront[button.getAttribute('id')] = 'true';
       } else optionalFront[button.getAttribute('id')] = 'false';
     });
+    optionalFront.englishLevel = mainController.englishLevel;
     await mainController.updateUserSettings({
       wordsPerDay: wordsPerDayFront,
       optional: optionalFront,

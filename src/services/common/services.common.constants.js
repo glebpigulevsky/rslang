@@ -43,7 +43,8 @@ const DEFAULT_SETTINGS = {
     isShowEasyButton: 'true',
     isAudio: 'false',
     cardsPerDay: 50,
-    newWordsFetchedData: Date.now(), // todo
+    newWordsFetchedData: '', // todo
+    englishLevel: 0,
   },
 };
 
@@ -56,6 +57,7 @@ const DEFAULT_USER_WORD_OPTIONS = {
     isDifficult: false,
     isDeleted: false,
     isNew: true,
+    changed: true,
   },
 };
 

@@ -1,13 +1,15 @@
 import { mainStorage } from './components/mainStorage/mainStorage';
+import mainController from './components/controller/main.controller';
 import spacedRepetitions from './components/spacedRepetitions/spacedRepetitions';
 import router from './components/router/router';
 import './scss/main.styles.scss';
 
 class Main {
-  init() {
-    router.init();
+  async init() {
     mainStorage.init();
-    spacedRepetitions.init();
+    console.log(await mainController.getUserSettings());
+    await spacedRepetitions.init();
+    router.init();
   }
 }
 

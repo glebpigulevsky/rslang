@@ -1,9 +1,9 @@
 import mainController from '../controller/main.controller';
-import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
+// import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
 
 import { checkUserInfo } from '../../../../services/common/services.common.api_service.helper';
 
-import { EMPTY, EMPTY_ARRAY } from '../../../../common/common.constants';
+import { EMPTY } from '../../../../common/common.constants';
 import { MINI_GAMES_NAMES } from '../../common/main.constants';
 
 class MainStorage {
@@ -12,28 +12,28 @@ class MainStorage {
 
     this.miniGamesResults = {
       englishPuzzle: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
       speakIt: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
       savanna: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
       audioCall: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
       sprint: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
       drop: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
     };
 
@@ -76,8 +76,8 @@ class MainStorage {
   loadMiniGamesResults() {
     try {
       const { userId } = checkUserInfo();
-      const loadedMiniGamesResults = JSON.parse(localStorage.getItem(`miniGamesResults-${userId}`));
-      if (loadedMiniGamesResults) this.miniGamesResults = loadedMiniGamesResults;
+      // const loadedMiniGamesResults = JSON.parse(localStorage.getItem(`miniGamesResults-${userId}`));
+      this.miniGamesResults = JSON.parse(localStorage.getItem(`miniGamesResults-${userId}`)) || this.miniGamesResults;
     } catch (error) {
       console.info(error.message);
     }
