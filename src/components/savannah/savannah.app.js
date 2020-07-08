@@ -23,6 +23,13 @@ class SavannahApp {
     this.onClickCloseBtn();
   }
 
+  onClickAudioBtn() {
+    document.querySelectorAll('.savannah__start_final_audio').forEach((answear) => answear.addEventListener('click', (e) => {
+      const audio = new Audio(e.target.dataset.audio);
+      audio.play();
+    }));
+  }
+
   gameLoop() {
     this.getNextWord();
     this.onPressNumberKey();
@@ -48,7 +55,7 @@ class SavannahApp {
   }
 
   onClickCloseBtn() {
-    document.querySelector('.savannah__close_btn').addEventListener('click', () => { window.location.replace(`${window.location.origin}${window.location.pathname}`);});
+    document.querySelector('.savannah__close_btn').addEventListener('click', () => { window.location.replace(`${window.location.origin}${window.location.pathname}`); });
   }
 
   getNextVariable(lockedTranslations = []) {
@@ -111,6 +118,7 @@ class SavannahApp {
       wrongAnswears += getSavannahResultAnswear({
         word: word.word,
         translate: word.wordTranslate,
+        audio: word.audio,
       });
     });
     let correctAnswears = '';
@@ -118,12 +126,14 @@ class SavannahApp {
       correctAnswears += getSavannahResultAnswear({
         word: word.word,
         translate: word.wordTranslate,
+        audio: word.audio,
       });
     });
     document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswears);
     document.querySelector('.savannah__start_final_valid').insertAdjacentHTML('beforeend', correctAnswears);
     this.onClickCloseBtn();
     this.onClickStartBtn();
+    this.onClickAudioBtn();
     this.gameStatisticsRound = { correct: [], wrong: [] };
     this.burningLives = 0;
   }
@@ -179,8 +189,10 @@ class SavannahApp {
       this.learningWords = wordsRes.map((word) => ({
         word: word.word,
         wordTranslate: word.wordTranslate,
-        id: word.id
+        id: word.id,
+        audio: word.audio,
       }));
+      console.log(this.learningWords[0]);
       this.answears = questRes.map((word) => word.wordTranslate);
       this.startGame();
     } catch (e) {
@@ -189,7 +201,9 @@ class SavannahApp {
   }
 
   onClickStartBtn() {
-    document.querySelector('#js-savannah__start_button').addEventListener('click', () => {
+    const startBtn = document.querySelector('#js-savannah__start_button');
+    startBtn.addEventListener('click', () => {
+      startBtn.disabled = true;
       this.selectLearningWords();
     });
   }

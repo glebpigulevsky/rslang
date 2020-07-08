@@ -10,13 +10,13 @@ export const getSavannahGame = () => `
     </div>
     <div class="savannah__close_btn"></div>
     </div>
-    <div class="wrap">
-        <div class="base">
-        <div class="flowerpot"></div>
-        <div class="blade blade-center"></div>
-        <div class="blade blade-left-s"></div>
-        <div class="blade blade-right-s"></div>
-        <div class="blade blade-left-l"></div>
-        <div class="blade blade-right-l"></div>
+    <div class="savannah__plant_wrap">
+        <div class="savannah__plant_base">
+        <div class="savannah__plant_flowerpot"></div>
+        <div class="savannah__plant_blade blade-center"></div>
+        <div class="savannah__plant_blade blade-left-s"></div>
+        <div class="savannah__plant_blade blade-right-s"></div>
+        <div class="savannah__plant_blade blade-left-l"></div>
+        <div class="savannah__plant_blade blade-right-l"></div>
     </div>
 </div>`;
