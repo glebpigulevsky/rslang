@@ -12,13 +12,15 @@
 }
 
 .game-sprint__header {
+  position: relative;
   display: flex;
   flex-direction: row;
   justify-content: center;
   align-items: center;
   width: 666px;
   height: 90px;
-  background: rgba(158, 241, 246, .3);
+  background: #c2e59c;
+  background: linear-gradient(to right, #64b3f4, #c2e59c);
   border-radius: 20px 20px 0 0;
 
   @include segoe-subtitle($color: $color-text, $weight: bold);
@@ -28,18 +30,46 @@
   }
 }
 
+.score__text {
+  position: absolute;
+  top: 64px;
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+  @include media-mobile {
+    top: 45px;
+    font-size: .8rem;
+  }
+}
+
 .level__two {
-  background: rgb(43, 212, 223);
+  background: #f2709c;
+  background: linear-gradient(to right, #ff9472, #f2709c);
+
+  @include transition($time: .3s, $property: all, $method: ease-out);
+}
+
+.level__three {
+  background: #ff4e50;
+  background: linear-gradient(to right, #f9d423, #ff4e50);
+
+  @include transition($time: .3s, $property: all, $method: ease-out);
+}
+
+.level__four {
+  background: #fc5c7d;
+  background: linear-gradient(to right, #6a82fb, #fc5c7d);
+
+  @include transition($time: .3s, $property: all, $method: ease-out);
 }
 
 .progress {
-  border: 3px solid $color-btn-right;
+  border: 2px solid $color-btn-right;
 
   @include transition($time: .2s, $property: all, $method: ease-out);
 }
 
 .regress {
-  border: 3px solid $color-btn-wrong;
+  border: 2px solid $color-btn-wrong;
 
   @include transition($time: .2s, $property: all, $method: ease-out);
 }
@@ -52,7 +82,7 @@
   color: $color-text-additional;
 
   @include media-mobile {
-    font-size: 1.8rem;
+    font-size: 1.5rem;
   }
 }
 
@@ -68,7 +98,7 @@
   background-repeat: no-repeat;
 
   @include media-mobile {
-    margin-top: 10px;
+    margin: 6px 40px;
   }
 }
 
@@ -83,14 +113,6 @@
     height: 80px;
     margin-top: 0;
   }
-}
-
-.score__text {
-  position: absolute;
-  top: 50px;
-  font-size: 16px;
-
-  $color: $color-text;
 }
 
 .game-sprint__word {
@@ -123,7 +145,8 @@
   width: 666px;
   height: 70px;
   margin-top: 13px;
-  background: rgba(158, 241, 246, .3);
+  background: #c2e59c;
+  background: linear-gradient(to right, #64b3f4, #c2e59c);
   border-radius: 0 0 20px 20px;
 
   @include media-mobile {

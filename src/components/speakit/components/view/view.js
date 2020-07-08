@@ -57,7 +57,8 @@ class View {
     this.currentList.render();
   }
 
-  renderResultsList(pageData, listenersList, guessedList, currentResults, longResults, hasTranslation = true) {
+  renderResultsList(pageData, listenersList, guessedList, currentResults,
+    longResults, hasTranslation = true) {
     if (this.swiper.slides && this.swiper.slides.length) this.swiper.removeAllSlides();
 
     this.resultList = new ResultsList(

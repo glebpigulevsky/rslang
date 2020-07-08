@@ -33,7 +33,8 @@ class View {
     this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
   }
 
-  renderStatisticList(lastGameRoundData, listenersList, iDontKnowList, lastGameFinalTime, pictureData, results) {
+  renderStatisticList(lastGameRoundData, listenersList, iDontKnowList,
+    lastGameFinalTime, pictureData, results) {
     this.statisticList = new StatisticList(
       this.elements.containers.statistic,
       lastGameRoundData,
@@ -213,7 +214,8 @@ class View {
   }
 
   initHintTranslationButton(onHintTranslationButtonClick, isTranslationEnabled) {
-    this.addListener(this.elements.buttons.hints.translation, EVENTS.CLICK, onHintTranslationButtonClick);
+    this.addListener(this.elements.buttons.hints.translation,
+      EVENTS.CLICK, onHintTranslationButtonClick);
     if (isTranslationEnabled) {
       this.elements.buttons.hints.translation.classList.add(CLASS_NAMES.ACTIVE);
     }
@@ -225,14 +227,16 @@ class View {
   }
 
   initHintAutoSpellingButton(onHintAutoSpellingButtonClick, isAutoSpellingEnabled) {
-    this.addListener(this.elements.buttons.hints.autoSpelling, EVENTS.CLICK, onHintAutoSpellingButtonClick);
+    this.addListener(this.elements.buttons.hints.autoSpelling,
+      EVENTS.CLICK, onHintAutoSpellingButtonClick);
     if (isAutoSpellingEnabled) {
       this.elements.buttons.hints.autoSpelling.classList.add(CLASS_NAMES.ACTIVE);
     }
   }
 
   initRepeatSpellingButton(onRepeatSpellingButtonClick) {
-    this.addListener(this.elements.buttons.repeatSpelling, EVENTS.CLICK, onRepeatSpellingButtonClick);
+    this.addListener(this.elements.buttons.repeatSpelling,
+      EVENTS.CLICK, onRepeatSpellingButtonClick);
   }
 
   initResultsButton(onResultsButtonClick) {
@@ -240,11 +244,13 @@ class View {
   }
 
   initStatisticContinueButton(onStatisticContinueButtonClick) {
-    this.addListener(this.elements.buttons.statistics.continue, EVENTS.CLICK, onStatisticContinueButtonClick);
+    this.addListener(this.elements.buttons.statistics.continue,
+      EVENTS.CLICK, onStatisticContinueButtonClick);
   }
 
   initStatisticLongStatisticButton(onStatisticLongStatisticClick) {
-    this.addListener(this.elements.buttons.statistics.longStatistic, EVENTS.CLICK, onStatisticLongStatisticClick);
+    this.addListener(this.elements.buttons.statistics.longStatistic,
+      EVENTS.CLICK, onStatisticLongStatisticClick);
   }
 
   hideCheckButton() {

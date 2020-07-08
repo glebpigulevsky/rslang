@@ -200,8 +200,12 @@ export default class GameSprint {
       } else {
         this.gameField.classList.remove('progress');
         this.gameField.classList.add('regress');
+        this.header.classList.remove('level__two');
+        this.header.classList.remove('level__three');
+        this.header.classList.remove('level__four');
         fail.play();
         this.ratingField.innerHTML = '';
+        this.inform.innerHTML = '';
         this.gameResults.push({
           isCorrect: false,
           word: this.currentGameWord,
@@ -316,6 +320,7 @@ export default class GameSprint {
         this.startGame();
         document.querySelector('.base-timer').remove();
         this.startTimer();
+        this.addHandleEventKeys();
       }
     };
   }
@@ -342,11 +347,15 @@ export default class GameSprint {
     this.statistics.classList.add('display-none');
     this.btnTrue.removeEventListener('click', this.answerTrue);
     this.btnFalse.removeEventListener('click', this.answerTrue);
+    this.header.classList.remove('level__two');
+    this.header.classList.remove('level__three');
+    this.header.classList.remove('level__four');
     this.counterElement = 0;
     this.gameWords = [];
     this.correctAnswer = [];
     this.wrongAnswer = [];
     this.ratingField.innerHTML = '';
+    this.inform.innerHTML = '';
   }
 
   onRoundChangeHandler() {
@@ -383,6 +392,8 @@ export default class GameSprint {
       this.previewButton = document.querySelector('.preview__btn');
       this.gameField = document.querySelector('.inner__game-sprint');
       this.spinner = document.querySelector('.spinner');
+      this.header = document.getElementById('header');
+      this.inform = document.getElementById('text');
 
       showSpinner();
       await this.getWords();

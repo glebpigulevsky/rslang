@@ -7,7 +7,8 @@ export default class UserAggregatedWords {
     this._apiService = new ApiService(MAIN_API_URL);
   }
 
-  async getAllUserAggregatedWords({ group, wordsPerPage = null, filter = null }, { token, userId } = checkUserInfo()) {
+  async getAllUserAggregatedWords({ group, wordsPerPage = null, filter = null },
+    { token, userId } = checkUserInfo()) {
     let url = `/users/${userId}/aggregatedWords?group=${group}`;
     if (wordsPerPage) {
       url += `&wordsPerPage=${wordsPerPage}`;

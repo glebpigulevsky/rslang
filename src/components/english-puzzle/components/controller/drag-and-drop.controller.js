@@ -78,7 +78,8 @@ class DragAndDropController {
     const droppedCells = Array.from(this.belowElement.querySelectorAll(`.${CLASS_NAMES.DRAGABLE}`));
     if (droppedCells && droppedCells.length) {
       const rightCell = droppedCells.find(
-        (droppedCell) => droppedCell.getBoundingClientRect().x + droppedCell.getBoundingClientRect().width / 2 > evt.clientX,
+        (droppedCell) => droppedCell.getBoundingClientRect().x
+        + droppedCell.getBoundingClientRect().width / 2 > evt.clientX,
       );
 
       if (rightCell) {

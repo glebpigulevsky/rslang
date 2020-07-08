@@ -44,7 +44,8 @@ export default class Menu {
   }
 
   renderLevelSelector(currentLevel, levelsCount = MAX_LEVELS_COUNT) {
-    this.renderSelector(levelsCount, CLASS_NAMES.NAVIGATION_BOX.LEFT, SELECT_NAMES.LEVEL, currentLevel);
+    this.renderSelector(levelsCount, CLASS_NAMES.NAVIGATION_BOX.LEFT,
+      SELECT_NAMES.LEVEL, currentLevel);
   }
 
   renderRoundSelector(roundsCount = MAX_ROUNDS_COUNT, currentRound, completedRounds) {

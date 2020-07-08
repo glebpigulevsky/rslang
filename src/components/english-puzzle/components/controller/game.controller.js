@@ -124,16 +124,18 @@ class GameController {
     view.hideResultButton();
     this.isPictureShown = false;
 
-    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound).catch((error) => {
-      hideSpinner();
-      new ErrorPopup().openPopup({ text: error.message });
-      return null;
-    });
+    this.fetchedRoundData = await model.fetchCardsPage(currentLevel, currentRound)
+      .catch((error) => {
+        hideSpinner();
+        new ErrorPopup().openPopup({ text: error.message });
+        return null;
+      });
     if (!this.fetchedRoundData) return;
     const sentences = this.fetchedRoundData.map((wordData) => wordData.textExample);
 
     this.fetchedPictureData = model.getCurrentPictureDescription(currentLevel, currentRound) || {};
-    this.fetchedPictureData.preloadedPicture = await model.getPreloadedCurrentPicture(currentLevel, currentRound);
+    this.fetchedPictureData.preloadedPicture = await
+    model.getPreloadedCurrentPicture(currentLevel, currentRound);
     this.windowSize = document.documentElement.clientWidth;
     const widthGap = this.windowSize >= TABLET_WIDTH ? IMAGE_GAP : 0;
     this.canvasElements = getCanvasElementsCollection(
@@ -279,15 +281,18 @@ class GameController {
     view.initMenu(this.onLevelChangeHandlerBinded, this.onRoundChangeHandlerBinded);
 
     const completedRoundsData = model.loadCompletedRounds();
-    this.completedRoundsByLevels = (completedRoundsData && completedRoundsData.completedRoundsByLevels)
+    this.completedRoundsByLevels = (completedRoundsData
+      && completedRoundsData.completedRoundsByLevels)
       || new Array(MAX_LEVELS_COUNT).fill('').map(() => []);
 
     showSpinner();
-    this.setCurrentLevel((completedRoundsData && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
+    this.setCurrentLevel((completedRoundsData
+      && completedRoundsData.lastLevelWithLastCompletedRound) || startLevel);
     this.maxRoundInLevel = await model
       .fetchMaxPagesInDifficultCategory(this.currentLevel)
       .catch(() => MAX_ROUNDS_COUNT);
-    this.setCurrentRound((completedRoundsData && completedRoundsData.lastCompletedRound + 1) || startRound);
+    this.setCurrentRound((completedRoundsData
+      && completedRoundsData.lastCompletedRound + 1) || startRound);
 
     view.menu.renderLevelSelector(this.currentLevel);
     this.newRound(this.currentLevel, this.currentRound);

@@ -38,6 +38,10 @@
 
     @include transition($time: .4s, $property: all, $method: ease-out);
   }
+
+  &:active {
+    transform: translateY(6px);
+  }
 }
 
 .true {
@@ -59,6 +63,10 @@
     opacity: .5;
 
     @include transition($time: .4s, $property: all, $method: ease-out);
+  }
+
+  &:active {
+    transform: translateY(4px);
   }
 }
 

@@ -88,7 +88,8 @@ const createCanvasElements = ({
       ctx.beginPath();
 
       if (j) {
-        ctx.arc(x1, centerY, radius, Math.PI / PUZZLE.PARTS.HALF, Math.PI * PUZZLE.MATH_PI_RATIO, true);
+        ctx.arc(x1, centerY, radius, Math.PI / PUZZLE.PARTS.HALF,
+          Math.PI * PUZZLE.MATH_PI_RATIO, true);
       }
 
       ctx.lineTo(0, y1);
@@ -97,7 +98,8 @@ const createCanvasElements = ({
       ctx.lineTo(canvasWidth, y1);
 
       if (j !== wordCount - 1) {
-        ctx.arc(canvasWidth, centerY, radius, Math.PI * PUZZLE.MATH_PI_RATIO, Math.PI / PUZZLE.PARTS.HALF, false);
+        ctx.arc(canvasWidth, centerY, radius, Math.PI * PUZZLE.MATH_PI_RATIO,
+          Math.PI / PUZZLE.PARTS.HALF, false);
       }
 
       ctx.lineTo(canvasWidth, y2);
