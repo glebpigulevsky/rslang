@@ -48,6 +48,6 @@ export const getSavannahStart = () => `
     <option value="28">29</option>
     <option value="29">30</option>
   </select>
-    <button class="savannah__start_button" id="js-savannah__start_button" onclick="this.blur();">Start</button>
+    <button class="savannah__start_button" id="js-savannah__start_button">Start</button>
   </div> 
 </div>`;

@@ -1,4 +1,6 @@
 import './scss/savannah.styles.scss';
+import correct from './assets/144319__fumiya112__decide.mp3';
+import wrong from './assets/407479__loyalty-freak-music__heal.mp3';
 import { WordsApi, GET_RANDOM } from '../../services/services.methods';
 import { getSavannahStart } from './components/savannah_start';
 import { getSavannahGame } from './components/savannah_game';
@@ -69,6 +71,8 @@ class SavannahApp {
 
   checkAnswear(currentTranslate) {
     if (currentTranslate === this.currentWord.wordTranslate) {
+      const audio = new Audio(correct);
+      audio.play();
       return true;
     }
     if (this.burningLives === 0) {
@@ -77,6 +81,8 @@ class SavannahApp {
       document.querySelector(`.savannah__heart[data-pos="${this.burningLives}"]`).classList.add('savannah__heart_kill');
       this.burningLives -= 1;
     }
+    const audio = new Audio(wrong);
+    audio.play();
     return false;
   }
 
@@ -191,7 +197,6 @@ class SavannahApp {
         wordsPerPage: 60,
       });
       this.learningWords = wordsRes;
-      console.log(this.learningWords[0]);
       this.answears = questRes.map((word) => word.wordTranslate);
       this.startGame();
     } catch (e) {
