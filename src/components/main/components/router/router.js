@@ -31,6 +31,7 @@ class Router {
 
       spacedRepetitions.parseMiniGamesResults();
       spacedRepetitions.updateUserWords();
+      spacedRepetitions.count = 0;
 
       this.mainContainer.innerHTML = '';
       this.mainContainer.insertAdjacentHTML('afterbegin', await component.render());

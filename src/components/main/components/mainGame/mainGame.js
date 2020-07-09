@@ -1,4 +1,5 @@
 import mainController from '../controller/main.controller';
+import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
 import ErrorInput from '../errorInput/errorInput';
 
 import ApiService from '../../../../services/common/services.common.api_service';
@@ -48,17 +49,20 @@ class MainGame {
     const mainElement = document.querySelector('.main');
     mainElement.innerHTML = '';
     mainElement.insertAdjacentHTML('afterbegin', this.render());
-    await this.fetchWords();
-    this.playMode(this.indexCard);
+    // await this.fetchWords();
+    this.currentCard = spacedRepetitions.getNextWord();
+    debugger;
+    // this.playMode(this.indexCard);
+    this.playMode();
   }
 
-  async fetchWords() {
-    mainController.spinner.show();
-    this.collection = await wordsApi.getWordsCollection({ group: this.level, page: this.page });
-    mainController.spinner.hide();
-    console.info(this.collection);
-    this.currentCard = this.collection[this.indexCard];
-  }
+  // async fetchWords() {
+    // mainController.spinner.show();
+    // this.collection = await wordsApi.getWordsCollection({ group: this.level, page: this.page });
+    // mainController.spinner.hide();
+    // console.info(this.collection);
+    // this.currentCard = this.collection[this.indexCard];
+  // }
 
   init(userSetting = mainController.userSettings, englishLevel = mainController.englishLevel) {
     this.level = englishLevel;
@@ -66,7 +70,8 @@ class MainGame {
     this.addMdGameScreen();
   }
 
-  async playMode(queryIndex) {
+  // playMode(queryIndex) {
+  playMode() {
     this.elements.gameButtons.next = document.querySelector('.next');
     this.elements.gameButtons.next.addEventListener('click', this.inputModeArrowBinded);
     this.elements.gameButtons.prev = document.querySelector('.prev');
@@ -74,23 +79,24 @@ class MainGame {
       this.elements.gameButtons.prev.classList.remove('hidden');
     }
     this.elements.gameButtons.prev.addEventListener('click', this.inputModeArrowPrevBinded);
-    this.currentCard = await this.collection[queryIndex];
+    // this.currentCard = this.collection[queryIndex];
     this.currentCard.textExample = this.currentCard.textExample.replace(/<\/?[a-zA-Z]+>/gi, '');
     this.currentCard.textExample = this.currentCard.textExample.replace(',', ' ,').toLowerCase();
-    const wordsArr = await this.currentCard.textExample.split(' ');
-    if (wordsArr.indexOf(this.currentCard.word) === -1) {
-      if (this.indexCard === 19) {
-        this.page += 1;
-        this.indexCard = 0;
-        this.addMdGameScreen();
-      }
-      this.indexCard += 1;
-      this.playMode(this.indexCard);
-    }
+    const wordsArr = this.currentCard.textExample.split(' ');
+    // if (wordsArr.indexOf(this.currentCard.word) === -1) {
+    //   if (this.indexCard === 19) {
+    //     this.page += 1;
+    //     this.indexCard = 0;
+    //     this.addMdGameScreen();
+    //   }
+    //   this.indexCard += 1;
+    //   this.playMode(this.indexCard);
+    // }
     wordsArr[wordsArr.length - 1] = wordsArr[wordsArr.length - 1].slice(0, -1);
     wordsArr.find((element, index) => {
     // we also need to check this `|| element === this.currentCard.word + 's'`
-      if (element === this.currentCard.word) {
+      // if (element === this.currentCard.word) {
+      if (element.includes(this.currentCard.word)) {
         wordsArr[index] = '';
         if (index === 0) {
           this.currentCard.word = this.currentCard.word[0]
@@ -248,33 +254,36 @@ class MainGame {
     this.elements.gameButtons.clicked.removeEventListener('click', this.clickHadnlerAddUserWordEasy);
   }
 
-  async inputModeEnter(e) {
+  inputModeEnter(e) {
     this.inputArea = document.querySelector('.answer-input');
-    if (e.key === 'Enter') {
-      if (this.settings.optional.isAudio === 'true') {
-        if (this.inputArea.value === this.currentCard.word) {
-          document.removeEventListener('keypress', () => {});
-          const audio = new Audio();
-          audio.src = this.currentCard.audio;
-          audio.autoplay = true;
-          audio.addEventListener('ended', () => {
-            this.playAudioBinded(this.currentCard.audioExample);
-          });
-        } else {
-          const audio = new Audio();
-          audio.src = this.currentCard.audio;
-          audio.autoplay = true;
-          await errorInput.init();
-        }
-      } else if (this.inputArea.value === this.currentCard.word) {
-        document.removeEventListener('keypress', () => {});
-        this.playAudioBinded(this.currentCard.audio);
-      } else {
+    if (e.key !== 'Enter') return;
+    if (this.settings.optional.isAudio === 'true') {
+      if (this.inputArea.value === this.currentCard.word) {
+        // document.removeEventListener('keypress', () => {});
+        spacedRepetitions.updateCorrectWord(this.currentCard);
         const audio = new Audio();
         audio.src = this.currentCard.audio;
         audio.autoplay = true;
-        await errorInput.init();
+        audio.addEventListener('ended', () => {
+          this.playAudioBinded(this.currentCard.audioExample);
+        });
+      } else {
+        spacedRepetitions.updateWrongWord(this.currentCard);
+        const audio = new Audio();
+        audio.src = this.currentCard.audio;
+        audio.autoplay = true;
+        errorInput.init();
       }
+    } else if (this.inputArea.value === this.currentCard.word) {
+      // document.removeEventListener('keypress', () => {});
+      spacedRepetitions.updateCorrectWord(this.currentCard);
+      this.playAudioBinded(this.currentCard.audio);
+    } else {
+      spacedRepetitions.updateWrongWord(this.currentCard);
+      const audio = new Audio();
+      audio.src = this.currentCard.audio;
+      audio.autoplay = true;
+      errorInput.init();
     }
   }
 
@@ -282,16 +291,20 @@ class MainGame {
     this.inputArea = document.querySelector('.answer-input');
     if (this.settings.optional.isAudio === 'true') {
       if (this.inputArea.value === this.currentCard.word) {
+        spacedRepetitions.updateCorrectWord(this.currentCard);
         this.playAudioBinded(this.currentCard.audioExample);
       } else {
+        spacedRepetitions.updateWrongWord(this.currentCard);
         const audio = new Audio();
         audio.src = this.currentCard.audio;
         audio.autoplay = true;
         await errorInput.init();
       }
     } else if (this.inputArea.value === this.currentCard.word) {
+      spacedRepetitions.updateCorrectWord(this.currentCard);
       this.playAudioBinded(this.currentCard.audio);
     } else {
+      spacedRepetitions.updateWrongWord(this.currentCard);
       const audio = new Audio();
       audio.src = this.currentCard.audio;
       audio.autoplay = true;
@@ -320,6 +333,7 @@ class MainGame {
       } else {
         document.querySelector('.learn-content__meaning').innerHTML = '';
         this.indexCard += 1;
+        this.currentCard = spacedRepetitions.getNextWord(); // !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         this.playMode(this.indexCard);
       }
     });
