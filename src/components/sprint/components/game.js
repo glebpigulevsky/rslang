@@ -382,9 +382,13 @@ class GameSprint {
     if (event.target.checked) {
       this.bodySprint.classList.add('dark');
       this.navSelect.classList.add('dark');
+      this.navRound.classList.add('dark');
+      this.switchText.classList.add('dark-sw');
     } else {
       this.bodySprint.classList.remove('dark');
       this.navSelect.classList.remove('dark');
+      this.switchText.classList.remove('dark-sw');
+      this.navRound.classList.remove('dark');
     }
   }
 
@@ -420,6 +424,8 @@ class GameSprint {
       this.switch = document.getElementById('themeSwitch');
       this.bodySprint = document.querySelector('#body');
       this.navSelect = document.querySelector('#nav');
+      this.navRound = document.querySelector('#navR');
+      this.switchText = document.querySelector('#sw-text');
 
       showSpinner();
       await this.getWords();

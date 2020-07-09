@@ -18,6 +18,7 @@
 
 .sprint-navigation__description.dark {
   color: #fff;
+  background: none;
 }
 
 .btn__my-words {
@@ -91,6 +92,26 @@
   --switch-width: 64px;
 }
 
+.switch__text {
+  position: absolute;
+  left: 57%;
+  font-weight: bold;
+  font-size: 1.6rem;
+  color: #50667b;
+
+  @include media-mobile {
+    top: 10%;
+    left: 22%;
+  }
+  @include media-mobilesmall {
+    top: 11%;
+  }
+}
+
+.switch__text.dark-sw {
+  color: $color-light;
+}
+
 .switch {
   position: relative;
   display: flex;
@@ -102,13 +123,13 @@
   border-radius: 50em;
   cursor: pointer;
 
-  @include media-mobilesmall {
-    order: 2;
-    margin: 10px auto 0;
-  }
   @include media-mobile {
     order: 2;
-    margin: 10px auto 8px;
+    margin: 8px 20px 8px 161px;
+  }
+  @include media-mobilesmall {
+    order: 2;
+    margin: 8px 20px 8px 143px;
   }
 }
 

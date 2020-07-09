@@ -19,13 +19,14 @@ export const sprintComponent = {
                     </select>
                 </div>
                 <button class="btn__my-words">repeat my words</button>
+                <span id="sw-text" class="switch__text">Theme</span>
                 <div class="switch">
                     <input class="switch__input" type="checkbox" id="themeSwitch">
                     <label aria-hidden="true" class="switch__label" for="themeSwitch">On</label>
                     <div aria-hidden="true" class="switch__marker"></div>
                 </div>
                 <div class="navigation__box navigation__box_right">
-                    <span id="nav" class="sprint-navigation__description round__description">Round:</span>
+                    <span id="navR" class="sprint-navigation__description round__description">Round:</span>
                      <select id="round" class = "navigation__level selector" name="select">
                         <option value="0">1</option>
                         <option value="1">2</option>
@@ -67,7 +68,6 @@ export const sprintComponent = {
                         <div class="game-sprint__timer"></div>
                         <div id="text" class="score__text"></div>
                     </div>
-                    
                     <div id="rating" class="game-sprint__rating"></div>
                     <div class="game-sprint__field"></div>
                     <div class="game-sprint__controls">
