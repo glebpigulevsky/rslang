@@ -23,6 +23,21 @@ class SavannahApp {
     this.gameLoop();
     this.burningLives = 5;
     this.onClickCloseBtn();
+    this.onClickSoundBtn();
+    this.isPlayingSound = true;
+  }
+
+  onClickSoundBtn() {
+    const savannahSound = document.querySelector('.savannah__sound');
+    savannahSound.addEventListener('click', () => {
+      if (savannahSound.classList.contains('savannah__sound_muted')) {
+        this.isPlayingSound = true;
+        savannahSound.classList.remove('savannah__sound_muted');
+      } else {
+        this.isPlayingSound = false;
+        savannahSound.classList.add('savannah__sound_muted');
+      }
+    });
   }
 
   onClickAudioBtn() {
@@ -71,8 +86,10 @@ class SavannahApp {
 
   checkAnswear(currentTranslate) {
     if (currentTranslate === this.currentWord.wordTranslate) {
-      const audio = new Audio(correct);
-      audio.play();
+      if (this.isPlayingSound) {
+        const audio = new Audio(correct);
+        audio.play();
+      }
       return true;
     }
     if (this.burningLives === 0) {
@@ -81,8 +98,10 @@ class SavannahApp {
       document.querySelector(`.savannah__heart[data-pos="${this.burningLives}"]`).classList.add('savannah__heart_kill');
       this.burningLives -= 1;
     }
-    const audio = new Audio(wrong);
-    audio.play();
+    if (this.isPlayingSound) {
+      const audio = new Audio(wrong);
+      audio.play();
+    }
     return false;
   }
 

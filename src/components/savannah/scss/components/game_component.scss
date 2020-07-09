@@ -103,11 +103,15 @@
   background-position: 0;
   background-repeat: no-repeat;
   background-size: contain;
-  cursor: pointer;
   position: relative;
   top: 27px;
   left: 10%;
   z-index: 5;
+  cursor: pointer;
+}
+
+.savannah__sound_muted {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgdmlld0JveD0iMCAwIDI0IDI0Ij4KICAgIDxnIGZpbGw9IiNGRkYiPgogICAgICAgIDxwYXRoIGQ9Ik05Ljc3OCA4LjIxM0wxLjU4MiAwIDAgMS41NzhsOS43NzggOS43Nzh2MS4wMTdjLS42MzctLjI1MS0xLjMxNi0uMzc4LTItLjM3My0xLjU5My0uMDA2LTMuMTIzLjYyNC00LjI1IDEuNzUtMS4xMjYgMS4xMjctMS43NTYgMi42NTctMS43NSA0LjI1LS4wMDYgMS41OS42MjIgMy4xMTcgMS43NDQgNC4yNDNDNC42NDUgMjMuMzY5IDYuMTcgMjQgNy43NiAyNGMzLjA1Mi4wMDEgNS42MTMtMi4zIDUuOTM4LTUuMzMzaC4wOHYtMy4zMzRMMjIuNDE4IDI0IDI0IDIyLjQzMSAxMy43NzggMTIuMjFsLTQtMy45OTZ6TTEzLjc2IDRMMTkuMDc2IDQgMTkuMDc2IDAgOS43NiAwIDkuNzYgNC40NDQgMTMuNzYgOC40NDR6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=);
 }
 
 .savannah__close_btn {
