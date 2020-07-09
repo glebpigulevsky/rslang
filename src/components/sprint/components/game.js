@@ -1,7 +1,6 @@
 import { WordsApi } from '../../../services/services.methods';
 import { ErrorPopup } from '../../error/error.error_popup';
 import Rating from './rating';
-// import Timer from './timer';
 import { showSpinner, hideSpinner } from '../common/sprint.utils';
 import { shuffleArray, getRandomElement } from '../common/sprint.helper';
 import correct from '../assets/audio/correct.mp3';
@@ -14,12 +13,11 @@ import {
 
 const wordsAPI = new WordsApi();
 const rating = new Rating();
-// const timer = new Timer();
 
 const success = new Audio(correct);
 const fail = new Audio(wrong);
 
-export default class GameSprint {
+class GameSprint {
   constructor() {
     this.words = null;
     this.gameWords = null;
@@ -36,6 +34,8 @@ export default class GameSprint {
 
     this.onInitIntroButtonBinded = this.onInitIntroButton.bind(this);
     this.onHandleEventKeysBinded = this.onHandleEventKeys.bind(this);
+    this.unmount = this.unmount.bind(this);
+    this.onDarkThemeBinded = this.onDarkTheme.bind(this);
 
     this.timePassed = 0;
     this.timeLeft = TIME_LIMIT;
@@ -205,6 +205,7 @@ export default class GameSprint {
         this.header.classList.remove('level__four');
         fail.play();
         this.ratingField.innerHTML = '';
+        rating.addImageRating((this.counterElement = 0));
         this.inform.innerHTML = '';
         this.gameResults.push({
           isCorrect: false,
@@ -240,7 +241,7 @@ export default class GameSprint {
         if (!result.isCorrect) {
           return [score, 0];
         }
-        return [score + 10 + 10 * Math.floor(correctCounter / 3), correctCounter + 1];
+        return [score + 10 + 10 * Math.floor(correctCounter / 4), correctCounter + 1];
       },
       [0, 0],
     );
@@ -373,6 +374,28 @@ export default class GameSprint {
     });
   }
 
+  unmount() {
+    clearInterval(this.timerInterval);
+  }
+
+  onDarkTheme(event) {
+    if (event.target.checked) {
+      this.bodySprint.classList.add('dark');
+      this.navSelect.classList.add('dark');
+    } else {
+      this.bodySprint.classList.remove('dark');
+      this.navSelect.classList.remove('dark');
+    }
+  }
+
+  addDarkTheme() {
+    this.switch.addEventListener('change', this.onDarkThemeBinded);
+  }
+
+  removeDarkTheme() {
+    this.switch.addEventListener('change', this.onDarkThemeBinded);
+  }
+
   async init() {
     try {
       this.level = document.querySelector('#level');
@@ -394,6 +417,9 @@ export default class GameSprint {
       this.spinner = document.querySelector('.spinner');
       this.header = document.getElementById('header');
       this.inform = document.getElementById('text');
+      this.switch = document.getElementById('themeSwitch');
+      this.bodySprint = document.querySelector('#body');
+      this.navSelect = document.querySelector('#nav');
 
       showSpinner();
       await this.getWords();
@@ -403,6 +429,7 @@ export default class GameSprint {
       this.addInitIntroButton();
       this.addHandleEventKeys();
       this.startGame();
+      this.addDarkTheme();
     } catch (error) {
       new ErrorPopup().openPopup({
         text: error.message,
@@ -410,3 +437,5 @@ export default class GameSprint {
     }
   }
 }
+
+export default new GameSprint();

@@ -1,13 +1,14 @@
 import sprintApp from '../../sprint/sprint.app';
+import game from '../../sprint/components/game';
 
 export const sprintComponent = {
   init: sprintApp,
   render: () => `
-      <div class="body__game-sprint overflow-hidden">
+      <div id="body" class="body__game-sprint overflow-hidden">
         <div class="sprint-game__wrapper display-none">
             <div class="navigation">
                 <div class="navigation__box navigation__box_left">
-                    <span class="navigation__description level__description">Level:</span>
+                    <span id="nav" class="sprint-navigation__description level__description">Level:</span>
                     <select id="level" class="navigation__level selector" name="select">
                         <option value="0">1</option>
                         <option value="1">2</option>
@@ -18,8 +19,13 @@ export const sprintComponent = {
                     </select>
                 </div>
                 <button class="btn__my-words">repeat my words</button>
+                <div class="switch">
+                    <input class="switch__input" type="checkbox" id="themeSwitch">
+                    <label aria-hidden="true" class="switch__label" for="themeSwitch">On</label>
+                    <div aria-hidden="true" class="switch__marker"></div>
+                </div>
                 <div class="navigation__box navigation__box_right">
-                    <span class="navigation__description round__description">Round:</span>
+                    <span id="nav" class="sprint-navigation__description round__description">Round:</span>
                      <select id="round" class = "navigation__level selector" name="select">
                         <option value="0">1</option>
                         <option value="1">2</option>
@@ -111,4 +117,5 @@ export const sprintComponent = {
             </div>
         </div> 
 </div>`,
+  unmount: game.unmount,
 };

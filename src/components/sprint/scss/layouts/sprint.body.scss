@@ -1,5 +1,5 @@
 .body__game-sprint {
-  background-image: url('../assets/img/bg.png');
+  background-image: url("../assets/img/bg.png");
   background-repeat: no-repeat;
   background-position: center;
   background-size: cover;
@@ -19,4 +19,9 @@
 .sprit-game__container {
   display: flex;
   margin: 0 auto;
+}
+
+.dark {
+  z-index: 10;
+  background-image: url("../assets/img/dark.jpg");
 }
