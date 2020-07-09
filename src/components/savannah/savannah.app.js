@@ -1,6 +1,6 @@
 import './scss/savannah.styles.scss';
-import correct from './assets/144319__fumiya112__decide.mp3';
-import wrong from './assets/407479__loyalty-freak-music__heal.mp3';
+import correct from './assets/correct_answear.mp3';
+import wrong from './assets/wrong_answear.mp3';
 import { WordsApi, GET_RANDOM } from '../../services/services.methods';
 import { getSavannahStart } from './components/savannah_start';
 import { getSavannahGame } from './components/savannah_game';
@@ -8,6 +8,7 @@ import { getSavannahQuestion } from './components/savannah_question';
 import { getSavannahAnswears } from './components/savannah_answears';
 import { getSavannahResult } from './components/savannah_result';
 import { getSavannahResultAnswear } from './components/savannah_result_answear';
+import { Spinner } from '../spinner/spinner';
 
 const DIGIT_CODES = ['Digit1', 'Digit2', 'Digit3', 'Digit4', 'Numpad1', 'Numpad2', 'Numpad3', 'Numpad4'];
 
