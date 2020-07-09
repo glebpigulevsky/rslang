@@ -1,22 +1,13 @@
+import {
+  COLOR_CODES,
+  FULL_DASH_ARRAY,
+  TIME_LIMIT,
+} from '../common/sprint.constants';
+
 export default class Timer {
   constructor() {
-    const COLOR_CODES = {
-      info: {
-        color: 'green',
-      },
-      warning: {
-        color: 'orange',
-        threshold: 10,
-      },
-      alert: {
-        color: 'red',
-        threshold: 5,
-      },
-    };
-    this.FULL_DASH_ARRAY = 283;
-    this.TIME_LIMIT = 59;
     this.timePassed = 0;
-    this.timeLeft = this.TIME_LIMIT;
+    this.timeLeft = TIME_LIMIT;
     this.timerInterval = null;
     this.remainingPathColor = COLOR_CODES.info.color;
     this.warning = COLOR_CODES.warning.color;
@@ -24,9 +15,8 @@ export default class Timer {
     this.info = COLOR_CODES.info.color;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   addTemplateTimer() {
-    const temp = `<div class="base-timer">
+    const temp = `<div class="base-timer time">
     <svg class="base-timer__svg" viewBox="0 0 100 100" >
       <g class="base-timer__circle">
         <circle class="base-timer__path-elapsed" cx="50" cy="50" r="45" />
@@ -48,7 +38,6 @@ export default class Timer {
     document.querySelector('.game-sprint__timer').insertAdjacentHTML('afterbegin', temp);
   }
 
-  // eslint-disable-next-line class-methods-use-this
   formatTimeLeft(time) {
     let seconds = time % 60;
     if (seconds < 10) {
@@ -71,13 +60,13 @@ export default class Timer {
     }, 1000);
   }
 
-  calculateTimeFraction() {
-    const rawTimeFraction = this.timeLeft / this.TIME_LIMIT;
-    return rawTimeFraction - (1 / this.TIME_LIMIT) * (1 - rawTimeFraction);
+  calculateTimeraction() {
+    const rawTimeFraction = this.timeLeft / TIME_LIMIT;
+    return rawTimeFraction - (1 / TIME_LIMIT) * (1 - rawTimeFraction);
   }
 
   setCircleDasharray() {
-    const circleDasharray = `${(this.calculateTimeFraction() * this.FULL_DASH_ARRAY).toFixed(0)} 283`;
+    const circleDasharray = `${(this.calculateTimeFraction() * FULL_DASH_ARRAY).toFixed(0)} 283`;
     document.getElementById('base-timer-path-remaining').setAttribute('stroke-dasharray', circleDasharray);
   }
 
@@ -93,9 +82,5 @@ export default class Timer {
 
   stopTime() {
     clearInterval(this.timerInterval);
-  }
-
-  init() {
-    this.startTimer();
   }
 }

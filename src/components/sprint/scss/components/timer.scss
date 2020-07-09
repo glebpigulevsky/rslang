@@ -1,9 +1,14 @@
 .base-timer {
   position: absolute;
-  top: 2%;
+  top: 10%;
   right: 4%;
   width: 70px;
   height: 70px;
+
+  @include media-mobile {
+    width: 52px;
+    height: 52px;
+  }
 }
 
 .base-timer__svg {
@@ -51,4 +56,10 @@
   width: 70px;
   height: 65px;
   font-size: 24px;
+
+  @include media-mobile {
+    width: 52px;
+    height: 52px;
+    font-size: 20px;
+  }
 }

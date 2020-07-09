@@ -1,12 +1,27 @@
 .body__game-sprint {
-  width: 100vw;
-  height: 100vh;
-  background: #7519eb;
   background-image: url("../assets/img/bg.png");
   background-repeat: no-repeat;
+  background-position: center;
   background-size: cover;
+  user-select: none;
 }
 
-.wrapper__sprint-game {
+.sprint-game__wrapper {
   position: relative;
+  min-height: 100vh;
+  margin: 0 auto;
+}
+
+.display-none {
+  display: none;
+}
+
+.sprit-game__container {
+  display: flex;
+  margin: 0 auto;
+}
+
+.dark {
+  z-index: 10;
+  background-image: url("../assets/img/dark.jpg");
 }

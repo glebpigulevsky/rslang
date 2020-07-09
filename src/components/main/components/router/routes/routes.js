@@ -8,6 +8,7 @@ import { teamPageComponent } from '../../../pages/team-page.component';
 import { settingsPageComponent } from '../../../pages/settings-page.component';
 import { speakItPageComponent } from '../../../pages/speakit-page.component';
 import { englishPuzzleComponent } from '../../../pages/english-puzzle.component';
+import { sprintComponent } from '../../../pages/sprint-game.component';
 
 const routes = [
   { path: '/', component: mainPageComponent },
@@ -20,6 +21,7 @@ const routes = [
   { path: '/settings', component: settingsPageComponent },
   { path: '/speakit', component: speakItPageComponent },
   { path: '/english-puzzle', component: englishPuzzleComponent },
+  { path: '/sprint', component: sprintComponent },
 ];
 
 export default routes;

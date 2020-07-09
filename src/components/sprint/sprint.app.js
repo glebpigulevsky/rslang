@@ -1,11 +1,8 @@
-import View from './common/view';
-import Timer from './common/timer';
+import game from './components/game';
 import './scss/sprint.styles.scss';
 
-const timerJS = new Timer();
-const sprintGameInit = () => {
-  View.init();
-  timerJS.init();
+const sprintApp = () => {
+  game.init();
 };
 
-export default sprintGameInit;
+export default sprintApp;
