@@ -1,12 +1,21 @@
 import { WordsApi } from '../../services/services.methods';
+import StartScreenClass from './components/startScreen';
 
 import './scss/audio-call.scss';
-// import DataGetter from './components/data';
 
 const wordsGetter = new WordsApi();
+// const startScreen = new StartScreenClass();
+
+
+
 
 class AudioCall {
   constructor() {
+  
+    this.menuData = {
+      level: 0,
+      round: 0,
+    };
     this.lang = 'ru';
     this.round = 0;
     this.word = 0;
@@ -24,59 +33,42 @@ class AudioCall {
     this.roundState = 'game';
   }
 
-  startScreen() {
+  zeroStartScreen () {
     this.wordsArray = [];
     this.currentWord = 0;
     this.globalWord = 0;
     this.word = 0;
-    document.querySelector('.main__game').innerHTML = `
-    <div class="start-screen">
-            <p class="game-name">Mini-game "Audio-call"</p>
-            <div class="select-round">
-              <p class="level">Select level:</p>
-              <select class="group">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-              </select>
-              <p class="round">Select round:</p>
-              <select class="page">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-                <option>5</option>
-                <option>6</option>
-              </select>
-            </div>
-            <div class="start-game">
-              <button class="main-button__start start">START</button>
-            </div>
-            <div class="game-description">
-              <p class="game-name">
-                Select level and round.
-                Listen to the word for one time and then choose the correct 
-                answer or click "Don't know" button. Have a good English practice!</p>
-            </div>
-          </div> 
-      `;
+  }
 
-    document.querySelector('.start').removeEventListener('click', this.startGameClickHandler.bind(this));
+  startScreen() {
+    this.startScreen1.render();
+    this.wordsArray = [];
+    this.currentWord = 0;
+    this.globalWord = 0;
+    this.word = 0;
+ 
+    // document.querySelector('.start').removeEventListener('click', this.startGameClickHandler.bind(this));
 
     if (window.localStorage.getItem('group')) {
       document.querySelector('.group').querySelectorAll('*')[window.localStorage.getItem('group')].selected = true;
       document.querySelector('.page').querySelectorAll('*')[window.localStorage.getItem('page')].selected = true;
     }
 
-    document.querySelector('.start').addEventListener('click', this.startGameClickHandler.bind(this));
+    // document.querySelector('.start').addEventListener('click', this.startGameClickHandler.bind(this));
   }
 
   startGameClickHandler() {
+    console.log('start')
     this.getData(+document.querySelector('.group').value - 1, +document.querySelector('.page').value - 1);
     this.init();
+  }
+
+  init1 () {
+    // this.container = document.createElement('div');
+    // this.container.classList.add('main__game');
+    // this.container.classList.add('audio-game-wrapper');
+    // document.querySelector('.firstPoint').appendChild(this.container);
+    this.startScreen1 = new StartScreenClass(null, this.startGameClickHandler.bind(this), this.container);
   }
 
   init() {
@@ -115,7 +107,6 @@ class AudioCall {
 
   showShortStats() {
     this.roundState = 'stats';
-    document.removeEventListener('keydown', this.chooseWordByKey.bind(this));
     document.querySelector('.main__game').innerHTML = `
     <div class="results">
     <div class="start-game">
@@ -151,11 +142,12 @@ class AudioCall {
     window.localStorage.setItem('page', this.page);
     wordsGetter.getWordsCollection({ group: this.group, page: this.page })
       .then((res) => {
+        console.log('RES', res);
         this.page += 1;
         this.wordsArray = [...this.wordsArray, ...res];
         this.renderData(this.wordsArray);
       });
-    document.addEventListener('keydown', this.chooseWordByKey.bind(this));
+    document.onkeydown = this.chooseWordByKey.bind(this);
   }
 
   getNewData() {
@@ -167,7 +159,7 @@ class AudioCall {
   }
 
   renderData(res) {
-    if (this.round < 10) {
+    if (this.round < 1) {
       this.playRound(res);
     } else {
       this.showStats();
@@ -188,7 +180,7 @@ class AudioCall {
     if (!playKeys.includes(event.key)) {
       return;
     }
-
+    
     if (event.key === 'Enter' && this.roundState !== 'stats') {
       this.enterCount += 1;
       if (this.roundState === 'answered' && event.key === 'Enter') {
@@ -360,8 +352,7 @@ class AudioCall {
   }
 
   showStats() {
-    document.removeEventListener('keydown', this.chooseWordByKey);
-
+    document.onkeydown = null;
     this.showShortStats();
     this.round = 0;
     this.progress = 0;
@@ -431,16 +422,28 @@ class AudioCall {
     audio.play();
     audio.onended = () => {
       document.querySelector('.speaker-block').classList.remove('speaker-block-active');
-      document.querySelector('.dont-know').addEventListener('click', this.dontKnowButton);
+      document.querySelector('.dont-know').addEventListener('click', this.dontKnowButtonBinded);
     };
   }
+
+  unmount () {
+    document.body.classList.remove('audio-call-wrapper');
+    document.onkeydown = null;
+  }
+
 }
 
 const audioCallInit = new AudioCall();
+
+audioCallInit.init1();
 
 const audioCallStartScreen = () => {
   document.querySelector('body').classList.add('audio-call-wrapper');
   audioCallInit.startScreen();
 };
 
-export { audioCallStartScreen };
+const audioCallUnmount = () => {
+  audioCallInit.unmount();
+}
+
+export { audioCallStartScreen, audioCallUnmount };

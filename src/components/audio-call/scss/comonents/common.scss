@@ -2,7 +2,7 @@ span {
   user-select: none;
 }
 
-body {
+.main__game {
   font-family: "Segoe", sans-serif;
   font-size: 20px;
 }
@@ -30,6 +30,8 @@ body {
 
 .audio-game-wrapper {
   // margin-top: 130px;
+  position: relative;
+  top: 80px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -70,6 +72,9 @@ body {
 }
 
 @media (max-width: 900px) {
+  .audio-game-wrapper {
+    top: 40px;
+  }
   .audio-call-container {
     height: 70vh;
     justify-content: flex-start;
