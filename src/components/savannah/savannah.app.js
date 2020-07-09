@@ -119,6 +119,8 @@ class SavannahApp {
         word: word.word,
         translate: word.wordTranslate,
         audio: word.audio,
+        image: word.image,
+        textExample: word.textExample,
       });
     });
     let correctAnswears = '';
@@ -127,6 +129,8 @@ class SavannahApp {
         word: word.word,
         translate: word.wordTranslate,
         audio: word.audio,
+        image: word.image,
+        textExample: word.textExample,
       });
     });
     document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswears);
@@ -186,12 +190,7 @@ class SavannahApp {
         wordsPerExampleSentence: 20,
         wordsPerPage: 60,
       });
-      this.learningWords = wordsRes.map((word) => ({
-        word: word.word,
-        wordTranslate: word.wordTranslate,
-        id: word.id,
-        audio: word.audio,
-      }));
+      this.learningWords = wordsRes;
       console.log(this.learningWords[0]);
       this.answears = questRes.map((word) => word.wordTranslate);
       this.startGame();

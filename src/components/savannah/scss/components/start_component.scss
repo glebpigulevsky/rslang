@@ -111,11 +111,11 @@
   margin-right: 6px;
   cursor: pointer;
   word-break: normal;
-  //max-width: calc(50% - 54px);
+  max-width: calc(50% - 54px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 0 1rem;
+  padding: 0 2rem;
 }
 
 .savannah__start_final_transl {
@@ -124,7 +124,7 @@
   color: #37383c;
   flex-grow: 1;
   word-break: normal;
-  //max-width: calc(50% - 54px);
+  max-width: calc(50% - 54px);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;

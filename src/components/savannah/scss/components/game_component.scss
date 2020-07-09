@@ -133,3 +133,32 @@
 .savannah__main {
   flex: 1 0 auto;
 }
+
+.tooltip {
+  text-decoration:none;
+  position:relative;
+}
+ 
+.tooltip div {
+  display:none;
+  border-radius:6px;
+}
+ 
+.tooltip div img {
+  float:center;
+  width: 100%;
+  background-color: #6d1e1e;
+}
+ 
+.tooltip:hover div {
+  display:block;
+  position:absolute;
+  top:0;
+  z-index:10;
+  width:auto;
+  max-width:200px;
+  min-height:128px;
+  margin-top:12px;
+  margin-left: 40px;;
+  overflow:hidden;
+}
