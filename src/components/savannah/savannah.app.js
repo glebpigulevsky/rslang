@@ -16,7 +16,7 @@ import { getNextVariable } from './common/savannah.common.utils';
 class SavannahApp {
   constructor() {
     this.gameStatistics = { correct: [], wrong: [] };
-    this.gameStatisticsRound = { correct: [], wrong: [] };
+    this.statRound = { correct: [], wrong: [] };
     this.errorPopup = new ErrorPopup();
     this.startService = new SavannahServiceStart();
   }
@@ -33,13 +33,14 @@ class SavannahApp {
 
   onClickSoundBtn() {
     const savannahSound = document.querySelector('.savannah__sound');
+    const mutedClass = 'savannah__sound_muted';
     savannahSound.addEventListener('click', () => {
-      if (savannahSound.classList.contains('savannah__sound_muted')) {
+      if (savannahSound.classList.contains(mutedClass)) {
         this.isPlayingSound = true;
-        savannahSound.classList.remove('savannah__sound_muted');
+        savannahSound.classList.remove(mutedClass);
       } else {
         this.isPlayingSound = false;
-        savannahSound.classList.add('savannah__sound_muted');
+        savannahSound.classList.add(mutedClass);
       }
     });
   }
@@ -53,10 +54,38 @@ class SavannahApp {
   }
 
   onClickAudioBtn() {
-    document.querySelectorAll('.savannah__start_final_audio').forEach((answear) => answear.addEventListener('click', (e) => {
+    const audioBtn = document.querySelectorAll('.savannah__start_final_audio');
+    audioBtn.forEach((answear) => answear.addEventListener('click', (e) => {
       const audio = new Audio(e.target.dataset.audio);
       audio.play();
     }));
+  }
+
+  onClickCloseBtn() {
+    const closeBtn = document.querySelector('.savannah__close_btn');
+    closeBtn.addEventListener('click', () => { window.location.replace(`${window.location.origin}${window.location.pathname}`); });
+  }
+
+  onPressNumberKey() {
+    document.addEventListener('keydown', (e) => {
+      if (DIGIT_CODES.includes(e.code)) {
+        e.preventDefault();
+        const answearNode = document.querySelector('#js-savannah__answears').querySelector(`[data-digit="${e.key}"]`);
+        this.answearHandle(answearNode);
+      }
+    });
+  }
+
+  onChangeLevel() {
+    this.savannahLevel.addEventListener('change', (e) => {
+      this.level = Number(e.target.value);
+    });
+  }
+
+  onChangeRound() {
+    this.savannahRound.addEventListener('click', (e) => {
+      this.round = Number(e.target.value);
+    });
   }
 
   gameLoop() {
@@ -70,10 +99,7 @@ class SavannahApp {
     const second = getNextVariable([first], this.answears);
     const third = getNextVariable([first, second], this.answears);
     const fourth = getNextVariable([first, second, third], this.answears);
-    const res = [];
-    res.push(second);
-    res.push(third);
-    res.push(fourth);
+    const res = [second, third, fourth];
     res.splice(this.correctTranslationIndex, 0, first);
     return {
       first: res[0],
@@ -83,27 +109,20 @@ class SavannahApp {
     };
   }
 
-  onClickCloseBtn() {
-    document.querySelector('.savannah__close_btn').addEventListener('click', () => { window.location.replace(`${window.location.origin}${window.location.pathname}`); });
-  }
-
   checkAnswear(currentTranslate) {
     if (currentTranslate === this.currentWord.wordTranslate) {
       if (this.isPlayingSound) {
-        const audio = new Audio(correct);
-        audio.play();
+        this._playAudio(correct);
       }
       return true;
     }
     if (this.burningLives === 0) {
       this.endGame();
     } else {
-      document.querySelector(`.savannah__heart[data-pos="${this.burningLives}"]`).classList.add('savannah__heart_kill');
-      this.burningLives -= 1;
+      this._burnLife();
     }
     if (this.isPlayingSound) {
-      const audio = new Audio(wrong);
-      audio.play();
+      this._playAudio(wrong);
     }
     return false;
   }
@@ -122,15 +141,18 @@ class SavannahApp {
       this.endGame();
       return;
     }
-    document.querySelector('#js-savannah__main').insertAdjacentHTML('beforeend', getSavannahQuestion(this.currentWord.word));
-    document.querySelector('#js-savannah__main').insertAdjacentHTML('beforeend', getSavannahAnswears(this.getRamdomTranslation(this.currentWord.wordTranslate)));
-    document.querySelector('#js-savannah__question').classList.add('savannah__question_move');
-    document.querySelector('#js-savannah__question').addEventListener('animationend', () => {
-      this.gameStatisticsRound.wrong.push(this.currentWord);
+    const mainBlock = document.querySelector('#js-savannah__main');
+    mainBlock.insertAdjacentHTML('beforeend', getSavannahQuestion(this.currentWord.word));
+    mainBlock.insertAdjacentHTML('beforeend', getSavannahAnswears(this.getRamdomTranslation(this.currentWord.wordTranslate)));
+    const questionBtn = document.querySelector('#js-savannah__question');
+    questionBtn.classList.add('savannah__question_move');
+    questionBtn.addEventListener('animationend', () => {
+      this.statRound.wrong.push(this.currentWord);
       this.gameStatistics.wrong.push(this.currentWord);
       this.getNextWord();
     });
-    document.querySelectorAll('.savannah__answear').forEach((ans) => ans.addEventListener('click', (e) => this.answearHandle(e.target)));
+    const answearsBtns = document.querySelectorAll('.savannah__answear');
+    answearsBtns.forEach((ans) => ans.addEventListener('click', (e) => this.answearHandle(e.target)));
     this.isSelectedAnswear = false;
   }
 
@@ -138,36 +160,39 @@ class SavannahApp {
     this.savannahContainer.innerHTML = null;
     this.savannahContainer.insertAdjacentHTML('beforeend',
       getSavannahResult({
-        correct: this.gameStatisticsRound.correct.length,
-        wrong: this.gameStatisticsRound.wrong.length,
+        correct: this.statRound.correct.length,
+        wrong: this.statRound.wrong.length,
       }));
-    let wrongAnswears = '';
-    this.gameStatisticsRound.wrong.forEach((word) => {
-      wrongAnswears += getSavannahResultAnswear({
-        word: word.word,
-        translate: word.wordTranslate,
-        audio: word.audio,
-        image: word.image,
-        textExample: word.textExample,
-      });
-    });
-    let correctAnswears = '';
-    this.gameStatisticsRound.correct.forEach((word) => {
-      correctAnswears += getSavannahResultAnswear({
-        word: word.word,
-        translate: word.wordTranslate,
-        audio: word.audio,
-        image: word.image,
-        textExample: word.textExample,
-      });
-    });
+
+    const wrongAnswears = this.statRound.wrong.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
+    const correctAnswears = this.statRound.correct.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
+
     document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswears);
     document.querySelector('.savannah__start_final_valid').insertAdjacentHTML('beforeend', correctAnswears);
     this.onClickCloseBtn();
     this.onClickStartBtn();
     this.onClickAudioBtn();
-    this.gameStatisticsRound = { correct: [], wrong: [] };
+    this.statRound = { correct: [], wrong: [] };
     this.burningLives = 0;
+  }
+
+  _transformAnswear({ word, wordTranslate, audio }) {
+    return {
+      word,
+      translate: wordTranslate,
+      audio,
+    };
+  }
+
+  _playAudio(src) {
+    const audio = new Audio(src);
+    audio.play();
+  }
+
+  _burnLife() {
+    const burnedLife = document.querySelector(`.savannah__heart[data-pos="${this.burningLives}"]`);
+    burnedLife.classList.add('savannah__heart_kill');
+    this.burningLives -= 1;
   }
 
   answearHandle(answearNode) {
@@ -178,10 +203,10 @@ class SavannahApp {
     const isCorrect = this.checkAnswear(answearNode.dataset.answear);
     if (isCorrect) {
       answearNode.classList.add('savannah__answear_correct');
-      this.gameStatisticsRound.correct.push(this.currentWord);
+      this.statRound.correct.push(this.currentWord);
       this.gameStatistics.correct.push(this.currentWord);
     } else {
-      this.gameStatisticsRound.wrong.push(this.currentWord);
+      this.statRound.wrong.push(this.currentWord);
       this.gameStatistics.wrong.push(this.currentWord);
       answearNode.classList.add('savannah__answear_wrong');
       document
@@ -195,16 +220,6 @@ class SavannahApp {
       this.getNextWord();
     }, 2000);
     this.isSelectedAnswear = true;
-  }
-
-  onPressNumberKey() {
-    document.addEventListener('keydown', (e) => {
-      if (DIGIT_CODES.includes(e.code)) {
-        e.preventDefault();
-        const answearNode = document.querySelector('#js-savannah__answears').querySelector(`[data-digit="${e.key}"]`);
-        this.answearHandle(answearNode);
-      }
-    });
   }
 
   async selectLearningWords() {
@@ -235,18 +250,6 @@ class SavannahApp {
     }
     this.startGame();
     spinner.remove();
-  }
-
-  onChangeLevel() {
-    this.savannahLevel.addEventListener('change', (e) => {
-      this.level = Number(e.target.value);
-    });
-  }
-
-  onChangeRound() {
-    this.savannahRound.addEventListener('click', (e) => {
-      this.round = Number(e.target.value);
-    });
   }
 
   init() {
