@@ -4,11 +4,11 @@ import game from '../../sprint/components/game';
 export const sprintComponent = {
   init: sprintApp,
   render: () => `
-      <div id="body" class="body__game-sprint overflow-hidden">
+      <div class="body__game-sprint overflow-hidden">
         <div class="sprint-game__wrapper display-none">
             <div class="navigation">
                 <div class="navigation__box navigation__box_left">
-                    <span id="nav" class="sprint-navigation__description level__description">Level:</span>
+                    <span class="sprint-navigation__description level__description">Level:</span>
                     <select id="level" class="navigation__level selector" name="select">
                         <option value="0">1</option>
                         <option value="1">2</option>
@@ -19,14 +19,14 @@ export const sprintComponent = {
                     </select>
                 </div>
                 <button class="btn__my-words">repeat my words</button>
-                <span id="sw-text" class="switch__text">Theme</span>
+                <span class="switch__text">Theme</span>
                 <div class="switch">
                     <input class="switch__input" type="checkbox" id="themeSwitch">
                     <label aria-hidden="true" class="switch__label" for="themeSwitch">On</label>
                     <div aria-hidden="true" class="switch__marker"></div>
                 </div>
                 <div class="navigation__box navigation__box_right">
-                    <span id="navR" class="sprint-navigation__description round__description">Round:</span>
+                    <span class="sprint-navigation__description round__description">Round:</span>
                      <select id="round" class = "navigation__level selector" name="select">
                         <option value="0">1</option>
                         <option value="1">2</option>
@@ -63,10 +63,10 @@ export const sprintComponent = {
             </div>
             <div class="sprint-game__container">
                 <div class="inner__game-sprint">
-                    <div id="header" class="game-sprint__header">
+                    <div class="game-sprint__header">
                         <div class="game-sprint__score">Score: <span id= "score" class="score__value"></span></div>
                         <div class="game-sprint__timer"></div>
-                        <div id="text" class="score__text"></div>
+                        <div class="score__text"></div>
                     </div>
                     <div id="rating" class="game-sprint__rating"></div>
                     <div class="game-sprint__field"></div>

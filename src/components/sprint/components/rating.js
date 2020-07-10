@@ -5,8 +5,8 @@ export default class Rating {
 
   addImageRating(elem) {
     this.ratingField = document.getElementById('rating');
-    this.header = document.getElementById('header');
-    this.inform = document.getElementById('text');
+    this.header = document.querySelector('.game-sprint__header');
+    this.inform = document.querySelector('.score__text');
     if (elem === 5) {
       this.ratingField.insertAdjacentHTML('afterbegin', '<img class="img__mark"src="./assets/main/img/icon/mark.svg" alt="logo">');
       this.inform.insertAdjacentHTML('afterbegin', '<span>+20 points per word</span>');

@@ -9,6 +9,7 @@ import {
   COLOR_CODES,
   FULL_DASH_ARRAY,
   TIME_LIMIT,
+  TIME_CONTROLLER,
 } from '../common/sprint.constants';
 
 const wordsAPI = new WordsApi();
@@ -70,8 +71,8 @@ class GameSprint {
   }
 
   formatTimeLeft(time) {
-    let seconds = time % 60;
-    if (seconds < 10) {
+    let seconds = time % TIME_LIMIT;
+    if (seconds < TIME_CONTROLLER) {
       seconds = `0${seconds}`;
     }
     return `${seconds}`;
@@ -401,46 +402,40 @@ class GameSprint {
   }
 
   async init() {
-    try {
-      this.level = document.querySelector('#level');
-      this.round = document.querySelector('#round');
-      this.btnTrue = document.getElementById('true');
-      this.btnFalse = document.getElementById('false');
-      this.navigation = document.querySelector('.navigation');
-      this.statistics = document.querySelector('.statistics');
-      this.resultCorrect = document.querySelector('.result-correct');
-      this.resultErrors = document.querySelector('.result-errors');
-      this.ratingField = document.getElementById('rating');
-      this.scoreField = document.getElementById('score');
-      this.wordField = document.querySelector('.game-sprint__field');
-      this.gameContainer = document.querySelector('.sprint-game__container');
-      this.wrapper = document.querySelector('.sprint-game__wrapper');
-      this.previewSection = document.querySelector('.preview');
-      this.previewButton = document.querySelector('.preview__btn');
-      this.gameField = document.querySelector('.inner__game-sprint');
-      this.spinner = document.querySelector('.spinner');
-      this.header = document.getElementById('header');
-      this.inform = document.getElementById('text');
-      this.switch = document.getElementById('themeSwitch');
-      this.bodySprint = document.querySelector('#body');
-      this.navSelect = document.querySelector('#nav');
-      this.navRound = document.querySelector('#navR');
-      this.switchText = document.querySelector('#sw-text');
+    this.level = document.querySelector('#level');
+    this.round = document.querySelector('#round');
+    this.btnTrue = document.getElementById('true');
+    this.btnFalse = document.getElementById('false');
+    this.navigation = document.querySelector('.navigation');
+    this.statistics = document.querySelector('.statistics');
+    this.resultCorrect = document.querySelector('.result-correct');
+    this.resultErrors = document.querySelector('.result-errors');
+    this.ratingField = document.getElementById('rating');
+    this.scoreField = document.getElementById('score');
+    this.wordField = document.querySelector('.game-sprint__field');
+    this.gameContainer = document.querySelector('.sprint-game__container');
+    this.wrapper = document.querySelector('.sprint-game__wrapper');
+    this.previewSection = document.querySelector('.preview');
+    this.previewButton = document.querySelector('.preview__btn');
+    this.gameField = document.querySelector('.inner__game-sprint');
+    this.spinner = document.querySelector('.spinner');
+    this.header = document.querySelector('.game-sprint__header');
+    this.inform = document.querySelector('.score__text');
+    this.switch = document.getElementById('themeSwitch');
+    this.bodySprint = document.querySelector('.body__game-sprint');
+    this.navSelect = document.querySelector('.sprint-navigation__description');
+    this.navRound = document.querySelector('.round__description');
+    this.switchText = document.querySelector('.switch__text');
 
-      showSpinner();
-      await this.getWords();
-      this.onLevelChangeHandler();
-      this.onRoundChangeHandler();
-      hideSpinner();
-      this.addInitIntroButton();
-      this.addHandleEventKeys();
-      this.startGame();
-      this.addDarkTheme();
-    } catch (error) {
-      new ErrorPopup().openPopup({
-        text: error.message,
-      });
-    }
+    showSpinner();
+    await this.getWords();
+    this.onLevelChangeHandler();
+    this.onRoundChangeHandler();
+    hideSpinner();
+    this.addInitIntroButton();
+    this.addHandleEventKeys();
+    this.startGame();
+    this.addDarkTheme();
   }
 }
 
