@@ -70,14 +70,13 @@ class IntroMainGame {
     return `
       <div class="main__game-start">
         <div class="main__game-start__description">
-          "English words" game.<br>
-          <span>Based on russian</span>
+          Train 3600 essential english words. Based on russian
         </div>
-        <button class="main__game-start__button">Start lesson</button>
+        <button class="main__game-start__button linguist__button">Start studying</button>
       </div>
 
       <div class="main__game-level">
-        <div class="main__game-level__description">Выберите свой уровень для тренировки:</div>
+        <div class="main__game-level__description">Choose you current english level:</div>
         
         <datalist id="levellist">
           <option value="0" label="A0">
@@ -88,11 +87,6 @@ class IntroMainGame {
           <option value="5" label="C1">
         </datalist>
         <input id="englishlevel" type="range" min="0" max="5" step="1" list="levellist">
-      </div>
-
-      <div class="main__game-stat">
-        <div class="main__game-stat__today">Today</div>
-        <div class="main__game-stat__week">Weekly progress</div>
       </div>
     `;
   }

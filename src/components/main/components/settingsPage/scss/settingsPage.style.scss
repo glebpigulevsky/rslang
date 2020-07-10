@@ -2,6 +2,10 @@
 @import '../../../../../scss/constants.scss';
 @import './constants.scss';
 
+.settings__page {
+  padding-bottom: 20px;
+}
+
 .settings {
   width: 80%;
   max-width: 1000px;
@@ -37,7 +41,6 @@
         .input-words__day,
         .input-cards__day {
           width: 55px;
-          // height: 22px;
 
           color: $color-text-additional;
           text-align: center;
@@ -49,7 +52,6 @@
           &:hover,
           &:active,
           &:focus {
-            // background: $color-bg;
             outline: none;
           }
         }
@@ -104,7 +106,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: px-to-rem(25px) auto;
+  margin: 20px auto;
   padding: 0 60px;
   vertical-align: center;
   text-transform: uppercase;
@@ -114,6 +116,8 @@
   @include button($color: $color-light, $background: $color-btn, $width: 50px, $height: 55px, $radius: 30px);
 
   @include segoe-additional($color: $color-light, $weight: bold);
+
+  cursor: pointer;
 
   &:focus {
     outline: none;

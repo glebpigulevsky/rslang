@@ -3,7 +3,9 @@ import settingsPage from '../components/settingsPage/settingsPage';
 export const settingsPageComponent = {
   init: settingsPage.init,
   render: () => `
+  <div class="settings__page">
     <h2 class="dictionary__title">Settings</h2>
+    <div class="save__settings">save</div>
     <div class="settings">
       <div class="settings_raw">
         <div class="raw__container">
@@ -114,7 +116,6 @@ export const settingsPageComponent = {
         </div>
       </div>
     </div>
-
-    <div class="save__settings">save</div>
+  </div>
   `,
 };

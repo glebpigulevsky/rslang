@@ -26,50 +26,6 @@ class MainGame {
     this.checkAnswerByKey = this.checkAnswerByKey.bind(this);
   }
 
-
-// const span = document.querySelector('.span');
-// const { width } = span.getBoundingClientRect();
-
-// const input = document.querySelector('.input');
-// input.style.width = `${width}px`;
-
-// const errorSpans = Array.from(span.querySelectorAll('.errors'));
-
-// const onContainerClickHandler = () => {
-//   clearInterval(timerID);
-
-//   errorSpans.map((errorSpan) => {
-//     errorSpan.classList.remove('green', 'red', 'opacity');
-//   });
-
-//   input.value = '';
-//   input.classList.remove('visually-hidden');
-//   input.focus();
-
-//   container.removeEventListener('click', onContainerClickHandler);
-// };
-
-// const onInputChangeHandler = (event) => {
-//   const inputLetters = event.target.value.split('');
-//   errorSpans.map((errorSpan, index) => {
-//     if (errorSpan.textContent === inputLetters[index]) {
-//       errorSpan.classList.add('green');
-//     } else {
-//       errorSpan.classList.add('red');
-//     }
-//     errorSpan.classList.remove('hidden');
-//     event.target.classList.add('visually-hidden');
-//   });
-
-//   timerID = setTimeout(() => errorSpans.map((errorSpan) => {
-//     errorSpan.classList.add('opacity');
-//   }), 1000);
-
-//   container.addEventListener('click', onContainerClickHandler);
-// };
-
-// input.addEventListener('change', onInputChangeHandler);
-
   addCard(wordData = this.currentCard) {
     this.elements.containers.card.innerHTML = '';
     this.elements.containers.card.insertAdjacentHTML('afterBegin', this.renderCard(wordData));
@@ -102,6 +58,10 @@ class MainGame {
       ? 'linguist__hidden'
       : '';
 
+    const hideWordTranslationClass = (!this.userSettings.optional.isTranslation)
+      ? 'display-none'
+      : '';
+
     const hideMeaningClass = (!this.userSettings.optional.isMeaningSentence)
       ? 'display-none'
       : '';
@@ -126,7 +86,7 @@ class MainGame {
     return `
       <p class="linguist-main-card__word">${this.renderWord(wordData.word)}</p>
       <p class="linguist-main-card__transcription linguist-main-card__description ${hideTranscriptionClass}">${wordData.transcription}</p>
-      <p class="linguist-main-card__word_translate linguist-main-card__description ${hideTranslationClass}">${wordData.wordTranslate}</p>
+      <p class="linguist-main-card__word_translate linguist-main-card__description ${hideTranslationClass} ${hideWordTranslationClass}">${wordData.wordTranslate}</p>
       <p class="linguist-main-card__example linguist-main-card__description ${hideExampleClass}">${textExample}</p>
       <p class="linguist-main-card__example_translate linguist-main-card__description ${hideTranslationClass} ${hideExampleClass}">${wordData.textExampleTranslate}</p>
       <p class="linguist-main-card__meaning linguist-main-card__description ${hideMeaningClass}">${textMeaning}</p>
@@ -253,7 +213,7 @@ class MainGame {
             
           </div>
         </div>
-        <img class="linguist-main-card__image">
+        <img class="linguist-main-card__image display-none">
       </div>
     `;
   }
@@ -279,7 +239,6 @@ class MainGame {
   }
 
   init(userSettings) {
-    debugger;
     if (!userSettings) {
       this.userSettings = DEFAULT_SETTINGS;
     } else this.userSettings = userSettings;
@@ -304,6 +263,10 @@ class MainGame {
         autoSpelling: document.querySelector('.linguist__hints-button_auto-spelling'),
       },
     };
+
+    if (this.userSettings.optional.isPicture) {
+      this.elements.picture.classList.remove('display-none');
+    }
 
     if (this.userSettings.optional.isDeleteButton) {
       this.elements.buttons.delete.classList.remove('display-none');

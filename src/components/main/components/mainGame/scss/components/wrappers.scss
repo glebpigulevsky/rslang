@@ -1,5 +1,5 @@
 .linguist__wrapper {
-  min-height: calc(100vh - 73px);
+  min-height: 100vh;
   padding: 0 10px;
 
   background-color: #f0e0e0;
@@ -16,6 +16,10 @@
 .linguist__categories-controls-wrapper {
   @include flex-center;
   flex-wrap: wrap;
+}
+
+.linguist__controls-wrapper {
+  margin-top: 20px;
 }
 
 .linguist__hints-wrapper {
