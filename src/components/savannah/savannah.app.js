@@ -110,21 +110,18 @@ class SavannahApp {
   }
 
   checkAnswear(currentTranslate) {
-    if (currentTranslate === this.currentWord.wordTranslate) {
-      if (this.isPlayingSound) {
-        this._playAudio(correct);
-      }
-      return true;
-    }
-    if (this.burningLives === 0) {
-      this.endGame();
-    } else {
-      this._burnLife();
-    }
+    const isCorrect = (currentTranslate === this.currentWord.wordTranslate);
     if (this.isPlayingSound) {
-      this._playAudio(wrong);
+      this._playAudio(isCorrect ? correct : wrong);
     }
-    return false;
+    if (!isCorrect) {
+      if (this.burningLives === 0) {
+        this.endGame();
+      } else {
+        this.burnLife();
+      }
+    }
+    return !!isCorrect;
   }
 
   getNextWord() {
@@ -189,7 +186,7 @@ class SavannahApp {
     audio.play();
   }
 
-  _burnLife() {
+  burnLife() {
     const burnedLife = document.querySelector(`.savannah__heart[data-pos="${this.burningLives}"]`);
     burnedLife.classList.add('savannah__heart_kill');
     this.burningLives -= 1;
