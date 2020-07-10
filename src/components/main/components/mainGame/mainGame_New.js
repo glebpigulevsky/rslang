@@ -73,7 +73,7 @@ class MainGame {
   addCard(wordData = this.currentCard) {
     this.elements.containers.card.innerHTML = '';
     this.elements.containers.card.insertAdjacentHTML('afterBegin', this.renderCard(wordData));
-    // this.elements.picture.src = wordData.image; // !восстановить, когда будет Инет
+    this.elements.picture.src = wordData.image;
 
     const wordElement = document.querySelector('.linguist-main-card__word');
 
@@ -230,15 +230,6 @@ class MainGame {
   render() {
     return `
       <div class="linguist__wrapper">
-        <div class="linguist__hints-wrapper">
-          <button class="linguist__button linguist__hints-button linguist__hints-button_translation" title="Show/hide translation"></button>
-          <button class="linguist__button linguist__hints-button linguist__hints-button_auto-spelling" title="On/off auto-spelling"></button>
-        </div>
-        <div class="linguist-main-card__wrapper">
-          <div class="linguist-main-card">
-            
-          </div>
-        </div>
         <div class="linguist__controls-wrapper">
           <div class="linguist__game-controls-wrapper">
             <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_delete display-none">delete</button>
@@ -251,7 +242,16 @@ class MainGame {
             <button class="linguist__button linguist__categories-button linguist__categories-button_hard">hard</button>
             <button class="linguist__button linguist__categories-button linguist__categories-button_good">good</button>
             <button class="linguist__button linguist__categories-button linguist__categories-button_easy">easy</button>
-          </div
+          </div>
+        </div>
+        <div class="linguist__hints-wrapper">
+          <button class="linguist__button linguist__hints-button linguist__hints-button_translation" title="Show/hide translation"></button>
+          <button class="linguist__button linguist__hints-button linguist__hints-button_auto-spelling" title="On/off auto-spelling"></button>
+        </div>
+        <div class="linguist-main-card__wrapper">
+          <div class="linguist-main-card">
+            
+          </div>
         </div>
         <img class="linguist-main-card__image">
       </div>
@@ -278,7 +278,8 @@ class MainGame {
     target.classList.toggle('active');
   }
 
-  init(userSettings) { // todo
+  init(userSettings) {
+    debugger;
     if (!userSettings) {
       this.userSettings = DEFAULT_SETTINGS;
     } else this.userSettings = userSettings;

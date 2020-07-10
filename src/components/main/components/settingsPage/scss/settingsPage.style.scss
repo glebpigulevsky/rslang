@@ -1,35 +1,57 @@
 @import '../../../../../scss/mixins.scss';
 @import '../../../../../scss/constants.scss';
+@import './constants.scss';
 
 .settings {
   width: 80%;
-  height: auto;
+  max-width: 1000px;
   margin: 0 auto;
-  margin-top: 73px;
-  background: #f4f5fa;
+  background-color: $color-light-grey;
   @include border-radius(10px, 10px, 10px, 10px);
-  @include box-shadow(0, 4px, 20px, rgba(0, 0, 0, .25));
+  box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+  
+  border: 2px solid $color-border;
+  
+  @include segoe-additional($color: $color-text, $weight: 400);
+  color: $color-text-additional;
+  font-size: px-to-rem(14px);
+  line-height: px-to-rem(18px);
 
-  border: 2px solid rgba(75, 71, 71, .51);
+  .raw__container-descr {
+    padding: 5px;
+  }
 
   .settings_raw {
-    border-bottom: 2px solid rgba(75, 71, 71, .51);
-    @include segoe-additional(#000000, 400);
+    border-bottom: 2px solid $color-border;
 
     .raw__container {
-      height: 35px;
+      min-height: 40px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin: 0 14px;
+      margin: 0 20px;
 
       .raw__container-input {
         @include border-radius(2px, 2px, 2px, 2px);
 
         .input-words__day,
         .input-cards__day {
-          width: 35px;
-          height: 22px;
+          width: 55px;
+          // height: 22px;
+
+          color: $color-text-additional;
+          text-align: center;
+
+          border: 2px solid $color-border;
+          border-radius: 5px;
+          background-color: $color-bg;
+
+          &:hover,
+          &:active,
+          &:focus {
+            // background: $color-bg;
+            outline: none;
+          }
         }
 
         .switch-btn {
@@ -37,14 +59,14 @@
           width: 60px;
           height: 25px;
           border-radius: 12.5px;
-          background: #ffff;
+          background: $color-dark-grey;
           z-index: 0;
           margin: 0;
           padding: 0;
           cursor: pointer;
           position: relative;
           transition-duration: 300ms;
-          border: 1px solid #e7ecf4;
+          border: 1px solid $color-border;
         }
 
         .switch-btn:after {
@@ -52,14 +74,18 @@
           height: 25px;
           width: 25px;
           border-radius: 25px;
-          background: #2564ae;
+          background: $color-border;
           transition-duration: 300ms;
           position: absolute;
           z-index: 1;
         }
 
+        .switch-btn:hover:after {
+          background: $color-orange;
+        }
+
         .switch-on {
-          background: #3f89d7;
+          background: $color-btn;
         }
 
         .switch-on:after {

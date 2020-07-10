@@ -28,23 +28,19 @@ const LINK_TYPE = {
 };
 
 const DEFAULT_SETTINGS = {
-  wordsPerDay: 7,
+  wordsPerDay: 20,
   optional: {
     englishLevel: 0,
     cardsPerDay: 50,
-    isPicture: true,
+    isPicture: false,
     isTranslation: true,
     isTranscription: true,
     isExampleSentence: true,
-    isMeaningSentence: true,
+    isMeaningSentence: false,
     isAnswerButton: true,
     isMoveToDifficultiesButton: true,
     isDeleteButton: true,
     isCategoriesButtons: true,
-    // isShowAgainButton: true,
-    // isShowDiffButton: true,
-    // isShowGoodButton: true,
-    // isShowEasyButton: true,
     isVoiceSpelling: true,
     newWordsFetchedData: '', // todo
   },

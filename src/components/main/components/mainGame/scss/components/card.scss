@@ -83,6 +83,17 @@
   font-style: italic;
 }
 
+.linguist-main-card__image {
+  max-width: 300px;
+  margin-bottom: 20px;
+
+  background-color: $color-light;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+
+  object-fit: cover;
+}
+
 .show-etalon-word {
   position: relative;
 }
