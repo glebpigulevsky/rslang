@@ -6,10 +6,9 @@ import { Spinner } from '../../spinner/spinner';
 const wordsAPI = new WordsApi();
 class DropModel {
   constructor() {
+    this.cardsData = null;
     this.currentLevel = 0;
     this.currentRound = 0;
-    this.cardsData = null;
-    this.pageData = null;
     this.onDropIntroButtonBinded = this.onDropIntroButton.bind(this);
   }
 
@@ -19,6 +18,7 @@ class DropModel {
       response = await wordsAPI.getWordsCollection({
         group: this.currentLevel,
         page: this.currentRound,
+        wordsPage: 12,
       });
     } catch (error) {
       new ErrorPopup().openPopup({
@@ -36,9 +36,27 @@ class DropModel {
       image,
     }) => ({
       id,
-      word: word.toLowerCase().trim(),
+      word,
       image,
     }));
+  }
+
+  onLevelChangeHandler() {
+    this.level.addEventListener('change', async (event) => {
+      this.currentLevel = +event.target.value;
+      this.spinner.show();
+      await this.getData();
+      this.spinner.hide();
+    });
+  }
+
+  onRoundChangeHandler() {
+    this.round.addEventListener('change', async (event) => {
+      this.currentRound = +event.target.value;
+      this.spinner.show();
+      await this.getData();
+      this.spinner.hide();
+    });
   }
 
   onDropIntroButton(event) {
@@ -57,22 +75,20 @@ class DropModel {
   }
 
   async init() {
-    try {
-      this.spinner = new Spinner(document.body.querySelector('.main'));
-      this.spinner.init();
-      this.inner = document.querySelector('.drop-game__wrapper');
-      this.preview = document.querySelector('.preview-drop');
-      this.previewButton = document.querySelector('.preview-drop__btn');
-      this.dropWords = document.querySelector('.drop__words');
-      this.spinner.show();
-      await this.getData();
-      this.addDropIntroButton();
-      this.spinner.hide();
-    } catch (error) {
-      new ErrorPopup().openPopup({
-        text: error.message,
-      });
-    }
+    this.spinner = new Spinner(document.body.querySelector('.main'));
+    this.spinner.init();
+    this.inner = document.querySelector('.drop-game__wrapper');
+    this.preview = document.querySelector('.preview-drop');
+    this.previewButton = document.querySelector('.preview-drop__btn');
+    this.level = document.querySelector('#level');
+    this.round = document.querySelector('#round');
+    this.dropWords = document.querySelector('.drop__words');
+    this.spinner.show();
+    await this.getData();
+    this.onLevelChangeHandler();
+    this.onRoundChangeHandler();
+    this.addDropIntroButton();
+    this.spinner.hide();
   }
 }
 

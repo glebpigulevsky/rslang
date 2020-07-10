@@ -55,6 +55,7 @@ export const dropComponent = {
             </div>
             <div class="drop-navigation__btn">
                 <button class="drop__new drop-buttons">New Game</button>
+                <button class="drop__check drop-buttons">Check</button>
                 <button class="drop__statistics drop-buttons">Statistics</button>
                 <button class="drop__instruction drop-buttons">Instruction</button>
             </div>
