@@ -5,4 +5,5 @@ export const savannahComponent = {
   render: () => `
   <div class="savannah__container" id="js-savannah-container">
   </div> `,
+  unmount: savannahApp.unmount,
 };
