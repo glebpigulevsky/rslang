@@ -113,7 +113,7 @@ class MainController {
   async getAllUserWordsInLearning(wordsPerPage = 6000) { // todo
     const response = this.getAllUserAggregatedWords({
       wordsPerPage,
-      filter: USER_AGGREGATED_WORDS_FILTER.allUserWords,
+      filter: USER_AGGREGATED_WORDS_FILTER.allUserWordsInLearning,
     });
     if (response) this.userWords = response;
     return response;

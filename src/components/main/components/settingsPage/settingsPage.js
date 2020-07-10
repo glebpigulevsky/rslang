@@ -15,6 +15,7 @@ class SettingsPage {
 
   loadSettingsToFront(userSettings) { // Add cardsPerDay + englishLevel
     document.querySelector('.input-words__day').value = userSettings.wordsPerDay;
+    document.querySelector('.input-cards__day').value = userSettings.optional.cardsPerDay;
     Object.keys(userSettings.optional).forEach((key) => {
       if (userSettings.optional[key] === 'true') {
         document.querySelector(`#${key}`).classList.toggle('switch-on');
@@ -25,6 +26,7 @@ class SettingsPage {
   async saveUserSettings() {
     const wordsPerDayFront = document.querySelector('.input-words__day').value;
     const optionalFront = {};
+    optionalFront.cardsPerDay = document.querySelector('.input-cards__day').value;
     this.buttons.forEach((button) => {
       if (button.classList.contains('switch-on')) {
         optionalFront[button.getAttribute('id')] = 'true';

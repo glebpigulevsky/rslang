@@ -1,0 +1,23 @@
+.linguist__wrapper {
+  min-height: calc(100vh - 73px);
+  padding: 0 10px;
+
+  background-color: #f0e0e0;
+}
+
+.linguist__wrapper,
+.linguist-main-card  {
+  @include column;
+  align-items: center;
+}
+
+.linguist__hints-wrapper,
+.linguist__game-controls-wrapper,
+.linguist__categories-controls-wrapper {
+  @include flex-center;
+  flex-wrap: wrap;
+}
+
+.linguist__hints-wrapper {
+  margin-bottom: 10px;
+}

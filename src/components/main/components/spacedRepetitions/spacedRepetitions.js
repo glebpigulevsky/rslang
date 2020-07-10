@@ -1,6 +1,8 @@
 import mainController from '../controller/main.controller';
 import { mainStorage } from '../mainStorage/mainStorage';
 
+import { defaultData } from './data';
+
 import { EMPTY } from '../../../../common/common.constants';
 import { MINI_GAMES_NAMES } from '../../common/main.constants';
 import {
@@ -32,35 +34,41 @@ const INDEX_TO_CATEGORY = {
   5: 'learned',
 };
 
+const CATEGORY_INDEX_TO_TIME_DELAY = {
+  0: 5000,
+  1: 25000,
+  2: 2 * 60 * 60 * 1000,
+  3: 10 * 60 * 60 * 1000,
+  4: 60 * 60 * 60 * 1000,
+};
+
 class SpacedRepetitions {
   constructor() {
-    this.wordsCategories = [];
-    this.difficultWords = [];
-    this.deletedWords = [];
+    this.userWordsCollection = [];
     this.newWords = [];
 
-    this.count = 0;
-    this.wordsCollectionToLearn = [];
+    this.cardsCount = 0;
+    this.newWordsCount = 0;
   }
 
-  parseUserWordsByCategories(userWords = mainController.userWords) {
-    userWords.forEach((wordData) => {
-      if (wordData.userWord.optional.toRepeat
-        && !wordData.userWord.optional.isDeleted
-        && wordData.userWord.difficulty !== 'fetched') {
-        this.wordsCategories[WORD_CATEGORY_TO_INDEX[wordData.userWord.difficulty]].push(wordData);
-      }
-      if (wordData.userWord.optional.isDifficult) {
-        this.difficultWords.push(wordData);
-      }
-      if (wordData.userWord.optional.isDeleted) {
-        this.deletedWords.push(wordData);
-      }
-      if (wordData.userWord.difficulty === 'fetched') {
-        this.newWords.push(wordData);
-      }
-    });
-  }
+  // parseUserWordsByCategories(userWords = mainController.userWords) {
+  //   userWords.forEach((wordData) => {
+      // if (wordData.userWord.optional.toRepeat
+      //   && !wordData.userWord.optional.isDeleted
+      //   && wordData.userWord.difficulty !== 'fetched') {
+      //   this.wordsCategories[WORD_CATEGORY_TO_INDEX[wordData.userWord.difficulty]].push(wordData);
+      // }
+      // if (wordData.userWord.optional.isDifficult) {
+      //   this.difficultWords.push(wordData);
+      // }
+      // if (wordData.userWord.optional.isDeleted) {
+      //   this.deletedWords.push(wordData);
+      // }
+      // if (wordData.userWord.difficulty === 'fetched') {
+      //   this.newWords.push(wordData);
+      // }
+  //   });
+  // }
 
   parseMiniGamesResults(miniGamesResults = mainStorage.miniGamesResults) {
     Object.values(miniGamesResults).forEach((miniGamesResult) => {
@@ -76,106 +84,105 @@ class SpacedRepetitions {
     });
   }
 
-  async updateUserWordsByCategories() {
-    return Promise.all(
-      this.wordsCategories.map((categoryCollection, categoryIndex) => Promise.all(
-        categoryCollection.map((wordData) => {
-          if (!wordData.changed) return null;
-          delete wordData.changed;
-          if (wordData.userWord.optional.isNew) {
-            return mainController.setUserWord(
-              wordData.id,
-              INDEX_TO_CATEGORY[categoryIndex],
-              wordData.userWord.optional,
-            );
-          }
-          return mainController.updateUserWord(
-            wordData.id,
-            INDEX_TO_CATEGORY[categoryIndex],
-            wordData.userWord.optional,
-          );
-        }),
-      )),
-    );
-  }
-
-  async updateDifficultUserWords() {
-    return Promise.all(
-      this.difficultWords.map((wordData) => {
-        if (!wordData.changed) return null;
-        delete wordData.changed;
-        if (wordData.userWord.optional.isNew) {
-          return mainController.setUserWord(
-            wordData.id,
-            wordData.userWord.difficulty,
-            wordData.userWord.optional,
-          );
-        }
-        return mainController.updateUserWord(
-          wordData.id,
-          wordData.userWord.difficulty,
-          wordData.userWord.optional,
-        );
-      }),
-    );
-  }
-
-  async updateDeletedUserWords() {
-    return Promise.all(
-      this.deletedWords.map((wordData) => {
-        if (!wordData.changed) return null;
-        delete wordData.changed;
-        if (wordData.userWord.optional.isNew) {
-          return mainController.setUserWord(
-            wordData.id,
-            wordData.userWord.difficulty,
-            wordData.userWord.optional,
-          );
-        }
-        return mainController.updateUserWord(
-          wordData.id,
-          wordData.userWord.difficulty,
-          wordData.userWord.optional,
-        );
-      }),
-    );
-  }
-
-  async updateNewUserWords() {
-    return Promise.all(
-      this.newWords.map((wordData) => {
-        if (!wordData.changed) return null;
-        delete wordData.changed;
-        if (!wordData.userWord.optional.isNew) {
-          return mainController.updateUserWord(
-            wordData.id,
-            wordData.userWord.difficulty,
-            wordData.userWord.optional,
-          );
-        }
-        wordData.userWord.optional.isNew = false;
-        return mainController.setUserWord(
-          wordData.id,
-          wordData.userWord.difficulty,
-          wordData.userWord.optional,
-        );
-      }),
-    );
-  }
-
   async updateUserWords() {
-    return Promise.all([
-      this.updateUserWordsByCategories(),
-      this.updateDifficultUserWords(),
-      this.updateDeletedUserWords(),
-      this.updateNewUserWords(),
-    ]);
+    return Promise.all(
+      this.userWordsCollection.map((wordData) => {
+        if (!wordData.changed) return null;
+        wordData.changed = false;
+        if (wordData.userWord.optional.isNew) {
+          wordData.userWord.optional.isNew = false;
+          return mainController.setUserWord(
+            wordData.id,
+            wordData.userWord.difficulty,
+            wordData.userWord.optional,
+          );
+        }
+        return mainController.updateUserWord(
+          wordData.id,
+          wordData.userWord.difficulty,
+          wordData.userWord.optional,
+        );
+      }),
+    );
   }
+
+  // async updateDifficultUserWords() {
+  //   return Promise.all(
+  //     this.difficultWords.map((wordData) => {
+  //       if (!wordData.changed) return null;
+  //       delete wordData.changed;
+  //       if (wordData.userWord.optional.isNew) {
+  //         return mainController.setUserWord(
+  //           wordData.id,
+  //           wordData.userWord.difficulty,
+  //           wordData.userWord.optional,
+  //         );
+  //       }
+  //       return mainController.updateUserWord(
+  //         wordData.id,
+  //         wordData.userWord.difficulty,
+  //         wordData.userWord.optional,
+  //       );
+  //     }),
+  //   );
+  // }
+
+  // async updateDeletedUserWords() {
+  //   return Promise.all(
+  //     this.deletedWords.map((wordData) => {
+  //       if (!wordData.changed) return null;
+  //       delete wordData.changed;
+  //       if (wordData.userWord.optional.isNew) {
+  //         return mainController.setUserWord(
+  //           wordData.id,
+  //           wordData.userWord.difficulty,
+  //           wordData.userWord.optional,
+  //         );
+  //       }
+  //       return mainController.updateUserWord(
+  //         wordData.id,
+  //         wordData.userWord.difficulty,
+  //         wordData.userWord.optional,
+  //       );
+  //     }),
+  //   );
+  // }
+
+  // async updateNewUserWords() {
+  //   return Promise.all(
+  //     this.newWords.map((wordData) => {
+  //       if (!wordData.changed) return null;
+  //       delete wordData.changed;
+  //       if (!wordData.userWord.optional.isNew) {
+  //         return mainController.updateUserWord(
+  //           wordData.id,
+  //           wordData.userWord.difficulty,
+  //           wordData.userWord.optional,
+  //         );
+  //       }
+  //       wordData.userWord.optional.isNew = false;
+  //       return mainController.setUserWord(
+  //         wordData.id,
+  //         wordData.userWord.difficulty,
+  //         wordData.userWord.optional,
+  //       );
+  //     }),
+  //   );
+  // }
+
+  // async updateUserWords() {
+  //   return Promise.all([
+  //     this.updateUserWordsByCategories(),
+  //     this.updateDifficultUserWords(),
+  //     this.updateDeletedUserWords(),
+  //     this.updateNewUserWords(),
+  //   ]);
+  // }
 
   async loadTodayNewWords() {
-    // todo это важно и потом надо вернуть
     let todayNewWords;
-    if (mainController.userSettings.optional.newWordsFetchedData !== new Date().toISOString().slice(0, 10) && mainController.userSettings.wordsPerDay - this.newWords.length > 0) {
+    // todo это важно и потом надо вернуть
+    // if (mainController.userSettings.optional.newWordsFetchedData !== new Date().toISOString().slice(0, 10) && mainController.userSettings.wordsPerDay - this.newWords.length > 0) {
       todayNewWords = await mainController.getNotUserNewWords(mainController.englishLevel, mainController.userSettings.wordsPerDay - this.newWords.length);
       if (!todayNewWords) return [];
       todayNewWords = todayNewWords.map((wordData) => {
@@ -190,6 +197,7 @@ class SpacedRepetitions {
             isDeleted: DEFAULT_USER_WORD_OPTIONS.optional.isDeleted,
             isNew: DEFAULT_USER_WORD_OPTIONS.optional.isNew,
             changed: DEFAULT_USER_WORD_OPTIONS.optional.changed,
+            repeatDate: Date.now(),
           },
         };
         return newWordData;
@@ -197,155 +205,98 @@ class SpacedRepetitions {
       mainController.userSettings.optional.newWordsFetchedData = new Date().toISOString().slice(0, 10); // todo
       await mainController.updateUserSettings();
       return todayNewWords;
-    }
+    // }
     return [];
   }
 
-  // getWordsCollectionToLearn() {
-  //   for (let i = 0; i < mainController.userSettings.optional.cardsPerDay; i += 1) {
-  //     if (i % 2) {
-  //       this.wordsCollectionToLearn.push(this.newWords.);
-  //     } else
-  //   }
-  // }
+  updateCorrectWord(correctWordData) { // дописать установку флага на количество верных ответов
+    if (correctWordData.userWord.optional.isWrong) {
+      correctWordData.userWord.optional.isWrong = false;
+      return;
+    }
 
-  updateCorrectWord(correctWordData) { //
-    debugger;
-    // correctWordData.userWord.optional.lastRepeat = new Date().toLocaleString();
     const previousDifficultIndex = WORD_CATEGORY_TO_INDEX[correctWordData.userWord.difficulty];
-    const currentWordIndex = this.wordsCategories[previousDifficultIndex]
-      .findIndex((wordData) => wordData.id === correctWordData.id);
-
-    this.wordsCategories[previousDifficultIndex] = this.wordsCategories[previousDifficultIndex]
-      .slice(0, currentWordIndex)
-      .concat(
-        this.wordsCategories[previousDifficultIndex]
-          .slice(currentWordIndex + 1),
-      );
-
-    // const previousDifficultIndex = WORD_CATEGORY_TO_INDEX[correctWordData.userWord.difficulty];
     const newDifficultIndex = previousDifficultIndex + 1; // можно ограничить выдачу выученных слов, но они по идее не переходят в игру 
+
+    if (newDifficultIndex > 4) {
+      debugger;
+      correctWordData.userWord.optional.toRepeat = false;
+      correctWordData.userWord.optional.isDifficult = false;
+      correctWordData.userWord.optional.isDeleted = false;
+      correctWordData.userWord.optional.repeatDate = Infinity;
+    } else correctWordData.userWord.optional.repeatDate = Date.now() + CATEGORY_INDEX_TO_TIME_DELAY[newDifficultIndex];
 
     correctWordData.userWord.difficulty = INDEX_TO_CATEGORY[newDifficultIndex];
     correctWordData.userWord.optional.changed = true;
-    this.wordsCategories[newDifficultIndex].push(correctWordData);
-    // return correctWordData;
   }
 
-  updateWrongWord(wrongWordData) { //
-    // correctWordData.userWord.optional.lastRepeat = new Date().toLocaleString();
-
-    const previousDifficultIndex = WORD_CATEGORY_TO_INDEX[wrongWordData.userWord.difficulty];
-    const currentWordIndex = this.wordsCategories[previousDifficultIndex]
-      .find((wordData, index) => {
-        if (wordData.id === wrongWordData.id) return index;
-        return null;
-      });
-
-    this.wordsCategories[previousDifficultIndex] = this.wordsCategories[previousDifficultIndex]
-      .slice(0, currentWordIndex)
-      .concat(
-        this.wordsCategories[previousDifficultIndex]
-          .slice(currentWordIndex + 1),
-      );
-
+  updateWrongWord(wrongWordData) { // дописать установку флага на количество неверных ответов
     // const previousDifficultIndex = WORD_CATEGORY_TO_INDEX[wrongWordData.userWord.difficulty];
-    const newDifficultIndex = (previousDifficultIndex > 0)
-      ? previousDifficultIndex - 1
-      : previousDifficultIndex;
-
+    // const newDifficultIndex = (previousDifficultIndex > 0)
+    //   ? previousDifficultIndex - 1
+    //   : previousDifficultIndex;
+    const newDifficultIndex = 0;
+    debugger;
     wrongWordData.userWord.difficulty = INDEX_TO_CATEGORY[newDifficultIndex];
+    wrongWordData.userWord.optional.repeatDate = Date.now() + CATEGORY_INDEX_TO_TIME_DELAY[newDifficultIndex];
     wrongWordData.userWord.optional.changed = true;
-    this.wordsCategories[newDifficultIndex].unshift(wrongWordData);
-    // return wrongWordData;
+    wrongWordData.userWord.optional.isWrong = true;
+  }
+
+  getNewWords(wordsCollection = this.userWordsCollection) {
+    return wordsCollection.filter((wordData) => wordData.userWord.optional.difficulty === 'fetched');
   }
 
   getNextWord() {
-    this.count += 1;
-    let nextWord;
-    if (this.count % 720 === 0 && this.wordsCategories[4].length) {
-      // nextWord = this.wordsCategories[4].shift();
-      [, , , , [nextWord]] = this.wordsCategories;
-      nextWord.userWord.optional.repeatTimes += 1;
-      nextWord.userWord.optional.lastRepeat = new Date().toLocaleString();
-      return nextWord;
-    }
-    if (this.count % 120 === 0 && this.wordsCategories[3].length) {
-      // nextWord = this.wordsCategories[3].shift();
-      [, , , [nextWord]] = this.wordsCategories;
-      nextWord.userWord.optional.repeatTimes += 1;
-      nextWord.userWord.optional.lastRepeat = new Date().toLocaleString();
-      return nextWord;
-    }
-    if (this.count % 25 === 0 && this.wordsCategories[2].length) {
-      // nextWord = this.wordsCategories[2].shift();
-      [, , [nextWord]] = this.wordsCategories;
-      nextWord.userWord.optional.repeatTimes += 1;
-      nextWord.userWord.optional.lastRepeat = new Date().toLocaleString();
-      return nextWord;
-    }
-    if (this.count % 5 === 0 && this.wordsCategories[1].length) {
-      // nextWord = this.wordsCategories[1].shift();
-      [, [nextWord]] = this.wordsCategories;
-      nextWord.userWord.optional.repeatTimes += 1;
-      nextWord.userWord.optional.lastRepeat = new Date().toLocaleString();
-      return nextWord;
-    }
-    if (this.count % 2 === 0 && this.newWords.length) {
-      // nextWord = this.newWords.shift();
-      [nextWord] = this.newWords;
-      // nextWord.difficulty = 'new';
-      nextWord.userWord = {
-        difficulty: 'new',
-        optional: {
-          repeatTimes: DEFAULT_USER_WORD_OPTIONS.optional.repeatTimes,
-          lastRepeat: DEFAULT_USER_WORD_OPTIONS.optional.lastRepeat,
-          toRepeat: DEFAULT_USER_WORD_OPTIONS.optional.toRepeat,
-          isDifficult: DEFAULT_USER_WORD_OPTIONS.optional.isDifficult,
-          isDeleted: DEFAULT_USER_WORD_OPTIONS.optional.isDeleted,
-          isNew: DEFAULT_USER_WORD_OPTIONS.optional.isNew,
-          changed: DEFAULT_USER_WORD_OPTIONS.optional.changed,
-        },
-      };
+    this.cardsCount += 1;
 
-      return nextWord;
-    }
-    if (this.wordsCategories[0].length) {
-      // nextWord = this.wordsCategories[0][0];
-      [[nextWord]] = this.wordsCategories;
-      nextWord.userWord.optional.repeatTimes += 1;
-      nextWord.userWord.optional.lastRepeat = new Date().toLocaleString();
-      return nextWord;
-    }
-    alert('На сегодня закончились слова для изучения!'); // todo
-    return null;
+    return this.userWordsCollection[this.cardsCount]; // ! todo убрать!!!
+
+    // this.userWordsCollection.sort(
+    //   (wordDataA, wordDataB) => wordDataA.userWord.optional.repeatDate
+    //     - wordDataB.userWord.optional.repeatDate,
+    // );
+
+    // if (this.userWordsCollection[0].userWord.difficulty === 'fetched') {
+    //   this.userWordsCollection[0].userWord.difficulty = 'new';
+    //   this.userWordsCollection[0].userWord.optional.changed = true;
+    //   this.newWordsCount += 1;
+    // }
+    // this.userWordsCollection[0].userWord.optional.repeatTimes += 1;
+    // this.userWordsCollection[0].userWord.optional.lastRepeat = new Date().toLocaleString();
+    // return this.userWordsCollection[0];
   }
 
   async init() {
     mainController.spinner.show();
 
-    this.wordsCategories = new Array(6).fill(EMPTY).map(() => []);
-    this.difficultWords = [];
-    this.deletedWords = [];
     this.newWords = [];
-    // this.wordsCollectionToLearn = [];
-    this.count = 0;
+    this.userWordsCollection = [];
+    this.cardsCount = 0;
+    this.newWordsCount = 0;
 
+    // this.userWordsCollection = defaultData; // !!! todo тут я все и поменял!!!! 
     // скачать 20 слов или все слова пользователя в изучении, если убрать 20 скачает все возможные
-    const allUserWords = await mainController.getAllUserWordsInLearning();
-    this.parseUserWordsByCategories(allUserWords);
-    // const todayNewWords = await this.loadTodayNewWords();
+    // debugger;
+    this.userWordsCollection = await mainController.getAllUserWordsInLearning() || []; // тут нет deleted words and learned words
+    this.newWords = this.getNewWords(this.userWordsCollection);
     const fetchedNewWords = await this.loadTodayNewWords();
+    this.userWordsCollection = this.userWordsCollection.concat(fetchedNewWords);
     this.newWords = this.newWords.concat(fetchedNewWords);
     console.log(this.newWords);
+    mainController.spinner.hide();
+    return Promise.all([this.userWordsCollection, fetchedNewWords]); // todo а надо ли это?
 
+    // ------------------------------------------------------------
     // const result = await mainController.getAllUserWordsInLearning(); // все удалить
     // console.log(result);
+    // debugger;
     // await Promise.all(
     //   result.map((item) => userWordsApi.deleteUserWord({ wordId: item.id })),
     // );
     // const result2 = await mainController.getAllUserWordsInLearning();
     // console.log(result2);
+    // debugger;
     // -------------------------------------------------------
     // const result = await mainController.getAllUserAggregatedWords({ // записать 12 слов
     //   group: 1,
@@ -371,12 +322,8 @@ class SpacedRepetitions {
     // const result4 = await mainController.getAllUserWordsInLearning(); // скачать 20 слов пользователя в изучении, если убрать 20 скачает все возможные
     // console.log(result4);
 
-    mainController.spinner.hide();
-    return Promise.all([allUserWords, fetchedNewWords]);
+    
   }
 }
-
-// mainController.userSettings.wordsPerDay
-// mainController.userSettings.optional.cardsPerDay
 
 export default new SpacedRepetitions();

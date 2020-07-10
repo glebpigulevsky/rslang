@@ -1,0 +1,104 @@
+.linguist-main-card__wrapper {
+  max-width: 700px;
+  min-width: 300px;
+  margin-bottom: 20px;
+
+  background-color: $color-light;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+}
+
+.linguist-main-card {
+  padding: 20px;
+}
+
+.linguist-main-card__word {
+  display: flex;
+  position: relative;
+}
+
+.linguist-main-card__input {
+  position: absolute;
+  box-sizing: border-box;
+  padding: 5px;
+  
+  border: 2px solid $color-border;
+  border-radius: 5px;
+  background-color: $color-input;
+
+  color: $color-text-additional;
+  outline: none;
+
+  font-size: px-to-rem(14px);
+  line-height: px-to-rem(18px);
+
+  @include media-tablet {
+    font-size: px-to-rem(14px);
+    line-height: px-to-rem(18px);
+  }
+}
+
+.linguist-main-card__letter {
+  padding: 7px 0;
+
+  font-size: px-to-rem(14px);
+  line-height: px-to-rem(18px);
+
+  @include media-tablet {
+    font-size: px-to-rem(14px);
+    line-height: px-to-rem(18px);
+  }
+
+  pointer-events: none;
+}
+
+.linguist-main-card__letter:first-of-type {
+  padding-left: 7px;
+}
+
+.linguist-main-card__letter:last-of-type {
+  padding-right: 7px;
+}
+
+.linguist-main-card__description {
+  margin: 0;
+  margin-bottom: 10px;
+
+  color: $color-text-additional;
+  text-align: center;
+}
+
+.linguist__hidden {
+  visibility: hidden;
+}
+
+.linguist-main-card__transcription,
+.linguist-main-card__example,
+.linguist-main-card__meaning {
+  font-weight: bold;
+}
+
+.linguist-main-card__meaning,
+.linguist-main-card__meaning_translate {
+  font-style: italic;
+}
+
+.show-etalon-word {
+  position: relative;
+}
+
+.error-color-red {
+  color: red;
+}
+
+.error-color-orange {
+  color: $color-orange;
+}
+
+.correct-color {
+  color: $color-correct;
+}
+
+.linguist-main-card-opacity {
+  opacity: 0.5;
+}

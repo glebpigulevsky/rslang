@@ -7,9 +7,18 @@ export const settingsPageComponent = {
 
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Number of the new words per day</div>
+          <div class="raw__container-descr">Words number per day</div>
           <div class="raw__container-input">
             <input type="text" class="input-words__day">
+          </div>
+        </div>
+      </div>
+
+      <div class="settings_raw">
+        <div class="raw__container">
+          <div class="raw__container-descr">Cards number per day</div>
+          <div class="raw__container-input">
+            <input type="text" class="input-cards__day">
           </div>
         </div>
       </div>
@@ -44,7 +53,7 @@ export const settingsPageComponent = {
 
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Sentence explaining the meaning of the word</div>
+          <div class="raw__container-descr">Meaning explaining sentence</div>
           <div class="raw__container-input">
             <div class="switch-btn" id="isAddSentExplWord"></div>
           </div>
@@ -62,7 +71,7 @@ export const settingsPageComponent = {
 
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Add button move to difficult</div>
+          <div class="raw__container-descr">Add button "Move to difficult"</div>
           <div class="raw__container-input">
             <div class="switch-btn" id="isShowDiffMoveButton"></div>
           </div>
@@ -71,7 +80,7 @@ export const settingsPageComponent = {
 
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Add button delete</div>
+          <div class="raw__container-descr">Add button "Delete"</div>
           <div class="raw__container-input">
             <div class="switch-btn" id="isShowDeleteButton"></div>
           </div>
@@ -80,7 +89,7 @@ export const settingsPageComponent = {
 
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Add button Again</div>
+          <div class="raw__container-descr">Add button "Again"</div>
           <div class="raw__container-input">
             <div class="switch-btn" id="isShowAgainButton"></div>
           </div>
@@ -89,7 +98,7 @@ export const settingsPageComponent = {
 
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Add button Difficult</div>
+          <div class="raw__container-descr">Add button "Difficult"</div>
           <div class="raw__container-input">
             <div class="switch-btn" id="isShowDiffButton"></div>
           </div>
@@ -98,7 +107,7 @@ export const settingsPageComponent = {
 
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Add button Good</div>
+          <div class="raw__container-descr">Add button "Good"</div>
           <div class="raw__container-input">
             <div class="switch-btn" id="isShowGoodButton"></div>
           </div>
@@ -107,7 +116,7 @@ export const settingsPageComponent = {
 
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Add button easy</div>
+          <div class="raw__container-descr">Add button "Easy"</div>
           <div class="raw__container-input">
             <div class="switch-btn" id="isShowEasyButton"></div>
           </div>

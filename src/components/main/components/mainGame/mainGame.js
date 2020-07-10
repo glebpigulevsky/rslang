@@ -51,7 +51,6 @@ class MainGame {
     mainElement.insertAdjacentHTML('afterbegin', this.render());
     // await this.fetchWords();
     this.currentCard = spacedRepetitions.getNextWord();
-    debugger;
     // this.playMode(this.indexCard);
     this.playMode();
   }
