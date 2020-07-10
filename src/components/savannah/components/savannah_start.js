@@ -49,8 +49,7 @@ export const getSavannahStartControls = () => `
 export const getSavannahStart = () => `
 <div class="savannah__start" id="js-start_block">
   <span class="savannah__start_title">savannah</span>
-  <span class="savannah__start_phar">Coaching 'Savannah' develops vocabulary.</span>
-  <span class="savannah__start_phar">You will receive experience points.</span>
+  <span class="savannah__start_phar">Coaching 'Savannah' develops vocabulary. <br> You will receive experience points.</span>
   <div class="savannah__close_btn"></div>
   ${getSavannahStartControls()}
 </div>`;

@@ -12,6 +12,7 @@ import { Spinner } from '../../spinner/spinner';
 import { ErrorPopup } from '../../error/error.error_popup';
 import { DIGIT_CODES, GAME_DEFAULT } from '../common/savannah.common.constans';
 import { getNextVariable } from '../common/savannah.common.utils';
+import { MINI_GAMES_NAMES, mainStorage } from '../../main/components/mainStorage/mainStorage';
 
 export class SavannahGame {
   constructor() {
@@ -95,11 +96,21 @@ export class SavannahGame {
 
     const wrongAnswears = this.statRound.wrong.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
     const correctAnswears = this.statRound.correct.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
-
+    mainStorage.addMiniGameResults({
+      miniGameName: MINI_GAMES_NAMES.SAVANNA,
+      isCorrect: true,
+      wordsDataArray: correctAnswears,
+    });
+    mainStorage.addMiniGameResults({
+      miniGameName: MINI_GAMES_NAMES.SAVANNA,
+      isCorrect: false,
+      wordsDataArray: wrongAnswears,
+    });
     document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswears);
     document.querySelector('.savannah__start_final_valid').insertAdjacentHTML('beforeend', correctAnswears);
     this.onClickCloseBtn();
     this.onClickStartBtn();
+    this.onClickLearningBtn();
     this.onClickAudioBtn();
     this.onChangeLevel();
     this.onChangeRound();
@@ -152,13 +163,19 @@ export class SavannahGame {
     this.isSelectedAnswear = true;
   }
 
-  async getLearningWords() {
+  async getLearningWords(isUserWords) {
     const spinner = new Spinner(this.savannahContainer);
     spinner.render();
     try {
-      const wordsRes = await this.wordsApi.getWordsCollection(
-        { group: this.level, page: this.round },
-      );
+      let wordsRes = null;
+      if (isUserWords) {
+        wordsRes = await mainStorage.getWordsToLearn();
+        wordsRes = wordsRes.slice(0, 21);
+      } else {
+        wordsRes = await this.wordsApi.getWordsCollection(
+          { group: this.level, page: this.round },
+        );
+      }
       this.learningWords = wordsRes;
     } catch (e) {
       this.errorPopup.openPopup({ text: e.message });
@@ -204,7 +221,15 @@ export class SavannahGame {
     const startBtn = document.querySelector('#js-savannah__start_button');
     startBtn.addEventListener('click', () => {
       this.savannahContainer.innerHTML = null;
-      this.getLearningWords();
+      this.getLearningWords(false);
+    });
+  }
+
+  onClickLearningBtn() {
+    const startBtn = document.querySelector('#js-savannah__start_learning');
+    startBtn.addEventListener('click', () => {
+      this.savannahContainer.innerHTML = null;
+      this.getLearningWords(true);
     });
   }
 
@@ -278,6 +303,7 @@ export class SavannahGame {
     this.onChangeLevel();
     this.onChangeRound();
     this.onClickStartBtn();
+    this.onClickLearningBtn();
     this.onClickCloseBtn();
   }
 }
