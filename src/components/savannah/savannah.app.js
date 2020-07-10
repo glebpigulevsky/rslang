@@ -125,6 +125,17 @@ class SavannahApp {
   }
 
   getNextWord() {
+    this.removeQuiz();
+    this.currentWord = this.learningWords.shift();
+    if (!this.currentWord) {
+      this.endGame();
+      return;
+    }
+    this.addQuiz();
+    this.isSelectedAnswear = false;
+  }
+
+  removeQuiz() {
     const quest = document.querySelector('#js-savannah__question');
     if (quest) {
       quest.parentNode.removeChild(quest);
@@ -133,11 +144,9 @@ class SavannahApp {
     if (answears) {
       answears.parentNode.removeChild(answears);
     }
-    this.currentWord = this.learningWords.shift();
-    if (!this.currentWord) {
-      this.endGame();
-      return;
-    }
+  }
+
+  addQuiz() {
     const mainBlock = document.querySelector('#js-savannah__main');
     mainBlock.insertAdjacentHTML('beforeend', getSavannahQuestion(this.currentWord.word));
     mainBlock.insertAdjacentHTML('beforeend', getSavannahAnswears(this.getRamdomTranslation(this.currentWord.wordTranslate)));
@@ -150,7 +159,6 @@ class SavannahApp {
     });
     const answearsBtns = document.querySelectorAll('.savannah__answear');
     answearsBtns.forEach((ans) => ans.addEventListener('click', (e) => this.answearHandle(e.target)));
-    this.isSelectedAnswear = false;
   }
 
   endGame() {
