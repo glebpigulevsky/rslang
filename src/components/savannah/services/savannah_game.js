@@ -101,6 +101,8 @@ export class SavannahGame {
     this.onClickCloseBtn();
     this.onClickStartBtn();
     this.onClickAudioBtn();
+    this.onChangeLevel();
+    this.onChangeRound();
     this.statRound = { correct: [], wrong: [] };
     this.burningLives = 0;
   }
