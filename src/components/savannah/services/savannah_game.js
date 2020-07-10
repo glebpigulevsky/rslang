@@ -15,7 +15,6 @@ import { getNextVariable } from '../common/savannah.common.utils';
 
 export class SavannahGame {
   constructor() {
-    this.gameStatistics = { correct: [], wrong: [] };
     this.statRound = { correct: [], wrong: [] };
     this.errorPopup = new ErrorPopup();
     this.startService = new SavannahServiceStart();
@@ -35,11 +34,13 @@ export class SavannahGame {
 
   gameLoop() {
     this.removeQuiz();
-    this.currentWord = this.learningWords.shift();
-    if (!this.currentWord) {
+    const learnLength = this.learningWords.length;
+    const { 0: nextWord } = this.learningWords.splice(GET_RANDOM(0, (learnLength - 1)), 1);
+    if (!nextWord) {
       this.endGame();
       return;
     }
+    this.currentWord = nextWord;
     this.addQuiz();
     this.isSelectedAnswear = false;
   }
@@ -63,7 +64,6 @@ export class SavannahGame {
     questionBtn.classList.add('savannah__question_move');
     questionBtn.addEventListener('animationend', () => {
       this.statRound.wrong.push(this.currentWord);
-      this.gameStatistics.wrong.push(this.currentWord);
       this.gameLoop();
     });
     const answearsBtns = document.querySelectorAll('.savannah__answear');
@@ -103,7 +103,8 @@ export class SavannahGame {
     this.onClickAudioBtn();
     this.onChangeLevel();
     this.onChangeRound();
-    this.statRound = { correct: [], wrong: [] };
+    this.statRound.correct = [];
+    this.statRound.wrong = [];
     this.burningLives = 0;
   }
 
@@ -135,10 +136,8 @@ export class SavannahGame {
     if (isCorrect) {
       answearNode.classList.add('savannah__answear_correct');
       this.statRound.correct.push(this.currentWord);
-      this.gameStatistics.correct.push(this.currentWord);
     } else {
       this.statRound.wrong.push(this.currentWord);
-      this.gameStatistics.wrong.push(this.currentWord);
       answearNode.classList.add('savannah__answear_wrong');
       document
         .querySelector('#js-savannah__answears')

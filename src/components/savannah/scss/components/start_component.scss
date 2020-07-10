@@ -3,14 +3,14 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: $color-light;
-  background-color: rgba(151, 120, 80, .57) !important;
+  color: $color-dark-brown;
+  background-color: rgba(255,239,213, 0.67);
   height: 100%;
 }
 
 .savannah__start_title {
   @include segoe-title($color-dark-brown);
-  text-transform: uppercase !important;
+  text-transform: uppercase;
   padding-bottom: 1rem;
 }
 
@@ -173,6 +173,10 @@
 
 .savannah__start_controls {
   margin: 1rem;
+
+  @include media-mobile {
+    margin: 1rem 0 0 3rem;
+  }
 }
 
 #savannah__level, #savannah__round {
