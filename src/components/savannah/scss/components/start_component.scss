@@ -1,17 +1,23 @@
+$color-dark-brown: #6d1e1e;
+$color-red-error: #bb0e0b;
+$color-green-correct: #094731;
+$color-deep-blue: #11345a;
+$color-dust-blue: #37383c;
+
 .savannah__start {
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  color: #f7f2f2;
+  color: $color-light;
   background-color: rgba(151, 120, 80, .57) !important;
   height: 100%;
 }
 
 .savannah__start_title {
-  @include segoe-title(#6d1e1e);
-
+  @include segoe-title($color-dark-brown);
   text-transform: uppercase !important;
+  padding-bottom: 1rem;
 }
 
 .savannah__start_final {
@@ -50,7 +56,7 @@
   font-size: 12px;
   font-weight: 700;
   line-height: 1.33;
-  color: #bb0e0b;
+  color: $color-red-error;
   text-transform: uppercase;
 }
 
@@ -81,7 +87,7 @@
   font-size: 12px;
   font-weight: 700;
   line-height: 1.33;
-  color: #094731;
+  color: $color-green-correct;
   text-transform: uppercase;
 }
 
@@ -107,9 +113,8 @@
   font-size: 16px;
   font-weight: 600;
   line-height: 1.25;
-  color: #11345a;
+  color: $color-deep-blue;
   margin-right: 6px;
-  cursor: pointer;
   word-break: normal;
   max-width: calc(50% - 54px);
   white-space: nowrap;
@@ -121,7 +126,7 @@
 .savannah__start_final_transl {
   font-size: 16px;
   line-height: 1.25;
-  color: #37383c;
+  color: $color-dust-blue;
   flex-grow: 1;
   word-break: normal;
   max-width: calc(50% - 54px);
@@ -129,4 +134,59 @@
   overflow: hidden;
   text-overflow: ellipsis;
   padding: 0 1rem 0 0;
+}
+
+.savannah__start_button, 
+.savannah__start_learning {
+  outline: none;
+  margin-top: 1rem;
+  background: $color-btn;
+  border-radius: px-to-rem(30px);
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid $color-border;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  @include segoe-subtitle($color-light, 600);
+  }
+
+  .savannah__start_button, 
+  .savannah__start_learning {
+  width: px-to-rem(150px);
+  height: px-to-rem(30px);
+  justify-self: center;
+}
+.savannah__start_button {
+  width: px-to-rem(120px);
+}
+
+.savannah__start_button:active,
+.savannah__start_learning:active {
+  background: $color-dark-blue;
+}
+
+.savannah__start_button {
+  margin-left: 1rem;
+}
+
+.savannah__start_button:hover,
+.savannah__start_learning:hover {
+  background-color: $color-hovered;
+  border-color: transparent;
+
+  @include transition($time: .4s, $property: all, $method: ease-out);
+}
+
+.savannah__start_controls {
+  margin: 1rem;
+}
+
+#savannah__level, #savannah__round {
+  background: $color-btn;
+  color: $color-light;
+  cursor: pointer;
+  border-radius: 3px;
+  width: 50px;
+  height: 40px;
+  border: 1px solid $color-border;
 }
