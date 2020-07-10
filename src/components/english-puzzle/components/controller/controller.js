@@ -3,13 +3,13 @@ import view from '../view/view';
 
 import gameController from './game.controller';
 import dragAndDropController from './drag-and-drop.controller';
+import { MINI_GAMES_NAMES, mainStorage } from '../../../main/components/mainStorage/mainStorage';
 
 import {
   toggleDocumentScroll,
   getClosestLink,
   togglePageState,
   getPuzzleIndex,
-  getSentenceWordsArray,
 } from '../../common/english-puzzle.utils';
 
 import { EVENTS, CLASS_NAMES } from '../../common/english-puzzle.constants';
@@ -64,7 +64,7 @@ class Controller {
       model.errorsList,
       gameController.lastGameFinalTime,
       gameController.fetchedPictureData,
-      model.results,
+      model.longResults,
     );
   }
 
@@ -113,6 +113,12 @@ class Controller {
       );
     }
     this.sentenceGuessSuccess = true;
+
+    mainStorage.addMiniGameResult({
+      miniGameName: MINI_GAMES_NAMES.ENGLISH_PUZZLE,
+      isCorrect: false,
+      wordData: gameController.fetchedRoundData[gameController.currentSentence],
+    });
   }
 
   onCheckButtonClick() {
@@ -120,11 +126,7 @@ class Controller {
 
     document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`)
       .forEach((puzzle, index) => {
-        const etalonSentenceArray = getSentenceWordsArray(
-          gameController.fetchedRoundData,
-          gameController.currentSentence,
-        );
-        if (puzzle.dataset.word === etalonSentenceArray[index]) {
+        if (+puzzle.dataset.item.slice(-1) === index + 1) {
           const correctPuzzle = gameController.getCanvasElement({
             currentSentence: gameController.currentSentence,
             isImage: gameController.hints.isBgImage,
@@ -166,6 +168,12 @@ class Controller {
           puzzle.getContext('2d').drawImage(correctPuzzle, 0, 0);
           puzzle.classList.remove(CLASS_NAMES.DRAGABLE);
         });
+
+      mainStorage.addMiniGameResult({
+        miniGameName: MINI_GAMES_NAMES.ENGLISH_PUZZLE,
+        isCorrect: true,
+        wordData: gameController.fetchedRoundData[gameController.currentSentence],
+      });
 
       view.showTranslation(
         gameController.fetchedRoundData[gameController.currentSentence].textExampleTranslate,
@@ -269,7 +277,7 @@ class Controller {
     window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
   }
 
-  init() {
+  async init() {
     this.elements = {
       wrapper: document.querySelector('.english-puzzle-wrapper'),
       introduction: document.querySelector('.introduction'),

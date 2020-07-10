@@ -54,9 +54,30 @@ const DEFAULT_SETTINGS = {
   },
 };
 
+const DEFAULT_USER_WORD_OPTIONS = {
+  difficulty: 'fetched',
+  optional: {
+    repeatTimes: '0',
+    lastRepeat: 'no repeat',
+  },
+};
+
+const DEFAULT_STATISTICS = {
+  learnedWords: 0,
+  optional: {
+    englishPuzzle: '[]',
+    speakIt: '[]',
+    savanna: '[]',
+    audioCall: '[]',
+    sprint: '[]',
+    drop: '[]',
+  },
+};
+
 const USER_AGGREGATED_WORDS_FILTER = {
   byDifficultyHard: '{"userWord.difficulty":"hard"}',
   byDifficultyHardAndRepeat: '{"$and":[{"userWord.difficulty":"hard", "userWord.optional.repeat":true}]}',
+  allUserWords: '{"userWord":{"$ne":null}}',
 };
 
 export {
@@ -66,5 +87,7 @@ export {
   MEDIA_LINK,
   LINK_TYPE,
   DEFAULT_SETTINGS,
+  DEFAULT_USER_WORD_OPTIONS,
+  DEFAULT_STATISTICS,
   USER_AGGREGATED_WORDS_FILTER,
 };

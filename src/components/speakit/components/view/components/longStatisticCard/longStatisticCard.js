@@ -14,18 +14,18 @@ export default class LongStatisticCard {
     this.container.append(card);
   }
 
-  renderCardContent(index, { guessedList, finalTime }) {
+  renderCardContent(index, { guessedListLength, finalTime }) {
     return `
       <p class="card__content">
         <span>${index + 1}. </span>
         <span class="time">${finalTime} </span>
         <span class="correct__title">
           <span class="correct__lead">I know: </span>
-          <span class="correct">${guessedList.length} </span>
+          <span class="correct">${guessedListLength} </span>
         </span>
         <span class="errors__title">
           <span class="errors__lead">I don\`t know: </span>
-          <span class="errors">${MAX_WORDS_IN_ROUND - guessedList.length}</span>
+          <span class="errors">${MAX_WORDS_IN_ROUND - guessedListLength}</span>
         </span>
       </p>
     `;
