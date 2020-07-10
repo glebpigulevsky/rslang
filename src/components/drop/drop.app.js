@@ -1,10 +1,8 @@
 import './scss/drop.styles.scss';
-import DropGame from './components/model';
-
-const drop = new DropGame();
+import model from './components/model';
 
 const dropApp = () => {
-  drop.init();
+  model.init();
 };
 
 export default dropApp;
