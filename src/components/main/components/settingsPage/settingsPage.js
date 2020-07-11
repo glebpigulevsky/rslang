@@ -44,7 +44,9 @@ class SettingsPage {
       });
     });
 
+    mainController.spinner.show();
     await mainController.getUserSettings();
+    mainController.spinner.hide();
     this.loadSettingsToFront(mainController.userSettings);
 
     this.saveUserSettingsButton = document.querySelector('.save__settings');

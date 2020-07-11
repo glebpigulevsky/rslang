@@ -18,7 +18,9 @@ class LearnPage {
   }
 
   async render() {
+    mainController.spinner.show();
     await mainController.getUserSettings();
+    mainController.spinner.hide();
     if (mainController.isNewUser) {
       return introMainGame.render();
     }

@@ -93,7 +93,10 @@ export default class ResultsList {
   init() {
     this.gallery = this.container.querySelector(`.${CLASS_NAMES.SWIPER_WRAPPER}`);
 
-    this.sliderItem = document.body.querySelector(`.${CLASS_NAMES.RESULT.TEMPLATE}`).content.cloneNode(true).querySelector(`.${CLASS_NAMES.SLIDER.ITEM}`);
+    this.sliderItem = document.body
+      .querySelector(`.${CLASS_NAMES.RESULT.TEMPLATE}`)
+      .content.cloneNode(true)
+      .querySelector(`.${CLASS_NAMES.SLIDER.ITEM}`);
     if (this.additionalClass) this.sliderItem.classList.add(this.additionalClass);
 
     this.sliderItem.querySelector(`.${CLASS_NAMES.TIME}`).innerText = this.time;
@@ -107,8 +110,10 @@ export default class ResultsList {
     this.errorsList = document.createElement('ul');
     this.errorsList.className = CLASS_NAMES.RESULT.ERRORS__LIST;
 
-    this.longStatisticsContainer = document.querySelector(`.${CLASS_NAMES.RESULT.TEMPLATE}`)
-      .content.cloneNode(true).querySelector(`.${CLASS_NAMES.RESULT.LONG_STATISTIC_CONTAINER}`);
+    this.longStatisticsContainer = document
+      .querySelector(`.${CLASS_NAMES.RESULT.TEMPLATE}`)
+      .content.cloneNode(true)
+      .querySelector(`.${CLASS_NAMES.RESULT.LONG_STATISTIC_CONTAINER}`);
     this.longStatisticList = document.createElement('ul');
     this.longStatisticList.className = CLASS_NAMES.RESULT.LONG_STATISTIC_LIST;
 

@@ -48,12 +48,17 @@ export default class StatisticList {
   }
 
   render() {
-    this.pictureContainer.insertAdjacentHTML('afterbegin', `
-      <p class="picture__description">Author: ${this.pictureData.author.replace(',', ' ')}, Name: ${this.pictureData.name} (Date: ${this.pictureData.year})</p>
+    this.pictureContainer.insertAdjacentHTML(
+      'afterbegin',
+      `
+      <p class="picture__description">Author: ${this.pictureData.author.replace(',', ' ')}, Name: ${
+  this.pictureData.name
+} (Date: ${this.pictureData.year})</p>
       <a class="picture__link" target="_blank" href="${this.pictureData.preloadedPicture.src}">
         <img class="statistic__picture" src="${this.pictureData.preloadedPicture.src}" alt="Round picture">
       </a>
-    `);
+    `,
+    );
     this.statisticsContainer.prepend(this.pictureContainer);
 
     this.lastGameRoundData.forEach((wordData) => {
@@ -93,7 +98,10 @@ export default class StatisticList {
   }
 
   init() {
-    this.statisticsContainer = document.querySelector(`.${CLASS_NAMES.STATISTIC.TEMPLATE}`).content.cloneNode(true).querySelector(`.${CLASS_NAMES.STATISTIC.CONTAINERS.CURRENT}`);
+    this.statisticsContainer = document
+      .querySelector(`.${CLASS_NAMES.STATISTIC.TEMPLATE}`)
+      .content.cloneNode(true)
+      .querySelector(`.${CLASS_NAMES.STATISTIC.CONTAINERS.CURRENT}`);
     if (this.additionalClass) this.statisticsContainer.classList.add(this.additionalClass);
 
     this.pictureContainer = document.createElement('div');
@@ -110,7 +118,10 @@ export default class StatisticList {
     this.errorsList = document.createElement('ul');
     this.errorsList.className = CLASS_NAMES.STATISTIC.ERRORS.LIST;
 
-    this.longStatisticsContainer = document.querySelector(`.${CLASS_NAMES.STATISTIC.TEMPLATE}`).content.cloneNode(true).querySelector(`.${CLASS_NAMES.STATISTIC.CONTAINERS.LONG}`);
+    this.longStatisticsContainer = document
+      .querySelector(`.${CLASS_NAMES.STATISTIC.TEMPLATE}`)
+      .content.cloneNode(true)
+      .querySelector(`.${CLASS_NAMES.STATISTIC.CONTAINERS.LONG}`);
     this.longStatisticList = document.createElement('ul');
     this.longStatisticList.className = CLASS_NAMES.STATISTIC.LONG_STATISTIC.LIST;
 

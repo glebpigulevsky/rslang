@@ -9,9 +9,12 @@ export default class StatisticsApi {
 
   async getStatictics({ token, userId } = checkUserInfo()) {
     const res = await this._apiService.getResource({
-      url: `/users/${userId}/statistics`, hasToken: true, token, type: LINK_TYPE.Statictics,
+      url: `/users/${userId}/statistics`,
+      hasToken: true,
+      token,
+      type: LINK_TYPE.Statictics,
     });
-    return (res) ? this._transformUserStatistics(res) : res;
+    return res ? this._transformUserStatistics(res) : res;
   }
 
   async updateStatistics({ learnedWords, optional = {} }, { token, userId } = checkUserInfo()) {

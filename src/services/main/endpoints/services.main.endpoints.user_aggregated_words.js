@@ -17,7 +17,10 @@ export default class UserAggregatedWords {
       url += `&filter=${filter}`;
     }
     const res = await this._apiService.getResource({
-      url, hasToken: true, token, type: LINK_TYPE.UserAggregatedWords,
+      url,
+      hasToken: true,
+      token,
+      type: LINK_TYPE.UserAggregatedWords,
     });
     if (res[0].length < 1 || res[0].paginatedResults.length < 1) {
       return null;
@@ -72,10 +75,12 @@ export default class UserAggregatedWords {
       textExampleTranslate,
       wordTranslate,
       wordsPerExampleSentence,
-      userWord: (userWord) ? {
-        difficulty: userWord.difficulty,
-        optional: userWord.optional || null,
-      } : null,
+      userWord: userWord
+        ? {
+          difficulty: userWord.difficulty,
+          optional: userWord.optional || null,
+        }
+        : null,
     };
   }
 }

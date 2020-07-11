@@ -8,13 +8,8 @@ export default class PageCard {
   }
 
   createCard({
-    word,
-    image,
-    audio,
-    transcription,
-    wordTranslate,
-  },
-  hasTranslation) {
+    word, image, audio, transcription, wordTranslate,
+  }, hasTranslation) {
     return `
       <a class="speakit-card__link link" href="#" data-word="${word}" data-audio="${audio}" data-image="${image}" data-translation="${wordTranslate}">
         <p class="card__word">${word}</p>

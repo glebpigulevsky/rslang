@@ -1,11 +1,7 @@
 import Selector from '../selector/selector';
 
 import {
-  EVENTS,
-  CLASS_NAMES,
-  MAX_LEVELS_COUNT,
-  MAX_ROUNDS_COUNT,
-  EMPTY,
+  EVENTS, CLASS_NAMES, MAX_LEVELS_COUNT, MAX_ROUNDS_COUNT, EMPTY,
 } from '../../../../common/speakit.constants';
 
 const SELECT_NAMES = {
@@ -48,12 +44,8 @@ export default class Menu {
   }
 
   renderLevelSelector(currentLevel, levelsCount = MAX_LEVELS_COUNT) {
-    this.renderSelector(
-      levelsCount,
-      CLASS_NAMES.NAVIGATION_BOX.LEFT,
-      SELECT_NAMES.LEVEL,
-      currentLevel,
-    );
+    this.renderSelector(levelsCount, CLASS_NAMES.NAVIGATION_BOX.LEFT,
+      SELECT_NAMES.LEVEL, currentLevel);
   }
 
   renderRoundSelector(roundsCount = MAX_ROUNDS_COUNT, currentRound, completedRounds) {
