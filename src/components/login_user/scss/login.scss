@@ -93,7 +93,11 @@
   text-align: center;
   cursor: pointer;
   border: px-to-rem(1px) solid transparent;
-  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  transition:
+    color .15s ease-in-out,
+    background-color .15s ease-in-out,
+    border-color .15s ease-in-out,
+    box-shadow .15s ease-in-out;
   @include segoe-subtitle($color-light, 600);
 }
 
@@ -168,7 +172,7 @@
 
 .login__switch_slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: px-to-rem(25px);
   width: px-to-rem(25px);
   left: px-to-rem(3px);

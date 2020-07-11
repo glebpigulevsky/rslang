@@ -63,7 +63,9 @@ class LoginUser {
           }, 2000);
         }
       })
-      .catch((err) => { this._createInfo.textContent = err; });
+      .catch((err) => {
+        this._createInfo.textContent = err;
+      });
   }
 
   _isValidEmail(email) {

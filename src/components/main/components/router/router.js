@@ -29,6 +29,7 @@ class Router {
       const currentPath = getLocationPath();
       const { component } = this.findComponentByPath(currentPath);
       this.previousComponent = component;
+<<<<<<< HEAD
 
       if (window.location.hash !== '') {
         console.log(await mainController.getUserSettings());
@@ -42,6 +43,8 @@ class Router {
         }
       }
 
+=======
+>>>>>>> develop
       this.mainContainer.innerHTML = '';
       this.mainContainer.insertAdjacentHTML('afterbegin', await component.render());
       if (component.init) component.init();

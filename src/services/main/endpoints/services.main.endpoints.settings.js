@@ -9,9 +9,12 @@ export default class SettingsApi {
 
   async getSettings({ token, userId } = checkUserInfo()) {
     const res = await this._apiService.getResource({
-      url: `/users/${userId}/settings`, hasToken: true, token, type: LINK_TYPE.Settings,
+      url: `/users/${userId}/settings`,
+      hasToken: true,
+      token,
+      type: LINK_TYPE.Settings,
     });
-    return (res) ? this._transformUserSettings(res) : res;
+    return res ? this._transformUserSettings(res) : res;
   }
 
   async updateSettings({ wordsPerDay, optional = {} }, { token, userId } = checkUserInfo()) {

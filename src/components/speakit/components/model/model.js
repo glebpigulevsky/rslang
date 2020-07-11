@@ -6,10 +6,7 @@ import { WordsApi } from '../../../../services/services.methods';
 import { shuffleArray } from '../../common/speakit.utils';
 import { MAX_LONG_STATISTICS_ITEMS } from '../../../../common/common.constants';
 import {
-  MAX_WORDS_IN_ROUND,
-  MAX_WORDS_PER_EXAMPLE,
-  LOCAL_STORAGE,
-  EMPTY,
+  MAX_WORDS_IN_ROUND, MAX_WORDS_PER_EXAMPLE, LOCAL_STORAGE, EMPTY,
 } from '../../common/speakit.constants';
 
 class Model {

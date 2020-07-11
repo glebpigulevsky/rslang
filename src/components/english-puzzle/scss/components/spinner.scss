@@ -23,17 +23,29 @@
 }
 
 @-webkit-keyframes blink {
-  100% { color: $color-spinner-blink; }
+  100% {
+    color: $color-spinner-blink;
+  }
 }
 
 @keyframes blink {
-  100% { color: $color-spinner-blink; }
+  100% {
+    color: $color-spinner-blink;
+  }
 }
 
 @keyframes spinner__inner {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(30deg); }
-  100% { transform: rotate(60deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(30deg);
+  }
+
+  100% {
+    transform: rotate(60deg);
+  }
 }
 
 .spinner__inner > div {
@@ -90,4 +102,6 @@
   transform-origin: 0 0;
 }
 
-.spinner__inner div { box-sizing: content-box; }
+.spinner__inner div {
+  box-sizing: content-box;
+}
