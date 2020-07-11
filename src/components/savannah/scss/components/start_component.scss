@@ -214,9 +214,9 @@
 
 .savannah__start_statistics_record {
   font-size: 16px;
+  font-weight: 600;
   line-height: 1.25;
-  color: $color-dust-blue;
-  flex-grow: 1;
-  word-break: normal;
-  padding: 0 1rem 0 0;
+  color: $color-deep-blue;
+  margin-right: 6px;
+  padding: 1rem;
 }

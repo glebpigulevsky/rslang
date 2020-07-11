@@ -6,7 +6,7 @@ export const getSavannahResult = ({ correct, wrong }) => `
   <span class="savannah__start_stat">You need to learn: ${wrong}. You know: ${correct}.</span>
   <div class="savannah__close_btn"></div>
   ${getSavannahStartControls()}
-  <div class="savannah__start_paginator">
+  <div class="savannah__start_paginator id="js-savannah__start_paginator">
     <div class="savannah__start_page savannah__start_page_select" id="js-savannah_start_page_result"></div>
     <div class="savannah__start_page" id="js-savannah_start_page_statistics"></div>
     <div class="savannah__start_page"></div>

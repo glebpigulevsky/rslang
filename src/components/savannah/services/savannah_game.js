@@ -110,7 +110,7 @@ export class SavannahGame {
     this.onClickAudioBtn();
     this.onChangeLevel();
     this.onChangeRound();
-    this.onClickResultBtn();
+    this.onClickStatisticsBtn();
     this.staticticsRound.correct = [];
     this.staticticsRound.wrong = [];
     this.burningLives = 0;
@@ -240,13 +240,23 @@ export class SavannahGame {
   }
 
   onClickResultBtn() {
-    document.querySelector('#js-savannah_start_page_statistics').addEventListener('click', async () => {
+    const statisticNode = document.querySelector('#js-savannah_start_page_result');
+    statisticNode.addEventListener('click', () => {
+
+    });
+  }
+
+  onClickStatisticsBtn() {
+    const statisticNode = document.querySelector('#js-savannah_start_page_statistics');
+    statisticNode.addEventListener('click', async () => {
       const allResults = await mainController.getUserStatistics();
       const longResults = JSON.parse(allResults.optional[MINI_GAMES_NAMES.SAVANNA]);
       const finalNode = document.querySelector('.savannah__start_final_answears');
       finalNode.innerHTML = null;
-      const wrongAnswears = longResults.reduce((acc, word) => acc + this.startService.showSavannahStatistics(word));
+      const wrongAnswears = longResults.reduce((acc, word) => acc + this.startService.showSavannahStatistics(word), '');
       finalNode.insertAdjacentHTML('beforeend', wrongAnswears);
+      document.querySelectorAll('.savannah__start_page').forEach((stat) => { stat.classList.remove('savannah__start_page_select'); });
+      statisticNode.classList.add('savannah__start_page_select');
     });
   }
 
