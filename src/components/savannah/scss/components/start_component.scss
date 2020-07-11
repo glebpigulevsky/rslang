@@ -11,8 +11,8 @@
 .savannah__start_title {
   @include segoe-title($color-dark-brown);
   text-transform: uppercase;
-  padding-bottom: 2%;
-  padding-top: 4%;
+  padding-bottom: 1%;
+  padding-top: 2%;
 }
 
 .savannah__start_final {
@@ -188,8 +188,35 @@
 }
 
 .savannah__start_phar {
-  background-color: rgba(255, 239, 213, 0.95);
   border-radius: 5px;
   padding: 1%;
-  margin-bottom: 2%;
+  text-align: center;
+}
+
+.savannah__start_paginator {
+  display: flex;
+  justify-content: center;
+}
+
+.savannah__start_page {
+  margin: 5px 15px;
+  width: 30px;
+  height: 30px;
+  background-position: 0;
+  background-size: cover;
+  background-image: url('../assets/img/savannahPageUnselect.png');
+  cursor: pointer;
+}
+
+.savannah__start_page_select {
+  background-image: url('../assets/img/savannahPageSelect.png');
+}
+
+.savannah__start_statistics_record {
+  font-size: 16px;
+  line-height: 1.25;
+  color: $color-dust-blue;
+  flex-grow: 1;
+  word-break: normal;
+  padding: 0 1rem 0 0;
 }

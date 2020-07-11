@@ -1,12 +1,12 @@
 import '../scss/savannah.styles.scss';
 import correct from '../assets/correct_answear.mp3';
 import wrong from '../assets/wrong_answear.mp3';
+import background from '../assets/img/bgSavannah.jpg';
 import { WordsApi, GET_RANDOM } from '../../../services/services.methods';
 import { SavannahServiceStart } from './savannah_service_start';
 import { getSavannahGame } from '../components/savannah_game';
 import { getSavannahQuestion } from '../components/savannah_question';
 import { getSavannahAnswears } from '../components/savannah_answears';
-import { getSavannahResult } from '../components/savannah_result';
 import { getSavannahResultAnswear } from '../components/savannah_result_answear';
 import { Spinner } from '../../spinner/spinner';
 import { ErrorPopup } from '../../error/error.error_popup';
@@ -87,12 +87,8 @@ export class SavannahGame {
   }
 
   endGame() {
-    this.savannahContainer.innerHTML = null;
-    this.savannahContainer.insertAdjacentHTML('beforeend',
-      getSavannahResult({
-        correct: this.staticticsRound.correct.length,
-        wrong: this.staticticsRound.wrong.length,
-      }));
+    document.querySelector('#js-savannah-container').innerHTML = null;
+    this.startService.showSavannahResult(this.staticticsRound.correct.length, this.staticticsRound.wrong.length);
     this.sendStatistics(this.staticticsRound.correct.length, this.staticticsRound.wrong.length);
     const wrongAnswears = this.staticticsRound.wrong.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
     const correctAnswears = this.staticticsRound.correct.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
@@ -114,6 +110,7 @@ export class SavannahGame {
     this.onClickAudioBtn();
     this.onChangeLevel();
     this.onChangeRound();
+    this.onClickResultBtn();
     this.staticticsRound.correct = [];
     this.staticticsRound.wrong = [];
     this.burningLives = 0;
@@ -125,12 +122,10 @@ export class SavannahGame {
     if (longResults.length > GAME_DEFAULT.StatisticsMaxCount) {
       longResults.shift();
     }
-    const newLongResult = `${new Date().toLocaleString()},${wrongVal},${correctVal}`;
+    const newLongResult = `${new Date().toLocaleString()} I know: ${correctVal}, I don't know: ${wrongVal}`;
     longResults.push(newLongResult);
     allResults.optional[MINI_GAMES_NAMES.SAVANNA] = JSON.stringify(longResults);
     await mainController.updateUserStatistics(allResults);
-    const longResults2 = JSON.parse(allResults.optional[MINI_GAMES_NAMES.SAVANNA]);
-    console.log(longResults2);
   }
 
   _transformAnswear({ word, wordTranslate, audio }) {
@@ -216,8 +211,13 @@ export class SavannahGame {
         wordsPerPage: GAME_DEFAULT.WordsPerPage,
       }).catch(this.showErrorPopup.bind(this));
     this.answears = questRes.map((word) => word.wordTranslate);
-    this.startGame();
-    this.spinner.remove();
+    const image = document.createElement('img');
+    image.src = background;
+    image.onload = () => {
+      document.querySelector('#js-savannah-container').style.backgroundImage = `url(${background})`;
+      this.spinner.remove();
+      this.startGame();
+    };
   }
 
   showErrorPopup(err) {
@@ -236,6 +236,17 @@ export class SavannahGame {
         this.isPlayingSound = false;
         savannahSound.classList.add(mutedClass);
       }
+    });
+  }
+
+  onClickResultBtn() {
+    document.querySelector('#js-savannah_start_page_statistics').addEventListener('click', async () => {
+      const allResults = await mainController.getUserStatistics();
+      const longResults = JSON.parse(allResults.optional[MINI_GAMES_NAMES.SAVANNA]);
+      const finalNode = document.querySelector('.savannah__start_final_answears');
+      finalNode.innerHTML = null;
+      const wrongAnswears = longResults.reduce((acc, word) => acc + this.startService.showSavannahStatistics(word));
+      finalNode.insertAdjacentHTML('beforeend', wrongAnswears);
     });
   }
 
