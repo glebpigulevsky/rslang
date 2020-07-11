@@ -67,8 +67,12 @@ export class SavannahGame {
     questionBtn.addEventListener('animationend', () => {
       this.answearHandle(null, true);
     });
-    const answearsBtns = document.querySelectorAll('.savannah__answear');
-    answearsBtns.forEach((ans) => ans.addEventListener('click', (e) => this.answearHandle(e.target)));
+    const answearsBtns = document.querySelector('#js-savannah__answears');
+    answearsBtns.addEventListener('click', (e) => {
+      if (e.target.classList.contains('savannah__answear')) {
+        this.answearHandle(e.target);
+      }
+    });
   }
 
   checkAnswear(currentTranslate) {
