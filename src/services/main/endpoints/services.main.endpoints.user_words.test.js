@@ -70,14 +70,16 @@ describe('create user word', () => {
       password: userDefault.password,
     });
     userWords._apiService = new ApiService(MAIN_API_URL);
-    const res = await userWords.createUserWord({
-      wordId,
-      difficulty: 'weak',
-    },
-    {
-      userId: auth.userId,
-      token: auth.token
-    });
+    const res = await userWords.createUserWord(
+      {
+        wordId,
+        difficulty: 'weak',
+      },
+      {
+        userId: auth.userId,
+        token: auth.token,
+      },
+    );
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       difficulty: 'weak',
@@ -85,7 +87,7 @@ describe('create user word', () => {
       wordId: '5e9f5ee35eb9e72bc21af4b4',
       id: expect.any(String),
     });
-    await userWords.deleteUserWord({ wordId }, {userId: auth.userId, token: auth.token});
+    await userWords.deleteUserWord({ wordId }, { userId: auth.userId, token: auth.token });
   });
 });
 
@@ -101,11 +103,14 @@ describe('get user word', () => {
       password: userDefault.password,
     });
     userWords._apiService = new ApiService(MAIN_API_URL);
-    const res = await userWords.getUserWord({
-      userId: userDefault.id,
-      wordId: '5e9f5ee35eb9e72bc21af4b4',
-      difficulty: 'weak',
-    }, { userId: auth.userId, token: auth.token });
+    const res = await userWords.getUserWord(
+      {
+        userId: userDefault.id,
+        wordId: '5e9f5ee35eb9e72bc21af4b4',
+        difficulty: 'weak',
+      },
+      { userId: auth.userId, token: auth.token },
+    );
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       id: '5ee8ba5c12daba0017bdc993',
@@ -131,10 +136,13 @@ describe('update user word', () => {
       password: userDefault.password,
     });
     userWords._apiService = new ApiService(MAIN_API_URL);
-    const res = await userWords.updateUserWord({
-      wordId: '5e9f5ee35eb9e72bc21af4b4',
-      difficulty: randomVal,
-    }, { userId: auth.userId, token: auth.token });
+    const res = await userWords.updateUserWord(
+      {
+        wordId: '5e9f5ee35eb9e72bc21af4b4',
+        difficulty: randomVal,
+      },
+      { userId: auth.userId, token: auth.token },
+    );
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       difficulty: randomVal,
@@ -155,7 +163,7 @@ describe('delete user word', () => {
   it('should return true', async () => {
     const auth = await user.authenticateUser({
       email: userDefault.email,
-      password: userDefault.password
+      password: userDefault.password,
     });
     userWords._apiService = new ApiService(MAIN_API_URL);
     userWords.getUserWord({ wordId }, { userId: auth.userId, token: auth.token }).catch(() => {

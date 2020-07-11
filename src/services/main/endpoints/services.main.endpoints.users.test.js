@@ -21,7 +21,7 @@ describe('create user', () => {
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       email: userDefault.email,
-      id: expect.any(String)
+      id: expect.any(String),
     });
     const auth = await user.authenticateUser({
       email: userDefault.email,
@@ -42,7 +42,7 @@ describe('get user', () => {
       email: userDefault.email,
       password: userDefault.password,
     });
-    
+
     const res = await user.getUser({ userId: userDefault.id, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({
@@ -60,10 +60,13 @@ describe('update user', () => {
   it('should return correct object', async () => {
     const auth = await user.authenticateUser({ email: userDefault.email, password: userDefault.password });
     const newEmail = `jest_user_threeTEST@mail.com`;
-    const res = await user.updateUser({
-      email: newEmail,
-      password: userDefault.password
-    }, { userId: auth.userId, token: auth.token });
+    const res = await user.updateUser(
+      {
+        email: newEmail,
+        password: userDefault.password,
+      },
+      { userId: auth.userId, token: auth.token },
+    );
     expect(res).toBeDefined();
     expect(res).toMatchObject({
       id: expect.any(String),
@@ -78,17 +81,19 @@ describe('delete user', () => {
     password: '12345678Aa@',
   };
   it('should return true', async () => {
-    try { 
+    try {
       const auth = await user.authenticateUser({
         email: userDefault.email,
-        password: userDefault.password,});
+        password: userDefault.password,
+      });
       const dStart = await user.deleteUser({ userId: auth.userId, token: auth.token });
     } catch (e) {
       const created = await user.createUser({ email: userDefault.email, password: userDefault.password });
     }
     const auth = await user.authenticateUser({
       email: userDefault.email,
-      password: userDefault.password,});
+      password: userDefault.password,
+    });
     const res = await user.deleteUser({ userId: auth.userId, token: auth.token });
     expect(res).toBeDefined();
     expect(res).toMatchObject({

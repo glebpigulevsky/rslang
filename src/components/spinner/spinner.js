@@ -17,7 +17,9 @@ export class Spinner {
   _create() {
     this.spinner = document.createElement('div');
     this.spinner.className = `${CLASS__NAMES.MAIN} ${CLASS__NAMES.HIDDEN} ${this.additionalClass}`;
-    this.spinner.insertAdjacentHTML('beforeend', `
+    this.spinner.insertAdjacentHTML(
+      'beforeend',
+      `
       <div class="spinner__gear">
         <div class="spinner__inner">
           <div>
@@ -30,7 +32,8 @@ export class Spinner {
         </div>
       </div>
       <span class="spinner__description">loading...</span>
-    `);
+    `,
+    );
   }
 
   render() {

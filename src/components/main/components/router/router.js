@@ -8,6 +8,7 @@ class Router {
   constructor() {
     this.mainContainer = null;
     this.menu = null;
+    this.previousComponent = null;
 
     this.rout = this.rout.bind(this);
   }
@@ -20,8 +21,12 @@ class Router {
 
   async rout() {
     if (menu.hasAccessUser() || window.location.hash === '') {
+      if (this.previousComponent && this.previousComponent.unmount) {
+        this.previousComponent.unmount();
+      }
       const currentPath = getLocationPath();
       const { component } = this.findComponentByPath(currentPath);
+      this.previousComponent = component;
       this.mainContainer.innerHTML = '';
       this.mainContainer.insertAdjacentHTML('afterbegin', await component.render());
       if (component.init) component.init();

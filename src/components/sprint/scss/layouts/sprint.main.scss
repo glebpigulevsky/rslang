@@ -1,0 +1,178 @@
+.inner__game-sprint {
+  width: 666px;
+  height: 463px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, .95);
+  border-radius: 20px;
+  backdrop-filter: blur(40px);
+  @include media-mobile {
+    width: 280px;
+    height: 350px;
+  }
+}
+
+.game-sprint__header {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 666px;
+  height: 90px;
+  background: #c2e59c;
+  background: linear-gradient(to right, #64b3f4, #c2e59c);
+  border-radius: 20px 20px 0 0;
+
+  @include segoe-subtitle($color: $color-text, $weight: bold);
+  @include media-mobile {
+    width: 280px;
+    height: 65px;
+  }
+}
+
+.score__text {
+  position: absolute;
+  top: 64px;
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+  @include media-mobile {
+    top: 45px;
+    font-size: .8rem;
+  }
+}
+
+.level__two {
+  background: #f2709c;
+  background: linear-gradient(to right, #ff9472, #f2709c);
+
+  @include transition($time: .3s, $property: all, $method: ease-out);
+}
+
+.level__three {
+  background: #ff4e50;
+  background: linear-gradient(to right, #f9d423, #ff4e50);
+
+  @include transition($time: .3s, $property: all, $method: ease-out);
+}
+
+.level__four {
+  background: #fc5c7d;
+  background: linear-gradient(to right, #6a82fb, #fc5c7d);
+
+  @include transition($time: .3s, $property: all, $method: ease-out);
+}
+
+.progress {
+  border: 2px solid $color-btn-right;
+
+  @include transition($time: .2s, $property: all, $method: ease-out);
+}
+
+.regress {
+  border: 2px solid $color-btn-wrong;
+
+  @include transition($time: .2s, $property: all, $method: ease-out);
+}
+
+.game-sprint__score {
+  display: flex;
+  flex: 1 0 auto;
+  justify-content: center;
+  font-size: 2rem;
+  color: $color-text-additional;
+
+  @include media-mobile {
+    font-size: 1.5rem;
+  }
+}
+
+.game-sprint__rating {
+  display: flex;
+  align-items: center;
+  width: 250px;
+  height: 50px;
+  margin: 0 235px;
+  margin-top: 15px;
+  padding-left: 49px;
+  background-image: url("../assets/img/mark.svg");
+  background-repeat: no-repeat;
+
+  @include media-mobile {
+    margin: 6px 40px;
+  }
+}
+
+.game-sprint__field {
+  display: flex;
+  flex-direction: column;
+  height: 94px;
+  margin-top: 15px;
+  border: 3px solid transparent;
+
+  @include media-mobile {
+    height: 80px;
+    margin-top: 0;
+  }
+}
+
+.game-sprint__word {
+  padding: 10px 0;
+  text-align: center;
+  text-transform: uppercase;
+
+  @include segoe-subtitle($color: $color-text, $weight: 600);
+  @include media-mobile {
+    padding: 7px 0;
+    font-size: 1.1rem;
+  }
+}
+
+.game-sprint__controls {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 20px 200px;
+
+  @include media-mobile {
+    padding: 0 20px;
+  }
+}
+
+.game-sprint__footer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 666px;
+  height: 70px;
+  margin-top: 13px;
+  background: #c2e59c;
+  background: linear-gradient(to right, #64b3f4, #c2e59c);
+  border-radius: 0 0 20px 20px;
+
+  @include media-mobile {
+    width: 280px;
+    height: 55px;
+
+    img {
+      width: 32px;
+      height: 32px;
+      padding: 0 5px;
+    }
+  }
+
+  img {
+    padding: 0 10px;
+  }
+}
+
+.game-sprint__instruction {
+  padding: 0 30px;
+
+  @include segoe-additional($color: $color-text, $weight: 600);
+  @include media-mobile {
+    padding-right: 0;
+    padding-left: 5px;
+    font-size: .875rem;
+    text-align: center;
+  }
+}

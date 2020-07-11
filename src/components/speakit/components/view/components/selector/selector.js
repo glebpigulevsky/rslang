@@ -1,15 +1,8 @@
 import { CLASS_NAMES, EMPTY } from '../../../../common/speakit.constants';
 
 export default class Select {
-  constructor(
-    valueList,
-    contentList,
-    listenersList,
-    classList,
-    name,
-    currentOption,
-    visitedOptions,
-  ) {
+  constructor(valueList, contentList, listenersList,
+    classList, name, currentOption, visitedOptions) {
     this.selectElement = EMPTY;
     this.valueList = valueList;
     this.contentList = contentList;
@@ -44,7 +37,7 @@ export default class Select {
     this.valueList.forEach((value, index) => {
       const optionElement = document.createElement('option');
       optionElement.value = value;
-      optionElement.selected = (value === this.currentOption);
+      optionElement.selected = value === this.currentOption;
       optionElement.textContent = this.contentList[index];
       if (this.visitedOptions && this.visitedOptions.includes(index)) {
         optionElement.classList.add(CLASS_NAMES.COMPLETED_ROUND);

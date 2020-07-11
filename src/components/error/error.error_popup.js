@@ -15,7 +15,7 @@ class ErrorPopup {
 
   _registerEventListener() {
     const el = document.querySelector('#closePopupBtn');
-    el.addEventListener('click', el.fn = this._closeListener);
+    el.addEventListener('click', (el.fn = this._closeListener));
   }
 
   _closeListener() {
