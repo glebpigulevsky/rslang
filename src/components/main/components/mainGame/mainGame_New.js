@@ -3,21 +3,28 @@ import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
 import ErrorInput from '../errorInput/errorInput';
 
 import { showElement, hideElement } from './common/mainGame.helper';
+
+import { EMPTY } from '../../../../common/common.constants';
 import { DEFAULT_SETTINGS } from '../../../../services/common/services.common.constants';
 
 import './scss/mainGame.styles.scss';
 
+import ERROR_AUDIO from './assets/audio/server-error.mp3';
+
 class MainGame {
   constructor() {
-    this.elements = null;
-    this.currentCard = null;
-    this.userSettings = null;
-    this.timerId = null;
+    this.elements = EMPTY;
+    this.currentCard = EMPTY;
+    this.userSettings = EMPTY;
+    this.timerId = EMPTY;
 
     this.hints = {
-      isTranslationEnabled: null,
-      isAutoSpellingEnabled: null,
+      isTranslationEnabled: EMPTY,
+      isAutoSpellingEnabled: EMPTY,
     };
+
+    this.audio = EMPTY;
+    this.errorAudio = new Audio(ERROR_AUDIO);
 
     this.onHintTranslationButtonClickHandler = this.onHintTranslationButtonClickHandler.bind(this);
     this.onHintAutoSpellingButtonClickHandler = this.onHintAutoSpellingButtonClickHandler.bind(this);
@@ -26,6 +33,13 @@ class MainGame {
     this.checkAnswerByKey = this.checkAnswerByKey.bind(this);
     this.showCorrectAnswer = this.showCorrectAnswer.bind(this);
     this.onCategoryButtonClickHandler = this.onCategoryButtonClickHandler.bind(this);
+
+    this.playSpelling = this.playSpelling.bind(this);
+    this.startSpellingAnimation = this.startSpellingAnimation.bind(this);
+    this.stopSpellingAnimation = this.stopSpellingAnimation.bind(this);
+    this.onEndSpellingHandler = this.onEndSpellingHandler.bind(this);
+    this.onErrorSpellingHandler = this.onErrorSpellingHandler.bind(this);
+    this.onEndErrorSpellingHandler = this.onEndErrorSpellingHandler.bind(this);
   }
 
   addCard(wordData = this.currentCard) {
@@ -108,15 +122,10 @@ class MainGame {
       .join('');
   }
 
-  // hideCheckButton() {
-  //   hideElement(this.elements.buttons.check);
-  // }
-
-  // showCheckButton() {
-  //   showElement(this.elements.buttons.check);
-  // }
-
   showNextCard() {
+    console.log('cards: ', spacedRepetitions.cardsCount);
+    console.log('new words:', spacedRepetitions.newWordsCount);
+
     this.isCorrect = false;
     this.currentCard = spacedRepetitions.getNextWord();
     this.addCard(this.currentCard);
@@ -139,10 +148,16 @@ class MainGame {
     if (this.userSettings.optional.isCategoriesButtons) {
       hideElement(this.elements.containers.gameControls);
       showElement(this.elements.containers.categories);
+
+      if (this.hints.isAutoSpellingEnabled) {
+        this.playSpelling(this.currentCard.audio);
+      }
       return;
     }
 
-    this.showNextCard();
+    if (this.hints.isAutoSpellingEnabled) {
+      this.playSpelling(this.currentCard.audio);
+    } else this.showNextCard();
   }
 
   wrongAnswer(answer, errorColor) {
@@ -216,6 +231,64 @@ class MainGame {
     this.correctAnswer(true);
   }
 
+  playSpelling(currentAudio) {
+    if (this.audio && !this.audio.ended) {
+      this.audio.pause();
+      this.onEndSpellingHandler(this.audio);
+    }
+
+    this.audio = new Audio(currentAudio);
+    this.audio.addEventListener('ended', this.onEndSpellingHandler);
+    this.audio.addEventListener('error', this.onErrorSpellingHandler);
+    this.startSpellingAnimation();
+    this.audio.play();
+  }
+
+  startSpellingAnimation() {
+    this.elements.buttons.autoSpelling.classList.add('linguist-animated');
+  }
+
+  stopSpellingAnimation() {
+    this.elements.buttons.autoSpelling.classList.remove('linguist-animated');
+  }
+
+  onEndSpellingHandler() {
+    this.audio.removeEventListener('ended', this.onEndSpellingHandler);
+    this.stopSpellingAnimation();
+
+    if (this.audio.src === this.currentCard.audio) {
+      if (this.userSettings.optional.isExampleSentence) {
+        this.playSpelling(this.currentCard.audioExample);
+        return;
+      }
+      if (this.userSettings.optional.isMeaningSentence) {
+        this.playSpelling(this.currentCard.audioMeaning);
+        return;
+      }
+    }
+
+    if (this.audio.src === this.currentCard.audioExample) {
+      if (this.userSettings.optional.isMeaningSentence) {
+        this.playSpelling(this.currentCard.audioMeaning);
+        return;
+      }
+    }
+
+    if (!this.userSettings.optional.isCategoriesButtons) this.showNextCard();
+  }
+
+  onErrorSpellingHandler() {
+    this.audio.removeEventListener('error', this.onErrorSpellingHandler);
+    this.errorAudio.addEventListener('ended', this.onEndErrorSpellingHandler);
+    this.errorAudio.play();
+    this.startSpellingAnimation();
+  }
+
+  onEndErrorSpellingHandler() {
+    this.errorAudio.removeEventListener('ended', this.onEndErrorSpellingHandler);
+    this.stopSpellingAnimation();
+  }
+
   render() {
     return `
       <div class="linguist__wrapper">
@@ -275,6 +348,7 @@ class MainGame {
   }
 
   onCategoryButtonClickHandler({ target }) {
+    if (this.audio && !this.audio.ended) return;
     if (!target.classList.contains('linguist__categories-button')) return;
     const newCategory = target.dataset.category;
 
@@ -342,8 +416,8 @@ class MainGame {
     }
     this.elements.buttons.translation.addEventListener('click', this.onHintTranslationButtonClickHandler);
 
-    this.isAutoSpellingEnabled = this.userSettings.optional.isVoiceSpelling;
-    if (this.isAutoSpellingEnabled) {
+    this.hints.isAutoSpellingEnabled = this.userSettings.optional.isVoiceSpelling;
+    if (this.hints.isAutoSpellingEnabled) {
       this.elements.buttons.autoSpelling.classList.add('active');
     }
     this.elements.buttons.autoSpelling.addEventListener('click', this.onHintAutoSpellingButtonClickHandler);

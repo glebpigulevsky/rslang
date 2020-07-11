@@ -56,11 +56,11 @@ class MainGame {
   }
 
   // async fetchWords() {
-    // mainController.spinner.show();
-    // this.collection = await wordsApi.getWordsCollection({ group: this.level, page: this.page });
-    // mainController.spinner.hide();
-    // console.info(this.collection);
-    // this.currentCard = this.collection[this.indexCard];
+  // mainController.spinner.show();
+  // this.collection = await wordsApi.getWordsCollection({ group: this.level, page: this.page });
+  // mainController.spinner.hide();
+  // console.info(this.collection);
+  // this.currentCard = this.collection[this.indexCard];
   // }
 
   init(userSetting = mainController.userSettings, englishLevel = mainController.englishLevel) {

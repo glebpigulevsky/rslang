@@ -56,32 +56,37 @@ class SpacedRepetitions {
 
   // parseUserWordsByCategories(userWords = mainController.userWords) {
   //   userWords.forEach((wordData) => {
-      // if (wordData.userWord.optional.toRepeat
-      //   && !wordData.userWord.optional.isDeleted
-      //   && wordData.userWord.difficulty !== 'fetched') {
-      //   this.wordsCategories[WORD_CATEGORY_TO_INDEX[wordData.userWord.difficulty]].push(wordData);
-      // }
-      // if (wordData.userWord.optional.isDifficult) {
-      //   this.difficultWords.push(wordData);
-      // }
-      // if (wordData.userWord.optional.isDeleted) {
-      //   this.deletedWords.push(wordData);
-      // }
-      // if (wordData.userWord.difficulty === 'fetched') {
-      //   this.newWords.push(wordData);
-      // }
+  // if (wordData.userWord.optional.toRepeat
+  //   && !wordData.userWord.optional.isDeleted
+  //   && wordData.userWord.difficulty !== 'fetched') {
+  //   this.wordsCategories[WORD_CATEGORY_TO_INDEX[wordData.userWord.difficulty]].push(wordData);
+  // }
+  // if (wordData.userWord.optional.isDifficult) {
+  //   this.difficultWords.push(wordData);
+  // }
+  // if (wordData.userWord.optional.isDeleted) {
+  //   this.deletedWords.push(wordData);
+  // }
+  // if (wordData.userWord.difficulty === 'fetched') {
+  //   this.newWords.push(wordData);
+  // }
   //   });
   // }
 
   parseMiniGamesResults(miniGamesResults = mainStorage.miniGamesResults) {
     Object.values(miniGamesResults).forEach((miniGamesResult) => {
       miniGamesResult.wrong.forEach((wrongWordData) => {
-        this.updateWrongWord(wrongWordData);
+        const currentUserWord = this.userWordsCollection
+          .find((userWord) => userWord.id === wrongWordData.id);
+        if (currentUserWord) this.updateWrongWord(currentUserWord);
       });
       miniGamesResult.wrong = [];
 
       miniGamesResult.correct.forEach((correctWordData) => {
-        this.updateCorrectWord(correctWordData);
+        const currentUserWord = this.userWordsCollection
+          .find((userWord) => userWord.id === correctWordData.id);
+        debugger;
+        if (currentUserWord) this.updateCorrectWord(currentUserWord);
       });
       miniGamesResult.correct = [];
     });
@@ -184,9 +189,18 @@ class SpacedRepetitions {
 
   async loadTodayNewWords() {
     let todayNewWords;
-    // todo это важно и потом надо вернуть
-    if (mainController.userSettings.optional.newWordsFetchedData !== new Date().toISOString().slice(0, 10) && mainController.userSettings.wordsPerDay - this.newWords.length > 0) {
-      todayNewWords = await mainController.getNotUserNewWords(mainController.englishLevel, mainController.userSettings.wordsPerDay - this.newWords.length);
+    debugger;
+    if ((mainController.userSettings.optional
+      .newWordsFetchedData !== new Date().toISOString().slice(0, 10)
+      && mainController.userSettings.wordsPerDay - this.newWords.length > 0)
+      || mainController.userSettings.optional.cardsPerDay - this.userWordsCollection.length > 0) {
+      todayNewWords = await mainController.getNotUserNewWords(
+        mainController.englishLevel,
+        Math.max(
+          mainController.userSettings.wordsPerDay - this.newWords.length,
+          mainController.userSettings.optional.cardsPerDay - this.userWordsCollection.length,
+        ),
+      );
       if (!todayNewWords) return [];
       todayNewWords = todayNewWords.map((wordData) => {
         const newWordData = wordData;
@@ -213,7 +227,6 @@ class SpacedRepetitions {
   }
 
   updateCategory(wordData, category) {
-    debugger;
     wordData.userWord.difficulty = category;
     wordData.userWord.optional.repeatDate = Date.now() + CATEGORY_INDEX_TO_TIME_DELAY[WORD_CATEGORY_TO_INDEX[category]];
     wordData.userWord.optional.changed = true;
@@ -225,9 +238,9 @@ class SpacedRepetitions {
       return;
     }
 
-    const previousDifficultIndex = WORD_CATEGORY_TO_INDEX[correctWordData.userWord.difficulty];
-    const newDifficultIndex = previousDifficultIndex + 1; // можно ограничить выдачу выученных слов, но они по идее не переходят в игру 
-    
+    const previousDifficultIndex = WORD_CATEGORY_TO_INDEX[correctWordData.userWord.difficulty] || 0;
+    const newDifficultIndex = previousDifficultIndex + 1; // можно ограничить выдачу выученных слов, но они по идее не переходят в игру
+
     if (newDifficultIndex > 4) {
       correctWordData.userWord.optional.toRepeat = false;
       correctWordData.userWord.optional.isDifficult = false;
@@ -253,7 +266,7 @@ class SpacedRepetitions {
   }
 
   getNewWords(wordsCollection = this.userWordsCollection) {
-    return wordsCollection.filter((wordData) => wordData.userWord.optional.difficulty === 'fetched');
+    return wordsCollection.filter((wordData) => wordData.userWord.difficulty === 'fetched');
   }
 
   getNextWord() {
@@ -263,7 +276,16 @@ class SpacedRepetitions {
       (wordDataA, wordDataB) => wordDataA.userWord.optional.repeatDate
         - wordDataB.userWord.optional.repeatDate,
     );
-    debugger;
+
+    if (this.newWordsCount >= mainController.userSettings.wordsPerDay) {
+      const wordToRepeatIndex = this.userWordsCollection.findIndex((wordData) => wordData.userWord.difficulty !== 'fetched');
+      if (wordToRepeatIndex !== -1) {
+        this.userWordsCollection[wordToRepeatIndex].userWord.optional.repeatTimes += 1;
+        this.userWordsCollection[wordToRepeatIndex].userWord.optional.lastRepeat = new Date().toLocaleString();
+        return this.userWordsCollection[wordToRepeatIndex];
+      }
+    }
+
     if (this.userWordsCollection[0].userWord.difficulty === 'fetched') {
       this.userWordsCollection[0].userWord.difficulty = 'new';
       this.userWordsCollection[0].userWord.optional.changed = true;
@@ -283,16 +305,16 @@ class SpacedRepetitions {
     this.newWordsCount = 0;
 
     this.userWordsCollection = await mainController.getAllUserWordsInLearning() || []; // тут нет deleted words and learned words
-    debugger;
+    // debugger;
     this.newWords = this.getNewWords(this.userWordsCollection);
     const fetchedNewWords = await this.loadTodayNewWords();
-    debugger;
+    // debugger;
     this.userWordsCollection = this.userWordsCollection.concat(fetchedNewWords);
     this.newWords = this.newWords.concat(fetchedNewWords);
     console.log(this.newWords);
     console.log(this.userWordsCollection);
     // const resultUpdate = await this.updateUserWords();
-    debugger;
+    // debugger;
     mainController.spinner.hide();
     return Promise.all([this.userWordsCollection, fetchedNewWords]); // todo а надо ли это?
 
@@ -330,8 +352,6 @@ class SpacedRepetitions {
 
     // const result4 = await mainController.getAllUserWordsInLearning(); // скачать 20 слов пользователя в изучении, если убрать 20 скачает все возможные
     // console.log(result4);
-
-    
   }
 }
 

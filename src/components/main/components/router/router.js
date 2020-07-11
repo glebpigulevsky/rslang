@@ -29,22 +29,19 @@ class Router {
       const currentPath = getLocationPath();
       const { component } = this.findComponentByPath(currentPath);
       this.previousComponent = component;
-<<<<<<< HEAD
 
       if (window.location.hash !== '') {
         console.log(await mainController.getUserSettings());
         if (!mainController.isNewUser) {
-          debugger;
+          // debugger;
           await spacedRepetitions.init();
           spacedRepetitions.parseMiniGamesResults();
-          debugger;
+          // debugger;
           await spacedRepetitions.updateUserWords();
           spacedRepetitions.count = 0;
         }
       }
 
-=======
->>>>>>> develop
       this.mainContainer.innerHTML = '';
       this.mainContainer.insertAdjacentHTML('afterbegin', await component.render());
       if (component.init) component.init();

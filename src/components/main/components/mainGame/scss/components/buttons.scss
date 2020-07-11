@@ -47,3 +47,17 @@
   background-color: $color-dark-orange;
   box-shadow: none;
 }
+
+@keyframes linguist-resize {
+  40% {
+    transform: scale(.9);
+  }
+
+  80% {
+    transform: scale(1.1);
+  }
+}
+
+.linguist-animated {
+  animation: linguist-resize .8s infinite linear;
+}  
