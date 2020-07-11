@@ -6,14 +6,15 @@
 }
 
 .linguist__wrapper,
-.linguist-main-card  {
+.linguist-main-card {
   @include column;
   align-items: center;
 }
 
 .linguist__hints-wrapper,
 .linguist__game-controls-wrapper,
-.linguist__categories-controls-wrapper {
+.linguist__categories-controls-wrapper,
+.linguist__statistic-controls {
   @include flex-center;
   flex-wrap: wrap;
 }

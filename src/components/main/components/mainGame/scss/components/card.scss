@@ -1,6 +1,7 @@
 .linguist-main-card__wrapper {
   max-width: 800px;
   width: 90%;
+  margin: 0 auto;
   margin-bottom: 20px;
 
   background-color: $color-light;
@@ -87,7 +88,9 @@
 }
 
 .linguist-main-card__image {
-  max-width: 300px;
+  display: block;
+  max-width: 270px;
+  margin: 0 auto;
   margin-bottom: 20px;
 
   background-color: $color-light;

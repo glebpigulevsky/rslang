@@ -10,7 +10,6 @@ class LearnPage {
 
   init() {
     if (mainController.isNewUser) {
-      mainController.isNewUser = false;
       introMainGame.init();
     } else {
       mainGame.init(mainController.userSettings, mainController.englishLevel);

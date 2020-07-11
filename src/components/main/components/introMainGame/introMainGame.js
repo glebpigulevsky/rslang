@@ -33,24 +33,35 @@ class IntroMainGame {
   }
 
   async onMainGameStartClickHandler() {
+    const userEnglishLevel = this.elements.englishLevelInput.value || 0;
+
+    mainController.isNewUser = false;
     this.removeHandlers();
 
-    const userSettings = {
-      wordsPerDay: DEFAULT_SETTINGS.wordsPerDay,
-      optional: DEFAULT_SETTINGS.optional,
-    };
-    userSettings.optional.englishLevel = mainController.englishLevel;
+    let userSettings = await mainController.getUserSettings();
+    if (!userSettings) {
+      userSettings = {
+        wordsPerDay: DEFAULT_SETTINGS.wordsPerDay,
+        optional: DEFAULT_SETTINGS.optional,
+      };
+    }
     mainController.userSettings = userSettings;
 
     mainController.spinner.show();
-    await mainController.updateUserSettings(userSettings);
-    await spacedRepetitions.init();
-    await spacedRepetitions.updateUserWords();
+    await Promise.all([
+      mainController.updateUserSettings(userSettings),
+      spacedRepetitions.init(userEnglishLevel),
+      spacedRepetitions.updateUserWords(),
+    ]);
+
+    // await mainController.updateUserSettings(userSettings);
+    // await spacedRepetitions.init();
+    // await spacedRepetitions.updateUserWords();
     mainController.spinner.hide();
 
     this.elements.container.innerHTML = '';
     this.elements.container.insertAdjacentHTML('afterbegin', mainGame.render());
-    mainGame.init(mainController.userSettings, mainController.englishLevel);
+    mainGame.init(mainController.userSettings, userEnglishLevel);
   }
 
   addMainGameStartButtonHandler() {

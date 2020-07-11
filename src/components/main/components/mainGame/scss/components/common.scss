@@ -13,3 +13,13 @@
 .display-none {
   display: none;
 }
+
+.linguist__statistic-description {
+  text-align: center;
+}
+
+.linguist__correct {
+  color:  $color-correct;
+  text-decoration: underline;
+}
+

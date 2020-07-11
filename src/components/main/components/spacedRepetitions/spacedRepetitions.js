@@ -37,12 +37,12 @@ const CATEGORY_INDEX_TO_TIME_DELAY = {
   // 0: 1,
   1: 25 * 1000,
   // 1: 5 * 1000,
-  2: 2 * 60 * 60 * 1000,
+  2: 2 * 60 * 1000,
   // 2: 25 * 1000,
-  3: 10 * 60 * 60 * 1000,
-  // 3: 2 * 60 * 60 * 1000,
-  4: 60 * 60 * 60 * 1000,
-  // 4: 10 * 60 * 60 * 1000,
+  3: 10 * 60 * 1000,
+  // 3: 2 * 60 * 1000,
+  4: 60 * 60 * 1000,
+  // 4: 10 * 60 * 1000,
 };
 
 class SpacedRepetitions {
@@ -189,11 +189,11 @@ class SpacedRepetitions {
 
   async loadTodayNewWords() {
     let todayNewWords;
-    debugger;
     if ((mainController.userSettings.optional
       .newWordsFetchedData !== new Date().toISOString().slice(0, 10)
       && mainController.userSettings.wordsPerDay - this.newWords.length > 0)
       || mainController.userSettings.optional.cardsPerDay - this.userWordsCollection.length > 0) {
+      debugger;
       todayNewWords = await mainController.getNotUserNewWords(
         mainController.englishLevel,
         Math.max(
@@ -228,7 +228,7 @@ class SpacedRepetitions {
 
   updateCategory(wordData, category) {
     wordData.userWord.difficulty = category;
-    wordData.userWord.optional.repeatDate = Date.now() + CATEGORY_INDEX_TO_TIME_DELAY[WORD_CATEGORY_TO_INDEX[category]];
+    wordData.userWord.optional.repeatDate = Date.now() + CATEGORY_INDEX_TO_TIME_DELAY[WORD_CATEGORY_TO_INDEX[category]] || 0;
     wordData.userWord.optional.changed = true;
   }
 
@@ -245,8 +245,8 @@ class SpacedRepetitions {
       correctWordData.userWord.optional.toRepeat = false;
       correctWordData.userWord.optional.isDifficult = false;
       correctWordData.userWord.optional.isDeleted = false;
-      correctWordData.userWord.optional.repeatDate = Infinity;
-    } else correctWordData.userWord.optional.repeatDate = Date.now() + CATEGORY_INDEX_TO_TIME_DELAY[newDifficultIndex];
+      correctWordData.userWord.optional.repeatDate = Date.now() + 30 * 24 * 60 * 60 * 1000;
+    } else correctWordData.userWord.optional.repeatDate = Date.now() + CATEGORY_INDEX_TO_TIME_DELAY[newDifficultIndex] || 0;
 
     correctWordData.userWord.difficulty = INDEX_TO_CATEGORY[newDifficultIndex];
     correctWordData.userWord.optional.changed = true;
@@ -278,12 +278,10 @@ class SpacedRepetitions {
     );
 
     if (this.newWordsCount >= mainController.userSettings.wordsPerDay) {
-      const wordToRepeatIndex = this.userWordsCollection.findIndex((wordData) => wordData.userWord.difficulty !== 'fetched');
-      if (wordToRepeatIndex !== -1) {
-        this.userWordsCollection[wordToRepeatIndex].userWord.optional.repeatTimes += 1;
-        this.userWordsCollection[wordToRepeatIndex].userWord.optional.lastRepeat = new Date().toLocaleString();
-        return this.userWordsCollection[wordToRepeatIndex];
-      }
+      const wordToRepeatIndex = this.userWordsCollection.findIndex((wordData) => wordData.userWord.difficulty !== 'fetched') + 1;
+      this.userWordsCollection[wordToRepeatIndex].userWord.optional.repeatTimes += 1;
+      this.userWordsCollection[wordToRepeatIndex].userWord.optional.lastRepeat = new Date().toLocaleString();
+      return this.userWordsCollection[wordToRepeatIndex];
     }
 
     if (this.userWordsCollection[0].userWord.difficulty === 'fetched') {
@@ -296,14 +294,14 @@ class SpacedRepetitions {
     return this.userWordsCollection[0];
   }
 
-  async init() {
-    mainController.spinner.show();
-
+  async init(userEnglishLevel) {
+    if (userEnglishLevel) mainController.englishLevel = userEnglishLevel;
     this.newWords = [];
     this.userWordsCollection = [];
     this.cardsCount = 0;
     this.newWordsCount = 0;
 
+    mainController.spinner.show();
     this.userWordsCollection = await mainController.getAllUserWordsInLearning() || []; // тут нет deleted words and learned words
     // debugger;
     this.newWords = this.getNewWords(this.userWordsCollection);

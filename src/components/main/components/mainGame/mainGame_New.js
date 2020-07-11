@@ -23,6 +23,11 @@ class MainGame {
       isAutoSpellingEnabled: EMPTY,
     };
 
+    this.combo = EMPTY;
+    this.maxCombo = EMPTY;
+    this.correctAnswers = EMPTY;
+    this.errorAnswers = EMPTY;
+
     this.audio = EMPTY;
     this.errorAudio = new Audio(ERROR_AUDIO);
 
@@ -33,6 +38,7 @@ class MainGame {
     this.checkAnswerByKey = this.checkAnswerByKey.bind(this);
     this.showCorrectAnswer = this.showCorrectAnswer.bind(this);
     this.onCategoryButtonClickHandler = this.onCategoryButtonClickHandler.bind(this);
+    this.showNextCard = this.showNextCard.bind(this);
 
     this.playSpelling = this.playSpelling.bind(this);
     this.startSpellingAnimation = this.startSpellingAnimation.bind(this);
@@ -122,22 +128,50 @@ class MainGame {
       .join('');
   }
 
+  showResults() {
+    this.elements.results.cards.innerText = spacedRepetitions.cardsCount || 0;
+    this.elements.results.correct.innerText = `${Math.round(((this.correctAnswers - this.errorAnswers) * 100) / spacedRepetitions.cardsCount) || 0} %`;
+    this.elements.results.new.innerText = spacedRepetitions.newWordsCount || 0;
+    this.elements.results.combo.innerText = Math.max(this.combo, this.maxCombo) || 0;
+
+    hideElement(this.elements.containers.main);
+    showElement(this.elements.containers.statistic);
+  }
+
   showNextCard() {
     console.log('cards: ', spacedRepetitions.cardsCount);
-    console.log('new words:', spacedRepetitions.newWordsCount);
+    console.log('new words: ', spacedRepetitions.newWordsCount);
 
     this.isCorrect = false;
+    if (spacedRepetitions.cardsCount >= this.userSettings.optional.cardsPerDay) {
+      this.showResults();
+      return;
+    }
+
     this.currentCard = spacedRepetitions.getNextWord();
+    if (!this.currentCard) {
+      spacedRepetitions.cardsCount -= 1;
+      this.showResults();
+      return;
+    }
+
     this.addCard(this.currentCard);
   }
 
   correctAnswer(isShowAnswerButtonClicked = false) {
     this.isCorrect = true;
     this.elements.card.input.setAttribute('readonly', 'true');
+    this.elements.card.input.classList.add('linguist__correct');
 
     if (!isShowAnswerButtonClicked) {
+      this.correctAnswers += 1;
+      console.log('correctAnswers', this.correctAnswers);
+      this.combo += 1;
+      console.log('combo', this.combo);
       spacedRepetitions.updateCorrectWord(this.currentCard);
     } else {
+      this.maxCombo = Math.max(this.combo, this.maxCombo);
+      this.combo = 0;
       spacedRepetitions.updateWrongWord(this.currentCard);
     }
     spacedRepetitions.updateUserWords();
@@ -157,10 +191,14 @@ class MainGame {
 
     if (this.hints.isAutoSpellingEnabled) {
       this.playSpelling(this.currentCard.audio);
-    } else this.showNextCard();
+    } else setTimeout(this.showNextCard, 1000);
   }
 
   wrongAnswer(answer, errorColor) {
+    if (this.combo > 0) this.errorAnswers += 1;
+    this.maxCombo = Math.max(this.combo, this.maxCombo);
+    this.combo = 0;
+
     spacedRepetitions.updateWrongWord(this.currentCard);
     spacedRepetitions.updateUserWords();
 
@@ -292,30 +330,63 @@ class MainGame {
   render() {
     return `
       <div class="linguist__wrapper">
-        <div class="linguist__controls-wrapper">
-          <div class="linguist__game-controls-wrapper">
-            <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_delete display-none">delete</button>
-            <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_hards display-none">Move to hards</button>
-            <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_show display-none">Show answer</button>
-            <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_check">Check</button>
+        <div class="linguist__main">
+          <div class="linguist__controls-wrapper">
+            <div class="linguist__game-controls-wrapper">
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_delete display-none">delete</button>
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_hards display-none">Move to hards</button>
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_show display-none">Show answer</button>
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_check">Check</button>
+            </div>
+            <div class="linguist__categories-controls-wrapper display-none">
+              <button class="linguist__button linguist__categories-button linguist__categories-button_again" data-category="new">again</button>
+              <button class="linguist__button linguist__categories-button linguist__categories-button_hard" data-category="hard">hard</button>
+              <button class="linguist__button linguist__categories-button linguist__categories-button_good" data-category="normal">normal</button>
+              <button class="linguist__button linguist__categories-button linguist__categories-button_easy" data-category="good">good</button>
+            </div>
           </div>
-          <div class="linguist__categories-controls-wrapper display-none">
-            <button class="linguist__button linguist__categories-button linguist__categories-button_again" data-category="new">again</button>
-            <button class="linguist__button linguist__categories-button linguist__categories-button_hard" data-category="hard">hard</button>
-            <button class="linguist__button linguist__categories-button linguist__categories-button_good" data-category="normal">normal</button>
-            <button class="linguist__button linguist__categories-button linguist__categories-button_easy" data-category="good">good</button>
+          <div class="linguist__hints-wrapper">
+            <button class="linguist__button linguist__hints-button linguist__hints-button_translation" title="Show/hide translation"></button>
+            <button class="linguist__button linguist__hints-button linguist__hints-button_auto-spelling" title="On/off auto-spelling"></button>
+          </div>
+          <div class="linguist-main-card__wrapper">
+            <div class="linguist-main-card">
+            </div>
+          </div>
+          <img class="linguist-main-card__image display-none">
+        </div>
+        <div class="linguist__statistic display-none">
+          <div class="linguist__statistic-description-container">
+            <h3 class="linguist__statistic-title">Stage statistics:</h3>
+            <p class="linguist__statistic-cards-finished">
+              <span class="statistic-cards-finished__title">Cards finished: </span>
+              <span class="statistic-cards-finished__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-correct">
+              <span class="statistic-correct__title">Correct answers: </span>
+              <span class="statistic-correct__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-new">
+              <span class="statistic-new__title">New words: </span>
+              <span class="statistic-new__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-combo">
+              <span class="statistic-combo__title">Longest correct combo: </span>
+              <span class="statistic-combo__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-description">
+              It's enough for today. But, if you want, you can repeat it again or change settings.
+            </p>
+          </div>
+          <div class="linguist__statistic-controls">
+            <button class="linguist__button" onclick="location.href = '#/settings'">Settings</button>
+            <button class="linguist__button" onclick="location.href = '#/'">Main page</button>
           </div>
         </div>
-        <div class="linguist__hints-wrapper">
-          <button class="linguist__button linguist__hints-button linguist__hints-button_translation" title="Show/hide translation"></button>
-          <button class="linguist__button linguist__hints-button linguist__hints-button_auto-spelling" title="On/off auto-spelling"></button>
-        </div>
-        <div class="linguist-main-card__wrapper">
-          <div class="linguist-main-card">
-            
-          </div>
-        </div>
-        <img class="linguist-main-card__image display-none">
       </div>
     `;
   }
@@ -367,12 +438,19 @@ class MainGame {
       this.userSettings.optional.englishLevel = englishLevel;
     } else this.userSettings = userSettings;
 
+    this.combo = 0;
+    this.maxCombo = 0;
+    this.correctAnswers = 0;
+    this.errorAnswers = 0;
+
     this.elements = {
       picture: document.querySelector('.linguist-main-card__image'),
       containers: {
         card: document.querySelector('.linguist-main-card'),
         gameControls: document.querySelector('.linguist__game-controls-wrapper'),
         categories: document.querySelector('.linguist__categories-controls-wrapper'),
+        statistic: document.querySelector('.linguist__statistic'),
+        main: document.querySelector('.linguist__main'),
       },
       buttons: {
         delete: document.querySelector('.linguist__game-controls-button_delete'),
@@ -385,6 +463,12 @@ class MainGame {
         easy: document.querySelector('.linguist__game-controls-button_easy'),
         translation: document.querySelector('.linguist__hints-button_translation'),
         autoSpelling: document.querySelector('.linguist__hints-button_auto-spelling'),
+      },
+      results: {
+        cards: document.querySelector('.statistic-cards-finished__result'),
+        correct: document.querySelector('.statistic-correct__result'),
+        new: document.querySelector('.statistic-new__result'),
+        combo: document.querySelector('.statistic-combo__result'),
       },
     };
 

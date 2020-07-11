@@ -1,0 +1,47 @@
+.linguist__statistic-description-container {
+  @include column;
+  align-items: center;
+
+  @include segoe-additional($color: $color-text-additional, $weight: 400);
+  font-size: px-to-rem(14px);
+  line-height: px-to-rem(18px);
+
+  p {
+    margin: 10px 0;
+  }
+}
+
+.linguist__statistic-title {
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.linguist__statistic-line {
+  border: 1px solid $color-dark-blue;
+  width: 100%;
+}
+
+.linguist__statistic-cards-finished,
+.linguist__statistic-correct,
+.linguist__statistic-new,
+.linguist__statistic-combo {
+  width: 300px;
+  @include flex-center;
+  justify-content: space-between;
+}
+
+.statistic-cards-finished__result,
+.statistic-correct__result,
+.statistic-new__result,
+.statistic-combo__result {
+  display: inline-block;
+  min-width: 80px;
+  min-height: 32px;
+  margin-left: 20px;
+
+  text-align: center;
+
+  border-radius: 10px;
+  color: $color-light;
+  background-color: $color-correct;
+}
