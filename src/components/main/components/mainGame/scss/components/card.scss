@@ -32,6 +32,8 @@
   font-size: px-to-rem(14px);
   line-height: px-to-rem(18px);
 
+  user-select: none;
+
   @include media-tablet {
     font-size: px-to-rem(14px);
     line-height: px-to-rem(18px);
@@ -44,12 +46,13 @@
   font-size: px-to-rem(14px);
   line-height: px-to-rem(18px);
 
+  pointer-events: none;
+  user-select: none;
+
   @include media-tablet {
     font-size: px-to-rem(14px);
     line-height: px-to-rem(18px);
   }
-
-  pointer-events: none;
 }
 
 .linguist-main-card__letter:first-of-type {

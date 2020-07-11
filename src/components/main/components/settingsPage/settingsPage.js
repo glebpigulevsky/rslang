@@ -82,19 +82,16 @@ class SettingsPage {
     this.elements.example = document.querySelector('#isExampleSentence');
     this.elements.meaning = document.querySelector('#isMeaningSentence');
 
-    this.elements.inputs.wordsPerDay.addEventListener('input', (event) => {
+    this.elements.inputs.wordsPerDay.addEventListener('change', (event) => {
       if (event.target.value < LIMITS.WORDS_PER_DAY.MIN) {
         event.target.value = LIMITS.WORDS_PER_DAY.MIN;
       }
       if (event.target.value > LIMITS.WORDS_PER_DAY.MAX) {
         event.target.value = LIMITS.WORDS_PER_DAY.MAX;
       }
-      if (event.target.value > this.elements.inputs.cardsPerDay.value) {
-        event.target.value = this.elements.inputs.cardsPerDay.value;
-      }
     });
 
-    this.elements.inputs.cardsPerDay.addEventListener('input', (event) => {
+    this.elements.inputs.cardsPerDay.addEventListener('change', (event) => {
       if (event.target.value < LIMITS.CARDS_PER_DAY.MIN) {
         event.target.value = LIMITS.CARDS_PER_DAY.MIN;
       }

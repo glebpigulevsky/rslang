@@ -24,6 +24,8 @@ class MainGame {
     this.checkAnswer = this.checkAnswer.bind(this);
     this.onInputHandler = this.onInputHandler.bind(this);
     this.checkAnswerByKey = this.checkAnswerByKey.bind(this);
+    this.showCorrectAnswer = this.showCorrectAnswer.bind(this);
+    this.onCategoryButtonClickHandler = this.onCategoryButtonClickHandler.bind(this);
   }
 
   addCard(wordData = this.currentCard) {
@@ -115,17 +117,38 @@ class MainGame {
   // }
 
   showNextCard() {
+    this.isCorrect = false;
     this.currentCard = spacedRepetitions.getNextWord();
     this.addCard(this.currentCard);
   }
 
-  correctAnswer() {
+  correctAnswer(isShowAnswerButtonClicked = false) {
+    this.isCorrect = true;
+    this.elements.card.input.setAttribute('readonly', 'true');
+
+    if (!isShowAnswerButtonClicked) {
+      spacedRepetitions.updateCorrectWord(this.currentCard);
+    } else {
+      spacedRepetitions.updateWrongWord(this.currentCard);
+    }
+    spacedRepetitions.updateUserWords();
+
     this.showTranslation();
     this.renderFullSentences();
+
+    if (this.userSettings.optional.isCategoriesButtons) {
+      hideElement(this.elements.containers.gameControls);
+      showElement(this.elements.containers.categories);
+      return;
+    }
+
     this.showNextCard();
   }
 
   wrongAnswer(answer, errorColor) {
+    spacedRepetitions.updateWrongWord(this.currentCard);
+    spacedRepetitions.updateUserWords();
+
     this.elements.card.input.value = '';
     const etalonWordSpans = document.querySelectorAll('.linguist-main-card__letter');
     etalonWordSpans.forEach((etalonLetter, index) => {
@@ -170,6 +193,7 @@ class MainGame {
   }
 
   checkAnswer() {
+    if (this.isCorrect) return;
     const answer = this.elements.card.input.value.trim().toLowerCase();
     const correctAnswer = this.currentCard.word.trim().toLowerCase();
 
@@ -187,6 +211,11 @@ class MainGame {
     }
   }
 
+  showCorrectAnswer() {
+    this.elements.card.input.value = this.currentCard.word.trim().toLowerCase();
+    this.correctAnswer(true);
+  }
+
   render() {
     return `
       <div class="linguist__wrapper">
@@ -198,10 +227,10 @@ class MainGame {
             <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_check">Check</button>
           </div>
           <div class="linguist__categories-controls-wrapper display-none">
-            <button class="linguist__button linguist__categories-button linguist__categories-button_again">again</button>
-            <button class="linguist__button linguist__categories-button linguist__categories-button_hard">hard</button>
-            <button class="linguist__button linguist__categories-button linguist__categories-button_good">good</button>
-            <button class="linguist__button linguist__categories-button linguist__categories-button_easy">easy</button>
+            <button class="linguist__button linguist__categories-button linguist__categories-button_again" data-category="new">again</button>
+            <button class="linguist__button linguist__categories-button linguist__categories-button_hard" data-category="hard">hard</button>
+            <button class="linguist__button linguist__categories-button linguist__categories-button_good" data-category="normal">normal</button>
+            <button class="linguist__button linguist__categories-button linguist__categories-button_easy" data-category="good">good</button>
           </div>
         </div>
         <div class="linguist__hints-wrapper">
@@ -231,11 +260,31 @@ class MainGame {
     this.elements.card.exampleTranslate.classList.toggle('linguist__hidden');
     this.elements.card.meaningTranslate.classList.toggle('linguist__hidden');
     this.elements.card.wordTranslate.classList.toggle('linguist__hidden');
+
+    if (
+      !this.userSettings.optional.isMeaningSentence
+        && !this.userSettings.optional.isExampleSentence
+    ) {
+      this.elements.card.wordTranslate.classList.remove('linguist__hidden');
+    }
   }
 
   onHintAutoSpellingButtonClickHandler({ target }) {
     this.hints.isAutoSpellingEnabled = !this.hints.isAutoSpellingEnabled;
     target.classList.toggle('active');
+  }
+
+  onCategoryButtonClickHandler({ target }) {
+    if (!target.classList.contains('linguist__categories-button')) return;
+    const newCategory = target.dataset.category;
+
+    spacedRepetitions.updateCategory(this.currentCard, newCategory);
+    spacedRepetitions.updateUserWords();
+
+    showElement(this.elements.containers.gameControls);
+    hideElement(this.elements.containers.categories);
+
+    this.showNextCard();
   }
 
   init(userSettings, englishLevel) {
@@ -282,7 +331,7 @@ class MainGame {
     if (this.userSettings.optional.isAnswerButton) {
       this.elements.buttons.show.classList.remove('display-none');
     }
-    this.elements.buttons.show.addEventListener('click', () => {});
+    this.elements.buttons.show.addEventListener('click', this.showCorrectAnswer);
 
     this.elements.buttons.check.addEventListener('click', this.checkAnswer);
     document.body.addEventListener('keyup', this.checkAnswerByKey);
@@ -298,6 +347,14 @@ class MainGame {
       this.elements.buttons.autoSpelling.classList.add('active');
     }
     this.elements.buttons.autoSpelling.addEventListener('click', this.onHintAutoSpellingButtonClickHandler);
+
+    if (this.userSettings.optional.isPicture) {
+      this.elements.picture.classList.remove('display-none');
+    }
+
+    if (this.userSettings.optional.isCategoriesButtons) {
+      this.elements.containers.categories.addEventListener('click', this.onCategoryButtonClickHandler);
+    }
 
     this.showNextCard();
   }

@@ -9,7 +9,7 @@ export const settingsPageComponent = {
     <div class="settings">
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Words number per day<br>(min: 5, max: 50 or cards per day)</div>
+          <div class="raw__container-descr">New words number per day<br>(min: 5, max: 50)</div>
           <div class="raw__container-input">
             <input type="number" class="input-words__day" min="5" max="50">
           </div>

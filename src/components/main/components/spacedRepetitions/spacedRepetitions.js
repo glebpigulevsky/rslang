@@ -33,11 +33,16 @@ const INDEX_TO_CATEGORY = {
 };
 
 const CATEGORY_INDEX_TO_TIME_DELAY = {
-  0: 5000,
-  1: 25000,
+  0: 5 * 1000,
+  // 0: 1,
+  1: 25 * 1000,
+  // 1: 5 * 1000,
   2: 2 * 60 * 60 * 1000,
+  // 2: 25 * 1000,
   3: 10 * 60 * 60 * 1000,
+  // 3: 2 * 60 * 60 * 1000,
   4: 60 * 60 * 60 * 1000,
+  // 4: 10 * 60 * 60 * 1000,
 };
 
 class SpacedRepetitions {
@@ -207,6 +212,13 @@ class SpacedRepetitions {
     return [];
   }
 
+  updateCategory(wordData, category) {
+    debugger;
+    wordData.userWord.difficulty = category;
+    wordData.userWord.optional.repeatDate = Date.now() + CATEGORY_INDEX_TO_TIME_DELAY[WORD_CATEGORY_TO_INDEX[category]];
+    wordData.userWord.optional.changed = true;
+  }
+
   updateCorrectWord(correctWordData) { // дописать установку флага на количество верных ответов
     if (correctWordData.userWord.optional.isWrong) {
       correctWordData.userWord.optional.isWrong = false;
@@ -215,7 +227,7 @@ class SpacedRepetitions {
 
     const previousDifficultIndex = WORD_CATEGORY_TO_INDEX[correctWordData.userWord.difficulty];
     const newDifficultIndex = previousDifficultIndex + 1; // можно ограничить выдачу выученных слов, но они по идее не переходят в игру 
-
+    
     if (newDifficultIndex > 4) {
       correctWordData.userWord.optional.toRepeat = false;
       correctWordData.userWord.optional.isDifficult = false;
@@ -234,6 +246,7 @@ class SpacedRepetitions {
     //   : previousDifficultIndex;
     const newDifficultIndex = 0;
     wrongWordData.userWord.difficulty = INDEX_TO_CATEGORY[newDifficultIndex];
+
     wrongWordData.userWord.optional.repeatDate = Date.now() + CATEGORY_INDEX_TO_TIME_DELAY[newDifficultIndex];
     wrongWordData.userWord.optional.changed = true;
     wrongWordData.userWord.optional.isWrong = true;
@@ -269,9 +282,6 @@ class SpacedRepetitions {
     this.cardsCount = 0;
     this.newWordsCount = 0;
 
-    // this.userWordsCollection = defaultData; // !!! todo тут я все и поменял!!!! 
-    // скачать 20 слов или все слова пользователя в изучении, если убрать 20 скачает все возможные
-    // debugger;
     this.userWordsCollection = await mainController.getAllUserWordsInLearning() || []; // тут нет deleted words and learned words
     debugger;
     this.newWords = this.getNewWords(this.userWordsCollection);
