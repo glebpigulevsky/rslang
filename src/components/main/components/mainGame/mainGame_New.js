@@ -238,9 +238,10 @@ class MainGame {
     target.classList.toggle('active');
   }
 
-  init(userSettings) {
+  init(userSettings, englishLevel) {
     if (!userSettings) {
       this.userSettings = DEFAULT_SETTINGS;
+      this.userSettings.optional.englishLevel = englishLevel;
     } else this.userSettings = userSettings;
 
     this.elements = {

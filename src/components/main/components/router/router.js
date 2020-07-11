@@ -1,6 +1,7 @@
 import menu from '../menu/menu';
 import { errorPageComponent } from '../../pages/error-page.component';
 import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
+import mainController from '../controller/main.controller';
 
 import routes from './routes/routes';
 import { getLocationPath, isRouteHasPath } from './common/router.helper';
@@ -29,9 +30,17 @@ class Router {
       const { component } = this.findComponentByPath(currentPath);
       this.previousComponent = component;
 
-      spacedRepetitions.parseMiniGamesResults();
-      spacedRepetitions.updateUserWords();
-      spacedRepetitions.count = 0;
+      if (window.location.hash !== '') {
+        console.log(await mainController.getUserSettings());
+        if (!mainController.isNewUser) {
+          debugger;
+          await spacedRepetitions.init();
+          spacedRepetitions.parseMiniGamesResults();
+          debugger;
+          await spacedRepetitions.updateUserWords();
+          spacedRepetitions.count = 0;
+        }
+      }
 
       this.mainContainer.innerHTML = '';
       this.mainContainer.insertAdjacentHTML('afterbegin', await component.render());

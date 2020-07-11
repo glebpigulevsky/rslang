@@ -42,7 +42,7 @@ const DEFAULT_SETTINGS = {
     isDeleteButton: true,
     isCategoriesButtons: true,
     isVoiceSpelling: true,
-    newWordsFetchedData: '', // todo
+    newWordsFetchedData: 0,
   },
 };
 

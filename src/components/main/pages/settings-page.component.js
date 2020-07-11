@@ -5,20 +5,20 @@ export const settingsPageComponent = {
   render: () => `
   <div class="settings__page">
     <h2 class="dictionary__title">Settings</h2>
-    <div class="save__settings">save</div>
+    <div class="save__settings linguist__button">save</div>
     <div class="settings">
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Words number per day</div>
+          <div class="raw__container-descr">Words number per day<br>(min: 5, max: 50 or cards per day)</div>
           <div class="raw__container-input">
-            <input type="number" class="input-words__day" min="5" max="100">
+            <input type="number" class="input-words__day" min="5" max="50">
           </div>
         </div>
       </div>
 
       <div class="settings_raw">
         <div class="raw__container">
-          <div class="raw__container-descr">Cards number per day</div>
+          <div class="raw__container-descr">Cards number per day<br>(min: 20, max: 100)</div>
           <div class="raw__container-input">
             <input type="number" class="input-cards__day" min="20" max="100">
           </div>

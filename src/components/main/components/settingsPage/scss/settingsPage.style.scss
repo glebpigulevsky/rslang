@@ -23,6 +23,11 @@
 
   .raw__container-descr {
     padding: 5px;
+
+    @include media-mobile {
+      width: 100%;
+      text-align: center;
+    }
   }
 
   .settings_raw {
@@ -94,6 +99,15 @@
           left: 37px;
         }
       }
+
+      @include media-tablet {
+        margin: 0 10px;
+      }
+    }
+
+    @include media-tablet {
+      font-size: px-to-rem(12px);
+      line-height: px-to-rem(14px);
     }
   }
 

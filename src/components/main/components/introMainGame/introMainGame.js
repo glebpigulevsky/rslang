@@ -1,5 +1,7 @@
 import mainController from '../controller/main.controller';
-import mainGame from '../mainGame/mainGame';
+import mainGame from '../mainGame/mainGame_New';
+import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
+import { DEFAULT_SETTINGS } from '../../../../services/common/services.common.constants';
 
 import { EMPTY } from '../../../../common/common.constants';
 
@@ -17,7 +19,7 @@ class IntroMainGame {
     this.beforeUnloadHandler = this.beforeUnloadHandler.bind(this);
   }
 
-  appendIntoDom(container = document.querySelector('.main')) {
+  appendIntoDom(container = this.elements.container) {
     container.innerHTML = '';
     container.insertAdjacentHTML('afterbegin', this.render());
   }
@@ -30,9 +32,25 @@ class IntroMainGame {
     this.elements.englishLevelInput.removeEventListener('change', mainController.onChangeEnglishLevelHandler);
   }
 
-  onMainGameStartClickHandler() {
+  async onMainGameStartClickHandler() {
     this.removeHandlers();
-    mainGame.init(mainController.settingsBack, mainController.englishLevel);
+
+    const userSettings = {
+      wordsPerDay: DEFAULT_SETTINGS.wordsPerDay,
+      optional: DEFAULT_SETTINGS.optional,
+    };
+    userSettings.optional.englishLevel = mainController.englishLevel;
+    mainController.userSettings = userSettings;
+
+    mainController.spinner.show();
+    await mainController.updateUserSettings(userSettings);
+    await spacedRepetitions.init();
+    await spacedRepetitions.updateUserWords();
+    mainController.spinner.hide();
+
+    this.elements.container.innerHTML = '';
+    this.elements.container.insertAdjacentHTML('afterbegin', mainGame.render());
+    mainGame.init(mainController.userSettings, mainController.englishLevel);
   }
 
   addMainGameStartButtonHandler() {
@@ -59,6 +77,7 @@ class IntroMainGame {
   }
 
   init() {
+    this.elements.container = document.querySelector('.main');
     this.elements.mainGameStartButton = document.querySelector('.main__game-start__button');
     this.elements.englishLevelInput = document.querySelector('#englishlevel');
 
