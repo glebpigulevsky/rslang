@@ -13,16 +13,6 @@ export const getSavannahResult = ({ correct, wrong }) => `
   </div>
     <div class="savannah__start_final" id="js-savannah_start_final">
       <div class="savannah__start_final_answears">
-        <div class="savannah__start_final_wrong">
-          <div class="savannah__start_final_wrong_title">
-            <span>Errors:</span> ${wrong}
-          </div>
-        </div>
-        <div class="savannah__start_final_valid">
-          <div class="savannah__start_final_valid_title">
-            <span>Correct:</span> ${correct}
-          <div>
-        </div>
       </div>
     </div>
   </div>

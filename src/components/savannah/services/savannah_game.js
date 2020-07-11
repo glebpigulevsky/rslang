@@ -8,6 +8,7 @@ import { getSavannahGame } from '../components/savannah_game';
 import { getSavannahQuestion } from '../components/savannah_question';
 import { getSavannahAnswears } from '../components/savannah_answears';
 import { getSavannahResultAnswear } from '../components/savannah_result_answear';
+import { getSavannahCurrentWords } from '../components/savannah_statistics';
 import { Spinner } from '../../spinner/spinner';
 import { ErrorPopup } from '../../error/error.error_popup';
 import { DIGIT_CODES, GAME_DEFAULT } from '../common/savannah.common.constans';
@@ -16,13 +17,13 @@ import { MINI_GAMES_NAMES, mainStorage, mainController } from '../../main/compon
 
 export class SavannahGame {
   constructor() {
-    this.staticticsRound = { correct: [], wrong: [] };
     this.errorPopup = new ErrorPopup();
     this.startService = new SavannahServiceStart();
     this.wordsApi = new WordsApi();
   }
 
   startGame() {
+    this.staticticsRound = { correct: [], wrong: [] };
     this.savannahContainer.innerHTML = null;
     this.savannahContainer.insertAdjacentHTML('beforeend', getSavannahGame());
     this.burningLives = GAME_DEFAULT.BurningLivesCount;
@@ -90,30 +91,14 @@ export class SavannahGame {
     document.querySelector('#js-savannah-container').innerHTML = null;
     this.startService.showSavannahResult(this.staticticsRound.correct.length, this.staticticsRound.wrong.length);
     this.sendStatistics(this.staticticsRound.correct.length, this.staticticsRound.wrong.length);
-    const wrongAnswears = this.staticticsRound.wrong.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
-    const correctAnswears = this.staticticsRound.correct.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
-    mainStorage.addMiniGameResults({
-      miniGameName: MINI_GAMES_NAMES.SAVANNA,
-      isCorrect: true,
-      wordsDataArray: correctAnswears,
-    });
-    mainStorage.addMiniGameResults({
-      miniGameName: MINI_GAMES_NAMES.SAVANNA,
-      isCorrect: false,
-      wordsDataArray: wrongAnswears,
-    });
-    document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswears);
-    document.querySelector('.savannah__start_final_valid').insertAdjacentHTML('beforeend', correctAnswears);
+    this.showLearningWord();
     this.onClickCloseBtn();
     this.onClickStartBtn();
     this.onClickLearningBtn();
-    this.onClickAudioBtn();
     this.onChangeLevel();
     this.onChangeRound();
     this.onClickStatisticsBtn();
-    this.staticticsRound.correct = [];
-    this.staticticsRound.wrong = [];
-    this.burningLives = 0;
+    this.onClickResultBtn();
   }
 
   async sendStatistics(correctVal, wrongVal) {
@@ -126,6 +111,29 @@ export class SavannahGame {
     longResults.push(newLongResult);
     allResults.optional[MINI_GAMES_NAMES.SAVANNA] = JSON.stringify(longResults);
     await mainController.updateUserStatistics(allResults);
+  }
+
+  showLearningWord() {
+    const wrongAnswears = this.staticticsRound.wrong.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
+    const correctAnswears = this.staticticsRound.correct.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
+    mainStorage.addMiniGameResults({
+      miniGameName: MINI_GAMES_NAMES.SAVANNA,
+      isCorrect: true,
+      wordsDataArray: correctAnswears,
+    });
+    mainStorage.addMiniGameResults({
+      miniGameName: MINI_GAMES_NAMES.SAVANNA,
+      isCorrect: false,
+      wordsDataArray: wrongAnswears,
+    });
+    const answearsNode = document.querySelector('.savannah__start_final_answears');
+    answearsNode.innerHTML = null;
+    answearsNode.insertAdjacentHTML('beforeend', getSavannahCurrentWords(this.staticticsRound.wrong.length, this.staticticsRound.correct.length));
+    document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswears);
+    document.querySelector('.savannah__start_final_valid').insertAdjacentHTML('beforeend', correctAnswears);
+    document.querySelectorAll('.savannah__start_page').forEach((stat) => { stat.classList.remove('savannah__start_page_select'); });
+    document.querySelector('#js-savannah_start_page_result').classList.add('savannah__start_page_select');
+    this.onClickAudioBtn();
   }
 
   _transformAnswear({ word, wordTranslate, audio }) {
@@ -240,10 +248,8 @@ export class SavannahGame {
   }
 
   onClickResultBtn() {
-    const statisticNode = document.querySelector('#js-savannah_start_page_result');
-    statisticNode.addEventListener('click', () => {
-
-    });
+    const resultNode = document.querySelector('#js-savannah_start_page_result');
+    resultNode.addEventListener('click', this.showLearningWord.bind(this));
   }
 
   onClickStatisticsBtn() {
