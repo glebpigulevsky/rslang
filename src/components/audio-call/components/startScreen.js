@@ -1,15 +1,13 @@
 export default class StartScreenClass {
+  constructor(zeroStartScreen, startGameClickHandler, container) {
+    this.zeroStartScreen = zeroStartScreen;
+    this.startGameClickHandler = startGameClickHandler;
+    this.container = container;
+  }
 
-    constructor(zeroStartScreen, startGameClickHandler, container) {
-        this.zeroStartScreen = zeroStartScreen;
-        this.startGameClickHandler = startGameClickHandler;
-        this.container = container;
-    }
-
-    render () {
-        // this.zeroStartScreen
-        console.log('INIT')
-        document.querySelector('.main__game').innerHTML = `
+  render() {
+    // this.zeroStartScreen
+    document.querySelector('.main__game').innerHTML = `
         <div class="start-screen">
             <p class="game-name">Mini-game "Audio-call"</p>
             <div class="select-round">
@@ -49,7 +47,6 @@ export default class StartScreenClass {
           </div> 
       `;
 
-      document.querySelector('.start').addEventListener('click', this.startGameClickHandler);
-    }
+    document.querySelector('.start').addEventListener('click', this.startGameClickHandler);
+  }
 }
-

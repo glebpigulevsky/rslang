@@ -35,8 +35,6 @@
   margin-right: 5px;
 }
 
-
-
 .select-round select {
   border-radius: 5px;
   background: rgba(0, 0, 0, .63);
@@ -71,8 +69,6 @@
   align-items: center;
 }
 
-
-
 @media (max-width: 690px) {
   .start-screen {
     width: 450px;
@@ -80,7 +76,6 @@
     padding: 5px 20px 30px 20px;
     font-size: .8em;
   }
-
 }
 
 @media (max-width: 540px) {
@@ -92,10 +87,9 @@
   }
 
   .game-name {
-    padding: 0px 50px;
+    padding: 0 50px;
     margin-top: 15px;
   }
-
 
   .start {
     font-size: .8em !important;
@@ -111,6 +105,4 @@
     font-size: 10px;
     line-height: 1;
   }
-  
-
 }

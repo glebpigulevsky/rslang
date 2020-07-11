@@ -6,12 +6,8 @@ import './scss/audio-call.scss';
 const wordsGetter = new WordsApi();
 // const startScreen = new StartScreenClass();
 
-
-
-
 class AudioCall {
   constructor() {
-  
     this.menuData = {
       level: 0,
       round: 0,
@@ -33,7 +29,7 @@ class AudioCall {
     this.roundState = 'game';
   }
 
-  zeroStartScreen () {
+  zeroStartScreen() {
     this.wordsArray = [];
     this.currentWord = 0;
     this.globalWord = 0;
@@ -46,29 +42,22 @@ class AudioCall {
     this.currentWord = 0;
     this.globalWord = 0;
     this.word = 0;
- 
-    // document.querySelector('.start').removeEventListener('click', this.startGameClickHandler.bind(this));
 
     if (window.localStorage.getItem('group')) {
       document.querySelector('.group').querySelectorAll('*')[window.localStorage.getItem('group')].selected = true;
       document.querySelector('.page').querySelectorAll('*')[window.localStorage.getItem('page')].selected = true;
     }
-
-    // document.querySelector('.start').addEventListener('click', this.startGameClickHandler.bind(this));
   }
 
   startGameClickHandler() {
-    console.log('start')
     this.getData(+document.querySelector('.group').value - 1, +document.querySelector('.page').value - 1);
     this.init();
   }
 
-  init1 () {
-    // this.container = document.createElement('div');
-    // this.container.classList.add('main__game');
-    // this.container.classList.add('audio-game-wrapper');
-    // document.querySelector('.firstPoint').appendChild(this.container);
-    this.startScreen1 = new StartScreenClass(null, this.startGameClickHandler.bind(this), this.container);
+  init1() {
+    this.startScreen1 = new StartScreenClass(
+      null, this.startGameClickHandler.bind(this), this.container,
+    );
   }
 
   init() {
@@ -142,7 +131,6 @@ class AudioCall {
     window.localStorage.setItem('page', this.page);
     wordsGetter.getWordsCollection({ group: this.group, page: this.page })
       .then((res) => {
-        console.log('RES', res);
         this.page += 1;
         this.wordsArray = [...this.wordsArray, ...res];
         this.renderData(this.wordsArray);
@@ -180,7 +168,7 @@ class AudioCall {
     if (!playKeys.includes(event.key)) {
       return;
     }
-    
+
     if (event.key === 'Enter' && this.roundState !== 'stats') {
       this.enterCount += 1;
       if (this.roundState === 'answered' && event.key === 'Enter') {
@@ -426,11 +414,10 @@ class AudioCall {
     };
   }
 
-  unmount () {
+  unmount() {
     document.body.classList.remove('audio-call-wrapper');
     document.onkeydown = null;
   }
-
 }
 
 const audioCallInit = new AudioCall();
@@ -444,6 +431,6 @@ const audioCallStartScreen = () => {
 
 const audioCallUnmount = () => {
   audioCallInit.unmount();
-}
+};
 
 export { audioCallStartScreen, audioCallUnmount };
