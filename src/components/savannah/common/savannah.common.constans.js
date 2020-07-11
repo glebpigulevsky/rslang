@@ -6,4 +6,5 @@ export const GAME_DEFAULT = {
   WordPageRange: { Min: 0, Max: 9 },
   WordsPerExampleSentence: 20,
   WordsPerPage: 60,
+  StatisticsMaxCount: 100,
 };

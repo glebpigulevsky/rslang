@@ -1,5 +1,5 @@
 import { getSavannahStart } from '../components/savannah_start';
-import background from '../assets/img/bgSavannah.jpg';
+import background from '../assets/img/savannahStart.jpg';
 import { Spinner } from '../../spinner/spinner';
 
 export class SavannahServiceStart {
