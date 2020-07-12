@@ -220,3 +220,14 @@
   margin-right: 6px;
   padding: 1rem;
 }
+
+.savannah__start_final_coundown {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: $color-dark-brown;
+  //background-color: rgba(255, 239, 213, 0.3);
+  height: 100%;
+  justify-content: center;
+  font-size: 80px;
+}

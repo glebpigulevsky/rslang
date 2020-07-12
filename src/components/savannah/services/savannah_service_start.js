@@ -3,6 +3,7 @@ import { getSavannahResult } from '../components/savannah_result';
 import { getSavannahStatistics } from '../components/savannah_statistics';
 import background from '../assets/img/startSavannah.png';
 import { Spinner } from '../../spinner/spinner';
+import { getFinalCountdown } from '../common/savannah.common.utils';
 
 export class SavannahServiceStart {
   showSavannahStart() {
@@ -37,5 +38,9 @@ export class SavannahServiceStart {
 
   showSavannahStatistics(value) {
     return getSavannahStatistics(value);
+  }
+
+  showSavannahFinalCountdown() {
+    getFinalCountdown('js-savannah__start_final_coundown', 3, 1, 3000);
   }
 }

@@ -9,6 +9,7 @@ import { getSavannahQuestion } from '../components/savannah_question';
 import { getSavannahAnswears } from '../components/savannah_answears';
 import { getSavannahResultAnswear } from '../components/savannah_result_answear';
 import { getSavannahCurrentWords } from '../components/savannah_statistics';
+import { getSavannahFinalCounter } from '../components/savannah_counter';
 import { Spinner } from '../../spinner/spinner';
 import { ErrorPopup } from '../../error/error.error_popup';
 import { DIGIT_CODES, GAME_DEFAULT } from '../common/savannah.common.constans';
@@ -23,6 +24,17 @@ export class SavannahGame {
   }
 
   startGame() {
+    setTimeout(() => { this.startFinalCountdown(); }, 1000);
+    setTimeout(() => { this.startGameLooop(); }, 7000);
+  }
+
+  startFinalCountdown() {
+    this.savannahContainer.innerHTML = null;
+    this.savannahContainer.insertAdjacentHTML('beforeend', getSavannahFinalCounter());
+    this.startService.showSavannahFinalCountdown();
+  }
+
+  startGameLooop() {
     this.staticticsRound = { correct: [], wrong: [] };
     this.savannahContainer.innerHTML = null;
     this.savannahContainer.insertAdjacentHTML('beforeend', getSavannahGame());
@@ -39,7 +51,6 @@ export class SavannahGame {
     const learnLength = this.learningWords.length;
     const { 0: nextWord } = this.learningWords.splice(GET_RANDOM(0, (learnLength - 1)), 1);
     if (nextWord) {
-      console.log(nextWord);
       this.currentWord = nextWord;
       this.addQuiz();
       this.isSelectedAnswear = false;

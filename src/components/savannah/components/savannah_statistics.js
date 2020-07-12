@@ -1,4 +1,3 @@
-
 export const getSavannahCurrentWords = (wrong, correct) => `
 <div class="savannah__start_final_wrong">
     <div class="savannah__start_final_wrong_title">
