@@ -11,7 +11,7 @@ import { getSavannahCurrentWords } from '../components/savannah_statistics';
 import { getSavannahFinalCounter } from '../components/savannah_counter';
 import { Spinner } from '../../spinner/spinner';
 import { ErrorPopup } from '../../error/error.error_popup';
-import { DIGIT_CODES, GAME_DEFAULT } from '../common/savannah.common.constans';
+import { DIGIT_CODES, GAME_DEFAULT, DIAMOND_COLORS } from '../common/savannah.common.constans';
 import { getNextVariable } from '../common/savannah.common.utils';
 import { MINI_GAMES_NAMES, mainStorage, mainController } from '../../main/components/mainStorage/mainStorage';
 
@@ -24,7 +24,7 @@ export class SavannahGame {
 
   startGame() {
     setTimeout(() => { this.startFinalCountdown(); }, 1000);
-    setTimeout(() => { this.startGameLooop(); }, 6000);
+    setTimeout(() => { this.startGameLooop(); }, 7000);
   }
 
   startFinalCountdown() {
@@ -39,6 +39,8 @@ export class SavannahGame {
     this.savannahContainer.insertAdjacentHTML('beforeend', getSavannahGame());
     this.burningLives = GAME_DEFAULT.BurningLivesCount;
     this.isPlayingSound = true;
+    this.threeCorrectAnswersTogether = 0;
+    this.diamondColors = [...DIAMOND_COLORS];
     this.onClickCloseBtn();
     this.onClickSoundBtn();
     this.onPressNumberKey();
@@ -94,13 +96,17 @@ export class SavannahGame {
     if (!isCorrect) {
       this.burnLife();
     }
+    this.threeCorrectAnswersTogether = (isCorrect) ? this.threeCorrectAnswersTogether + 1 : 0;
     return !!isCorrect;
   }
 
   endGame() {
     document.querySelector('#js-savannah-game-wrap').innerHTML = null;
     this.startService.skipAnimatedBackground();
-    this.startService.showSavannahResult(this.staticticsRound.correct.length, this.staticticsRound.wrong.length);
+    this.startService.showSavannahResult(
+      this.staticticsRound.correct.length,
+      this.staticticsRound.wrong.length,
+    );
     this.sendStatistics(this.staticticsRound.correct.length, this.staticticsRound.wrong.length);
     this.showLearningWord();
     this.onClickCloseBtn();
@@ -188,6 +194,12 @@ export class SavannahGame {
         .querySelector('#js-savannah__answears')
         .querySelector(`:nth-child(${this.correctTranslationIndex + 1}`)
         .classList.add('savannah__answear_correct');
+    }
+    if (this.threeCorrectAnswersTogether === 3) {
+      const diamondNode = document.querySelector('.savannah__diamond').querySelectorAll('span');
+      const color = this.diamondColors.shift();
+      diamondNode.forEach((span) => { span.style.border = `4px solid ${(color) || 'fff'}`; });
+      this.threeCorrectAnswersTogether = 0;
     }
     const quest = document.querySelector('#js-savannah__question');
     quest.parentNode.removeChild(quest);

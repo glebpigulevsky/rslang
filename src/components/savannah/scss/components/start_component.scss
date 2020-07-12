@@ -197,6 +197,7 @@
 .savannah__start_paginator {
   display: flex;
   justify-content: center;
+  height: 32px;
 }
 
 .savannah__start_page {
@@ -207,6 +208,12 @@
   background-size: cover;
   background-image: url('../assets/img/savannahPageUnselect.png');
   cursor: pointer;
+}
+ 
+.savannah__start_page:hover {
+  width: 31px;
+  height: 31px;
+  background-image: url('../assets/img/savannahPageHover.png');
 }
 
 .savannah__start_page_select {
@@ -222,13 +229,15 @@
   padding: 1rem;
 }
 
-.savannah__start_final_coundown {
+.savannah__start_final_countdown {
   display: flex;
   align-items: center;
   flex-direction: column;
   color: $color-dark-brown;
-  height: 100%;
   justify-content: center;
-  font-size: 90px;
   height: 100vh;
+}
+
+.savannah__start_final_countdown_count {
+  font-size: 90px;
 }

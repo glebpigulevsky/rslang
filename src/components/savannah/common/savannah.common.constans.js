@@ -8,3 +8,12 @@ export const GAME_DEFAULT = {
   WordsPerPage: 60,
   StatisticsMaxCount: 100,
 };
+
+export const DIAMOND_COLORS = [
+  '#000',
+  '#bed838',
+  '#c615ce',
+  '#f70a0a',
+  '#1faedb',
+  '#ffa58d',
+];

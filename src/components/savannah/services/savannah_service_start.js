@@ -50,6 +50,6 @@ export class SavannahServiceStart {
   }
 
   showSavannahFinalCountdown() {
-    getFinalCountdown('js-savannah__start_final_coundown', 3, 1, 3000);
+    getFinalCountdown('js-savannah__start_final_coundown', 3, 1, 4000);
   }
 }

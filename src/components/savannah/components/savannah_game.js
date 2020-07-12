@@ -10,14 +10,14 @@ export const getSavannahGame = () => `
     </div>
     <div class="savannah__close_btn"></div>
     <div class="savannah__diamond_overlay">
-    <div class="savannah__diamond_preloader">
-      <div class="savannah__diamond">
-       <span></span>
-       <span></span>
-       <span></span>
-      </div>
-    </div>
-  </div>
+        <div class="savannah__diamond_preloader">
+            <div class="savannah__diamond">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+   </div>
     <div class="savannah__plant_wrap">
         <div class="savannah__plant_base">
         <div class="savannah__plant_flowerpot"></div>
