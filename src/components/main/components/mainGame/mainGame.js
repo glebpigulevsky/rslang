@@ -25,17 +25,22 @@ class MainGame {
     this.maxCombo = EMPTY;
     this.correctAnswers = EMPTY;
     this.errorAnswers = EMPTY;
+    this.progress = EMPTY;
 
     this.audio = EMPTY;
     this.errorAudio = new Audio(ERROR_AUDIO);
 
-    this.onHintTranslationButtonClickHandler = this.onHintTranslationButtonClickHandler.bind(this);
-    this.onHintAutoSpellingButtonClickHandler = this.onHintAutoSpellingButtonClickHandler.bind(this);
+    this.render = this.render.bind(this);
+    this.onHintTranslationButtonClickHandler = this.onHintTranslationButtonClickHandler
+      .bind(this);
+    this.onHintAutoSpellingButtonClickHandler = this.onHintAutoSpellingButtonClickHandler
+      .bind(this);
     this.checkAnswer = this.checkAnswer.bind(this);
     this.onInputHandler = this.onInputHandler.bind(this);
     this.checkAnswerByKey = this.checkAnswerByKey.bind(this);
     this.showCorrectAnswer = this.showCorrectAnswer.bind(this);
-    this.onCategoryButtonClickHandler = this.onCategoryButtonClickHandler.bind(this);
+    this.onCategoryButtonClickHandler = this.onCategoryButtonClickHandler
+      .bind(this);
     this.showNextCard = this.showNextCard.bind(this);
 
     this.playSpelling = this.playSpelling.bind(this);
@@ -46,89 +51,11 @@ class MainGame {
     this.onEndErrorSpellingHandler = this.onEndErrorSpellingHandler.bind(this);
   }
 
-  addCard(wordData = this.currentCard) {
-    this.elements.containers.card.innerHTML = '';
-    this.elements.containers.card.insertAdjacentHTML('afterBegin', this.renderCard(wordData));
-    this.elements.picture.src = wordData.image;
-
-    const wordElement = document.querySelector('.linguist-main-card__word');
-
-    const inputElement = document.createElement('input');
-    inputElement.className = 'linguist-main-card__input';
-    inputElement.style.width = `${wordElement.getBoundingClientRect().width + 1}px`;
-
-    wordElement.insertAdjacentElement('afterBegin', inputElement);
-
-    this.elements.card = {
-      example: document.querySelector('.linguist-main-card__example'),
-      exampleTranslate: document.querySelector('.linguist-main-card__example_translate'),
-      meaning: document.querySelector('.linguist-main-card__meaning'),
-      meaningTranslate: document.querySelector('.linguist-main-card__meaning_translate'),
-      word: document.querySelector('.linguist-main-card__word'),
-      wordTranslate: document.querySelector('.linguist-main-card__word_translate'),
-      transcription: document.querySelector('.linguist-main-card__transcription'),
-      input: document.querySelector('.linguist-main-card__input'),
-    };
-
-    this.elements.card.input.focus();
-  }
-
-  renderCard(wordData = this.currentCard) {
-    const hideTranslationClass = (!this.hints.isTranslationEnabled)
-      ? 'linguist__hidden'
-      : '';
-
-    const hideWordTranslationClass = (!this.userSettings.optional.isTranslation)
-      ? 'display-none'
-      : '';
-
-    const hideMeaningClass = (!this.userSettings.optional.isMeaningSentence)
-      ? 'display-none'
-      : '';
-
-    const hideExampleClass = (!this.userSettings.optional.isExampleSentence)
-      ? 'display-none'
-      : '';
-
-    const hideTranscriptionClass = (!this.userSettings.optional.isTranscription)
-      ? 'display-none'
-      : '';
-
-    const firstWord = wordData.word[0].toUpperCase() + wordData.word.slice(1);
-    const textExample = wordData.textExample
-      .replace(wordData.word, '[...]')
-      .replace(firstWord, '[...]');
-
-    const textMeaning = wordData.textMeaning
-      .replace(wordData.word, '[...]')
-      .replace(firstWord, '[...]');
-
-    return `
-      <p class="linguist-main-card__word">${this.renderWord(wordData.word)}</p>
-      <p class="linguist-main-card__transcription linguist-main-card__description ${hideTranscriptionClass}">${wordData.transcription}</p>
-      <p class="linguist-main-card__word_translate linguist-main-card__description ${hideTranslationClass} ${hideWordTranslationClass}">${wordData.wordTranslate}</p>
-      <p class="linguist-main-card__example linguist-main-card__description ${hideExampleClass}">${textExample}</p>
-      <p class="linguist-main-card__example_translate linguist-main-card__description ${hideTranslationClass} ${hideExampleClass}">${wordData.textExampleTranslate}</p>
-      <p class="linguist-main-card__meaning linguist-main-card__description ${hideMeaningClass}">${textMeaning}</p>
-      <p class="linguist-main-card__meaning_translate linguist-main-card__description ${hideTranslationClass} ${hideMeaningClass}">${wordData.textMeaningTranslate}</p>
-    `;
-  }
-
-  renderFullSentences(wordData = this.currentCard) {
-    this.elements.card.example.innerHTML = wordData.textExample;
-    this.elements.card.meaning.innerHTML = wordData.textMeaning;
-  }
-
-  renderWord(word = this.currentCard.word) {
-    return word
-      .split('')
-      .map((letter) => `<span class="linguist-main-card__letter" data-letter="${letter}">${letter}</span>`)
-      .join('');
-  }
-
   showResults() {
     this.elements.results.cards.innerText = spacedRepetitions.cardsCount || 0;
-    this.elements.results.correct.innerText = `${Math.round(((this.correctAnswers - this.errorAnswers) * 100) / spacedRepetitions.cardsCount) || 0} %`;
+    this.elements.results.correct.innerText = `${Math.round(
+      ((this.correctAnswers - this.errorAnswers) * 100) / spacedRepetitions.cardsCount,
+    ) || 0} %`;
     this.elements.results.new.innerText = spacedRepetitions.newWordsCount || 0;
     this.elements.results.combo.innerText = Math.max(this.combo, this.maxCombo) || 0;
 
@@ -137,8 +64,7 @@ class MainGame {
   }
 
   showNextCard() {
-    console.log('cards: ', spacedRepetitions.cardsCount);
-    console.log('new words: ', spacedRepetitions.newWordsCount);
+    this.updateProgressBar();
 
     this.isCorrect = false;
     if (spacedRepetitions.cardsCount >= this.userSettings.optional.cardsPerDay) {
@@ -163,9 +89,7 @@ class MainGame {
 
     if (!isShowAnswerButtonClicked) {
       this.correctAnswers += 1;
-      console.log('correctAnswers', this.correctAnswers);
       this.combo += 1;
-      console.log('combo', this.combo);
       spacedRepetitions.updateCorrectWord(this.currentCard);
     } else {
       this.maxCombo = Math.max(this.combo, this.maxCombo);
@@ -325,68 +249,13 @@ class MainGame {
     this.stopSpellingAnimation();
   }
 
-  render() {
-    return `
-      <div class="linguist__wrapper">
-        <div class="linguist__main">
-          <div class="linguist__controls-wrapper">
-            <div class="linguist__game-controls-wrapper">
-              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_delete display-none">delete</button>
-              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_hards display-none">Move to hards</button>
-              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_show display-none">Show answer</button>
-              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_check">Check</button>
-            </div>
-            <div class="linguist__categories-controls-wrapper display-none">
-              <button class="linguist__button linguist__categories-button linguist__categories-button_again" data-category="new">again</button>
-              <button class="linguist__button linguist__categories-button linguist__categories-button_hard" data-category="hard">hard</button>
-              <button class="linguist__button linguist__categories-button linguist__categories-button_good" data-category="normal">normal</button>
-              <button class="linguist__button linguist__categories-button linguist__categories-button_easy" data-category="good">good</button>
-            </div>
-          </div>
-          <div class="linguist__hints-wrapper">
-            <button class="linguist__button linguist__hints-button linguist__hints-button_translation" title="Show/hide translation"></button>
-            <button class="linguist__button linguist__hints-button linguist__hints-button_auto-spelling" title="On/off auto-spelling"></button>
-          </div>
-          <div class="linguist-main-card__wrapper">
-            <div class="linguist-main-card">
-            </div>
-          </div>
-          <img class="linguist-main-card__image display-none">
-        </div>
-        <div class="linguist__statistic display-none">
-          <div class="linguist__statistic-description-container">
-            <h3 class="linguist__statistic-title">Stage statistics:</h3>
-            <p class="linguist__statistic-cards-finished">
-              <span class="statistic-cards-finished__title">Cards finished: </span>
-              <span class="statistic-cards-finished__result"></span>
-            </p>
-            <hr class="linguist__statistic-line">
-            <p class="linguist__statistic-correct">
-              <span class="statistic-correct__title">Correct answers: </span>
-              <span class="statistic-correct__result"></span>
-            </p>
-            <hr class="linguist__statistic-line">
-            <p class="linguist__statistic-new">
-              <span class="statistic-new__title">New words: </span>
-              <span class="statistic-new__result"></span>
-            </p>
-            <hr class="linguist__statistic-line">
-            <p class="linguist__statistic-combo">
-              <span class="statistic-combo__title">Longest correct combo: </span>
-              <span class="statistic-combo__result"></span>
-            </p>
-            <hr class="linguist__statistic-line">
-            <p class="linguist__statistic-description">
-              It's enough for today. But, if you want, you can repeat it again or change settings.
-            </p>
-          </div>
-          <div class="linguist__statistic-controls">
-            <button class="linguist__button" onclick="location.href = '#/settings'">Settings</button>
-            <button class="linguist__button" onclick="location.href = '#/'">Main page</button>
-          </div>
-        </div>
-      </div>
-    `;
+  updateProgressBar() {
+    this.elements.progress.passed.innerText = spacedRepetitions.cardsCount || 0;
+    this.elements.progress.count.innerText = this.userSettings.optional.cardsPerDay || 0;
+    this.progress = Math.round(
+      (spacedRepetitions.cardsCount * 100) / this.userSettings.optional.cardsPerDay,
+    );
+    this.elements.progress.bar.style.width = `${this.progress}%`;
   }
 
   showTranslation() {
@@ -430,6 +299,157 @@ class MainGame {
     this.showNextCard();
   }
 
+  addCard(wordData = this.currentCard) {
+    this.elements.containers.card.innerHTML = '';
+    this.elements.containers.card.insertAdjacentHTML('afterBegin', this.renderCard(wordData));
+    this.elements.picture.src = wordData.image;
+
+    const wordElement = document.querySelector('.linguist-main-card__word');
+
+    const inputElement = document.createElement('input');
+    inputElement.className = 'linguist-main-card__input';
+    inputElement.style.width = `${wordElement.getBoundingClientRect().width + 1}px`;
+
+    wordElement.insertAdjacentElement('afterBegin', inputElement);
+
+    this.elements.card = {
+      example: document.querySelector('.linguist-main-card__example'),
+      exampleTranslate: document.querySelector('.linguist-main-card__example_translate'),
+      meaning: document.querySelector('.linguist-main-card__meaning'),
+      meaningTranslate: document.querySelector('.linguist-main-card__meaning_translate'),
+      word: document.querySelector('.linguist-main-card__word'),
+      wordTranslate: document.querySelector('.linguist-main-card__word_translate'),
+      transcription: document.querySelector('.linguist-main-card__transcription'),
+      input: document.querySelector('.linguist-main-card__input'),
+    };
+
+    this.elements.card.input.focus();
+  }
+
+  renderCard(wordData = this.currentCard) {
+    const hideTranslationClass = (!this.hints.isTranslationEnabled)
+      ? 'linguist__hidden'
+      : '';
+
+    const hideWordTranslationClass = (!this.userSettings.optional.isTranslation)
+      ? 'display-none'
+      : '';
+
+    const hideMeaningClass = (!this.userSettings.optional.isMeaningSentence)
+      ? 'display-none'
+      : '';
+
+    const hideExampleClass = (!this.userSettings.optional.isExampleSentence)
+      ? 'display-none'
+      : '';
+
+    const hideTranscriptionClass = (!this.userSettings.optional.isTranscription)
+      ? 'display-none'
+      : '';
+
+    const firstWord = wordData.word[0].toUpperCase() + wordData.word.slice(1);
+    const textExample = wordData.textExample
+      .replace(wordData.word, '[...]')
+      .replace(firstWord, '[...]');
+
+    const textMeaning = wordData.textMeaning
+      .replace(wordData.word, '[...]')
+      .replace(firstWord, '[...]');
+
+    return `
+      <p class="linguist-main-card__word">${this.renderWord(wordData.word)}</p>
+      <p class="linguist-main-card__transcription linguist-main-card__description ${hideTranscriptionClass}">${wordData.transcription}</p>
+      <p class="linguist-main-card__word_translate linguist-main-card__description ${hideTranslationClass} ${hideWordTranslationClass}">${wordData.wordTranslate}</p>
+      <p class="linguist-main-card__example linguist-main-card__description ${hideExampleClass}">${textExample}</p>
+      <p class="linguist-main-card__example_translate linguist-main-card__description ${hideTranslationClass} ${hideExampleClass}">${wordData.textExampleTranslate}</p>
+      <p class="linguist-main-card__meaning linguist-main-card__description ${hideMeaningClass}">${textMeaning}</p>
+      <p class="linguist-main-card__meaning_translate linguist-main-card__description ${hideTranslationClass} ${hideMeaningClass}">${wordData.textMeaningTranslate}</p>
+    `;
+  }
+
+  renderFullSentences(wordData = this.currentCard) {
+    this.elements.card.example.innerHTML = wordData.textExample;
+    this.elements.card.meaning.innerHTML = wordData.textMeaning;
+  }
+
+  renderWord(word = this.currentCard.word) {
+    return word
+      .split('')
+      .map((letter) => `<span class="linguist-main-card__letter" data-letter="${letter}">${letter}</span>`)
+      .join('');
+  }
+
+  render() {
+    return `
+      <div class="linguist__wrapper">
+        <div class="linguist__main">
+          <div class="linguist__controls-wrapper">
+            <div class="linguist__game-controls-wrapper">
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_delete display-none">delete</button>
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_hards display-none">Move to hards</button>
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_show display-none">Show answer</button>
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_check">Check</button>
+            </div>
+            <div class="linguist__categories-controls-wrapper display-none">
+              <button class="linguist__button linguist__categories-button linguist__categories-button_again" data-category="new">again</button>
+              <button class="linguist__button linguist__categories-button linguist__categories-button_hard" data-category="hard">hard</button>
+              <button class="linguist__button linguist__categories-button linguist__categories-button_good" data-category="normal">normal</button>
+              <button class="linguist__button linguist__categories-button linguist__categories-button_easy" data-category="good">good</button>
+            </div>
+          </div>
+          <div class="linguist__hints-wrapper">
+            <button class="linguist__button linguist__hints-button linguist__hints-button_translation" title="Show/hide translation"></button>
+            <button class="linguist__button linguist__hints-button linguist__hints-button_auto-spelling" title="On/off auto-spelling"></button>
+          </div>
+          <div class="linguist-progress-wrapper">
+            <span class="linguist-progress-passed">0</span>
+            <div class="linguist-progress-bar">
+              <div class="linguist-progress-bar-display"></div>
+            </div>
+            <span class="linguist-progress-count">50</span>
+          </div>
+          <div class="linguist-main-card__wrapper">
+            <div class="linguist-main-card">
+            </div>
+          </div>
+          <img class="linguist-main-card__image display-none">
+        </div>
+        <div class="linguist__statistic display-none">
+          <div class="linguist__statistic-description-container">
+            <h3 class="linguist__statistic-title">Stage statistics:</h3>
+            <p class="linguist__statistic-cards-finished">
+              <span class="statistic-cards-finished__title">Cards finished: </span>
+              <span class="statistic-cards-finished__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-correct">
+              <span class="statistic-correct__title">Correct answers: </span>
+              <span class="statistic-correct__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-new">
+              <span class="statistic-new__title">New words: </span>
+              <span class="statistic-new__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-combo">
+              <span class="statistic-combo__title">Longest correct combo: </span>
+              <span class="statistic-combo__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-description">
+              It's enough for today. But, if you want, you can repeat it again or change settings.
+            </p>
+          </div>
+          <div class="linguist__statistic-controls">
+            <button class="linguist__button" onclick="location.href = '#/settings'">Settings</button>
+            <button class="linguist__button" onclick="location.href = '#/'">Main page</button>
+          </div>
+        </div>
+      </div>
+    `;
+  }
+
   init(userSettings, englishLevel) {
     if (!userSettings) {
       this.userSettings = DEFAULT_SETTINGS;
@@ -440,6 +460,7 @@ class MainGame {
     this.maxCombo = 0;
     this.correctAnswers = 0;
     this.errorAnswers = 0;
+    this.progress = 0;
 
     this.elements = {
       picture: document.querySelector('.linguist-main-card__image'),
@@ -467,6 +488,11 @@ class MainGame {
         correct: document.querySelector('.statistic-correct__result'),
         new: document.querySelector('.statistic-new__result'),
         combo: document.querySelector('.statistic-combo__result'),
+      },
+      progress: {
+        passed: document.querySelector('.linguist-progress-passed'),
+        count: document.querySelector('.linguist-progress-count'),
+        bar: document.querySelector('.linguist-progress-bar-display'),
       },
     };
 

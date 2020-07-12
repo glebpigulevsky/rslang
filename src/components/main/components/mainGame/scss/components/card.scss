@@ -1,6 +1,8 @@
 .linguist-main-card__wrapper {
   max-width: 800px;
+  min-width: 300px;
   width: 90%;
+
   margin: 0 auto;
   margin-bottom: 20px;
 
@@ -85,6 +87,13 @@
 .linguist-main-card__meaning,
 .linguist-main-card__meaning_translate {
   font-style: italic;
+}
+
+.linguist-main-card__example,
+.linguist-main-card__example_translate,
+.linguist-main-card__meaning,
+.linguist-main-card__meaning_translate {
+  min-height: 80px;
 }
 
 .linguist-main-card__image {

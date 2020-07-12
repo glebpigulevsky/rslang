@@ -1,0 +1,35 @@
+.linguist-progress-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.linguist-progress-bar {
+  position: relative;
+  max-width: 800px;
+  width: 80%;
+  height: 16px;
+  margin: 0 20px;
+
+  background-color: $color-input;
+  border: 1px solid $color-hovered;
+  border-radius: 20px;
+}
+
+.linguist-progress-bar-display {
+  position: absolute;
+  height: 100%;
+  background-color: $color-hovered;
+  border-radius: 20px;
+}
+
+.linguist-progress-passed,
+.linguist-progress-count {
+  min-width: 35px;
+  display: inline-block;
+
+  color: $color-text-additional;
+  font-weight: bold;
+  text-align: center;
+}
