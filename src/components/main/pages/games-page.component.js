@@ -15,8 +15,8 @@ export const gamesPageComponent = {
                     <button class="cards__btn btn__icon english-puzzle" onclick="location.href = '#/english-puzzle'"><img src="./assets/main/img/icon/play.svg" class="icon-btn" alt="play"><span class="btn__title">play</span></button>
                 </div>
                 <div class="cards__item">
-                    <img src="./assets/main/img/savannah.png" class="cards__img" alt="savannah">
-                    <p class="cards__name">savannah</p>
+                    <img src="./assets/main/img/savannah.png" class="cards__img" alt="savanna">
+                    <p class="cards__name">savanna</p>
                     <button class="cards__btn btn__icon"><img src="./assets/main/img/icon/play.svg" class="icon-btn" alt="play"><span class="btn__title">play</span></button>
                 </div>
             </div>

@@ -1,0 +1,58 @@
+.learning-words-cards__wrapper {
+  max-width: 800px;
+  min-width: 300px;
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  background-color: $color-light;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+
+  hr {
+    border: 1px solid $color-border;
+  }
+
+  .learning-words-card:last-of-type {
+    hr {
+      border: 0;
+    }
+  }
+}
+
+.learning-words-card {
+  padding-top: 20px;
+}
+
+.learning-words-card__description {
+  @include flex-center;
+
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 0 10px;
+
+  color: $color-text-additional;
+  text-align: center;
+}
+
+.learning-words-card__word,
+.learning-words-card__transcription,
+.learning-words-card__example,
+.learning-words-card__meaning {
+  font-weight: bold;
+}
+
+.learning-words-card__meaning,
+.learning-words-card__meaning_translate {
+  font-style: italic;
+}
+
+.learning-words-card__image {
+  display: block;
+  max-width: 270px;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  background-color: $color-light;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+  object-fit: cover;
+}
