@@ -141,14 +141,14 @@
 .savannah__sky {
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, #416ba7 0%, #90bce3 50%);
+  background: linear-gradient(to bottom, $color-savannah-sky-1  0%, $color-savannah-sky-2  50%);
 }
 
 .savannah__road {
   bottom: 0px;
   width: 100%;
   height: 20%;
-  background: linear-gradient(to bottom, #4a483d 0%, #4c4f48 30%);
+  background: linear-gradient(to bottom, $color-savannah-road-1  0%, $color-savannah-road-2 30%);
 }
 
 .road-lines {
@@ -156,7 +156,7 @@
   margin-bottom: 1%;
   width: 200%;
   height: 10%;
-  background: repeating-linear-gradient(90deg, white 0%, white 10%, transparent 10%, transparent 20%);
+  background: repeating-linear-gradient(90deg, $color-light 0%, $color-light 10%, transparent 10%, transparent 20%);
   animation: anim40 linear 4s;
   animation-iteration-count: infinite;
 }
@@ -164,8 +164,8 @@
 .savannah__grass-wrap {
   width:200%;
   height:50px;
-  background-color:#4c5f27;
-  background:linear-gradient(to top, #4c5f27 10px, transparent 10px);
+  background-color: $color-savannah-grass;
+  background:linear-gradient(to top, $color-savannah-grass 10px, transparent 10px);
   bottom:20%;
   display:block;
 }
@@ -173,7 +173,7 @@
 .savannah__grass {
   width:0px;
   height:0px;
-  border-bottom:20px solid #4c5f27;
+  border-bottom:20px solid $color-savannah-grass;
   border-left:300px solid transparent;
   border-right:600px solid transparent;
   display:block;
@@ -185,7 +185,7 @@
   content:"";
   width:0px;
   height:0px;
-  border-bottom:20px solid #4c5f27;
+  border-bottom:20px solid $color-savannah-grass;
   border-left:300px solid transparent;
   border-right:600px solid transparent;
   display:block;
@@ -197,36 +197,36 @@
 .savannah__field {
   width:100%;
   height:20%;
-  background:linear-gradient(#808c5e, #576b3c);
+  background:linear-gradient($color-savannah-field-1, $color-savannah-field-2);
   bottom:20%;
 }
 
 .savannah__field-lines {
   width:5px;
   height:100px;
-  background:#4c5f27;
+  background: $color-savannah-grass;
   bottom:0%;
   animation: animfield linear 10s;
   animation-iteration-count: infinite;
-  border-left:3px solid #808c5e;
-  border-right:3px solid #576b3c;
+  border-left:3px solid $color-savannah-field-1;
+  border-right:3px solid $color-savannah-field-2;
 }
 .savannah__field-lines2 {
   width:5px;
   height:100px;
-  background:#4c5f27;
+  background: $color-savannah-grass;
   bottom:0%;
   animation: animfield linear 10s;
   animation-iteration-count: infinite;
   animation-delay: -5s;
-  border-left:3px solid #808c5e;
-  border-right:3px solid #576b3c;
+  border-left:3px solid $color-savannah-field-1;
+  border-right:3px solid $color-savannah-field-2;
 }
 
 .savannah__distant-trees {
   width:0px;
   height:0px;
-  border-bottom:20px solid #45667f;
+  border-bottom:20px solid $color-savannah-trees;
   border-left:600px solid transparent;
   border-right:600px solid transparent;
   display:block;
@@ -239,7 +239,7 @@
   content:"";
   width:0px;
   height:0px;
-  border-bottom:20px solid #45667f;
+  border-bottom:20px solid $color-savannah-trees;
   border-left:600px solid transparent;
   border-right:600px solid transparent;
   display:block;
@@ -254,13 +254,13 @@
   left:-600px;
   width:3000px;
   height:20px;
-  background:#45667f;
+  background:$color-savannah-trees;
 }
 
 .savannah__distant-trees2 {
   width:0px;
   height:0px;
-  border-bottom:20px solid #355a60;
+  border-bottom:20px solid $color-savannah-trees-2;
   border-left:300px solid transparent;
   border-right:600px solid transparent;
   display:block;
@@ -273,7 +273,7 @@
   content:"";
   width:0px;
   height:0px;
-  border-bottom:20px solid #355a60;
+  border-bottom:20px solid $color-savannah-trees-2;
   border-left:300px solid transparent;
   border-right:600px solid transparent;
   display:block;
@@ -295,16 +295,16 @@
   width:200%;
   height:5%;
   bottom:40%;
-  background:#45694d;
-  background: -webkit-gradient(radial, 50% 100%, 10, 40% 100%, 40, color-stop(0.30, #45694d), color-stop(0.31, transparent));
+  background:$color-savannah-trees-3;
+  background: -webkit-gradient(radial, 50% 100%, 10, 40% 100%, 40, color-stop(0.30, $color-savannah-trees-3), color-stop(0.31, transparent));
   background-size: 30px 100%;
   animation: anim40 linear 10s;
   animation-iteration-count: infinite;
 }
 
 .savannah__mountains {
-  background:#55729e;
-  background:linear-gradient(#677da4,#55729e);
+  background: $color-savannah-mountains-1;
+  background:linear-gradient($color-savannah-mountains-2, $color-savannah-mountains-1);
   width:200%;
   height:230px;
   bottom:40%;
@@ -315,13 +315,13 @@
   .savannah__snow {
     width:100%;
     height:50%;
-    background:linear-gradient(#f9feff, transparent);
+    background:linear-gradient($color-savannah-snow, transparent);
   }
   .savannah__mountain-shadow {
     width:100%;
     height:100%;
-    background:#3d5887;
-    background:linear-gradient(#93accc 0%, #3d5887 50%);
+    background: $color-savannah-shadow-1;
+    background:linear-gradient($color-savannah-shadow-2 0%, $color-savannah-shadow-1 50%);
     clip-path: polygon(4% 74%, 9% 90%, 8% 80%, 14% 64%, 16% 46%, 20% 30%, 21% 18%, 24% 32%, 27% 42%, 31% 50%, 30% 20%, 32% 0%, 54% 74%, 59% 90%, 58% 80%, 64% 64%, 66% 46%, 70% 30%, 71% 18%, 74% 32%, 77% 42%, 81% 50%, 80% 20%, 82% 0%, 100% 0%, 0% 0%);
   }
 }
@@ -330,17 +330,17 @@
   width:100px;
   height:50px;
   border-radius:50%;
-  box-shadow: 400px 60px 10px 0px #fff, 
-              350px 60px 10px 0px #fff,
-              385px 40px 10px 0px #fff,
-              1200px 60px 10px 0px #fff, 
-              1150px 60px 10px 0px #fff,
-              1185px 40px 10px 0px #fff,
+  box-shadow: 400px 60px 10px 0px $color-light, 
+              350px 60px 10px 0px $color-light,
+              385px 40px 10px 0px $color-light,
+              1200px 60px 10px 0px $color-light, 
+              1150px 60px 10px 0px $color-light,
+              1185px 40px 10px 0px $color-light,
   
-              850px 150px 12px 0px #fff,
-              900px 130px 12px 0px #fff,  
-              1750px 150px 12px 0px #fff,
-              1800px 130px 12px 0px #fff; 
+              850px 150px 12px 0px $color-light,
+              900px 130px 12px 0px $color-light,  
+              1750px 150px 12px 0px $color-light,
+              1800px 130px 12px 0px $color-light; 
   opacity:0.3;
   animation: animcloud linear 80s;
   animation-iteration-count: infinite;
