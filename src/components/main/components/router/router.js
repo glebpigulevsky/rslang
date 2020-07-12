@@ -41,10 +41,11 @@ class Router {
           spacedRepetitions.count = 0;
         }
       }
-      mainController.spinner.hide();
 
       this.mainContainer.innerHTML = '';
-      this.mainContainer.insertAdjacentHTML('afterbegin', await component.render());
+      const componentMarkup = await component.render();
+      mainController.spinner.hide();
+      this.mainContainer.insertAdjacentHTML('afterbegin', componentMarkup);
       if (component.init) component.init();
     }
   }

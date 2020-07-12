@@ -2,9 +2,9 @@
   width: calc(100% - 20px);
   min-height: 100vh;
   padding: 0 10px;
-
   background-color: #f0e0e0;
 }
+
 .linguist__main {
   width: 100%;
 }
@@ -12,6 +12,7 @@
 .linguist__wrapper,
 .linguist-main-card {
   @include column;
+
   align-items: center;
 }
 
@@ -20,6 +21,7 @@
 .linguist__categories-controls-wrapper,
 .linguist__statistic-controls {
   @include flex-center;
+
   flex-wrap: wrap;
 }
 

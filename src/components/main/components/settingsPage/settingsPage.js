@@ -6,7 +6,7 @@ import './scss/settingsPage.style.scss';
 
 const LIMITS = {
   WORDS_PER_DAY: {
-    MIN: 5,
+    MIN: 10,
     MAX: 100,
   },
   CARDS_PER_DAY: {

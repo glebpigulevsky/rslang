@@ -2,10 +2,8 @@
   max-width: 800px;
   min-width: 300px;
   width: 90%;
-
   margin: 0 auto;
   margin-bottom: 20px;
-
   background-color: $color-light;
   border-radius: 20px;
   box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
@@ -24,17 +22,13 @@
   position: absolute;
   box-sizing: border-box;
   padding: 5px;
-  
   border: 2px solid $color-border;
   border-radius: 5px;
   background-color: $color-input;
-
   color: $color-text-additional;
   outline: none;
-
   font-size: px-to-rem(14px);
   line-height: px-to-rem(18px);
-
   user-select: none;
 
   @include media-tablet {
@@ -45,10 +39,8 @@
 
 .linguist-main-card__letter {
   padding: 7px 0;
-
   font-size: px-to-rem(14px);
   line-height: px-to-rem(18px);
-
   pointer-events: none;
   user-select: none;
 
@@ -69,7 +61,6 @@
 .linguist-main-card__description {
   margin: 0;
   margin-bottom: 10px;
-
   color: $color-text-additional;
   text-align: center;
 }
@@ -93,7 +84,7 @@
 .linguist-main-card__example_translate,
 .linguist-main-card__meaning,
 .linguist-main-card__meaning_translate {
-  min-height: 80px;
+  min-height: 60px;
 }
 
 .linguist-main-card__image {
@@ -101,11 +92,9 @@
   max-width: 270px;
   margin: 0 auto;
   margin-bottom: 20px;
-
   background-color: $color-light;
   border-radius: 20px;
   box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
-
   object-fit: cover;
 }
 
@@ -114,7 +103,7 @@
 }
 
 .error-color-red {
-  color: red;
+  color: $color-red;
 }
 
 .error-color-orange {
@@ -126,5 +115,5 @@
 }
 
 .linguist-main-card-opacity {
-  opacity: 0.5;
+  opacity: .5;
 }

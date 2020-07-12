@@ -123,9 +123,6 @@ class Model {
   }
 
   init() {
-    console.log(mainStorage.getWordsToLearn());
-    console.log(mainStorage.getUserEnglishLevel());
-    debugger;
     this.loadCurrentResults();
     this.loadLongResults();
     this.wordsAPI = new WordsApi();

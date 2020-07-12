@@ -8,7 +8,6 @@
   margin: 0 auto;
   margin-top: 30px;
   padding: 1rem;
-  
   border-radius: .75rem;
   background-color: #f0e0e0;
   box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
@@ -16,6 +15,7 @@
   .main__game-start__description {
     padding: 20px;
     @include segoe-subtitle($color-text-additional, 800);
+
     text-align: center;
   }
 
@@ -30,7 +30,6 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
   width: 80%;
   margin: 0 auto;
   margin-top: 30px;

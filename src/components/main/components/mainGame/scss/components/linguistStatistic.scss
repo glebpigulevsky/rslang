@@ -1,8 +1,10 @@
 .linguist__statistic-description-container {
   @include column;
+
   align-items: center;
 
   @include segoe-additional($color: $color-text-additional, $weight: 400);
+
   font-size: px-to-rem(14px);
   line-height: px-to-rem(18px);
 
@@ -27,6 +29,7 @@
 .linguist__statistic-combo {
   width: 300px;
   @include flex-center;
+
   justify-content: space-between;
 }
 
@@ -38,9 +41,7 @@
   min-width: 80px;
   min-height: 32px;
   margin-left: 20px;
-
   text-align: center;
-
   border-radius: 10px;
   color: $color-light;
   background-color: $color-correct;
