@@ -1,7 +1,6 @@
 import '../scss/savannah.styles.scss';
 import correct from '../assets/correct_answear.mp3';
 import wrong from '../assets/wrong_answear.mp3';
-import background from '../assets/img/bgSavannah.jpg';
 import { WordsApi, GET_RANDOM } from '../../../services/services.methods';
 import { SavannahServiceStart } from './savannah_service_start';
 import { getSavannahGame } from '../components/savannah_game';
@@ -25,16 +24,16 @@ export class SavannahGame {
 
   startGame() {
     setTimeout(() => { this.startFinalCountdown(); }, 1000);
-    setTimeout(() => { this.startGameLooop(); }, 7000);
+    setTimeout(() => { this.startGameLooop(); }, 6000);
   }
 
   startFinalCountdown() {
-    this.savannahContainer.innerHTML = null;
     this.savannahContainer.insertAdjacentHTML('beforeend', getSavannahFinalCounter());
     this.startService.showSavannahFinalCountdown();
   }
 
   startGameLooop() {
+    this.startService.showAnimatedBackground();
     this.staticticsRound = { correct: [], wrong: [] };
     this.savannahContainer.innerHTML = null;
     this.savannahContainer.insertAdjacentHTML('beforeend', getSavannahGame());
@@ -99,7 +98,8 @@ export class SavannahGame {
   }
 
   endGame() {
-    document.querySelector('#js-savannah-container').innerHTML = null;
+    document.querySelector('#js-savannah-game-wrap').innerHTML = null;
+    this.startService.skipAnimatedBackground();
     this.startService.showSavannahResult(this.staticticsRound.correct.length, this.staticticsRound.wrong.length);
     this.sendStatistics(this.staticticsRound.correct.length, this.staticticsRound.wrong.length);
     this.showLearningWord();
@@ -230,13 +230,8 @@ export class SavannahGame {
         wordsPerPage: GAME_DEFAULT.WordsPerPage,
       }).catch(this.showErrorPopup.bind(this));
     this.answears = questRes.map((word) => word.wordTranslate);
-    const image = document.createElement('img');
-    image.src = background;
-    image.onload = () => {
-      document.querySelector('#js-savannah-container').style.backgroundImage = `url(${background})`;
-      this.spinner.remove();
-      this.startGame();
-    };
+    this.spinner.remove();
+    this.startGame();
   }
 
   showErrorPopup(err) {
@@ -350,7 +345,7 @@ export class SavannahGame {
 
   init() {
     document.querySelector('.main-header').style.display = 'none';
-    this.savannahContainer = document.querySelector('#js-savannah-container');
+    this.savannahContainer = document.querySelector('#js-savannah-game-wrap');
     this.startService.showSavannahStart();
     this.startBlock = document.querySelector('#js-start_block');
     this.round = 0;

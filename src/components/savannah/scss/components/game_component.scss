@@ -1,8 +1,3 @@
-.savannah__container {
-  background-size: cover;
-  height: 100vh;
-  @include segoe-subtitle($color-light, 400);
-}
 
 .savannah__answears {
   position: absolute;
@@ -129,4 +124,251 @@
 
 .savannah__main {
   flex: 1 0 auto;
+}
+
+.background_animation {
+  position: absolute;
+}
+
+.savannah__container {
+  //background-size: cover;
+  height: 100vh;
+  width: 100%;
+  @include segoe-subtitle($color-light, 400);
+  margin: auto;
+  overflow: hidden;
+  z-index: -10;
+}
+
+.sky {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to bottom, #416ba7 0%, #90bce3 50%);
+}
+
+.road {
+  bottom: 0px;
+  width: 100%;
+  height: 20%;
+  background: linear-gradient(to bottom, #4a483d 0%, #4c4f48 30%);
+}
+
+.road-lines {
+  bottom: 0px;
+  margin-bottom: 1%;
+  width: 200%;
+  height: 10%;
+  background: repeating-linear-gradient(90deg, white 0%, white 10%, transparent 10%, transparent 20%);
+  animation: anim40 linear 4s;
+  animation-iteration-count: infinite;
+}
+
+.grass-wrap {
+  width:200%;
+  height:50px;
+  background-color:#4c5f27;
+  background:linear-gradient(to top, #4c5f27 10px, transparent 10px);
+  bottom:20%;
+  display:block;
+}
+
+.grass {
+  width:0px;
+  height:0px;
+  border-bottom:20px solid #4c5f27;
+  border-left:300px solid transparent;
+  border-right:600px solid transparent;
+  display:block;
+  bottom:10px;
+  animation: anim100 linear 6s;
+  animation-iteration-count: infinite;
+}
+.grass:after {
+  content:"";
+  width:0px;
+  height:0px;
+  border-bottom:20px solid #4c5f27;
+  border-left:300px solid transparent;
+  border-right:600px solid transparent;
+  display:block;
+  position:absolute;
+  bottom:-20px;
+  left:600px;
+}
+
+.field {
+  width:100%;
+  height:20%;
+  background:linear-gradient(#808c5e, #576b3c);
+  bottom:20%;
+}
+
+.field-lines {
+  width:5px;
+  height:100px;
+  background:#4c5f27;
+  bottom:0%;
+  animation: animfield linear 10s;
+  animation-iteration-count: infinite;
+  border-left:3px solid #808c5e;
+  border-right:3px solid #576b3c;
+}
+.field-lines2 {
+  width:5px;
+  height:100px;
+  background:#4c5f27;
+  bottom:0%;
+  animation: animfield linear 10s;
+  animation-iteration-count: infinite;
+  animation-delay: -5s;
+  border-left:3px solid #808c5e;
+  border-right:3px solid #576b3c;
+}
+
+.distant-trees {
+  width:0px;
+  height:0px;
+  border-bottom:20px solid #45667f;
+  border-left:600px solid transparent;
+  border-right:600px solid transparent;
+  display:block;
+  bottom:40%;
+  margin-bottom:30px;
+  animation: anim100 linear 45s;
+  animation-iteration-count: infinite;
+}
+.distant-trees:after {
+  content:"";
+  width:0px;
+  height:0px;
+  border-bottom:20px solid #45667f;
+  border-left:600px solid transparent;
+  border-right:600px solid transparent;
+  display:block;
+  position:absolute;
+  bottom:-20px;
+  left:600px;
+}
+.distant-trees:before {
+  content:"";
+  position:absolute;
+  bottom:-40px;
+  left:-600px;
+  width:3000px;
+  height:20px;
+  background:#45667f;
+}
+
+.distant-trees2 {
+  width:0px;
+  height:0px;
+  border-bottom:20px solid #355a60;
+  border-left:300px solid transparent;
+  border-right:600px solid transparent;
+  display:block;
+  bottom:40%;
+  margin-bottom:18px;
+  animation: anim100 linear 20s;
+  animation-iteration-count: infinite;
+}
+.distant-trees2:after {
+  content:"";
+  width:0px;
+  height:0px;
+  border-bottom:20px solid #355a60;
+  border-left:300px solid transparent;
+  border-right:600px solid transparent;
+  display:block;
+  position:absolute;
+  bottom:-20px;
+  left:600px;
+}
+.distant-trees2:before {
+  content:"";
+  position:absolute;
+  bottom:-32px;
+  left:-300px;
+  width:1800px;
+  height:18px;
+  background:#355a60;
+}
+
+.distant-trees3 {
+  width:200%;
+  height:5%;
+  bottom:40%;
+  background:#45694d;
+  background: -webkit-gradient(radial, 50% 100%, 10, 40% 100%, 40, color-stop(0.30, #45694d), color-stop(0.31, transparent));
+-webkit-background-size: 30px 100%;
+  animation: anim40 linear 10s;
+  animation-iteration-count: infinite;
+}
+
+.mountains {
+  background:#55729e;
+  background:linear-gradient(#677da4,#55729e);
+  width:200%;
+  height:230px;
+  bottom:40%;
+  -webkit-clip-path: polygon(0% 62%, 4% 74%, 21% 18%, 24% 32%, 32% 0%, 50% 62%, 54% 74%, 71% 18%, 74% 32%, 82% 0%, 100% 62%, 100% 100%, 0 100%);
+  animation: anim50 linear 60s;
+  animation-iteration-count: infinite;
+  overflow:hidden;
+  .snow {
+    width:100%;
+    height:50%;
+    background:linear-gradient(#f9feff, transparent);
+  }
+  .mountain-shadow {
+    width:100%;
+    height:100%;
+    background:#3d5887;
+    background:linear-gradient(#93accc 0%, #3d5887 50%);
+    -webkit-clip-path: polygon(4% 74%, 9% 90%, 8% 80%, 14% 64%, 16% 46%, 20% 30%, 21% 18%, 24% 32%, 27% 42%, 31% 50%, 30% 20%, 32% 0%, 54% 74%, 59% 90%, 58% 80%, 64% 64%, 66% 46%, 70% 30%, 71% 18%, 74% 32%, 77% 42%, 81% 50%, 80% 20%, 82% 0%, 100% 0%, 0% 0%);
+  }
+}
+
+.clouds {
+  width:100px;
+  height:50px;
+  border-radius:50%;
+  box-shadow: 400px 60px 10px 0px #fff, 
+              350px 60px 10px 0px #fff,
+              385px 40px 10px 0px #fff,
+              1200px 60px 10px 0px #fff, 
+              1150px 60px 10px 0px #fff,
+              1185px 40px 10px 0px #fff,
+  
+              850px 150px 12px 0px #fff,
+              900px 130px 12px 0px #fff,  
+              1750px 150px 12px 0px #fff,
+              1800px 130px 12px 0px #fff; 
+  opacity:0.3;
+  animation: animcloud linear 80s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes anim40 {
+  0% {transform: translate(0px, 0px);}
+  100% {transform: translate(-40%, 0px);}
+}
+
+@keyframes anim100 {
+  0% {transform: translate(0px, 0px);}
+  100% {transform: translate(-100%, 0px);}
+}
+
+@keyframes anim50 {
+  0% {transform: translate(0px, 0px);}
+  100% {transform: translate(-50%, 0px);}
+}
+
+@keyframes animcloud {
+  0% {transform: translate(0px, 0px);}
+  100% {transform: translate(-900px, 0px);}
+}
+
+@keyframes animfield {
+  0% {transform:  translate(1000px,0px) skewX(61deg);}
+  100% {transform:  translate(-100px,0px) skewX(-61deg);}
 }

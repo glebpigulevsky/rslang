@@ -4,10 +4,11 @@ import { getSavannahStatistics } from '../components/savannah_statistics';
 import background from '../assets/img/startSavannah.png';
 import { Spinner } from '../../spinner/spinner';
 import { getFinalCountdown } from '../common/savannah.common.utils';
+import { getAnimatedBackground } from '../components/savannah_animated_background';
 
 export class SavannahServiceStart {
   showSavannahStart() {
-    const savannahContainer = document.querySelector('#js-savannah-container');
+    const savannahContainer = document.querySelector('#js-savannah-game-wrap');
     savannahContainer.insertAdjacentHTML('beforeend', getSavannahStart());
     const spinner = new Spinner(savannahContainer);
     spinner.render();
@@ -20,7 +21,7 @@ export class SavannahServiceStart {
   }
 
   showSavannahResult(correct, wrong) {
-    const savannahContainer = document.querySelector('#js-savannah-container');
+    const savannahContainer = document.querySelector('#js-savannah-game-wrap');
     savannahContainer.insertAdjacentHTML('beforeend',
       getSavannahResult({
         correct,
@@ -38,6 +39,14 @@ export class SavannahServiceStart {
 
   showSavannahStatistics(value) {
     return getSavannahStatistics(value);
+  }
+
+  showAnimatedBackground() {
+    document.querySelector('#js-savannah-background-wrap').insertAdjacentHTML('afterbegin', getAnimatedBackground());
+  }
+
+  skipAnimatedBackground() {
+    document.querySelector('#js-savannah-background-wrap').innerHTML = null;
   }
 
   showSavannahFinalCountdown() {
