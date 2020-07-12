@@ -134,15 +134,6 @@ class MainController {
     });
   }
 
-  // async getNewWordsToLearn(wordsPerPage = 6000) { // todo
-  //   const response = this.getAllUserAggregatedWords({
-  //     filter: USER_AGGREGATED_WORDS_FILTER.allUserWords,
-  //     wordsPerPage,
-  //   });
-  //   if (response) this.userWords = response;
-  //   return response;
-  // }
-
   async getUserStatistics() {
     this.userStatistics = await this.statisticsApi.getStatictics()
       .catch(this.showErrorPopup);
@@ -168,7 +159,6 @@ class MainController {
   }
 
   onChangeEnglishLevelHandler(event) {
-    debugger;
     this.englishLevel = event.target.value;
   }
 

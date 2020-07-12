@@ -1,5 +1,5 @@
 import mainController from '../controller/main.controller';
-import mainGame from '../mainGame/mainGame_New';
+import mainGame from '../mainGame/mainGame';
 import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
 import { DEFAULT_SETTINGS } from '../../../../services/common/services.common.constants';
 
@@ -46,22 +46,20 @@ class IntroMainGame {
       };
     }
     mainController.userSettings = userSettings;
+    mainController.englishLevel = userEnglishLevel;
+    mainController.userSettings.optional.englishLevel = userEnglishLevel;
 
     mainController.spinner.show();
     await Promise.all([
-      mainController.updateUserSettings(userSettings),
+      mainController.updateUserSettings(mainController.userSettings),
       spacedRepetitions.init(userEnglishLevel),
       spacedRepetitions.updateUserWords(),
-    ]);
-
-    // await mainController.updateUserSettings(userSettings);
-    // await spacedRepetitions.init();
-    // await spacedRepetitions.updateUserWords();
-    mainController.spinner.hide();
-
-    this.elements.container.innerHTML = '';
-    this.elements.container.insertAdjacentHTML('afterbegin', mainGame.render());
-    mainGame.init(mainController.userSettings, userEnglishLevel);
+    ]).then(() => {
+      mainController.spinner.hide();
+      this.elements.container.innerHTML = '';
+      this.elements.container.insertAdjacentHTML('afterbegin', mainGame.render());
+      mainGame.init(mainController.userSettings, userEnglishLevel);
+    });
   }
 
   addMainGameStartButtonHandler() {

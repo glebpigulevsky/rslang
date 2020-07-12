@@ -1,9 +1,10 @@
-import menu from '../menu/menu';
-import { errorPageComponent } from '../../pages/error-page.component';
 import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
 import mainController from '../controller/main.controller';
-
+import menu from '../menu/menu';
+import { mainStorage } from '../mainStorage/mainStorage';
+import { errorPageComponent } from '../../pages/error-page.component';
 import routes from './routes/routes';
+
 import { getLocationPath, isRouteHasPath } from './common/router.helper';
 
 class Router {
@@ -30,17 +31,17 @@ class Router {
       const { component } = this.findComponentByPath(currentPath);
       this.previousComponent = component;
 
+      mainController.spinner.show();
       if (window.location.hash !== '') {
-        console.log(await mainController.getUserSettings());
+        await mainController.getUserSettings();
         if (!mainController.isNewUser) {
-          // debugger;
           await spacedRepetitions.init();
-          spacedRepetitions.parseMiniGamesResults();
-          // debugger;
+          spacedRepetitions.parseMiniGamesResults(mainStorage.miniGamesResults);
           await spacedRepetitions.updateUserWords();
           spacedRepetitions.count = 0;
         }
       }
+      mainController.spinner.hide();
 
       this.mainContainer.innerHTML = '';
       this.mainContainer.insertAdjacentHTML('afterbegin', await component.render());

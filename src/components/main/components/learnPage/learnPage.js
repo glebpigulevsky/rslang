@@ -1,6 +1,6 @@
 import mainController from '../controller/main.controller';
 import introMainGame from '../introMainGame/introMainGame';
-import mainGame from '../mainGame/mainGame_New';
+import mainGame from '../mainGame/mainGame';
 
 class LearnPage {
   constructor() {
