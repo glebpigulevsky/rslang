@@ -206,7 +206,7 @@
   height:100px;
   background: $color-savannah-grass;
   bottom:0%;
-  animation: animfield linear 10s;
+  animation: animfield linear 20s;
   animation-iteration-count: infinite;
   border-left:3px solid $color-savannah-field-1;
   border-right:3px solid $color-savannah-field-2;
@@ -216,9 +216,9 @@
   height:100px;
   background: $color-savannah-grass;
   bottom:0%;
-  animation: animfield linear 10s;
+  animation: animfield linear 20s;
   animation-iteration-count: infinite;
-  animation-delay: -5s;
+  animation-delay: -10s;
   border-left:3px solid $color-savannah-field-1;
   border-right:3px solid $color-savannah-field-2;
 }
@@ -232,7 +232,7 @@
   display:block;
   bottom:40%;
   margin-bottom:30px;
-  animation: anim100 linear 45s;
+  animation: anim100 linear 70s;
   animation-iteration-count: infinite;
 }
 .savannah__distant-trees:after {
@@ -266,7 +266,7 @@
   display:block;
   bottom:40%;
   margin-bottom:18px;
-  animation: anim100 linear 20s;
+  animation: anim100 linear 50s;
   animation-iteration-count: infinite;
 }
 .savannah__distant-trees2:after {
@@ -298,7 +298,7 @@
   background:$color-savannah-trees-3;
   background: -webkit-gradient(radial, 50% 100%, 10, 40% 100%, 40, color-stop(0.30, $color-savannah-trees-3), color-stop(0.31, transparent));
   background-size: 30px 100%;
-  animation: anim40 linear 10s;
+  animation: anim40 linear 30s;
   animation-iteration-count: infinite;
 }
 
@@ -309,7 +309,7 @@
   height:230px;
   bottom:40%;
   clip-path: polygon(0% 62%, 4% 74%, 21% 18%, 24% 32%, 32% 0%, 50% 62%, 54% 74%, 71% 18%, 74% 32%, 82% 0%, 100% 62%, 100% 100%, 0 100%);
-  animation: anim50 linear 60s;
+  animation: anim50 linear 70s;
   animation-iteration-count: infinite;
   overflow:hidden;
   .savannah__snow {
