@@ -130,7 +130,6 @@
 }
 
 .savannah__container {
-  //background-size: cover;
   height: 100vh;
   width: 100%;
   @include segoe-subtitle($color-light, 400);
@@ -139,13 +138,13 @@
   z-index: -10;
 }
 
-.sky {
+.savannah__sky {
   width: 100%;
   height: 100%;
   background: linear-gradient(to bottom, #416ba7 0%, #90bce3 50%);
 }
 
-.road {
+.savannah__road {
   bottom: 0px;
   width: 100%;
   height: 20%;
@@ -162,7 +161,7 @@
   animation-iteration-count: infinite;
 }
 
-.grass-wrap {
+.savannah__grass-wrap {
   width:200%;
   height:50px;
   background-color:#4c5f27;
@@ -171,7 +170,7 @@
   display:block;
 }
 
-.grass {
+.savannah__grass {
   width:0px;
   height:0px;
   border-bottom:20px solid #4c5f27;
@@ -182,7 +181,7 @@
   animation: anim100 linear 6s;
   animation-iteration-count: infinite;
 }
-.grass:after {
+.savannah__grass:after {
   content:"";
   width:0px;
   height:0px;
@@ -195,14 +194,14 @@
   left:600px;
 }
 
-.field {
+.savannah__field {
   width:100%;
   height:20%;
   background:linear-gradient(#808c5e, #576b3c);
   bottom:20%;
 }
 
-.field-lines {
+.savannah__field-lines {
   width:5px;
   height:100px;
   background:#4c5f27;
@@ -212,7 +211,7 @@
   border-left:3px solid #808c5e;
   border-right:3px solid #576b3c;
 }
-.field-lines2 {
+.savannah__field-lines2 {
   width:5px;
   height:100px;
   background:#4c5f27;
@@ -224,7 +223,7 @@
   border-right:3px solid #576b3c;
 }
 
-.distant-trees {
+.savannah__distant-trees {
   width:0px;
   height:0px;
   border-bottom:20px solid #45667f;
@@ -236,7 +235,7 @@
   animation: anim100 linear 45s;
   animation-iteration-count: infinite;
 }
-.distant-trees:after {
+.savannah__distant-trees:after {
   content:"";
   width:0px;
   height:0px;
@@ -248,7 +247,7 @@
   bottom:-20px;
   left:600px;
 }
-.distant-trees:before {
+.savannah__distant-trees:before {
   content:"";
   position:absolute;
   bottom:-40px;
@@ -258,7 +257,7 @@
   background:#45667f;
 }
 
-.distant-trees2 {
+.savannah__distant-trees2 {
   width:0px;
   height:0px;
   border-bottom:20px solid #355a60;
@@ -270,7 +269,7 @@
   animation: anim100 linear 20s;
   animation-iteration-count: infinite;
 }
-.distant-trees2:after {
+.savannah__distant-trees2:after {
   content:"";
   width:0px;
   height:0px;
@@ -282,7 +281,7 @@
   bottom:-20px;
   left:600px;
 }
-.distant-trees2:before {
+.savannah__distant-trees2:before {
   content:"";
   position:absolute;
   bottom:-32px;
@@ -292,7 +291,7 @@
   background:#355a60;
 }
 
-.distant-trees3 {
+.savannah__distant-trees3 {
   width:200%;
   height:5%;
   bottom:40%;
@@ -303,7 +302,7 @@
   animation-iteration-count: infinite;
 }
 
-.mountains {
+.savannah__mountains {
   background:#55729e;
   background:linear-gradient(#677da4,#55729e);
   width:200%;
@@ -313,12 +312,12 @@
   animation: anim50 linear 60s;
   animation-iteration-count: infinite;
   overflow:hidden;
-  .snow {
+  .savannah__snow {
     width:100%;
     height:50%;
     background:linear-gradient(#f9feff, transparent);
   }
-  .mountain-shadow {
+  .savannah__mountain-shadow {
     width:100%;
     height:100%;
     background:#3d5887;
@@ -327,7 +326,7 @@
   }
 }
 
-.clouds {
+.savannah__clouds {
   width:100px;
   height:50px;
   border-radius:50%;

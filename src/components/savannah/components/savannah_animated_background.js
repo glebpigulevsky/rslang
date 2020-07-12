@@ -1,17 +1,17 @@
 export const getAnimatedBackground = () => ` 
-  <div class="sky background_animation"></div>
-    <div class="mountains background_animation">
-      <div class="snow background_animation"></div>
-      <div class="mountain-shadow background_animation"></div>
+  <div class="savannah__sky background_animation"></div>
+    <div class="savannah__mountains background_animation">
+      <div class="savannah__snow background_animation"></div>
+      <div class="savannah__mountain-shadow background_animation"></div>
     </div>
-    <div class="road background_animation"></div>
-    <div class="field background_animation">
-      <div class="field-lines background_animation"></div>
-      <div class="field-lines2 background_animation"></div>
+    <div class="savannah__road background_animation"></div>
+    <div class="savannah__field background_animation">
+      <div class="savannah__field-lines background_animation"></div>
+      <div class="savannah__field-lines2 background_animation"></div>
     </div>
-    <div class="distant-trees background_animation"></div>
-    <div class="distant-trees2 background_animation"></div>
-    <div class="distant-trees3 background_animation"></div>
-    <div class="grass-wrap background_animation">
-      <div class="grass background_animation"></div>
+    <div class="savannah__distant-trees background_animation"></div>
+    <div class="savannah__distant-trees2 background_animation"></div>
+    <div class="savannah__distant-trees3 background_animation"></div>
+    <div class="savannah__grass-wrap background_animation">
+      <div class="savannah__grass background_animation"></div>
     </div>`;
