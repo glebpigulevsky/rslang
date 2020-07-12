@@ -3,7 +3,7 @@ import { getSavannahStartControls } from './savannah_start';
 export const getSavannahResult = ({ correct, wrong }) => `
 <div class="savannah__start" id="js-start_block">
   <span class="savannah__start_title">savannah</span>
-  <span class="savannah__start_stat">You need to learn: ${wrong}. You know: ${correct}.</span>
+  <span class="savannah__start_stat">I need to learn: ${wrong}. I know: ${correct}.</span>
   <div class="savannah__close_btn"></div>
   ${getSavannahStartControls()}
   <div class="savannah__start_paginator id="js-savannah__start_paginator">
