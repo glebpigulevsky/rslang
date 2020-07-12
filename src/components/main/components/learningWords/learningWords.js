@@ -3,6 +3,7 @@ import mainController from '../controller/main.controller';
 
 import { EMPTY } from '../../../../common/common.constants';
 import { DEFAULT_SETTINGS } from '../../../../services/common/services.common.constants';
+import { WORD_CATEGORY_TO_INDEX } from '../spacedRepetitions/common/constants';
 
 import './scss/learningWords.styles.scss';
 
@@ -94,6 +95,34 @@ class LearningWords {
       ? 'display-none'
       : '';
 
+    const stars = '&#9733;'.repeat(WORD_CATEGORY_TO_INDEX[wordData.userWord.difficulty])
+      + '&#9734;'.repeat(6 - WORD_CATEGORY_TO_INDEX[wordData.userWord.difficulty]);
+    const category = (wordData.userWord.difficulty === 'fetched')
+      ? 'not learned'
+      : wordData.userWord.difficulty;
+
+    let nextRepeat;
+    switch (wordData.userWord.difficulty) {
+      case 'hard':
+        nextRepeat = 'recommended after 25 seconds from last time';
+        break;
+      case 'normal':
+        nextRepeat = 'recommended after 2 minutes from last time';
+        break;
+      case 'good':
+        nextRepeat = 'recommended after 10 minutes from last time';
+        break;
+      case 'excellent':
+        nextRepeat = 'recommended after 1 hour from last time';
+        break;
+      case 'learned':
+        nextRepeat = 'you know this world';
+        break;
+      default:
+        nextRepeat = 'in nearest training';
+        break;
+    }
+
     return `
       <div class="learning-words-card">
         <p class="learning-words-card__word learning-words-card__description">
@@ -113,6 +142,14 @@ class LearningWords {
         </p>
         <p class="learning-words-card__meaning_translate learning-words-card__description ${hideMeaningClass}">${wordData.textMeaningTranslate}</p>
         <img class="learning-words-card__image ${hidePictureClass}" src="${wordData.image}">
+        <div class="learning-words-repetitions__container learning-words-card__description">
+          <span>
+            Category: ${category} <sup class="learning-words-stars">${stars}</sup>
+          </span>
+          <span> &#8634; Repeat times: ${wordData.userWord.optional.repeatTimes}</span>
+          <span> &#10003; Last repeat: ${wordData.userWord.optional.lastRepeat}</span>
+          <span> &#8986; Next repeat: ${nextRepeat}</span>
+        </div>
         <hr>
       </div>
     `;

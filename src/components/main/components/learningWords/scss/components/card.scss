@@ -34,6 +34,13 @@
   text-align: center;
 }
 
+.learning-words-card__word {
+  span {
+    font-size: 24px;
+    word-break: break-all;
+  }
+}
+
 .learning-words-card__word,
 .learning-words-card__transcription,
 .learning-words-card__example,
@@ -50,9 +57,21 @@
   display: block;
   max-width: 270px;
   margin: 0 auto;
-  margin-bottom: 20px;
+  margin-bottom: 25px;
   background-color: $color-light;
   border-radius: 20px;
   box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
   object-fit: cover;
+}
+
+.learning-words-repetitions__container {
+  flex-direction: column;
+
+  span {
+    margin-bottom: 10px;
+
+    &:first-of-type {
+      font-weight: bold;
+    }
+  }
 }
