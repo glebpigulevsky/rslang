@@ -12,9 +12,9 @@ export const getSavannahGame = () => `
     <div class="savannah__diamond_overlay">
         <div class="savannah__diamond_preloader">
             <div class="savannah__diamond">
-                <span></span>
-                <span></span>
-                <span></span>
+                <span class="savannah__diamond_one"></span>
+                <span class="savannah__diamond_two"></span>
+                <span class="savannah__diamond_three"></span>
             </div>
         </div>
    </div>

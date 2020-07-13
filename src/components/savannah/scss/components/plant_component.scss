@@ -219,7 +219,7 @@
   flex-direction: column;
   justify-content: flex-end;
   align-items: center;
-  right: 15px;
+  right: 9px;
   bottom: 40px;
 }
 
@@ -240,8 +240,8 @@
 
 .savannah__diamond {
   position: absolute;
-  width: 35px;
-  height: 35px;
+  width: 20px;
+  height: 20px;
   transform-style: preserve-3d;
   transform-origin: center center; 
   animation: spin 1s linear infinite;  
@@ -250,8 +250,8 @@
 
 .savannah__diamond span:first-of-type{
   position: absolute;
-  width: 35px;
-  height: 35px;
+  width: 20px;
+  height: 20px;
   border: 4px solid $color-gold-diamond;
   transform: rotateX(90deg) rotateZ(45deg);
   box-sizing: border-box;
@@ -259,8 +259,8 @@
 
 .savannah__diamond span:nth-of-type(2){
   position: absolute;
-  width: 35px;
-  height: 35px;
+  width: 20px;
+  height: 20px;
   border: 4px solid $color-gold-diamond;
   transform: rotateX(90deg) rotateY(90deg) rotateZ(45deg);
   box-sizing: border-box;
@@ -268,8 +268,8 @@
 
 .savannah__diamond span:last-of-type{
   position: absolute;
-  width: 35px;
-  height: 35px;
+  width: 20px;
+  height: 20px;
   border: 4px solid $color-gold-diamond;
   transform: rotateZ(45deg);
   box-sizing: border-box;

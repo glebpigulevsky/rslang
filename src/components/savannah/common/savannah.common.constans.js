@@ -17,3 +17,18 @@ export const DIAMOND_COLORS = [
   '#1faedb',
   '#ffa58d',
 ];
+
+export const DIAMOND_TRANSFORM = {
+  first: 'rotateX(90deg) rotateZ(45deg)',
+  second: 'rotateX(90deg) rotateY(90deg) rotateZ(45deg)',
+  three: 'rotateZ(45deg)',
+};
+
+export const DIAMOND_SCALE = [
+  1.3,
+  1.6,
+  1.9,
+  2.2,
+  2.5,
+  2.8,
+];

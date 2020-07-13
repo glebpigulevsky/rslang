@@ -108,11 +108,8 @@
   line-height: 1.25;
   color: $color-deep-blue;
   margin-right: 6px;
-  word-break: normal;
+  word-break: break-word;
   max-width: calc(50% - 54px);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   padding: 0 2rem;
 }
 
@@ -121,11 +118,8 @@
   line-height: 1.25;
   color: $color-dust-blue;
   flex-grow: 1;
-  word-break: normal;
+  word-break: break-word;
   max-width: calc(50% - 54px);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
   padding: 0 1rem 0 0;
 }
 
