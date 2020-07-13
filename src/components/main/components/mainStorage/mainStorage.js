@@ -89,7 +89,7 @@ class MainStorage {
   }
 
   getUserEnglishLevel() {
-    return mainController.englishLevel;
+    return mainController.englishLevel || 3;
   }
 
   getWordsToLearn() {

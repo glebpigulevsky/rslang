@@ -30,7 +30,7 @@ const LINK_TYPE = {
 const DEFAULT_SETTINGS = {
   wordsPerDay: 20,
   optional: {
-    englishLevel: 0,
+    englishLevel: 3,
     cardsPerDay: 50,
     isPicture: false,
     isTranslation: true,
@@ -79,6 +79,7 @@ const USER_AGGREGATED_WORDS_FILTER = {
   allUserWords: '{"userWord":{"$ne":null}}',
   allUserWordsInLearning: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isDeleted":false, "userWord.optional.difficulty":{"$ne":"learned"}}]}',
   allUserNewWords: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isNew":true}]}',
+  allUserDeletedWords: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isDeleted":true}]}',
   notUserWords: '{"userWord":null}',
 };
 

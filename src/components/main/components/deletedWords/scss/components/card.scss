@@ -1,0 +1,77 @@
+.deleted-words-cards__wrapper {
+  max-width: 800px;
+  min-width: 300px;
+  width: 90%;
+  margin: 0 auto;
+  margin-bottom: 20px;
+  background-color: $color-light;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+
+  hr {
+    border: 1px solid $color-border;
+  }
+
+  .deleted-words-card:last-of-type {
+    hr {
+      border: 0;
+    }
+  }
+}
+
+.deleted-words-card {
+  padding-top: 20px;
+}
+
+.deleted-words-card__description {
+  @include flex-center;
+
+  margin: 0;
+  margin-bottom: 10px;
+  padding: 0 10px;
+
+  color: $color-text-additional;
+  text-align: center;
+}
+
+.deleted-words-card__word {
+  span {
+    font-size: 24px;
+    word-break: break-all;
+  }
+}
+
+.deleted-words-card__word,
+.deleted-words-card__transcription,
+.deleted-words-card__example,
+.deleted-words-card__meaning {
+  font-weight: bold;
+}
+
+.deleted-words-card__meaning,
+.deleted-words-card__meaning_translate {
+  font-style: italic;
+}
+
+.deleted-words-card__image {
+  display: block;
+  max-width: 270px;
+  margin: 0 auto;
+  margin-bottom: 25px;
+  background-color: $color-light;
+  border-radius: 20px;
+  box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+  object-fit: cover;
+}
+
+.deleted-words-repetitions__container {
+  flex-direction: column;
+
+  span {
+    margin-bottom: 10px;
+
+    &:first-of-type {
+      font-weight: bold;
+    }
+  }
+}
