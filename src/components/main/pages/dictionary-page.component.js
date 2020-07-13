@@ -12,7 +12,7 @@ export const dictionaryPageComponent = {
                 <div class="cards__item">
                     <img src="./assets/main/img/difficult-word.png" class="cards__img" alt="difficult-word">
                     <p class="cards__name">difficult words</p>
-                    <button class="cards__btn">open</button>
+                    <button class="cards__btn" onclick="location.href = '#/difficult-words'>open</button>
                 </div>
                 <div class="cards__item">
                     <img src="./assets/main/img/del-words.png" class="cards__img" alt="deleted-word">

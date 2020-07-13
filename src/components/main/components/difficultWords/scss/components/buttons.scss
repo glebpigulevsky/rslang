@@ -1,0 +1,54 @@
+.difficult-words-card__button {
+  display: inline-block;
+  margin: 0;
+  margin-right: 10px;
+  text-transform: uppercase;
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px $color-shadow;
+
+  @include button($color: $color-light, $background: $color-btn, $width: 200px, $height: 40px, $radius: 30px);
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+
+    &.active {
+      background-color: $color-orange;
+      box-shadow: none;
+    }
+  }
+}
+
+.difficult-words-card__spell-button {
+  width: 40px;
+  min-width: 40px;
+  height: 40px;
+  border-radius: 5px;
+  
+  background-image: url('../assets/img/dinamic-icon.png');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 32px;
+}
+
+@keyframes difficult-words-resize {
+  40% {
+    transform: scale(.9);
+  }
+
+  80% {
+    transform: scale(1.1);
+  }
+}
+
+.difficult-words-animated {
+  animation: difficult-words-resize .8s infinite linear;
+}

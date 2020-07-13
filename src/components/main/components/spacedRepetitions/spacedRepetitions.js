@@ -36,6 +36,7 @@ class SpacedRepetitions {
       this.userWordsCollection.map((wordData) => {
         if (!wordData.userWord.optional.changed) return null;
         wordData.userWord.optional.changed = false;
+        wordData.userWord.optional.isWrong = false;
         if (wordData.userWord.optional.isNew) {
           wordData.userWord.optional.isNew = false;
           return mainController.setUserWord(
@@ -111,8 +112,6 @@ class SpacedRepetitions {
 
     if (newDifficultIndex > 4) {
       correctWordData.userWord.optional.toRepeat = false;
-      correctWordData.userWord.optional.isDifficult = false;
-      correctWordData.userWord.optional.isDeleted = false;
       correctWordData.userWord.optional.repeatDate = Date.now();
     } else correctWordData.userWord.optional.repeatDate = Date.now();
 

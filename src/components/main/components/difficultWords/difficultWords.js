@@ -5,22 +5,22 @@ import { EMPTY } from '../../../../common/common.constants';
 import { DEFAULT_SETTINGS } from '../../../../services/common/services.common.constants';
 import { WORD_CATEGORY_TO_INDEX } from '../spacedRepetitions/common/constants';
 
-import './scss/deletedWords.styles.scss';
+import './scss/difficultWords.styles.scss';
 
 import ERROR_AUDIO from './assets/audio/server-error.mp3';
 
-class DeletedWords {
+class DifficultWords {
   constructor() {
     this.elements = EMPTY;
     this.userSettings = EMPTY;
-    this.deletedWords = EMPTY;
+    this.difficultWords = EMPTY;
 
     this.targetButton = EMPTY;
     this.audio = EMPTY;
     this.errorAudio = new Audio(ERROR_AUDIO);
 
     this.init = this.init.bind(this);
-    this.returnToLearning = this.returnToLearning.bind(this);
+    this.resetDifficultStatus = this.resetDifficultStatus.bind(this);
 
     this.playSpelling = this.playSpelling.bind(this);
     this.startSpellingAnimation = this.startSpellingAnimation.bind(this);
@@ -31,7 +31,7 @@ class DeletedWords {
   }
 
   playSpelling(event) {
-    if (!event.target.classList.contains('deleted-words-card__spell-button')) return;
+    if (!event.target.classList.contains('difficult-words-card__spell-button')) return;
 
     if (this.audio && !this.audio.ended) {
       this.audio.pause();
@@ -46,12 +46,12 @@ class DeletedWords {
     this.audio.play();
   }
 
-  returnToLearning(event) {
-    if (!event.target.classList.contains('deleted-words-card__return-button')) return;
+  resetDifficultStatus(event) {
+    if (!event.target.classList.contains('difficult-words-card__return-button')) return;
 
-    const currentWord = this.deletedWords[event.target.dataset.wordIndex];
+    const currentWord = this.difficultWords[event.target.dataset.wordIndex];
 
-    currentWord.userWord.optional.isDeleted = false;
+    currentWord.userWord.optional.isDifficult = false;
     currentWord.userWord.optional.toRepeat = true;
     currentWord.userWord.optional.repeatDate = Date.now();
     currentWord.userWord.optional.changed = true;
@@ -63,15 +63,15 @@ class DeletedWords {
     );
 
     event.target.setAttribute('disabled', 'true'); // !! todo
-    event.target.parentElement.querySelector('.deleted-words-status').innerText = 'returned to learning'; // !! todo
+    event.target.parentElement.querySelector('.difficult-words-status').innerText = 'not in difficult'; // !! todo
   }
 
   startSpellingAnimation() {
-    this.targetButton.classList.add('deleted-words-animated');
+    this.targetButton.classList.add('difficult-words-animated');
   }
 
   stopSpellingAnimation() {
-    this.targetButton.classList.remove('deleted-words-animated');
+    this.targetButton.classList.remove('difficult-words-animated');
   }
 
   onEndSpellingHandler() {
@@ -92,7 +92,7 @@ class DeletedWords {
   }
 
   renderCards() {
-    this.deletedWords.forEach((wordData, index) => {
+    this.difficultWords.forEach((wordData, index) => {
       this.elements.containers.cardsWrapper.insertAdjacentHTML('afterBegin', this.renderCard(wordData, index));
     });
   }
@@ -146,36 +146,36 @@ class DeletedWords {
     //     break;
     // }
 
-    const deleteStatus = (wordData.userWord.optional.isDeleted) ? 'deleted' : 'returned to learning';
+    const difficultStatus = (wordData.userWord.optional.isDifficult) ? 'difficult' : 'not in difficult';
 
     return `
-      <div class="deleted-words-card">
-        <button class="deleted-words-card__button deleted-words-card__return-button" data-wordIndex="${wordIndex}">Return to learning</button>
-        <p class="deleted-words-card__word deleted-words-card__description">
-          <button class="deleted-words-card__button deleted-words-card__spell-button" data-src="${wordData.audio}"></button>
+      <div class="difficult-words-card">
+        <button class="difficult-words-card__button difficult-words-card__return-button" data-wordIndex="${wordIndex}">Return to learning</button>
+        <p class="difficult-words-card__word difficult-words-card__description">
+          <button class="difficult-words-card__button difficult-words-card__spell-button" data-src="${wordData.audio}"></button>
           <span>${wordData.word}</span>
         </p>
-        <p class="deleted-words-card__transcription deleted-words-card__description ${hideTranscriptionClass}">${wordData.transcription}</p>
-        <p class="deleted-words-card__word_translate deleted-words-card__description ${hideWordTranslationClass}">${wordData.wordTranslate}</p>
-        <p class="deleted-words-card__example deleted-words-card__description ${hideExampleClass}">
-          <button class="deleted-words-card__button deleted-words-card__spell-button ${hideExampleClass}" data-src="${wordData.audioExample}"></button>
+        <p class="difficult-words-card__transcription difficult-words-card__description ${hideTranscriptionClass}">${wordData.transcription}</p>
+        <p class="difficult-words-card__word_translate difficult-words-card__description ${hideWordTranslationClass}">${wordData.wordTranslate}</p>
+        <p class="difficult-words-card__example difficult-words-card__description ${hideExampleClass}">
+          <button class="difficult-words-card__button difficult-words-card__spell-button ${hideExampleClass}" data-src="${wordData.audioExample}"></button>
           <span>${wordData.textExample}</span>
         </p>
-        <p class="deleted-words-card__example_translate deleted-words-card__description ${hideExampleClass}">${wordData.textExampleTranslate}</p>
-        <p class="deleted-words-card__meaning deleted-words-card__description ${hideMeaningClass}">
-          <button class="deleted-words-card__button deleted-words-card__spell-button ${hideMeaningClass}" data-src="${wordData.audioMeaning}"></button>
+        <p class="difficult-words-card__example_translate difficult-words-card__description ${hideExampleClass}">${wordData.textExampleTranslate}</p>
+        <p class="difficult-words-card__meaning difficult-words-card__description ${hideMeaningClass}">
+          <button class="difficult-words-card__button difficult-words-card__spell-button ${hideMeaningClass}" data-src="${wordData.audioMeaning}"></button>
           <span>${wordData.textMeaning}</span>
         </p>
-        <p class="deleted-words-card__meaning_translate deleted-words-card__description ${hideMeaningClass}">${wordData.textMeaningTranslate}</p>
-        <img class="deleted-words-card__image ${hidePictureClass}" src="${wordData.image}">
-        <div class="deleted-words-repetitions__container deleted-words-card__description">
+        <p class="difficult-words-card__meaning_translate difficult-words-card__description ${hideMeaningClass}">${wordData.textMeaningTranslate}</p>
+        <img class="difficult-words-card__image ${hidePictureClass}" src="${wordData.image}">
+        <div class="difficult-words-repetitions__container difficult-words-card__description">
           <span>
-            Category: ${category} <sup class="deleted-words-stars">${stars}</sup>
+            Category: ${category} <sup class="difficult-words-stars">${stars}</sup>
           </span>
           <span> &#8634; Repeat times: ${wordData.userWord.optional.repeatTimes}</span>
           <span> &#10003; Last repeat: ${wordData.userWord.optional.lastRepeat}</span>
-          <span> &#8986; Delete status:
-            <span class="deleted-words-status">${deleteStatus}</span> // !! todo + заменить юникод!
+          <span> &#8986; Difficult status:
+            <span class="difficult-words-status">${difficultStatus}</span> // !! todo + заменить юникод!
           </span>
         </div>
         <hr>
@@ -185,13 +185,13 @@ class DeletedWords {
 
   render() {
     return `
-      <div class="deleted-words__wrapper">
-        <h3 class="deleted-words__title dictionary__title">Deleted words</h2>
-        <p class="deleted-words__count-title dictionary__title">
-          Total: <span class="deleted-words__count"></span>
+      <div class="difficult-words__wrapper">
+        <h3 class="difficult-words__title dictionary__title">Deleted words</h2>
+        <p class="difficult-words__count-title dictionary__title">
+          Total: <span class="difficult-words__count"></span>
         </p>
-        <div class="deleted-words__main">
-          <div class="deleted-words-cards__wrapper">
+        <div class="difficult-words__main">
+          <div class="difficult-words-cards__wrapper">
           </div>
         </div>
       </div>
@@ -205,20 +205,20 @@ class DeletedWords {
 
     this.elements = {
       containers: {
-        cardsWrapper: document.querySelector('.deleted-words-cards__wrapper'),
-        main: document.querySelector('.deleted-words__main'),
+        cardsWrapper: document.querySelector('.difficult-words-cards__wrapper'),
+        main: document.querySelector('.difficult-words__main'),
       },
-      deletedWordsCount: document.querySelector('.deleted-words__count'),
+      difficultWordsCount: document.querySelector('.difficult-words__count'),
     };
 
-    this.deletedWords = await mainController.getAllUserDeletedWords;
-    this.elements.deletedWordsCount.innerText = this.deletedWords.length || 0;
+    this.difficultWords = await mainController.getAllUserDifficultWords;
+    this.elements.difficultWordsCount.innerText = this.difficultWords.length || 0;
     debugger; // ! todo
 
     this.renderCards();
     this.elements.containers.cardsWrapper.addEventListener('click', this.playSpelling);
-    this.elements.containers.cardsWrapper.addEventListener('click', this.returnToLearning);
+    this.elements.containers.cardsWrapper.addEventListener('click', this.resetDifficultStatus);
   }
 }
 
-export default new DeletedWords();
+export default new DifficultWords();

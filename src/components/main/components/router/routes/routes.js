@@ -11,6 +11,7 @@ import { englishPuzzleComponent } from '../../../pages/english-puzzle.component'
 import { sprintComponent } from '../../../pages/sprint-game.component';
 import { learningWordsPageComponent } from '../../../pages/learningWords.component';
 import { deletedWordsPageComponent } from '../../../pages/deletedWords.component';
+import { difficultWordsPageComponent } from '../../../pages/difficultWords.component';
 
 const routes = [
   { path: '/', component: mainPageComponent },
@@ -26,6 +27,7 @@ const routes = [
   { path: '/sprint', component: sprintComponent },
   { path: '/learning-words', component: learningWordsPageComponent },
   { path: '/deleted-words', component: deletedWordsPageComponent },
+  { path: '/difficult-words', component: difficultWordsPageComponent },
 ];
 
 export default routes;

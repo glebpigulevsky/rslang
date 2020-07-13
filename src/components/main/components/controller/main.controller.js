@@ -133,6 +133,13 @@ class MainController {
     });
   }
 
+  async getAllUserDifficultWords(wordsPerPage = 6000) {
+    return this.getAllUserAggregatedWords({
+      wordsPerPage,
+      filter: USER_AGGREGATED_WORDS_FILTER.allUserDifficultWords,
+    });
+  }
+
   async getNotUserNewWords(group = this.englishLevel, wordsPerPage = 6000) {
     return this.getAllUserAggregatedWords({
       group,

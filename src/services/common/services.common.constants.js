@@ -80,6 +80,7 @@ const USER_AGGREGATED_WORDS_FILTER = {
   allUserWordsInLearning: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isDeleted":false, "userWord.optional.difficulty":{"$ne":"learned"}}]}',
   allUserNewWords: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isNew":true}]}',
   allUserDeletedWords: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isDeleted":true}]}',
+  allUserDifficultWords: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isDifficult":true}]}',
   notUserWords: '{"userWord":null}',
 };
 

@@ -1,4 +1,5 @@
 import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
+import mainController from '../controller/main.controller';
 
 import { showElement, hideElement } from './common/mainGame.helper';
 
@@ -42,6 +43,8 @@ class MainGame {
     this.onCategoryButtonClickHandler = this.onCategoryButtonClickHandler
       .bind(this);
     this.showNextCard = this.showNextCard.bind(this);
+    this.moveWordToDeleted = this.moveWordToDeleted.bind(this);
+    this.moveWordToDifficulties = this.moveWordToDifficulties.bind(this);
 
     this.playSpelling = this.playSpelling.bind(this);
     this.startSpellingAnimation = this.startSpellingAnimation.bind(this);
@@ -80,6 +83,32 @@ class MainGame {
     }
 
     this.addCard(this.currentCard);
+  }
+
+  moveWordToDeleted() {
+    this.currentCard.userWord.optional.toRepeat = false;
+    this.currentCard.userWord.optional.isDifficult = false;
+    this.currentCard.userWord.optional.isDeleted = true;
+    this.currentCard.userWord.optional.changed = true;
+
+    mainController.updateUserWord(
+      this.currentCard.id,
+      this.currentCard.userWord.difficulty,
+      this.currentCard.userWord.optional,
+    );
+  }
+
+  moveWordToDifficulties() {
+    this.currentCard.userWord.optional.toRepeat = true;
+    this.currentCard.userWord.optional.isDifficult = true;
+    this.currentCard.userWord.optional.isDeleted = false;
+    this.currentCard.userWord.optional.changed = true;
+
+    mainController.updateUserWord(
+      this.currentCard.id,
+      this.currentCard.userWord.difficulty,
+      this.currentCard.userWord.optional,
+    );
   }
 
   correctAnswer(isShowAnswerButtonClicked = false) {
@@ -386,7 +415,7 @@ class MainGame {
           <div class="linguist__controls-wrapper">
             <div class="linguist__game-controls-wrapper">
               <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_delete display-none">delete</button>
-              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_hards display-none">Move to hards</button>
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_hards display-none">To difficult</button>
               <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_show display-none">Show answer</button>
               <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_check">Check</button>
             </div>
@@ -503,12 +532,12 @@ class MainGame {
     if (this.userSettings.optional.isDeleteButton) {
       this.elements.buttons.delete.classList.remove('display-none');
     }
-    this.elements.buttons.delete.addEventListener('click', () => {});
+    this.elements.buttons.delete.addEventListener('click', this.moveWordToDeleted);
 
     if (this.userSettings.optional.isMoveToDifficultiesButton) {
       this.elements.buttons.hards.classList.remove('display-none');
     }
-    this.elements.buttons.hards.addEventListener('click', () => {});
+    this.elements.buttons.hards.addEventListener('click', this.moveWordToDifficulties);
 
     if (this.userSettings.optional.isAnswerButton) {
       this.elements.buttons.show.classList.remove('display-none');
