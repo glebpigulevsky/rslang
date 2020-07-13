@@ -55,7 +55,9 @@ export default class WordsApi {
   _wordsPageValidator(page) {
     const isErrorPage = page < WORDS_REQUEST.Page.min || page > WORDS_REQUEST.Page.max;
     if (isErrorPage) {
-      console.info(`Words: 'page' must be in range (${WORDS_REQUEST.Page.min}, ${WORDS_REQUEST.Page.max}) (Not always, it's releted on wordsPerPage)`);
+      console.info(
+        `Words: 'page' must be in range (${WORDS_REQUEST.Page.min}, ${WORDS_REQUEST.Page.max}) (Not always, it's releted on wordsPerPage)`,
+      );
     }
   }
 
@@ -71,23 +73,26 @@ export default class WordsApi {
     }
   }
 
-  _transformWord({
-    id,
-    group,
-    page,
-    word,
-    image,
-    audio,
-    audioMeaning,
-    audioExample,
-    textMeaning,
-    textExample,
-    transcription,
-    textMeaningTranslate,
-    textExampleTranslate,
-    wordTranslate,
-    wordsPerExampleSentence,
-  }, isSingleWord) {
+  _transformWord(
+    {
+      id,
+      group,
+      page,
+      word,
+      image,
+      audio,
+      audioMeaning,
+      audioExample,
+      textMeaning,
+      textExample,
+      transcription,
+      textMeaningTranslate,
+      textExampleTranslate,
+      wordTranslate,
+      wordsPerExampleSentence,
+    },
+    isSingleWord,
+  ) {
     return {
       id,
       group,

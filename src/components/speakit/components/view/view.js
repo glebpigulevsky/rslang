@@ -7,10 +7,7 @@ import { Spinner } from '../../../spinner/spinner';
 
 import { setActiveState, createStar, getPreloadedImage } from '../../common/speakit.utils';
 import {
-  CLASS_NAMES,
-  EVENTS,
-  SWIPER_CONFIG,
-  EMPTY,
+  CLASS_NAMES, EVENTS, SWIPER_CONFIG, EMPTY,
 } from '../../common/speakit.constants';
 
 import correctSound from '../../assets/audio/correct.mp3';
@@ -60,14 +57,8 @@ class View {
     this.currentList.render();
   }
 
-  renderResultsList(
-    pageData,
-    listenersList,
-    guessedList,
-    currentResults,
-    longResults,
-    hasTranslation = true,
-  ) {
+  renderResultsList(pageData, listenersList, guessedList, currentResults,
+    longResults, hasTranslation = true) {
     if (this.swiper.slides && this.swiper.slides.length) this.swiper.removeAllSlides();
 
     this.resultList = new ResultsList(
@@ -97,13 +88,13 @@ class View {
   }
 
   removeActiveStates(container = this.container) {
-    container.querySelectorAll(`.${CLASS_NAMES.ACTIVE}`)
-      .forEach((item) => item.classList.remove(CLASS_NAMES.ACTIVE));
+    container.querySelectorAll(`.${CLASS_NAMES.ACTIVE}`).forEach((item) => item.classList.remove(CLASS_NAMES.ACTIVE));
   }
 
   setLinkActiveStateByWord(speechInputValue) {
-    const card = Array.from(this.container.querySelectorAll(`.${CLASS_NAMES.LINK}`))
-      .find((link) => link.dataset.word === speechInputValue);
+    const card = Array.from(this.container.querySelectorAll(`.${CLASS_NAMES.LINK}`)).find(
+      (link) => link.dataset.word === speechInputValue,
+    );
     card.classList.add(CLASS_NAMES.ACTIVE);
 
     this.renderPicture(card.dataset.image);
@@ -157,19 +148,11 @@ class View {
   }
 
   initIntroButton(onIntroButtonClick) {
-    this.addListener(
-      this.introButton,
-      EVENTS.CLICK,
-      onIntroButtonClick,
-    );
+    this.addListener(this.introButton, EVENTS.CLICK, onIntroButtonClick);
   }
 
   initGameButton(onGameButtonClick) {
-    this.addListener(
-      this.gameButton,
-      EVENTS.CLICK,
-      onGameButtonClick,
-    );
+    this.addListener(this.gameButton, EVENTS.CLICK, onGameButtonClick);
   }
 
   toggleGameButtonState() {
@@ -177,59 +160,31 @@ class View {
   }
 
   initSpeechInput(onChangeSpeechInput) {
-    this.addListener(
-      this.speechInput,
-      EVENTS.CHANGE,
-      onChangeSpeechInput,
-    );
+    this.addListener(this.speechInput, EVENTS.CHANGE, onChangeSpeechInput);
   }
 
   initStopButton(onStopButtonClick) {
-    this.addListener(
-      this.stopButton,
-      EVENTS.CLICK,
-      onStopButtonClick,
-    );
+    this.addListener(this.stopButton, EVENTS.CLICK, onStopButtonClick);
   }
 
   initNewButton(onNewButtonClick) {
-    this.addListener(
-      this.newButton,
-      EVENTS.CLICK,
-      onNewButtonClick,
-    );
+    this.addListener(this.newButton, EVENTS.CLICK, onNewButtonClick);
   }
 
   initResultButton(onResultButtonClick) {
-    this.addListener(
-      this.resultButton,
-      EVENTS.CLICK,
-      onResultButtonClick,
-    );
+    this.addListener(this.resultButton, EVENTS.CLICK, onResultButtonClick);
   }
 
   initResultsNewGameButton(onResultsNewGameButtonClick) {
-    this.addListener(
-      this.resultsNewGameButton,
-      EVENTS.CLICK,
-      onResultsNewGameButtonClick,
-    );
+    this.addListener(this.resultsNewGameButton, EVENTS.CLICK, onResultsNewGameButtonClick);
   }
 
   initResultsResumeGameButton(onResultsResumeGameButtonClick) {
-    this.addListener(
-      this.resultsResumeGameButton,
-      EVENTS.CLICK,
-      onResultsResumeGameButtonClick,
-    );
+    this.addListener(this.resultsResumeGameButton, EVENTS.CLICK, onResultsResumeGameButtonClick);
   }
 
   initResultsLongStatisticButton(onResultsLongStatisticClick) {
-    this.addListener(
-      this.resultsLongStatisticButton,
-      EVENTS.CLICK,
-      onResultsLongStatisticClick,
-    );
+    this.addListener(this.resultsLongStatisticButton, EVENTS.CLICK, onResultsLongStatisticClick);
   }
 
   addStar() {

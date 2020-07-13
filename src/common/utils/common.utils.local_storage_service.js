@@ -10,7 +10,7 @@ class LocalStorageService {
 
   getUserInfo() {
     const res = this._getFromLocalStorage(this._keyUserInfo);
-    return (res) ? this._transformUserInfo(res) : res;
+    return res ? this._transformUserInfo(res) : res;
   }
 
   deleteUserInfo() {

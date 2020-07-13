@@ -152,8 +152,8 @@ export default class ApiService {
     let errorDescription = '';
     try {
       const errorRes = await res.json();
-      errorDescription = (errorRes.error !== undefined) ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
-      status = (errorRes.error !== undefined) ? 0 : res.status;
+      errorDescription = errorRes.error !== undefined ? errorRes.error.errors.map((x) => x.message).join(', ') : null;
+      status = errorRes.error !== undefined ? 0 : res.status;
     } catch (e) {
       status = cloned.status;
       errorDescription = '';

@@ -14,14 +14,20 @@ export default class UsersApi {
 
   async updateUser({ email, password }, { token, userId } = checkUserInfo()) {
     const res = await this._apiService.putResourse({
-      url: `/users/${userId}`, params: { email, password }, hasToken: true, token,
+      url: `/users/${userId}`,
+      params: { email, password },
+      hasToken: true,
+      token,
     });
     return this._transformUser(res);
   }
 
   async createUser({ email, password }) {
     const res = await this._apiService.postResourse({
-      url: '/users', params: { email, password }, hasToken: false, type: LINK_TYPE.User,
+      url: '/users',
+      params: { email, password },
+      hasToken: false,
+      type: LINK_TYPE.User,
     });
     return this._transformUser(res);
   }
@@ -35,7 +41,10 @@ export default class UsersApi {
 
   async authenticateUser({ email, password }) {
     const res = await this._apiService.postResourse({
-      url: '/signin', params: { email, password }, hasToken: false, type: LINK_TYPE.Authenticate,
+      url: '/signin',
+      params: { email, password },
+      hasToken: false,
+      type: LINK_TYPE.Authenticate,
     });
     return this._transformAuthentication(res);
   }

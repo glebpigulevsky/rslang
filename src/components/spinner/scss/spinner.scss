@@ -24,17 +24,29 @@
 }
 
 @-webkit-keyframes blink {
-  100% { color: rgba(34, 34, 34, 0); }
+  100% {
+    color: rgba(34, 34, 34, 0);
+  }
 }
 
 @keyframes blink {
-  100% { color: rgba(34, 34, 34, 0); }
+  100% {
+    color: rgba(34, 34, 34, 0);
+  }
 }
 
 @keyframes spinner__inner {
-  0% { transform: rotate(0deg); }
-  50% { transform: rotate(30deg); }
-  100% { transform: rotate(60deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  50% {
+    transform: rotate(30deg);
+  }
+
+  100% {
+    transform: rotate(60deg);
+  }
 }
 
 .spinner__inner > div {

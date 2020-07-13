@@ -26,11 +26,13 @@ class Model {
   }
 
   fetchMaxPagesInDifficultCategory(difficult) {
-    return this.wordsAPI.getWordsCount({
-      group: difficult,
-      wordsPerExampleSentence: MAX_WORDS_IN_SENTENCE,
-      wordsPerPage: MAX_WORDS_IN_SENTENCE,
-    }).then((response) => response.count);
+    return this.wordsAPI
+      .getWordsCount({
+        group: difficult,
+        wordsPerExampleSentence: MAX_WORDS_IN_SENTENCE,
+        wordsPerPage: MAX_WORDS_IN_SENTENCE,
+      })
+      .then((response) => response.count);
   }
 
   getCurrentPictureDescription(difficult, page) {
@@ -87,10 +89,7 @@ class Model {
   }
 
   saveSettings(settings) {
-    localStorage.setItem(
-      'english-puzzle-settings',
-      JSON.stringify(settings),
-    );
+    localStorage.setItem('english-puzzle-settings', JSON.stringify(settings));
   }
 
   saveCompletedRounds(completedRoundsData) {

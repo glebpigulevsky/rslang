@@ -61,12 +61,15 @@ describe('update settings', () => {
       password: userDefault.password,
     });
     statistics._apiService = new ApiService(MAIN_API_URL);
-    const res = await statistics.updateStatistics({
-      learnedWords: 1,
-      optional: { score: '100', langs: 'en' } }, { userId: auth.userId, token: auth.token }
+    const res = await statistics.updateStatistics(
+      {
+        learnedWords: 1,
+        optional: { score: '100', langs: 'en' },
+      },
+      { userId: auth.userId, token: auth.token },
     );
     expect(res).toMatchObject({
-       id: expect.any(String),
+      id: expect.any(String),
       learnedWords: 1,
       optional: {
         score: '100',

@@ -33,8 +33,7 @@ export const togglePageState = (className) => document.querySelector('.speakit-b
 
 export const getClosestLink = ({ target }) => target.closest(`.${CLASS_NAMES.LINK}`);
 
-export const toggleDocumentScroll = () => document.querySelector('.speakit-body')
-  .classList.toggle(CLASS_NAMES.OVERFLOW_HIDDEN);
+export const toggleDocumentScroll = () => document.querySelector('.speakit-body').classList.toggle(CLASS_NAMES.OVERFLOW_HIDDEN);
 
 export const shuffleArray = (array) => {
   const result = array.slice();

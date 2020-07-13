@@ -53,7 +53,7 @@ describe('put request any site with token', () => {
       url: '/put/json',
       params: { login: 'login2', password: 'password' },
       hasToken: true,
-      token
+      token,
     });
     expect(res).toBeDefined();
     expect(res.success).toBe('true');
