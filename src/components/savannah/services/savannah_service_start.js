@@ -26,7 +26,7 @@ export class SavannahServiceStart {
   }
 
   showAnimatedBackground() {
-    document.querySelector('#js-savannah-container').style.backgroundImage = ``;
+    document.querySelector('#js-savannah-container').style.backgroundImage = '';
     document.querySelector('#js-savannah-background-wrap').insertAdjacentHTML('afterbegin', getAnimatedBackground());
   }
 
