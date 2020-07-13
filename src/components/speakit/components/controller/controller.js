@@ -50,6 +50,7 @@ class Controller {
 
     this.onLevelChangeHandler = this.onLevelChangeHandler.bind(this);
     this.onRoundChangeHandler = this.onRoundChangeHandler.bind(this);
+    this.onUserWordsButtonClick = this.onUserWordsButtonClick.bind(this);
 
     this.beforeUnloadHandler = this.beforeUnloadHandler.bind(this);
   }
@@ -188,24 +189,26 @@ class Controller {
 
     if (this.guessedList.length !== MAX_WORDS_IN_ROUND) return;
 
-    if (!this.completedRoundsByLevels[this.currentLevel].includes(this.currentRound)) {
-      this.completedRoundsByLevels[this.currentLevel].push(this.currentRound);
+    if (!model.isUserWordsGame) {
+      if (!this.completedRoundsByLevels[this.currentLevel].includes(this.currentRound)) {
+        this.completedRoundsByLevels[this.currentLevel].push(this.currentRound);
+      }
+
+      if (view.menu.elements.selectors.round) view.menu.elements.selectors.round.remove();
+
+      view.menu.renderRoundSelector(
+        MAX_ROUNDS_COUNT,
+        this.currentRound,
+        this.completedRoundsByLevels[[this.currentLevel]],
+      );
+
+      const completedRoundsData = {
+        completedRoundsByLevels: this.completedRoundsByLevels,
+        lastLevelWithLastCompletedRound: this.currentLevel,
+        lastCompletedRound: this.currentRound,
+      };
+      model.saveCompletedRounds(completedRoundsData);
     }
-
-    if (view.menu.elements.selectors.round) view.menu.elements.selectors.round.remove();
-
-    view.menu.renderRoundSelector(
-      MAX_ROUNDS_COUNT,
-      this.currentRound,
-      this.completedRoundsByLevels[[this.currentLevel]],
-    );
-
-    const completedRoundsData = {
-      completedRoundsByLevels: this.completedRoundsByLevels,
-      lastLevelWithLastCompletedRound: this.currentLevel,
-      lastCompletedRound: this.currentRound,
-    };
-    model.saveCompletedRounds(completedRoundsData);
 
     view.playSuccessSound();
     this.onStopButtonClick();
@@ -245,7 +248,7 @@ class Controller {
     view.resultList.remove();
     view.resultsContainer.classList.remove(CLASS_NAMES.RESULT.LONG_STATISTIC);
 
-    this.setCurrentRound(this.currentRound + 1);
+    if (!model.isUserWordsGame) this.setCurrentRound(this.currentRound + 1);
     this.onNewButtonClick();
   }
 
@@ -309,6 +312,8 @@ class Controller {
   }
 
   onLevelChangeHandler(evt) {
+    model.isUserWordsGame = false;
+
     this.setCurrentLevel(+evt.target.value);
     this.setCurrentRound();
 
@@ -324,9 +329,15 @@ class Controller {
   }
 
   onRoundChangeHandler(evt) {
+    model.isUserWordsGame = false;
     view.spinner.show();
     this.setCurrentRound(+evt.target.value);
     this.newGame();
+  }
+
+  onUserWordsButtonClick() {
+    model.isUserWordsGame = true;
+    this.onNewButtonClick();
   }
 
   beforeUnloadHandler() {
@@ -374,6 +385,7 @@ class Controller {
     view.initResultsNewGameButton(this.onResultsNewGameButtonClick);
     view.initResultsResumeGameButton(this.onResultsResumeGameButtonClick);
     view.initResultsLongStatisticButton(this.onResultsLongStatisticButtonClick);
+    view.initUserWordsButton(this.onUserWordsButtonClick);
 
     window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandler);
   }
