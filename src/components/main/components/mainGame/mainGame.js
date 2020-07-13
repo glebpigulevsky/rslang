@@ -85,26 +85,48 @@ class MainGame {
     this.addCard(this.currentCard);
   }
 
-  moveWordToDeleted() {
+  moveWordToDeleted({ target }) {
     this.currentCard.userWord.optional.toRepeat = false;
     this.currentCard.userWord.optional.isDifficult = false;
     this.currentCard.userWord.optional.isDeleted = true;
     this.currentCard.userWord.optional.changed = true;
 
-    mainController.updateUserWord(
+    target.setAttribute('disabled', 'disabled');
+    this.elements.buttons.hards.removeAttribute('disabled');
+
+    if (this.currentCard.userWord.optional.isNew) {
+      this.currentCard.userWord.optional.isNew = false;
+      return mainController.setUserWord(
+        this.currentCard.id,
+        this.currentCard.userWord.difficulty,
+        this.currentCard.userWord.optional,
+      );
+    }
+    return mainController.updateUserWord(
       this.currentCard.id,
       this.currentCard.userWord.difficulty,
       this.currentCard.userWord.optional,
     );
   }
 
-  moveWordToDifficulties() {
+  moveWordToDifficulties({ target }) {
     this.currentCard.userWord.optional.toRepeat = true;
     this.currentCard.userWord.optional.isDifficult = true;
     this.currentCard.userWord.optional.isDeleted = false;
     this.currentCard.userWord.optional.changed = true;
 
-    mainController.updateUserWord(
+    target.setAttribute('disabled', 'disabled');
+    this.elements.buttons.delete.removeAttribute('disabled');
+
+    if (this.currentCard.userWord.optional.isNew) {
+      this.currentCard.userWord.optional.isNew = false;
+      return mainController.setUserWord(
+        this.currentCard.id,
+        this.currentCard.userWord.difficulty,
+        this.currentCard.userWord.optional,
+      );
+    }
+    return mainController.updateUserWord(
       this.currentCard.id,
       this.currentCard.userWord.difficulty,
       this.currentCard.userWord.optional,
@@ -329,6 +351,9 @@ class MainGame {
   }
 
   addCard(wordData = this.currentCard) {
+    this.elements.buttons.hards.removeAttribute('disabled');
+    this.elements.buttons.delete.removeAttribute('disabled');
+
     this.elements.containers.card.innerHTML = '';
     this.elements.containers.card.insertAdjacentHTML('afterBegin', this.renderCard(wordData));
     this.elements.picture.src = wordData.image;

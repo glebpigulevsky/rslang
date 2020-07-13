@@ -1,4 +1,3 @@
-// import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
 import mainController from '../controller/main.controller';
 
 import { EMPTY } from '../../../../common/common.constants';
@@ -49,7 +48,7 @@ class DifficultWords {
   resetDifficultStatus(event) {
     if (!event.target.classList.contains('difficult-words-card__return-button')) return;
 
-    const currentWord = this.difficultWords[event.target.dataset.wordIndex];
+    const currentWord = this.difficultWords[event.target.dataset.index];
 
     currentWord.userWord.optional.isDifficult = false;
     currentWord.userWord.optional.toRepeat = true;
@@ -62,8 +61,8 @@ class DifficultWords {
       currentWord.userWord.optional,
     );
 
-    event.target.setAttribute('disabled', 'true'); // !! todo
-    event.target.parentElement.querySelector('.difficult-words-status').innerText = 'not in difficult'; // !! todo
+    event.target.setAttribute('disabled', 'disabled');
+    event.target.parentElement.querySelector('.difficult-words-status').innerText = 'not in difficult';
   }
 
   startSpellingAnimation() {
@@ -92,8 +91,10 @@ class DifficultWords {
   }
 
   renderCards() {
-    this.difficultWords.forEach((wordData, index) => {
-      this.elements.containers.cardsWrapper.insertAdjacentHTML('afterBegin', this.renderCard(wordData, index));
+    if (!this.difficultWords) return;
+
+    this.difficultWords.forEach((wordData, wordIndex) => {
+      this.elements.containers.cardsWrapper.insertAdjacentHTML('afterBegin', this.renderCard(wordData, wordIndex));
     });
   }
 
@@ -123,34 +124,11 @@ class DifficultWords {
     const category = (wordData.userWord.difficulty === 'fetched')
       ? 'not learned'
       : wordData.userWord.difficulty;
-
-    // let nextRepeat;
-    // switch (wordData.userWord.difficulty) {
-    //   case 'hard':
-    //     nextRepeat = 'recommended after 25 seconds from last time';
-    //     break;
-    //   case 'normal':
-    //     nextRepeat = 'recommended after 2 minutes from last time';
-    //     break;
-    //   case 'good':
-    //     nextRepeat = 'recommended after 10 minutes from last time';
-    //     break;
-    //   case 'excellent':
-    //     nextRepeat = 'recommended after 1 hour from last time';
-    //     break;
-    //   case 'learned':
-    //     nextRepeat = 'you know this world';
-    //     break;
-    //   default:
-    //     nextRepeat = 'in nearest training';
-    //     break;
-    // }
-
     const difficultStatus = (wordData.userWord.optional.isDifficult) ? 'difficult' : 'not in difficult';
 
     return `
       <div class="difficult-words-card">
-        <button class="difficult-words-card__button difficult-words-card__return-button" data-wordIndex="${wordIndex}">Return to learning</button>
+        <button class="difficult-words-card__button difficult-words-card__return-button" data-index="${wordIndex}">Remove difficulty</button>
         <p class="difficult-words-card__word difficult-words-card__description">
           <button class="difficult-words-card__button difficult-words-card__spell-button" data-src="${wordData.audio}"></button>
           <span>${wordData.word}</span>
@@ -174,8 +152,8 @@ class DifficultWords {
           </span>
           <span> &#8634; Repeat times: ${wordData.userWord.optional.repeatTimes}</span>
           <span> &#10003; Last repeat: ${wordData.userWord.optional.lastRepeat}</span>
-          <span> &#8986; Difficult status:
-            <span class="difficult-words-status">${difficultStatus}</span> // !! todo + заменить юникод!
+          <span> &#9822; Difficult status:
+            <span class="difficult-words-status">${difficultStatus}</span>
           </span>
         </div>
         <hr>
@@ -186,7 +164,7 @@ class DifficultWords {
   render() {
     return `
       <div class="difficult-words__wrapper">
-        <h3 class="difficult-words__title dictionary__title">Deleted words</h2>
+        <h3 class="difficult-words__title dictionary__title">Difficult words</h2>
         <p class="difficult-words__count-title dictionary__title">
           Total: <span class="difficult-words__count"></span>
         </p>
@@ -211,9 +189,12 @@ class DifficultWords {
       difficultWordsCount: document.querySelector('.difficult-words__count'),
     };
 
-    this.difficultWords = await mainController.getAllUserDifficultWords;
-    this.elements.difficultWordsCount.innerText = this.difficultWords.length || 0;
-    debugger; // ! todo
+    mainController.spinner.show();
+    this.difficultWords = await mainController.getAllUserDifficultWords();
+    mainController.spinner.hide();
+    this.elements.difficultWordsCount.innerText = (this.difficultWords)
+      ? this.difficultWords.length
+      : 0;
 
     this.renderCards();
     this.elements.containers.cardsWrapper.addEventListener('click', this.playSpelling);

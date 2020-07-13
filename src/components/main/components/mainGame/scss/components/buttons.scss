@@ -23,6 +23,18 @@
       box-shadow: none;
     }
   }
+
+  &[disabled] {
+    background-color: $color-dark-grey;
+    cursor: initial;
+
+    &:hover {
+      background-color: $color-dark-grey;
+      border-color: $color-border;
+  
+      @include transition($time: .4s, $property: all, $method: ease-out);
+    }
+  }
 }
 
 .linguist__hints-button {

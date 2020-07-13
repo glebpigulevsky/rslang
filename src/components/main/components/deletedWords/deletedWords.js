@@ -1,4 +1,3 @@
-// import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
 import mainController from '../controller/main.controller';
 
 import { EMPTY } from '../../../../common/common.constants';
@@ -49,7 +48,7 @@ class DeletedWords {
   returnToLearning(event) {
     if (!event.target.classList.contains('deleted-words-card__return-button')) return;
 
-    const currentWord = this.deletedWords[event.target.dataset.wordIndex];
+    const currentWord = this.deletedWords[event.target.dataset.index];
 
     currentWord.userWord.optional.isDeleted = false;
     currentWord.userWord.optional.toRepeat = true;
@@ -62,8 +61,8 @@ class DeletedWords {
       currentWord.userWord.optional,
     );
 
-    event.target.setAttribute('disabled', 'true'); // !! todo
-    event.target.parentElement.querySelector('.deleted-words-status').innerText = 'returned to learning'; // !! todo
+    event.target.setAttribute('disabled', 'disabled');
+    event.target.parentElement.querySelector('.deleted-words-status').innerText = 'returned to learning';
   }
 
   startSpellingAnimation() {
@@ -92,8 +91,10 @@ class DeletedWords {
   }
 
   renderCards() {
-    this.deletedWords.forEach((wordData, index) => {
-      this.elements.containers.cardsWrapper.insertAdjacentHTML('afterBegin', this.renderCard(wordData, index));
+    if (!this.deletedWords) return;
+
+    this.deletedWords.forEach((wordData, wordIndex) => {
+      this.elements.containers.cardsWrapper.insertAdjacentHTML('afterBegin', this.renderCard(wordData, wordIndex));
     });
   }
 
@@ -123,34 +124,11 @@ class DeletedWords {
     const category = (wordData.userWord.difficulty === 'fetched')
       ? 'not learned'
       : wordData.userWord.difficulty;
-
-    // let nextRepeat;
-    // switch (wordData.userWord.difficulty) {
-    //   case 'hard':
-    //     nextRepeat = 'recommended after 25 seconds from last time';
-    //     break;
-    //   case 'normal':
-    //     nextRepeat = 'recommended after 2 minutes from last time';
-    //     break;
-    //   case 'good':
-    //     nextRepeat = 'recommended after 10 minutes from last time';
-    //     break;
-    //   case 'excellent':
-    //     nextRepeat = 'recommended after 1 hour from last time';
-    //     break;
-    //   case 'learned':
-    //     nextRepeat = 'you know this world';
-    //     break;
-    //   default:
-    //     nextRepeat = 'in nearest training';
-    //     break;
-    // }
-
     const deleteStatus = (wordData.userWord.optional.isDeleted) ? 'deleted' : 'returned to learning';
 
     return `
       <div class="deleted-words-card">
-        <button class="deleted-words-card__button deleted-words-card__return-button" data-wordIndex="${wordIndex}">Return to learning</button>
+        <button class="deleted-words-card__button deleted-words-card__return-button" data-index="${wordIndex}">Return to learning</button>
         <p class="deleted-words-card__word deleted-words-card__description">
           <button class="deleted-words-card__button deleted-words-card__spell-button" data-src="${wordData.audio}"></button>
           <span>${wordData.word}</span>
@@ -174,8 +152,8 @@ class DeletedWords {
           </span>
           <span> &#8634; Repeat times: ${wordData.userWord.optional.repeatTimes}</span>
           <span> &#10003; Last repeat: ${wordData.userWord.optional.lastRepeat}</span>
-          <span> &#8986; Delete status:
-            <span class="deleted-words-status">${deleteStatus}</span> // !! todo + заменить юникод!
+          <span> &#10006; Delete status:
+            <span class="deleted-words-status">${deleteStatus}</span>
           </span>
         </div>
         <hr>
@@ -211,9 +189,12 @@ class DeletedWords {
       deletedWordsCount: document.querySelector('.deleted-words__count'),
     };
 
-    this.deletedWords = await mainController.getAllUserDeletedWords;
-    this.elements.deletedWordsCount.innerText = this.deletedWords.length || 0;
-    debugger; // ! todo
+    mainController.spinner.show();
+    this.deletedWords = await mainController.getAllUserDeletedWords();
+    mainController.spinner.hide();
+    this.elements.deletedWordsCount.innerText = this.deletedWords
+      ? this.deletedWords.length
+      : 0;
 
     this.renderCards();
     this.elements.containers.cardsWrapper.addEventListener('click', this.playSpelling);

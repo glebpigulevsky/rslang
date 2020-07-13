@@ -158,7 +158,7 @@ class LearningWords {
   render() {
     return `
       <div class="learning-words__wrapper">
-        <h3 class="learning-words__title dictionary__title">Learning words</h2>
+        <h3 class="learning-words__title dictionary__title">Words in learning</h2>
         <p class="learning-words__count-title dictionary__title">
           Total: <span class="learning-words__count">${spacedRepetitions.userWordsCollection.length}</span>
         </p>
