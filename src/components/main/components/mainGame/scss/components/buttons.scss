@@ -31,7 +31,7 @@
     &:hover {
       background-color: $color-dark-grey;
       border-color: $color-border;
-  
+
       @include transition($time: .4s, $property: all, $method: ease-out);
     }
   }
