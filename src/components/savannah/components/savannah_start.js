@@ -49,7 +49,9 @@ export const getSavannahStartControls = () => `
 export const getSavannahStart = () => `
 <div class="savannah__start" id="js-start_block">
   <span class="savannah__start_title">savannah</span>
-  <span class="savannah__start_phar">Coaching 'Savannah' develops vocabulary. <br> You will receive experience points.</span>
+  <span class="savannah__start_phar">Coaching 'Savannah' develops vocabulary. <br> 
+  If you give 3 correct answers in a row, the magic crystal grows and changes color. <br> 
+  At the end of the game, you can see a live video stream from the African savannah.</span>
   <div class="savannah__close_btn"></div>
   ${getSavannahStartControls()}
 </div>`;
