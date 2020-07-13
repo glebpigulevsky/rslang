@@ -1,9 +1,8 @@
+import { teamPageStartScreen } from '../../team/team.app';
+
 export const teamPageComponent = {
+  init: teamPageStartScreen,
   render: () => `
-        <section class="section__team">
-        <div class="wrapper">
-            <h2 class="team__title">Ninja JS team</h2>
-        </div>
-    <section>
+    <div class="team-page-block"></div>
     `,
 };

@@ -1,6 +1,6 @@
 import { WordsApi } from '../../services/services.methods';
 import StartScreenClass from './components/startScreen';
-
+import { MINI_GAMES_NAMES, mainStorage } from '../main/components/mainStorage/mainStorage';
 import './scss/audio-call.scss';
 
 const wordsGetter = new WordsApi();
@@ -123,19 +123,21 @@ class AudioCall {
   getData(group, page) {
     this.roundState = 'game';
     this.group = group;
-    this.page = page;
+    this.page = page + (page * 2);
     this.resultsCorrectArray = [];
     this.resultsWrongArray = [];
     this.resultsDontKnowArray = [];
     window.localStorage.setItem('group', this.group);
-    window.localStorage.setItem('page', this.page);
-    wordsGetter.getWordsCollection({ group: this.group, page: this.page })
-      .then((res) => {
-        this.page += 1;
-        this.wordsArray = [...this.wordsArray, ...res];
-        this.renderData(this.wordsArray);
+    window.localStorage.setItem('page', page);
+    this.getLearnedWordsData()
+      .then(() => {
+        wordsGetter.getWordsCollection({ group: this.group, page: this.page })
+          .then((res) => {
+            this.page += 1;
+            this.wordsArray = [...this.wordsArray, ...res];
+            this.renderData(this.wordsArray);
+          });
       });
-    document.onkeydown = this.chooseWordByKey.bind(this);
   }
 
   getNewData() {
@@ -146,8 +148,12 @@ class AudioCall {
       });
   }
 
+  async getLearnedWordsData() {
+    this.wordsArray = [...this.wordsArray, ...await mainStorage.getWordsToLearn()];
+  }
+
   renderData(res) {
-    if (this.round < 1) {
+    if (this.round < 10) {
       this.playRound(res);
     } else {
       this.showStats();
@@ -156,8 +162,10 @@ class AudioCall {
 
   wordsClickHandler(event) {
     if (event.currentTarget.classList.contains(`word-${this.currentWord}`)) {
+      document.querySelector('.dont-know').removeEventListener('click', this.dontKnowButtonBinded);
       this.correctAnswerClick(event);
     } else {
+      document.querySelector('.dont-know').removeEventListener('click', this.dontKnowButtonBinded);
       this.wrongAnswerClick(event);
     }
   }
@@ -172,6 +180,7 @@ class AudioCall {
     if (event.key === 'Enter' && this.roundState !== 'stats') {
       this.enterCount += 1;
       if (this.roundState === 'answered' && event.key === 'Enter') {
+        this.roundState = 'null';
         this.enterCount += 2;
         document.querySelector('.audio-call-container').classList.add('move');
         setTimeout(() => {
@@ -195,16 +204,25 @@ class AudioCall {
     }
   }
 
+  clickArrowStartNextRound() {
+    document.querySelector('.dont-know').addEventListener('click', () => {
+      document.querySelector('.audio-call-container').classList.add('move');
+      setTimeout(() => {
+        this.init();
+        this.renderData(this.wordsArray);
+      }, 1500);
+    });
+  }
+
   correctAnswerClick(event) {
     this.roundState = 'answered';
-    document.querySelector('.dont-know').removeEventListener('click', this.dontKnowButtonBinded);
     document.querySelectorAll('.word').forEach((el) => {
       el.removeEventListener('click', this.wordsClickHandlerBinded);
     });
     this.resultsCorrectArray.push(this.wordsArray[this.globalWord]);
-    document.querySelector('.img-block').insertAdjacentHTML('beforeend', `
+    document.querySelector('.img-block').innerHTML = `
         <img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">
-        `);
+        `;
     document.querySelector('.speaker-block').classList.add('speaker-block-answer');
     document.querySelector('.answer-word-eng').innerHTML = `${this.wordsArray[this.globalWord].word}`;
 
@@ -221,25 +239,14 @@ class AudioCall {
     this.clickArrowStartNextRound();
   }
 
-  clickArrowStartNextRound() {
-    document.querySelector('.dont-know').addEventListener('click', () => {
-      document.querySelector('.audio-call-container').classList.add('move');
-      setTimeout(() => {
-        this.init();
-        this.renderData(this.wordsArray);
-      }, 1500);
-    });
-  }
-
   wrongAnswerClick(event) {
     this.roundState = 'answered';
-    document.querySelector('.dont-know').removeEventListener('click', this.dontKnowButtonBinded);
     document.querySelectorAll('.word').forEach((el) => {
       el.removeEventListener('click', this.wordsClickHandlerBinded);
     });
     this.resultsWrongArray.push(this.wordsArray[this.globalWord]);
     event.currentTarget.lastChild.classList.add('wrong-main-answer');
-    document.querySelector('.img-block').insertAdjacentHTML('beforeend', `<img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">`);
+    document.querySelector('.img-block').innerHTML = `<img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">`;
     document.querySelector('.speaker-block').classList.add('speaker-block-answer');
     document.querySelector('.answer-word-eng').innerHTML = `${this.wordsArray[this.globalWord].word}`;
 
@@ -273,13 +280,7 @@ class AudioCall {
         <img class="correct-icon" src="./assets/main/img/correct-icon.png" alt="correct">
         `);
     document.querySelector('.dont-know').innerHTML = '<img class="arrow" src="./assets/main/img/arrow.png" alt="arrow">';
-    document.querySelector('.dont-know').addEventListener('click', () => {
-      document.querySelector('.audio-call-container').classList.add('move');
-      setTimeout(() => {
-        this.init();
-        this.renderData(this.wordsArray);
-      }, 1500);
-    });
+    this.clickArrowStartNextRound();
   }
 
   wrongAnswerKeyBoard(event) {
@@ -311,11 +312,12 @@ class AudioCall {
 
   dontKnowButton() {
     this.roundState = 'answered';
+    document.querySelector('.dont-know').removeEventListener('click', this.dontKnowButtonBinded);
     document.querySelectorAll('.word').forEach((el) => {
       el.removeEventListener('click', this.wordsClickHandlerBinded);
     });
     this.resultsDontKnowArray.push(this.wordsArray[this.globalWord]);
-    document.querySelector('.img-block').insertAdjacentHTML('beforeend', `<img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">`);
+    document.querySelector('.img-block').innerHTML = `<img class="answer-image" src="${this.wordsArray[this.globalWord].image}" alt="answer">`;
     document.querySelector('.speaker-block').classList.add('speaker-block-answer');
     document.querySelector('.answer-word-eng').innerHTML = `${this.wordsArray[this.globalWord].word}`;
 
@@ -329,7 +331,6 @@ class AudioCall {
         <img class="correct-icon" src="./assets/main/img/correct-icon.png" alt="correct">
         `);
     document.querySelector('.dont-know').innerHTML = '<img class="arrow" src="./assets/main/img/arrow.png" alt="arrow">';
-    document.querySelector('.dont-know').removeEventListener('click', this.dontKnowButtonBinded);
     document.querySelector('.dont-know').addEventListener('click', () => {
       document.querySelector('.audio-call-container').classList.add('move');
       setTimeout(() => {
@@ -347,6 +348,19 @@ class AudioCall {
     document.querySelector('.main-button__start').addEventListener('click', () => {
       this.startScreen();
     });
+
+    mainStorage.addMiniGameResults({
+      miniGameName: MINI_GAMES_NAMES.AUDIO_CALL,
+      isCorrect: true,
+      wordsDataArray: this.resultsCorrectArray,
+    });
+
+    mainStorage.addMiniGameResults({
+      miniGameName: MINI_GAMES_NAMES.AUDIO_CALL,
+      isCorrect: false,
+      wordsDataArray: this.resultsWrongArray,
+    });
+
     document.querySelector('.correct-count').innerHTML = `${this.resultsCorrectArray.length}`;
     document.querySelector('.mistakes-count').innerHTML = `${this.resultsWrongArray.length}`;
     document.querySelector('.dont-know-count').innerHTML = `${this.resultsDontKnowArray.length}`;
@@ -382,6 +396,7 @@ class AudioCall {
   }
 
   playRound(res) {
+    document.onkeydown = null;
     this.roundState = 'game';
     this.enterCount = 0;
     this.keyCount = 0;
@@ -394,10 +409,7 @@ class AudioCall {
                 `);
       this.word += 1;
     }
-    document.querySelectorAll('.word').forEach((el) => {
-      el.addEventListener('click', this.wordsClickHandlerBinded);
-    });
-    document.querySelector('.dont-know').addEventListener('click', this.dontKnowButtonBinded);
+
     this.globalWord = Math.round(1 - 0.5 + Math.random() * (5 - 1 + 1)) - 1 + this.round * 5;
 
     this.round += 1;
@@ -411,6 +423,10 @@ class AudioCall {
     audio.onended = () => {
       document.querySelector('.speaker-block').classList.remove('speaker-block-active');
       document.querySelector('.dont-know').addEventListener('click', this.dontKnowButtonBinded);
+      document.onkeydown = this.chooseWordByKey.bind(this);
+      document.querySelectorAll('.word').forEach((el) => {
+        el.addEventListener('click', this.wordsClickHandlerBinded);
+      });
     };
   }
 
