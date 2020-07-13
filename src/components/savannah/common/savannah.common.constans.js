@@ -10,12 +10,12 @@ export const GAME_DEFAULT = {
 };
 
 export const DIAMOND_COLORS = [
-  '#000',
-  '#bed838',
-  '#c615ce',
-  '#f70a0a',
-  '#1faedb',
-  '#ffa58d',
+  '#af4327',
+  '#9ad2ec',
+  '#d484db',
+  '#f15c5c',
+  '#4a9437',
+  '#f6f7f0',
 ];
 
 export const DIAMOND_TRANSFORM = {
