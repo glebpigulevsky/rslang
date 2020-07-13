@@ -12,7 +12,9 @@ import { getSavannahCurrentWords } from '../components/savannah_statistics';
 import { getSavannahFinalCounter } from '../components/savannah_counter';
 import { Spinner } from '../../spinner/spinner';
 import { ErrorPopup } from '../../error/error.error_popup';
-import { DIGIT_CODES, GAME_DEFAULT, DIAMOND_COLORS, DIAMOND_TRANSFORM, DIAMOND_SCALE } from '../common/savannah.common.constans';
+import {
+  DIGIT_CODES, GAME_DEFAULT, DIAMOND_COLORS, DIAMOND_TRANSFORM, DIAMOND_SCALE,
+} from '../common/savannah.common.constans';
 import { getNextVariable } from '../common/savannah.common.utils';
 import { MINI_GAMES_NAMES, mainStorage, mainController } from '../../main/components/mainStorage/mainStorage';
 
@@ -103,7 +105,7 @@ export class SavannahGame {
     if (!isCorrect) {
       this.burnLife();
     }
-  
+
     return !!isCorrect;
   }
 
@@ -123,6 +125,7 @@ export class SavannahGame {
     this.onChangeRound();
     this.onClickStatisticsBtn();
     this.onClickResultBtn();
+    this.onClickLiveVideoBtn();
   }
 
   async sendStatistics(correctVal, wrongVal) {
@@ -292,6 +295,8 @@ export class SavannahGame {
   onClickStatisticsBtn() {
     const statisticNode = document.querySelector('#js-savannah_start_page_statistics');
     statisticNode.addEventListener('click', async () => {
+      this.spinner = new Spinner(this.savannahContainer);
+      this.spinner.render();
       const allResults = await mainController.getUserStatistics();
       const longResults = JSON.parse(allResults.optional[MINI_GAMES_NAMES.SAVANNA]);
       const finalNode = document.querySelector('.savannah__start_final_answears');
@@ -300,6 +305,14 @@ export class SavannahGame {
       finalNode.insertAdjacentHTML('beforeend', wrongAnswears);
       document.querySelectorAll('.savannah__start_page').forEach((stat) => { stat.classList.remove('savannah__start_page_select'); });
       statisticNode.classList.add('savannah__start_page_select');
+      this.spinner.remove();
+    });
+  }
+
+  onClickLiveVideoBtn() {
+    const videoNode = document.querySelector('#js-savannah_start_page_live_video');
+    videoNode.addEventListener('click', () => {
+      this.startService.showSavannahLiveVideo();
     });
   }
 

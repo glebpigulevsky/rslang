@@ -9,6 +9,7 @@ export const getSavannahResult = ({ correct, wrong }) => `
   <div class="savannah__start_paginator id="js-savannah__start_paginator">
     <div class="savannah__start_page savannah__start_page_select" id="js-savannah_start_page_result"></div>
     <div class="savannah__start_page" id="js-savannah_start_page_statistics"></div>
+    <div class="savannah__start_page" id="js-savannah_start_page_live_video"></div>
   </div>
     <div class="savannah__start_final" id="js-savannah_start_final">
       <div class="savannah__start_final_answears">

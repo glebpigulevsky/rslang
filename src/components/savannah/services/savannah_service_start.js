@@ -1,6 +1,7 @@
 import { getSavannahStart } from '../components/savannah_start';
 import { getSavannahResult } from '../components/savannah_result';
 import { getSavannahStatistics } from '../components/savannah_statistics';
+import { getSavannahLiveVideo } from '../components/savannah_live_video';
 import background from '../assets/img/startSavannah.png';
 import { Spinner } from '../../spinner/spinner';
 import { getFinalCountdown } from '../common/savannah.common.utils';
@@ -51,5 +52,25 @@ export class SavannahServiceStart {
 
   showSavannahFinalCountdown() {
     getFinalCountdown('js-savannah__start_final_coundown', 3, 1, 4000);
+  }
+
+  showSavannahLiveVideo() {
+    const savannahContainer = document.querySelector('#js-savannah-game-wrap');
+    const spinner = new Spinner(savannahContainer);
+    spinner.render();
+    document.querySelector('#js-start_block').insertAdjacentHTML('beforeend', getSavannahLiveVideo());
+    const iframeNode = document.querySelector('#js-savannah__modal_iframe');
+    iframeNode.addEventListener('load', () => {
+      document.querySelector('#savannah__modal').style.display = 'block';
+      const closeBtn = document.querySelector('#js-savannah__modal_close');
+      closeBtn.addEventListener('click', () => {
+        this.removeSavannahLiveVideo();
+      });
+      spinner.remove();
+    });
+  }
+
+  removeSavannahLiveVideo() {
+    document.querySelector('#js-start_block').removeChild(document.querySelector('#savannah__modal'));
   }
 }

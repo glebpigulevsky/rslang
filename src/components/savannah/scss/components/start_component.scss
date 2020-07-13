@@ -3,7 +3,6 @@
   align-items: center;
   flex-direction: column;
   color: $color-dark-brown;
-  //background-color: rgba(255, 239, 213, 0.3);
   height: 100%;
   justify-content: flex-start;
   position: relative;
@@ -234,4 +233,115 @@
 
 .savannah__start_final_countdown_count {
   font-size: 90px;
+}
+
+.savannah__modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  display: none;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: 0;
+  transition: opacity .15s linear;
+  display: none;
+}
+
+
+.savannah__modal-dialog {
+    position: relative;
+    width: auto;
+    margin: .5rem;
+    pointer-events: none;
+}
+
+
+@media (min-width: 576px) {
+  .savannah__modal-dialog {
+    max-width: 800px;
+    margin: 1.75rem auto;
+  }
+}
+
+.savannah__modal-content {
+  position: relative;
+  display: -ms-flexbox;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  pointer-events: auto;
+  background-color: $color-light;
+  background-clip: padding-box;
+  border: 1px solid rgba(0,0,0,.2);
+  border-radius: .3rem;
+  outline: 0;
+}
+
+.savannah__modal_embed_responsive {
+  position: relative;
+  display: block;
+  width: 100%;
+  padding: 0;
+  overflow: hidden;
+}
+
+.savanna__modal_embed-responsive-16by9::before {
+  padding-top: 56.25%;
+}
+
+.savannah__modal_embed_responsive::before {
+  display: block;
+  content: "";
+}
+
+.savannah__modal_embed_responsive .savannah__modal_embed-responsive-item,
+ .savannah__modal_embed_responsive embed,
+  .savannah__modal_embed_responsive iframe,
+   .savannah__modal_embed_responsive object,
+    .savannah__modal_embed_responsive video {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.savannah__modal-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid $color-light;
+  border-bottom-right-radius: calc(.3rem - 1px);
+  border-bottom-left-radius: calc(.3rem - 1px);
+  color: $color-dark-brown;
+  font-size: small;
+}
+
+
+.savannah__modal-footer>* {
+  margin: .25rem;
+}
+
+.savannah__modal_close {
+  display: inline-block;
+  font-weight: 400;
+  color: $color-dark-brown;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  background-color: transparent;
+  border: 1px solid transparent;
+  padding: .375rem .75rem;
+  font-size: 1rem;
+  line-height: 1.5;
+  border-radius: .25rem;
+  transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
 }
