@@ -6,8 +6,8 @@ import { WordsApi, GET_RANDOM } from '../../../services/services.methods';
 import { SavannahServiceStart } from './savannah_service_start';
 import { getSavannahGame } from '../components/savannah_game';
 import { getSavannahQuestion } from '../components/savannah_question';
-import { getSavannahAnswears } from '../components/savannah_answears';
-import { getSavannahResultAnswear } from '../components/savannah_result_answear';
+import { getSavannahAnswers } from '../components/savannah_answears';
+import { getSavannahResultAnswer } from '../components/savannah_result_answear';
 import { getSavannahCurrentWords } from '../components/savannah_statistics';
 import { getSavannahFinalCounter } from '../components/savannah_counter';
 import { Spinner } from '../../spinner/spinner';
@@ -58,7 +58,7 @@ export class SavannahGame {
     if (nextWord) {
       this.currentWord = nextWord;
       this.addQuiz();
-      this.isSelectedAnswear = false;
+      this.isSelectedAnswer = false;
     } else {
       this.endGame();
     }
@@ -69,30 +69,30 @@ export class SavannahGame {
     if (quest) {
       quest.parentNode.removeChild(quest);
     }
-    const answears = document.querySelector('#js-savannah__answears');
-    if (answears) {
-      answears.parentNode.removeChild(answears);
+    const answers = document.querySelector('#js-savannah__answears');
+    if (answers) {
+      answers.parentNode.removeChild(answers);
     }
   }
 
   addQuiz() {
     const mainBlock = document.querySelector('#js-savannah__main');
     mainBlock.insertAdjacentHTML('beforeend', getSavannahQuestion(this.currentWord.word));
-    mainBlock.insertAdjacentHTML('beforeend', getSavannahAnswears(this.getRamdomTranslation(this.currentWord.wordTranslate)));
+    mainBlock.insertAdjacentHTML('beforeend', getSavannahAnswers(this.getRamdomTranslation(this.currentWord.wordTranslate)));
     const questionBtn = document.querySelector('#js-savannah__question');
     questionBtn.classList.add('savannah__question_move');
     questionBtn.addEventListener('animationend', () => {
-      this.answearHandle(null, true);
+      this.answerHandle(null, true);
     });
-    const answearsBtns = document.querySelector('#js-savannah__answears');
-    answearsBtns.addEventListener('click', (e) => {
+    const answersBtns = document.querySelector('#js-savannah__answears');
+    answersBtns.addEventListener('click', (e) => {
       if (e.target.classList.contains('savannah__answear')) {
-        this.answearHandle(e.target);
+        this.answerHandle(e.target);
       }
     });
   }
 
-  checkAnswear(currentTranslate) {
+  checkAnswer(currentTranslate) {
     const isCorrect = (currentTranslate === this.currentWord.wordTranslate);
     this.threeCorrectAnswersTogether = (isCorrect) ? this.threeCorrectAnswersTogether + 1 : 0;
     if (this.isPlayingSound) {
@@ -141,29 +141,29 @@ export class SavannahGame {
   }
 
   showLearningWord() {
-    const wrongAnswears = this.staticticsRound.wrong.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
-    const correctAnswears = this.staticticsRound.correct.reduce((acc, word) => acc + getSavannahResultAnswear(this._transformAnswear(word)), '');
+    const wrongAnswers = this.staticticsRound.wrong.reduce((acc, word) => acc + getSavannahResultAnswer(this._transformAnswer(word)), '');
+    const correctAnswers = this.staticticsRound.correct.reduce((acc, word) => acc + getSavannahResultAnswer(this._transformAnswer(word)), '');
     mainStorage.addMiniGameResults({
       miniGameName: MINI_GAMES_NAMES.SAVANNA,
       isCorrect: true,
-      wordsDataArray: correctAnswears,
+      wordsDataArray: correctAnswers,
     });
     mainStorage.addMiniGameResults({
       miniGameName: MINI_GAMES_NAMES.SAVANNA,
       isCorrect: false,
-      wordsDataArray: wrongAnswears,
+      wordsDataArray: wrongAnswers,
     });
-    const answearsNode = document.querySelector('.savannah__start_final_answears');
-    answearsNode.innerHTML = null;
-    answearsNode.insertAdjacentHTML('beforeend', getSavannahCurrentWords(this.staticticsRound.wrong.length, this.staticticsRound.correct.length));
-    document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswears);
-    document.querySelector('.savannah__start_final_valid').insertAdjacentHTML('beforeend', correctAnswears);
+    const answersNode = document.querySelector('.savannah__start_final_answears');
+    answersNode.innerHTML = null;
+    answersNode.insertAdjacentHTML('beforeend', getSavannahCurrentWords(this.staticticsRound.wrong.length, this.staticticsRound.correct.length));
+    document.querySelector('.savannah__start_final_wrong').insertAdjacentHTML('beforeend', wrongAnswers);
+    document.querySelector('.savannah__start_final_valid').insertAdjacentHTML('beforeend', correctAnswers);
     document.querySelectorAll('.savannah__start_page').forEach((stat) => { stat.classList.remove('savannah__start_page_select'); });
     document.querySelector('#js-savannah_start_page_result').classList.add('savannah__start_page_select');
     this.onClickAudioBtn();
   }
 
-  _transformAnswear({ word, wordTranslate, audio }) {
+  _transformAnswer({ word, wordTranslate, audio }) {
     return {
       word,
       translate: wordTranslate,
@@ -184,21 +184,21 @@ export class SavannahGame {
     this.burningLives -= 1;
   }
 
-  answearHandle(answearNode = null, isAnimationEnd = null) {
-    if (this.isSelectedAnswear) {
+  answerHandle(answerNode = null, isAnimationEnd = null) {
+    if (this.isSelectedAnswer) {
       return;
     }
     document.querySelector('#js-savannah__answears').childNodes.forEach((btn) => { btn.disabled = true; });
-    const isCorrectAnswer = (isAnimationEnd) ? this.checkAnswear('[unselectAnswerGame]') : this.checkAnswear(answearNode.dataset.answear);
+    const isCorrectAnswer = (isAnimationEnd) ? this.checkAnswer('[unselectAnswerGame]') : this.checkAnswer(answerNode.dataset.answear);
     if (isCorrectAnswer) {
-      if (answearNode) {
-        answearNode.classList.add('savannah__answear_correct');
+      if (answerNode) {
+        answerNode.classList.add('savannah__answear_correct');
       }
       this.staticticsRound.correct.push(this.currentWord);
     } else {
       this.staticticsRound.wrong.push(this.currentWord);
-      if (answearNode) {
-        answearNode.classList.add('savannah__answear_wrong');
+      if (answerNode) {
+        answerNode.classList.add('savannah__answear_wrong');
       }
       document
         .querySelector('#js-savannah__answears')
@@ -225,7 +225,7 @@ export class SavannahGame {
     }
     const quest = document.querySelector('#js-savannah__question');
     quest.parentNode.removeChild(quest);
-    this.isSelectedAnswear = true;
+    this.isSelectedAnswer = true;
     if (this.burningLives < 0 && !isCorrectAnswer) {
       setTimeout(() => {
         this.endGame();
@@ -263,7 +263,7 @@ export class SavannahGame {
         wordsPerExampleSentence: GAME_DEFAULT.WordsPerExampleSentence,
         wordsPerPage: GAME_DEFAULT.WordsPerPage,
       }).catch(this.showErrorPopup.bind(this));
-    this.answears = questRes.map((word) => word.wordTranslate);
+    this.answers = questRes.map((word) => word.wordTranslate);
     this.spinner.remove();
     this.startGame();
   }
@@ -301,8 +301,8 @@ export class SavannahGame {
       const longResults = JSON.parse(allResults.optional[MINI_GAMES_NAMES.SAVANNA]);
       const finalNode = document.querySelector('.savannah__start_final_answears');
       finalNode.innerHTML = null;
-      const wrongAnswears = longResults.reduce((acc, word) => acc + this.startService.showSavannahStatistics(word), '');
-      finalNode.insertAdjacentHTML('beforeend', wrongAnswears);
+      const wrongAnswers = longResults.reduce((acc, word) => acc + this.startService.showSavannahStatistics(word), '');
+      finalNode.insertAdjacentHTML('beforeend', wrongAnswers);
       document.querySelectorAll('.savannah__start_page').forEach((stat) => { stat.classList.remove('savannah__start_page_select'); });
       statisticNode.classList.add('savannah__start_page_select');
       this.spinner.remove();
@@ -334,7 +334,7 @@ export class SavannahGame {
 
   onClickAudioBtn() {
     const audioBtn = document.querySelectorAll('.savannah__start_final_audio');
-    audioBtn.forEach((answear) => answear.addEventListener('click', (e) => {
+    audioBtn.forEach((answer) => answer.addEventListener('click', (e) => {
       const audio = new Audio(e.target.dataset.audio);
       audio.play();
     }));
@@ -351,10 +351,10 @@ export class SavannahGame {
     document.addEventListener('keydown', (e) => {
       if (DIGIT_CODES.includes(e.code)) {
         e.preventDefault();
-        const answearNode = document
+        const answerNode = document
           .querySelector('#js-savannah__answears')
           .querySelector(`[data-digit="${e.key}"]`);
-        this.answearHandle(answearNode);
+        this.answerHandle(answerNode);
       }
     });
   }
@@ -374,9 +374,9 @@ export class SavannahGame {
   getRamdomTranslation(correctTranslation) {
     this.correctTranslationIndex = GET_RANDOM(0, 3);
     const first = correctTranslation;
-    const second = getNextVariable([first], this.answears);
-    const third = getNextVariable([first, second], this.answears);
-    const fourth = getNextVariable([first, second, third], this.answears);
+    const second = getNextVariable([first], this.answers);
+    const third = getNextVariable([first, second], this.answers);
+    const fourth = getNextVariable([first, second, third], this.answers);
     const res = [second, third, fourth];
     res.splice(this.correctTranslationIndex, 0, first);
     return {

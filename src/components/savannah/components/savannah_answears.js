@@ -1,4 +1,4 @@
-export const getSavannahAnswears = ({
+export const getSavannahAnswers = ({
   first, second, third, fourth,
 }) => `
 <div class="savannah__answears" id="js-savannah__answears">

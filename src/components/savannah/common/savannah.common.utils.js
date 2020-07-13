@@ -1,9 +1,9 @@
 import { GET_RANDOM } from '../../../services/services.methods';
 
-export const getNextVariable = (lockedTranslations = [], answears) => {
+export const getNextVariable = (lockedTranslations = [], answers) => {
   let res = '';
   do {
-    res = answears[GET_RANDOM(0, answears.length - 1)];
+    res = answers[GET_RANDOM(0, answers.length - 1)];
   }
   while (lockedTranslations.includes(res));
   return res;

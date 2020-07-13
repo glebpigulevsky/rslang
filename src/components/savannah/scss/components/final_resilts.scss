@@ -1,0 +1,141 @@
+.savannah__start_final {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  max-width: 542px;
+  margin-top: 2%;
+  position: relative;
+  height: 337px;
+
+  @include media-mobile {
+    height: 270px;
+  }
+}
+
+.savannah__start_final_answears {
+  overflow: auto;
+  transition: .5s;
+  width: 85%;
+  box-sizing: border-box;
+  height: 100%;
+}
+
+.savannah__start_final_wrong {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+}
+
+.savannah__start_final_wrong_title {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.33;
+  color: $color-red-error;
+  text-transform: uppercase;
+}
+
+.savannah__start_final_wrong_answears {
+  transition: .5s;
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+  padding-right: 12px;
+}
+
+.savannah__start_final_answear {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-top: 16px;
+  position: relative;
+}
+
+.savannah__start_final_valid {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  margin-top: 16px;
+}
+
+.savannah__start_final_valid_title {
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 1.33;
+  color: $color-green-correct;
+  text-transform: uppercase;
+}
+
+.savannah__start_final_audio {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDE4IDIwIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNLTctNmgzMnYzMkgtN3oiLz4KICAgICAgICA8cGF0aCBmaWxsPSIjN0U5MTlGIiBkPSJNMTIgMGMzLjMxNCAwIDYgNC40NzcgNiAxMHMtMi42ODYgMTAtNiAxMFMwIDE1Ljg1NiAwIDEwIDguNjg2IDAgMTIgMHptLjYwMyAxLjMzM2MtMS43NTIgMC0zLjI0NCAyLjM2My0zLjgxNSA1LjY3NmwuMDM2LS4wMDRMOSA3YTMgMyAwIDEgMS0uMjEyIDUuOTkzYy41NyAzLjMxIDIuMDYzIDUuNjc0IDMuODE1IDUuNjc0IDIuMjQ0IDAgNC4wNjQtMy44OCA0LjA2NC04LjY2NyAwLTQuNzg2LTEuODItOC42NjctNC4wNjQtOC42Njd6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=);
+  background-size: 20px 18px;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  width: 32px;
+  height: 32px;
+  cursor: pointer;
+}
+
+.savannah__start_final_audio:hover {
+  background-image: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSIxOCIgaGVpZ2h0PSIyMCIgdmlld0JveD0iMCAwIDE4IDIwIj4KICAgIDxnIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+CiAgICAgICAgPHBhdGggZmlsbC1ydWxlPSJub256ZXJvIiBkPSJNLTctNmgzMnYzMkgtN3oiLz4KICAgICAgICA8cGF0aCBmaWxsPSIjMjU4MkU3IiBkPSJNMTIgMGMzLjMxNCAwIDYgNC40NzcgNiAxMHMtMi42ODYgMTAtNiAxMFMwIDE1Ljg1NiAwIDEwIDguNjg2IDAgMTIgMHptLjYwMyAxLjMzM2MtMS43NTIgMC0zLjI0NCAyLjM2My0zLjgxNSA1LjY3NmwuMDM2LS4wMDRMOSA3YTMgMyAwIDEgMS0uMjEyIDUuOTkzYy41NyAzLjMxIDIuMDYzIDUuNjc0IDMuODE1IDUuNjc0IDIuMjQ0IDAgNC4wNjQtMy44OCA0LjA2NC04LjY2NyAwLTQuNzg2LTEuODItOC42NjctNC4wNjQtOC42Njd6Ii8+CiAgICA8L2c+Cjwvc3ZnPgo=);
+}
+
+.savannah__start_final_audio:active {
+  background-size: 30px 25px;
+}
+
+.savannah__start_final_eng {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: $color-deep-blue;
+  margin-right: 6px;
+  word-break: break-word;
+  max-width: calc(50% - 54px);
+  padding: 0 2rem;
+}
+
+.savannah__start_final_transl {
+  font-size: 16px;
+  line-height: 1.25;
+  color: $color-dust-blue;
+  flex-grow: 1;
+  word-break: break-word;
+  max-width: calc(50% - 54px);
+  padding: 0 1rem 0 0;
+}
+
+.savannah__start_paginator {
+  display: flex;
+  justify-content: center;
+  height: 32px;
+}
+
+.savannah__start_page {
+  margin: 5px 15px;
+  width: 30px;
+  height: 30px;
+  background-position: 0;
+  background-size: cover;
+  background-image: url('../assets/img/savannahPageUnselect.png');
+  cursor: pointer;
+}
+
+.savannah__start_page:hover {
+  width: 31px;
+  height: 31px;
+  background-image: url('../assets/img/savannahPageHover.png');
+}
+
+.savannah__start_page_select {
+  background-image: url('../assets/img/savannahPageSelect.png');
+}
+
+.savannah__start_statistics_record {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: $color-deep-blue;
+  margin-right: 6px;
+  padding: 1rem;
+}
