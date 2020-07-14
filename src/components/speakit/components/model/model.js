@@ -13,6 +13,10 @@ class Model {
   constructor() {
     this.pageData = EMPTY;
 
+    this.userWords = EMPTY;
+    this.userWordsLastIndex = EMPTY;
+    this.isUserWordsGame = false;
+
     this.currentResults = EMPTY;
     this.longResults = EMPTY;
     this.allResults = EMPTY;
@@ -21,6 +25,17 @@ class Model {
   }
 
   fetchCardsPage(difficult, page) {
+    if (this.isUserWordsGame) {
+      if (this.userWordsLastIndex + MAX_WORDS_IN_ROUND <= this.userWords.length) {
+        this.userWordsLastIndex += MAX_WORDS_IN_ROUND;
+        return Promise.resolve(this.userWords.slice(
+          this.userWordsLastIndex - MAX_WORDS_IN_ROUND,
+          this.userWordsLastIndex,
+        ));
+      }
+      this.isUserWordsGame = false;
+    }
+
     return this.wordsAPI.getWordsCollection({
       group: difficult,
       page,
@@ -126,6 +141,10 @@ class Model {
     this.loadCurrentResults();
     this.loadLongResults();
     this.wordsAPI = new WordsApi();
+
+    this.userWords = mainStorage.getWordsToLearn();
+    if (this.userWords.length >= MAX_WORDS_IN_ROUND) this.isUserWordsGame = true;
+    this.userWordsLastIndex = 0;
   }
 }
 
