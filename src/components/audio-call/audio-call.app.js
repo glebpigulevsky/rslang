@@ -115,7 +115,7 @@ class AudioCall {
   }
 
   renderData(res) {
-    if (this.round < 10) {
+    if (this.round < 1) {
       this.playRound(res);
     } else {
       this.showStats();

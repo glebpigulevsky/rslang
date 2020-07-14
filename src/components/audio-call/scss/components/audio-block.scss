@@ -20,6 +20,7 @@
   border-radius: 50%;
   width: 90px;
   height: 90px;
+  object-fit: cover;
 }
 
 .speaker {
@@ -91,6 +92,7 @@
   .answer-image {
     width: 60px;
     height: 60px;
+    object-fit: cover;
   }
 
   .answer-word-eng {
