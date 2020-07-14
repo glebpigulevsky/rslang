@@ -10,6 +10,9 @@ import { speakItPageComponent } from '../../../pages/speakit-page.component';
 import { englishPuzzleComponent } from '../../../pages/english-puzzle.component';
 import { savannahComponent } from '../../../pages/savannah-page.component';
 import { sprintComponent } from '../../../pages/sprint-game.component';
+import { learningWordsPageComponent } from '../../../pages/learningWords.component';
+import { deletedWordsPageComponent } from '../../../pages/deletedWords.component';
+import { difficultWordsPageComponent } from '../../../pages/difficultWords.component';
 
 const routes = [
   { path: '/', component: mainPageComponent },
@@ -24,6 +27,9 @@ const routes = [
   { path: '/english-puzzle', component: englishPuzzleComponent },
   { path: '/savannah', component: savannahComponent },
   { path: '/sprint', component: sprintComponent },
+  { path: '/learning-words', component: learningWordsPageComponent },
+  { path: '/deleted-words', component: deletedWordsPageComponent },
+  { path: '/difficult-words', component: difficultWordsPageComponent },
 ];
 
 export default routes;

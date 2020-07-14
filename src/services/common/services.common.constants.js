@@ -37,28 +37,36 @@ const LINK_TYPE = {
 };
 
 const DEFAULT_SETTINGS = {
-  wordsPerDay: 7,
+  wordsPerDay: 20,
   optional: {
-    isTranslation: 'true',
-    isTranscription: 'true',
-    isPicture: 'true',
-    isAddSentExplWord: 'true',
-    isShowAnswerButton: 'false',
-    isShowDiffMoveButton: 'true',
-    isShowDeleteButton: 'true',
-    isShowAgainButton: 'true',
-    isShowDiffButton: 'true',
-    isShowGoodButton: 'true',
-    isShowEasyButton: 'true',
-    isAudio: 'false',
+    englishLevel: 3,
+    cardsPerDay: 50,
+    isPicture: false,
+    isTranslation: true,
+    isTranscription: true,
+    isExampleSentence: true,
+    isMeaningSentence: false,
+    isAnswerButton: true,
+    isMoveToDifficultiesButton: true,
+    isDeleteButton: true,
+    isCategoriesButtons: true,
+    isVoiceSpelling: true,
+    newWordsFetchedData: 0,
   },
 };
 
 const DEFAULT_USER_WORD_OPTIONS = {
   difficulty: 'fetched',
   optional: {
-    repeatTimes: '0',
+    repeatTimes: 0,
     lastRepeat: 'no repeat',
+    toRepeat: true,
+    isDifficult: false,
+    isDeleted: false,
+    isNew: true,
+    changed: true,
+    repeatDate: null,
+    isWrong: false,
   },
 };
 
@@ -78,6 +86,11 @@ const USER_AGGREGATED_WORDS_FILTER = {
   byDifficultyHard: '{"userWord.difficulty":"hard"}',
   byDifficultyHardAndRepeat: '{"$and":[{"userWord.difficulty":"hard", "userWord.optional.repeat":true}]}',
   allUserWords: '{"userWord":{"$ne":null}}',
+  allUserWordsInLearning: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isDeleted":false, "userWord.optional.difficulty":{"$ne":"learned"}}]}',
+  allUserNewWords: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isNew":true}]}',
+  allUserDeletedWords: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isDeleted":true}]}',
+  allUserDifficultWords: '{"$and":[{"userWord":{"$ne":null}, "userWord.optional.isDifficult":true}]}',
+  notUserWords: '{"userWord":null}',
 };
 
 export {
