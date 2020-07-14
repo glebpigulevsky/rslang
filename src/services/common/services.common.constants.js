@@ -13,9 +13,18 @@ const ERRORS_DESCRIPTION = {
     'Password must contain as many as 6 characters including lower-case, upper-case and numeric characters',
   ERROR_TOKEN: 'ERROR_TOKEN',
 };
-const GET_RANDOM = (min, max) => {
+const GET_RANDOM = (min, max, exept = []) => {
   const x = Math.ceil(min);
   const y = Math.floor(max);
+  if (exept.length > 1) {
+    let res;
+    let isNew = false;
+    while (isNew) {
+      res = Math.floor(Math.random() * (y - x + 1)) + x;
+      isNew = !exept.includes(res);
+    }
+    return res;
+  }
   return Math.floor(Math.random() * (y - x + 1)) + x;
 };
 

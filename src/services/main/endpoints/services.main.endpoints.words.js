@@ -14,7 +14,6 @@ export default class WordsApi {
     this._wordsGroupValidator(group);
     this._wordsPageValidator(page);
     this._wordsPerPageValidator({ wordsPerExampleSentence, wordsPerPage });
-
     let url = `/words?group=${group}&page=${page}`;
     if (wordsPerExampleSentence !== null) {
       url += `&wordsPerExampleSentenceLTE=${wordsPerExampleSentence}`;
