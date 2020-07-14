@@ -2,6 +2,9 @@
   margin-top: 1%;
   box-sizing: border-box;
   @include segoe-desc($color-text, 300);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
 }
 
 .xteam__row:before,
@@ -25,40 +28,24 @@
 }
 
 @media screen and (max-width: 320px) {
-  .xteam__row {
-    margin-left: 17%;
-  }
-
   .xteam__workflow {
     display: none;
   }
 }
 
 @media screen and (min-width: 321px) and (max-width: 375px) {
-  .xteam__row {
-    margin-left: 22%;
-  }
-
   .xteam__workflow {
     display: none;
   }
 }
 
 @media screen and (min-width: 376px) and (max-width: 768px) {
-  .xteam__row {
-    margin-left: 20%;
-  }
-
   .xteam__workflow img {
     width: 100%;
   }
 }
 
 @media screen and (min-width: 769px) and (max-width: 1024px) {
-  .xteam__row {
-    margin-left: 17%;
-  }
-
   .xteam__workflow img {
     width: 100%;
   }
