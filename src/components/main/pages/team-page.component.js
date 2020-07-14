@@ -45,7 +45,7 @@ export const teamPageComponent = {
       <div class="xteam__container">
         <h2>Asiliia Tikhonycheva</h2>
         <p class="xteam__title">Student <a href="https://github.com/Asiliia" target="_blank"><button class="xteam__button">Github</button></a></p>
-        <p>Services for API endpoints and Jest tests, game 'Savannah', login/logout UI and functionality, token validation, common error popup, team page.</p>
+        <p>Services for API endpoints and Jest tests, game 'Savannah', login/ logout UI and functionality, token validation, common error popup, team page.</p>
       </div>
     </div>
   </div>
