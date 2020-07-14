@@ -1,17 +1,16 @@
-html {
+.xteam__row {
+  padding-top: 4rem;
+  margin-left: 4rem;
   box-sizing: border-box;
+  @include segoe-desc($color-text, 300);
 }
 
-*, *:before, *:after {
+.xteam__row:before, 
+.xteam__row:after {
   box-sizing: inherit;
 }
 
-.row {
-  padding-top: 4rem;
-  margin-left: 4rem;
-}
-
-.column {
+.xteam__column {
   float: left;
   width: 260px;
   height: 540px;
@@ -27,26 +26,30 @@ html {
   }
 } */
 
-.card {
+.xteam__card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   height: 100%;
 }
 
-.container {
+.xteam__container {
   padding: 0 16px;
 }
 
-.container::after, .row::after {
+.xteam__container::after, .xteam__row::after {
   content: "";
   clear: both;
   display: table;
 }
 
-.title {
+.xteam__title {
   color: grey;
 }
 
-.button {
+.xteam__button {
+  background-color: red;
+  color: white;
+  padding: 1em 1.5em;
+  text-decoration: none;
   border: none;
   outline: 0;
   display: inline-block;
@@ -58,6 +61,6 @@ html {
   width: 100%;
 }
 
-.button:hover {
+.xteam__button:hover {
   background-color: #555;
 }
