@@ -1,6 +1,6 @@
 .xteam__row {
   padding-top: 4rem;
-  margin-left: 4rem;
+  //margin-left: 5%;
   box-sizing: border-box;
   @include segoe-desc($color-text, 300);
 }
@@ -12,8 +12,8 @@
 
 .xteam__column {
   float: left;
-  width: 260px;
-  height: 540px;
+  width: 200px;
+  height: 520px;
   margin-bottom: 16px;
   padding: 0 8px;
   display: block;
@@ -30,10 +30,15 @@
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
   height: 100%;
   text-align: center;
+  border-radius: 5px;
 }
 
 .xteam__container {
-  padding: 0 16px;
+  padding: 0 10px;
+}
+
+.xteam__container h2{
+  @include segoe-additional($color-dark-blue, 400);
 }
 
 .xteam__container::after, .xteam__row::after {
@@ -48,18 +53,17 @@
 
 .xteam__button {
   color: $color-light;
- //padding: 1em 1.5em;
   text-decoration: none;
   border: none;
   outline: 0;
   display: inline-block;
-  //padding: 8px;
   background-color: $color-dark-blue;
   width: 100%;
   height: 2rem;
   text-align: center;
   cursor: pointer;
   border-radius: 30px;
+  margin-top: 1rem;
 }
 
 .xteam__button:hover {
