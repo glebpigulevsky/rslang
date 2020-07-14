@@ -1,5 +1,5 @@
 .xteam__row {
-  margin-top: 5%;
+  margin-top: 1%;
   box-sizing: border-box;
   @include segoe-desc($color-text, 300);
 }
@@ -12,7 +12,7 @@
 .xteam__column {
   float: left;
   width: 200px;
-  height: 520px;
+  height: 510px;
   margin-bottom: 16px;
   padding: 0 8px;
   display: block;
