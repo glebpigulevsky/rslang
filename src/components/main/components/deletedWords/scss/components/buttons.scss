@@ -1,5 +1,7 @@
-.linguist__button {
-  margin: 10px;
+.deleted-words-card__button {
+  display: inline-block;
+  margin: 0;
+  margin-right: 10px;
   text-transform: uppercase;
   border: 1px solid $color-border;
   box-shadow: 0 4px 22px $color-shadow;
@@ -23,6 +25,13 @@
       box-shadow: none;
     }
   }
+}
+
+.deleted-words-card__return-button {
+  display: block;
+  width: 250px;
+  margin: 0 auto;
+  margin-bottom: 20px;
 
   &[disabled] {
     background-color: $color-dark-grey;
@@ -37,30 +46,18 @@
   }
 }
 
-.linguist__hints-button {
+.deleted-words-card__spell-button {
   width: 40px;
+  min-width: 40px;
   height: 40px;
   border-radius: 5px;
+  background-image: url('../assets/img/dinamic-icon.png');
   background-repeat: no-repeat;
   background-position: center;
   background-size: 32px;
 }
 
-.linguist__hints-button_translation {
-  background-image: url('../assets/img/translation-icon.png');
-  background-size: 20px;
-}
-
-.linguist__hints-button_auto-spelling {
-  background-image: url('../assets/img/auto-spell-icon.png');
-}
-
-.linguist__wrapper .active {
-  background-color: $color-dark-orange;
-  box-shadow: none;
-}
-
-@keyframes linguist-resize {
+@keyframes deleted-words-resize {
   40% {
     transform: scale(.9);
   }
@@ -70,6 +67,6 @@
   }
 }
 
-.linguist-animated {
-  animation: linguist-resize .8s infinite linear;
+.deleted-words-animated {
+  animation: deleted-words-resize .8s infinite linear;
 }

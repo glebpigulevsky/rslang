@@ -110,7 +110,7 @@ class MainController {
     return response;
   }
 
-  async getAllUserWordsInLearning(wordsPerPage = 6000) { // todo
+  async getAllUserWordsInLearning(wordsPerPage = 6000) {
     const response = this.getAllUserAggregatedWords({
       wordsPerPage,
       filter: USER_AGGREGATED_WORDS_FILTER.allUserWordsInLearning,
@@ -119,10 +119,24 @@ class MainController {
     return response;
   }
 
-  async getAllUserNewWords(wordsPerPage = 6000) { // todo надо ли нам этот метод?
+  async getAllUserNewWords(wordsPerPage = 6000) {
     return this.getAllUserAggregatedWords({
       wordsPerPage,
       filter: USER_AGGREGATED_WORDS_FILTER.allUserNewWords,
+    });
+  }
+
+  async getAllUserDeletedWords(wordsPerPage = 6000) {
+    return this.getAllUserAggregatedWords({
+      wordsPerPage,
+      filter: USER_AGGREGATED_WORDS_FILTER.allUserDeletedWords,
+    });
+  }
+
+  async getAllUserDifficultWords(wordsPerPage = 6000) {
+    return this.getAllUserAggregatedWords({
+      wordsPerPage,
+      filter: USER_AGGREGATED_WORDS_FILTER.allUserDifficultWords,
     });
   }
 

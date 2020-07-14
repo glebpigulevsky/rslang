@@ -18,14 +18,22 @@ class SpacedRepetitions {
       miniGamesResult.wrong.forEach((wrongWordData) => {
         const currentUserWord = this.userWordsCollection
           .find((userWord) => userWord.id === wrongWordData.id);
-        if (currentUserWord) this.updateWrongWord(currentUserWord);
+        if (currentUserWord) {
+          currentUserWord.userWord.optional.repeatTimes += 1;
+          currentUserWord.userWord.optional.lastRepeat = new Date().toLocaleString();
+          this.updateWrongWord(currentUserWord, true);
+        }
       });
       miniGamesResult.wrong = [];
 
       miniGamesResult.correct.forEach((correctWordData) => {
         const currentUserWord = this.userWordsCollection
           .find((userWord) => userWord.id === correctWordData.id);
-        if (currentUserWord) this.updateCorrectWord(currentUserWord);
+        if (currentUserWord) {
+          currentUserWord.userWord.optional.repeatTimes += 1;
+          currentUserWord.userWord.optional.lastRepeat = new Date().toLocaleString();
+          this.updateCorrectWord(currentUserWord);
+        }
       });
       miniGamesResult.correct = [];
     });
@@ -36,6 +44,7 @@ class SpacedRepetitions {
       this.userWordsCollection.map((wordData) => {
         if (!wordData.userWord.optional.changed) return null;
         wordData.userWord.optional.changed = false;
+        wordData.userWord.optional.isWrong = false;
         if (wordData.userWord.optional.isNew) {
           wordData.userWord.optional.isNew = false;
           return mainController.setUserWord(
@@ -107,12 +116,11 @@ class SpacedRepetitions {
     const previousDifficultIndex = WORD_CATEGORY_TO_INDEX[
       correctWordData.userWord.difficulty
     ] || 0;
-    const newDifficultIndex = previousDifficultIndex + 1;
+    let newDifficultIndex = previousDifficultIndex + 1;
 
     if (newDifficultIndex > 4) {
+      newDifficultIndex = 5;
       correctWordData.userWord.optional.toRepeat = false;
-      correctWordData.userWord.optional.isDifficult = false;
-      correctWordData.userWord.optional.isDeleted = false;
       correctWordData.userWord.optional.repeatDate = Date.now();
     } else correctWordData.userWord.optional.repeatDate = Date.now();
 
@@ -120,12 +128,12 @@ class SpacedRepetitions {
     correctWordData.userWord.optional.changed = true;
   }
 
-  updateWrongWord(wrongWordData) {
+  updateWrongWord(wrongWordData, isMiniGameResult = false) {
     const newDifficultIndex = 0;
     wrongWordData.userWord.difficulty = INDEX_TO_CATEGORY[newDifficultIndex];
     wrongWordData.userWord.optional.repeatDate = Date.now();
     wrongWordData.userWord.optional.changed = true;
-    wrongWordData.userWord.optional.isWrong = true;
+    if (!isMiniGameResult) wrongWordData.userWord.optional.isWrong = true;
   }
 
   getNewWords(wordsCollection = this.userWordsCollection) {

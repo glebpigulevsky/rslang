@@ -46,7 +46,7 @@ class Router {
       const componentMarkup = await component.render();
       mainController.spinner.hide();
       this.mainContainer.insertAdjacentHTML('afterbegin', componentMarkup);
-      if (component.init) component.init();
+      if (component.init) await component.init();
     }
   }
 
