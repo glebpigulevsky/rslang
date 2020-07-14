@@ -1,6 +1,5 @@
 .xteam__row {
-  padding-top: 4rem;
-  //margin-left: 5%;
+  margin-top: 5%;
   box-sizing: border-box;
   @include segoe-desc($color-text, 300);
 }
@@ -19,12 +18,29 @@
   display: block;
 }
 
-/* @media screen and (max-width: 650px) {
-  .column {
-    width: 100%;
-    display: block;
+ @media screen and (max-width: 320px) {
+  .xteam__row {
+  margin-left: 17%;
   }
-} */
+} 
+
+@media screen and (min-width: 320px) and (max-width: 375px) {
+  .xteam__row {
+  margin-left: 22%;
+  }
+}
+
+@media screen and (min-width: 375px) and (max-width: 768px) {
+  .xteam__row {
+  margin-left: 20%;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1024px) {
+  .xteam__row {
+  margin-left: 17%;
+  }
+}
 
 .xteam__card {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
