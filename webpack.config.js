@@ -1,5 +1,4 @@
 const path = require('path');
-const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -27,11 +26,6 @@ module.exports = {
       filename: './main.index.html'
     }),
     new CleanWebpackPlugin(),
-    new webpack.ProvidePlugin({
-      $: 'jquery',
-      jQuery: 'jquery',
-      'window.jQuery': 'jquery'
-    }),
     new CopyWebpackPlugin([
       {
         from: './assets/favicon/',
@@ -44,22 +38,6 @@ module.exports = {
       {
         from: './components/main/assets/',
         to: './assets/main/',
-      },
-      {
-        from: '../node_modules/owl.carousel/dist/assets/owl.carousel.css', 
-        to: './'
-      },
-      {
-        from: '../node_modules/owl.carousel/dist/assets/owl.carousel.min.css', 
-        to: './'
-      },
-      {
-        from: '../node_modules/jquery/dist/jquery.js', 
-        to: './'
-      },
-      {
-        from: '../node_modules/owl.carousel/dist/owl.carousel.min.js', 
-        to: './'
       },
     ]), 
   ],
