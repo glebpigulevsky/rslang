@@ -34,7 +34,7 @@ export const teamPageComponent = {
       <div class="xteam__container">
         <h2>Vanya Radivilov</h2>
         <p class="xteam__title">Student <a href="https://github.com/nixon2105" target="_blank"><button class="xteam__button">Github</button></a></p>
-        <p>Design, markup (main app pages), main menu, routing, game 'Sprint', own game ('Drop').</p>
+        <p>Design, markup (main app pages), main menu, routing, game 'Sprint'.</p>
       </div>
     </div>
   </div>
