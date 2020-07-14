@@ -9,7 +9,7 @@ export const teamPageComponent = {
       <img src="https://avatars2.githubusercontent.com/u/30927000?s=460&u=efd4485c38e4409a1ef99a8663b43ec6ff66b84f&v=4" alt="Jane" style="width:100%">
       <div class="xteam__container">
         <h2>Aleh Serhiyenia</h2>
-        <p class="title">Mentor <a class="xteam__button" href="https://github.com/pulya10c">Github</a></p> 
+        <p class="xteam__title">Mentor <a href="https://github.com/pulya10c"><button class="xteam__button">Github</button></a></p>
         <p>Mentoring the team.</p>
       </div>
     </div>
@@ -20,7 +20,7 @@ export const teamPageComponent = {
       <img src="https://avatars2.githubusercontent.com/u/50077360?s=460&u=dfa2cb20ebd2870a64b32d76974c1a1551f94946&v=4" alt="Mike" style="width:100%">
       <div class="xteam__container">
         <h2>Igor Musmen</h2>
-        <p class="xteam__title">Student / Teamlead <a class="xteam__button" href="https://github.com/Musmen">Github</a></p>
+        <p class="xteam__title">Student / Teamlead <a href="https://github.com/Musmen"><button class="xteam__button">Github</button></a></p>
         <p>Project structure,  environment setup, games 'SpeakIt', 'English-puzzle', 'Main game (Linguist)', spaced repetitions logic, vocabulary and statistics pages, common loader, 
         general methods for long-term statistics.</p>
       </div>
