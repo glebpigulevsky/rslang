@@ -1,4 +1,5 @@
 import '../../team/scss/team.styles.scss';
+import workflowImg from '../../team/assets/team_workflow.png';
 
 export const teamPageComponent = {
   render: () => `
@@ -83,5 +84,8 @@ export const teamPageComponent = {
 </div>
 
 </div>
+<div class="xteam__workflow">
+  <img src=${workflowImg}>
+<div>
     `,
 };
