@@ -86,9 +86,7 @@ export class SavannahGame {
     });
     const answersBtns = document.querySelector('#js-savannah__answears');
     answersBtns.addEventListener('click', (e) => {
-      if (e.target.classList.contains('savannah__answear')) {
-        this.answerHandle(e.target);
-      }
+      this.answerHandle(e.target);
     });
   }
 
@@ -195,6 +193,7 @@ export class SavannahGame {
         answerNode.classList.add('savannah__answear_correct');
       }
       this.staticticsRound.correct.push(this.currentWord);
+      this.initGameLoop(isCorrectAnswer);
     } else {
       this.staticticsRound.wrong.push(this.currentWord);
       if (answerNode) {
@@ -204,6 +203,7 @@ export class SavannahGame {
         .querySelector('#js-savannah__answears')
         .querySelector(`:nth-child(${this.correctTranslationIndex + 1}`)
         .classList.add('savannah__answear_correct');
+      this.initGameLoop(isCorrectAnswer);
     }
     if (this.threeCorrectAnswersTogether === 3) {
       const diamondNode = document.querySelector('.savannah__diamond').querySelectorAll('span');
@@ -223,6 +223,9 @@ export class SavannahGame {
       });
       this.threeCorrectAnswersTogether = 0;
     }
+  }
+
+  initGameLoop(isCorrectAnswer) {
     const quest = document.querySelector('#js-savannah__question');
     quest.parentNode.removeChild(quest);
     this.isSelectedAnswer = true;
@@ -240,12 +243,15 @@ export class SavannahGame {
   async getLearningWords(isUserWords) {
     this.spinner = new Spinner(this.savannahContainer);
     this.spinner.render();
-    let wordsRes = null;
+    let wordsRes = [];
     if (isUserWords) {
-      wordsRes = await mainStorage
-        .getWordsToLearn()
-        .catch(this.showErrorPopup.bind(this));
-      wordsRes = wordsRes.slice(0, 21);
+      const wordsToLearn = mainStorage.getWordsToLearn();
+      const wordsResCopy = [...wordsToLearn];
+      for (let index = 0; index < 20; index++) {
+        const randomIndex = GET_RANDOM(0, wordsResCopy.length - 1);
+        wordsResCopy.slice(randomIndex, 1);
+        wordsRes.push(wordsResCopy[index]);
+      }
     } else {
       wordsRes = await this.wordsApi
         .getWordsCollection({ group: this.level, page: this.round })
@@ -269,8 +275,8 @@ export class SavannahGame {
   }
 
   showErrorPopup(err) {
-    this.errorPopup.openPopup({ text: err.message });
     this.spinner.remove();
+    this.errorPopup.openPopup({ text: err.message });
   }
 
   onClickSoundBtn() {
