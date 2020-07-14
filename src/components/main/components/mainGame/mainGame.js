@@ -1,384 +1,598 @@
+import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
 import mainController from '../controller/main.controller';
-import ErrorInput from '../errorInput/errorInput';
 
-import ApiService from '../../../../services/common/services.common.api_service';
-import { UserWordsApi, WordsApi } from '../../../../services/services.methods';
+import { showElement, hideElement } from './common/mainGame.helper';
 
-import { LocalStorageService } from '../../../../common/common.helper';
-import { MAIN_API_URL } from '../../../../services/common/services.common.constants';
+import { EMPTY } from '../../../../common/common.constants';
+import { DEFAULT_SETTINGS } from '../../../../services/common/services.common.constants';
 
-const userWords = new UserWordsApi();
-const service = new LocalStorageService();
-const errorInput = new ErrorInput();
-const wordsApi = new WordsApi();
+import './scss/mainGame.styles.scss';
+
+import ERROR_AUDIO from './assets/audio/server-error.mp3';
 
 class MainGame {
   constructor() {
-    this.elements = {
-      gameButtons: {
-        next: null,
-        prev: null,
-        clicked: null,
-      },
+    this.elements = EMPTY;
+    this.currentCard = EMPTY;
+    this.userSettings = EMPTY;
+    this.timerId = EMPTY;
+
+    this.hints = {
+      isTranslationEnabled: EMPTY,
+      isAutoSpellingEnabled: EMPTY,
     };
 
-    this.settings = null;
-    this.level = null;
-    this.page = 0;
-    this.difficult = null;
+    this.combo = EMPTY;
+    this.maxCombo = EMPTY;
+    this.correctAnswers = EMPTY;
+    this.errorAnswers = EMPTY;
+    this.progress = EMPTY;
 
-    this.currentCard = {};
-    this.previousCard = {};
-    this.collection = [];
-    this.indexCard = 0;
-    this.inputArea = null;
+    this.audio = EMPTY;
+    this.errorAudio = new Audio(ERROR_AUDIO);
 
-    this.inputModeEnterBinded = this.inputModeEnter.bind(this);
-    this.inputModeArrowBinded = this.inputModeArrow.bind(this);
-    this.inputModeArrowPrevBinded = this.inputModeArrowPrev.bind(this);
-    this.playAudioBinded = this.playAudio.bind(this);
+    this.render = this.render.bind(this);
+    this.onHintTranslationButtonClickHandler = this.onHintTranslationButtonClickHandler
+      .bind(this);
+    this.onHintAutoSpellingButtonClickHandler = this.onHintAutoSpellingButtonClickHandler
+      .bind(this);
+    this.checkAnswer = this.checkAnswer.bind(this);
+    this.onInputHandler = this.onInputHandler.bind(this);
+    this.checkAnswerByKey = this.checkAnswerByKey.bind(this);
+    this.showCorrectAnswer = this.showCorrectAnswer.bind(this);
+    this.onCategoryButtonClickHandler = this.onCategoryButtonClickHandler
+      .bind(this);
+    this.showNextCard = this.showNextCard.bind(this);
+    this.moveWordToDeleted = this.moveWordToDeleted.bind(this);
+    this.moveWordToDifficulties = this.moveWordToDifficulties.bind(this);
 
-    this.clickHadnlerDeleteUserWord = this.clickHadnlerDeleteUserWord.bind(this);
-    this.clickHadnlerAddUserWordEasy = this.clickHadnlerAddUserWordEasy.bind(this);
-    this.clickHadnlerAddUserWordDiff = this.clickHadnlerAddUserWordDiff.bind(this);
-    this.clickHadnlerDeleteUserWord = this.clickHadnlerDeleteUserWord.bind(this);
+    this.playSpelling = this.playSpelling.bind(this);
+    this.startSpellingAnimation = this.startSpellingAnimation.bind(this);
+    this.stopSpellingAnimation = this.stopSpellingAnimation.bind(this);
+    this.onEndSpellingHandler = this.onEndSpellingHandler.bind(this);
+    this.onErrorSpellingHandler = this.onErrorSpellingHandler.bind(this);
+    this.onEndErrorSpellingHandler = this.onEndErrorSpellingHandler.bind(this);
   }
 
-  async addMdGameScreen() {
-    const mainElement = document.querySelector('.main');
-    mainElement.innerHTML = '';
-    mainElement.insertAdjacentHTML('afterbegin', this.render());
-    await this.fetchWords();
-    this.playMode(this.indexCard);
+  showResults() {
+    this.elements.results.cards.innerText = spacedRepetitions.cardsCount || 0;
+    this.elements.results.correct.innerText = `${Math.round(
+      ((this.correctAnswers - this.errorAnswers) * 100) / spacedRepetitions.cardsCount,
+    ) || 0} %`;
+    this.elements.results.new.innerText = spacedRepetitions.newWordsCount || 0;
+    this.elements.results.combo.innerText = Math.max(this.combo, this.maxCombo) || 0;
+
+    hideElement(this.elements.containers.main);
+    showElement(this.elements.containers.statistic);
   }
 
-  async fetchWords() {
-    mainController.spinner.show();
-    this.collection = await wordsApi.getWordsCollection({ group: this.level, page: this.page });
-    mainController.spinner.hide();
-    console.info(this.collection);
-    this.currentCard = this.collection[this.indexCard];
+  showNextCard() {
+    this.updateProgressBar();
+
+    this.isCorrect = false;
+    if (spacedRepetitions.cardsCount >= this.userSettings.optional.cardsPerDay) {
+      this.showResults();
+      return;
+    }
+
+    this.currentCard = spacedRepetitions.getNextWord();
+    if (!this.currentCard) {
+      spacedRepetitions.cardsCount -= 1;
+      this.showResults();
+      return;
+    }
+
+    this.addCard(this.currentCard);
   }
 
-  init(userSetting = mainController.userSettings, englishLevel = mainController.englishLevel) {
-    this.level = englishLevel;
-    this.settings = userSetting;
-    this.addMdGameScreen();
+  moveWordToDeleted({ target }) {
+    this.currentCard.userWord.optional.toRepeat = false;
+    this.currentCard.userWord.optional.isDifficult = false;
+    this.currentCard.userWord.optional.isDeleted = true;
+    this.currentCard.userWord.optional.changed = true;
+
+    target.setAttribute('disabled', 'disabled');
+    this.elements.buttons.hards.removeAttribute('disabled');
+
+    if (this.currentCard.userWord.optional.isNew) {
+      this.currentCard.userWord.optional.isNew = false;
+      return mainController.setUserWord(
+        this.currentCard.id,
+        this.currentCard.userWord.difficulty,
+        this.currentCard.userWord.optional,
+      );
+    }
+    return mainController.updateUserWord(
+      this.currentCard.id,
+      this.currentCard.userWord.difficulty,
+      this.currentCard.userWord.optional,
+    );
   }
 
-  async playMode(queryIndex) {
-    this.elements.gameButtons.next = document.querySelector('.next');
-    this.elements.gameButtons.next.addEventListener('click', this.inputModeArrowBinded);
-    this.elements.gameButtons.prev = document.querySelector('.prev');
-    if (this.indexCard > 0) {
-      this.elements.gameButtons.prev.classList.remove('hidden');
+  moveWordToDifficulties({ target }) {
+    this.currentCard.userWord.optional.toRepeat = true;
+    this.currentCard.userWord.optional.isDifficult = true;
+    this.currentCard.userWord.optional.isDeleted = false;
+    this.currentCard.userWord.optional.changed = true;
+
+    target.setAttribute('disabled', 'disabled');
+    this.elements.buttons.delete.removeAttribute('disabled');
+
+    if (this.currentCard.userWord.optional.isNew) {
+      this.currentCard.userWord.optional.isNew = false;
+      return mainController.setUserWord(
+        this.currentCard.id,
+        this.currentCard.userWord.difficulty,
+        this.currentCard.userWord.optional,
+      );
     }
-    this.elements.gameButtons.prev.addEventListener('click', this.inputModeArrowPrevBinded);
-    this.currentCard = await this.collection[queryIndex];
-    this.currentCard.textExample = this.currentCard.textExample.replace(/<\/?[a-zA-Z]+>/gi, '');
-    this.currentCard.textExample = this.currentCard.textExample.replace(',', ' ,').toLowerCase();
-    const wordsArr = await this.currentCard.textExample.split(' ');
-    if (wordsArr.indexOf(this.currentCard.word) === -1) {
-      if (this.indexCard === 19) {
-        this.page += 1;
-        this.indexCard = 0;
-        this.addMdGameScreen();
-      }
-      this.indexCard += 1;
-      this.playMode(this.indexCard);
-    }
-    wordsArr[wordsArr.length - 1] = wordsArr[wordsArr.length - 1].slice(0, -1);
-    wordsArr.find((element, index) => {
-    // we also need to check this `|| element === this.currentCard.word + 's'`
-      if (element === this.currentCard.word) {
-        wordsArr[index] = '';
-        if (index === 0) {
-          this.currentCard.word = this.currentCard.word[0]
-            .toUpperCase() + this.currentCard.word.slice(1);
-        }
-        return true;
-      }
-      return false;
-    });
-    document.querySelector('.learn-content__container').innerHTML = '';
-    wordsArr.forEach((element, index) => {
-      if (index === 0 && element !== '') {
-        wordsArr[index] = element[0].toUpperCase() + element.slice(1);
-      }
-      if (element !== '' || element === '.') {
-        const divWord = document.createElement('div');
-        divWord.classList.add('word');
-        divWord.innerHTML = element;
-        document.querySelector('.learn-content__container').append(divWord);
-      } else {
-        const inputDiv = document.createElement('span');
-        const spanBg = document.createElement('span');
-        spanBg.classList.add('background');
-        spanBg.classList.add('hidden-vis');
-        inputDiv.classList.add('input-container');
-        const wordLetter = this.currentCard.word.split('');
-        inputDiv.innerHTML = '';
-        wordLetter.forEach((e, i) => {
-          spanBg.innerHTML += `<span index=${i} class="opacityhidden errors">${e}</span>`;
-        });
-        const inputWord = document.createElement('input');
-        this.buildCardSettings(this.settings);
-        inputWord.classList.add('answer-input');
-        inputDiv.append(spanBg);
-        inputDiv.append(inputWord);
-        document.querySelector('.learn-content__container').append(inputDiv);
-      }
-    });
-    const dotBlock = document.createElement('span');
-    dotBlock.classList.add('dotBlock');
-    dotBlock.innerHTML = '.';
-    document.querySelector('.answer-input').focus();
-    document.querySelector('.learn-content__container').append(dotBlock);
-    document.querySelector('.translate').innerHTML = this.currentCard.wordTranslate;
-    document.addEventListener('keypress', this.inputModeEnterBinded);
+    return mainController.updateUserWord(
+      this.currentCard.id,
+      this.currentCard.userWord.difficulty,
+      this.currentCard.userWord.optional,
+    );
   }
 
-  buildCardSettings(settings) {
-    if (settings.optional.isTranscription === 'true') {
-      document.querySelector('.transcription').innerHTML = '';
-      document.querySelector('.transcription').innerHTML = this.currentCard.transcription;
-    }
-    if (settings.optional.isAddSentExplWord === 'true') {
-      document.querySelector('.learn-content__meaning').innerHTML = '';
-      document.querySelector('.learn-content__meaning').innerHTML = this.currentCard.textMeaning;
-    }
-    if (this.settings.optional.isPicture === 'true') {
-      document.querySelector('.card-image').innerHTML = '';
-      document.querySelector('.card-image').innerHTML = `<img src="${this.currentCard.image}"></img>`;
-    }
-    if (this.settings.optional.isTranslation === 'true') {
-      document.querySelector('.learn-content__translation').innerHTML = '';
-      document.querySelector('.learn-content__translation').innerHTML = this.currentCard.textExampleTranslate;
-    }
-    if (this.settings.optional.isShowAnswerButton === 'true') {
-      document.querySelector('.card-footer__answer-button').innerHTML = '';
-      document.querySelector('.card-footer__answer-button').innerHTML = '<button class="show__answer-button">Ответ</button>';
-      document.querySelector('.show__answer-button').addEventListener('click', this.showAnswerButton);
-    }
-    if (this.settings.optional.isShowDiffMoveButton === 'true') {
-      document.querySelector('.card-header__move-diff').innerHTML = '';
-      document.querySelector('.card-header__move-diff').innerHTML = '<button>Move D.</button>';
-    }
-    if (this.settings.optional.isShowDeleteButton === 'true') {
-      document.querySelector('.card-header__delete-word').innerHTML = '';
-      document.querySelector('.card-header__delete-word').innerHTML = '<button>Delete</button>';
-      document.querySelector('.card-header__delete-word').addEventListener('click', this.clickHadnlerDeleteUserWord);
-    }
-    if (this.settings.optional.isShowAgainButton === 'true') {
-      document.querySelector('.card-header__again-word').innerHTML = '';
-      document.querySelector('.card-header__again-word').innerHTML = '<button>Again</button>';
-    }
-    if (this.settings.optional.isShowDiffButton === 'true') {
-      document.querySelector('.card-header__diff-diff').innerHTML = '';
-      document.querySelector('.card-header__diff-diff').innerHTML = '<button>Difficult</button>';
-      document.querySelector('.card-header__diff-diff').addEventListener('click', this.clickHadnlerAddUserWordDiff);
-    }
-    if (this.settings.optional.isShowEasyButton === 'true') {
-      document.querySelector('.card-header__diff-easy').innerHTML = '';
-      document.querySelector('.card-header__diff-easy').innerHTML = '<button>Easy</button>';
-      document.querySelector('.card-header__diff-easy').addEventListener('click', this.clickHadnlerAddUserWordEasy);
-    }
-  }
+  correctAnswer(isShowAnswerButtonClicked = false) {
+    this.isCorrect = true;
+    this.elements.card.input.setAttribute('readonly', 'true');
+    this.elements.card.input.classList.add('linguist__correct');
 
-  clickHadnlerDeleteUserWord() {
-    this.elements.gameButtons.clicked = document.querySelector('.card-header__diff-easy');
-    this.deleteUsWords();
-  }
-
-  clickHadnlerAddUserWordEasy() {
-    this.elements.gameButtons.clicked = document.querySelector('.card-header__diff-easy');
-    this.difficult = 'easy';
-    this.addUserWords();
-  }
-
-  clickHadnlerAddUserWordDiff() {
-    this.elements.gameButtons.clicked = document.querySelector('.card-header__diff-diff');
-    this.difficult = 'difficult';
-    this.addUserWords();
-  }
-
-  showAnswerButton() {
-    if (this.settings.optional.isAddSentExplWord === 'true') {
-      document.querySelector('.learn-content__meaning').innerHTML = '';
-      document.querySelector('.learn-content__meaning').innerHTML = this.currentCard.textMeaning;
-    }
-  }
-
-  async deleteUsWords() {
-    service.keyUserInfo = 'userInfo';
-    const res = service.getUserInfo();
-    userWords._apiService = new ApiService(MAIN_API_URL, res.token);
-    userWords.deleteUserWord({ userId: res.userId, wordId: this.currentCard.id })
-      .then()
-      .catch((err) => {
-        console.info(err);
-      });
-    this.elements.gameButtons.clicked.removeEventListener('click', this.clickHadnlerDeleteUserWord);
-  }
-
-  async addUserWords() {
-    service.keyUserInfo = 'userInfo';
-    const res = service.getUserInfo();
-    userWords._apiService = new ApiService(MAIN_API_URL, res.token);
-    userWords.createUserWord({
-      userId: res.userId,
-      wordId: this.currentCard.id,
-      difficulty: this.difficult,
-    })
-      .then((answ) => {
-        console.info(answ);
-      })
-      .catch(() => {
-        userWords.updateUserWord({
-          userId: res.userId,
-          wordId: this.currentCard.id,
-          difficulty: this.difficult,
-        })
-          .then(() => {
-          })
-          .catch((errr) => {
-            console.info(errr);
-          });
-      });
-    this.elements.gameButtons.clicked.removeEventListener('click', this.clickHadnlerAddUserWordEasy);
-  }
-
-  async inputModeEnter(e) {
-    this.inputArea = document.querySelector('.answer-input');
-    if (e.key === 'Enter') {
-      if (this.settings.optional.isAudio === 'true') {
-        if (this.inputArea.value === this.currentCard.word) {
-          document.removeEventListener('keypress', () => {});
-          const audio = new Audio();
-          audio.src = this.currentCard.audio;
-          audio.autoplay = true;
-          audio.addEventListener('ended', () => {
-            this.playAudioBinded(this.currentCard.audioExample);
-          });
-        } else {
-          const audio = new Audio();
-          audio.src = this.currentCard.audio;
-          audio.autoplay = true;
-          await errorInput.init();
-        }
-      } else if (this.inputArea.value === this.currentCard.word) {
-        document.removeEventListener('keypress', () => {});
-        this.playAudioBinded(this.currentCard.audio);
-      } else {
-        const audio = new Audio();
-        audio.src = this.currentCard.audio;
-        audio.autoplay = true;
-        await errorInput.init();
-      }
-    }
-  }
-
-  async inputModeArrow() {
-    this.inputArea = document.querySelector('.answer-input');
-    if (this.settings.optional.isAudio === 'true') {
-      if (this.inputArea.value === this.currentCard.word) {
-        this.playAudioBinded(this.currentCard.audioExample);
-      } else {
-        const audio = new Audio();
-        audio.src = this.currentCard.audio;
-        audio.autoplay = true;
-        await errorInput.init();
-      }
-    } else if (this.inputArea.value === this.currentCard.word) {
-      this.playAudioBinded(this.currentCard.audio);
+    if (!isShowAnswerButtonClicked) {
+      this.correctAnswers += 1;
+      this.combo += 1;
+      spacedRepetitions.updateCorrectWord(this.currentCard);
     } else {
-      const audio = new Audio();
-      audio.src = this.currentCard.audio;
-      audio.autoplay = true;
-      await errorInput.init();
+      this.maxCombo = Math.max(this.combo, this.maxCombo);
+      this.combo = 0;
+      spacedRepetitions.updateWrongWord(this.currentCard);
     }
+    spacedRepetitions.updateUserWords();
+
+    this.showTranslation();
+    this.renderFullSentences();
+
+    if (this.userSettings.optional.isCategoriesButtons) {
+      hideElement(this.elements.containers.gameControls);
+      showElement(this.elements.containers.categories);
+
+      if (this.hints.isAutoSpellingEnabled) {
+        this.playSpelling(this.currentCard.audio);
+      }
+      return;
+    }
+
+    if (this.hints.isAutoSpellingEnabled) {
+      this.playSpelling(this.currentCard.audio);
+    } else setTimeout(this.showNextCard, 1000);
   }
 
-  inputModeArrowPrev() {
-    this.indexCard -= 1;
-    this.playMode(this.indexCard);
-    if (this.indexCard === 0) {
-      this.gameButtons.prev.classList.add('hidden');
-    }
-  }
+  wrongAnswer(answer, errorColor) {
+    if (this.combo > 0) this.errorAnswers += 1;
+    this.maxCombo = Math.max(this.combo, this.maxCombo);
+    this.combo = 0;
 
-  playAudio(path) {
-    const audio = new Audio();
-    audio.src = path;
-    audio.autoplay = true;
-    audio.addEventListener('ended', () => {
-      if (this.indexCard === (this.collection.length - 1)) {
-        document.querySelector('.learn-content__meaning').innerHTML = '';
-        this.page += 1;
-        this.indexCard = 0;
-        this.addMdGameScreen();
+    spacedRepetitions.updateWrongWord(this.currentCard);
+    spacedRepetitions.updateUserWords();
+
+    this.elements.card.input.value = '';
+    const etalonWordSpans = document.querySelectorAll('.linguist-main-card__letter');
+    etalonWordSpans.forEach((etalonLetter, index) => {
+      if (etalonLetter.dataset.letter !== answer[index] || !answer[index]) {
+        etalonLetter.classList.add(`error-color-${errorColor}`, 'show-etalon-word');
       } else {
-        document.querySelector('.learn-content__meaning').innerHTML = '';
-        this.indexCard += 1;
-        this.playMode(this.indexCard);
+        etalonLetter.classList.add('correct-color', 'show-etalon-word');
       }
     });
+
+    this.timerId = setTimeout(() => {
+      etalonWordSpans.forEach((etalonLetter) => {
+        etalonLetter.classList.remove('correct-color', `error-color-${errorColor}`);
+        etalonLetter.classList.add('linguist-main-card-opacity');
+      });
+    }, 1000);
+
+    this.elements.card.input.addEventListener('click', this.onInputHandler);
+    this.elements.card.input.addEventListener('input', this.onInputHandler);
+    this.elements.card.input.addEventListener('change', this.onInputHandler);
+    this.elements.card.input.focus();
+  }
+
+  setDefaultEtalonWordSpanClass() {
+    const etalonWordSpans = document.querySelectorAll('.linguist-main-card__letter');
+    etalonWordSpans.forEach((etalonLetter) => {
+      etalonLetter.className = 'linguist-main-card__letter';
+    });
+  }
+
+  onInputHandler() {
+    clearTimeout(this.timerId);
+    this.setDefaultEtalonWordSpanClass();
+    this.elements.card.input.removeEventListener('click', this.onInputHandler);
+    this.elements.card.input.removeEventListener('input', this.onInputHandler);
+    this.elements.card.input.removeEventListener('change', this.onInputHandler);
+  }
+
+  checkAnswerByKey(event) {
+    if (event.key !== 'Enter') return;
+    this.checkAnswer();
+  }
+
+  checkAnswer() {
+    if (this.isCorrect) return;
+    const answer = this.elements.card.input.value.trim().toLowerCase();
+    const correctAnswer = this.currentCard.word.trim().toLowerCase();
+
+    if (answer === correctAnswer) {
+      this.correctAnswer();
+    } else {
+      let countErrors = 0;
+      answer.split('').forEach((letter, index) => {
+        if (letter !== correctAnswer[index]) countErrors += 1;
+      });
+      if (answer.length < correctAnswer.length) countErrors += correctAnswer.length - answer.length;
+      const errorColor = (countErrors > correctAnswer.length / 2) ? 'red' : 'orange';
+
+      this.wrongAnswer(answer, errorColor);
+    }
+  }
+
+  showCorrectAnswer() {
+    this.elements.card.input.value = this.currentCard.word.trim().toLowerCase();
+    this.correctAnswer(true);
+  }
+
+  playSpelling(currentAudio) {
+    if (this.audio && !this.audio.ended) {
+      this.audio.pause();
+      this.onEndSpellingHandler(this.audio);
+    }
+
+    this.audio = new Audio(currentAudio);
+    this.audio.addEventListener('ended', this.onEndSpellingHandler);
+    this.audio.addEventListener('error', this.onErrorSpellingHandler);
+    this.startSpellingAnimation();
+    this.audio.play();
+  }
+
+  startSpellingAnimation() {
+    this.elements.buttons.autoSpelling.classList.add('linguist-animated');
+  }
+
+  stopSpellingAnimation() {
+    this.elements.buttons.autoSpelling.classList.remove('linguist-animated');
+  }
+
+  onEndSpellingHandler() {
+    this.audio.removeEventListener('ended', this.onEndSpellingHandler);
+    this.stopSpellingAnimation();
+
+    if (this.audio.src === this.currentCard.audio) {
+      if (this.userSettings.optional.isExampleSentence) {
+        this.playSpelling(this.currentCard.audioExample);
+        return;
+      }
+      if (this.userSettings.optional.isMeaningSentence) {
+        this.playSpelling(this.currentCard.audioMeaning);
+        return;
+      }
+    }
+
+    if (this.audio.src === this.currentCard.audioExample) {
+      if (this.userSettings.optional.isMeaningSentence) {
+        this.playSpelling(this.currentCard.audioMeaning);
+        return;
+      }
+    }
+
+    if (!this.userSettings.optional.isCategoriesButtons) this.showNextCard();
+  }
+
+  onErrorSpellingHandler() {
+    this.audio.removeEventListener('error', this.onErrorSpellingHandler);
+    this.errorAudio.addEventListener('ended', this.onEndErrorSpellingHandler);
+    this.errorAudio.play();
+    this.startSpellingAnimation();
+  }
+
+  onEndErrorSpellingHandler() {
+    this.errorAudio.removeEventListener('ended', this.onEndErrorSpellingHandler);
+    this.stopSpellingAnimation();
+  }
+
+  updateProgressBar() {
+    this.elements.progress.passed.innerText = spacedRepetitions.cardsCount || 0;
+    this.elements.progress.count.innerText = this.userSettings.optional.cardsPerDay || 0;
+    this.progress = Math.round(
+      (spacedRepetitions.cardsCount * 100) / this.userSettings.optional.cardsPerDay,
+    );
+    this.elements.progress.bar.style.width = `${this.progress}%`;
+  }
+
+  showTranslation() {
+    this.elements.card.exampleTranslate.classList.remove('linguist__hidden');
+    this.elements.card.meaningTranslate.classList.remove('linguist__hidden');
+    this.elements.card.wordTranslate.classList.remove('linguist__hidden');
+  }
+
+  onHintTranslationButtonClickHandler({ target }) {
+    this.hints.isTranslationEnabled = !this.hints.isTranslationEnabled;
+    target.classList.toggle('active');
+
+    this.elements.card.exampleTranslate.classList.toggle('linguist__hidden');
+    this.elements.card.meaningTranslate.classList.toggle('linguist__hidden');
+    this.elements.card.wordTranslate.classList.toggle('linguist__hidden');
+
+    if (
+      !this.userSettings.optional.isMeaningSentence
+        && !this.userSettings.optional.isExampleSentence
+    ) {
+      this.elements.card.wordTranslate.classList.remove('linguist__hidden');
+    }
+  }
+
+  onHintAutoSpellingButtonClickHandler({ target }) {
+    this.hints.isAutoSpellingEnabled = !this.hints.isAutoSpellingEnabled;
+    target.classList.toggle('active');
+  }
+
+  onCategoryButtonClickHandler({ target }) {
+    if (this.audio && !this.audio.ended) return;
+    if (!target.classList.contains('linguist__categories-button')) return;
+    const newCategory = target.dataset.category;
+
+    spacedRepetitions.updateCategory(this.currentCard, newCategory);
+    spacedRepetitions.updateUserWords();
+
+    showElement(this.elements.containers.gameControls);
+    hideElement(this.elements.containers.categories);
+
+    this.showNextCard();
+  }
+
+  addCard(wordData = this.currentCard) {
+    this.elements.buttons.hards.removeAttribute('disabled');
+    this.elements.buttons.delete.removeAttribute('disabled');
+
+    this.elements.containers.card.innerHTML = '';
+    this.elements.containers.card.insertAdjacentHTML('afterBegin', this.renderCard(wordData));
+    this.elements.picture.src = wordData.image;
+
+    const wordElement = document.querySelector('.linguist-main-card__word');
+
+    const inputElement = document.createElement('input');
+    inputElement.className = 'linguist-main-card__input';
+    inputElement.style.width = `${wordElement.getBoundingClientRect().width + 1}px`;
+
+    wordElement.insertAdjacentElement('afterBegin', inputElement);
+
+    this.elements.card = {
+      example: document.querySelector('.linguist-main-card__example'),
+      exampleTranslate: document.querySelector('.linguist-main-card__example_translate'),
+      meaning: document.querySelector('.linguist-main-card__meaning'),
+      meaningTranslate: document.querySelector('.linguist-main-card__meaning_translate'),
+      word: document.querySelector('.linguist-main-card__word'),
+      wordTranslate: document.querySelector('.linguist-main-card__word_translate'),
+      transcription: document.querySelector('.linguist-main-card__transcription'),
+      input: document.querySelector('.linguist-main-card__input'),
+    };
+
+    this.elements.card.input.focus();
+  }
+
+  renderCard(wordData = this.currentCard) {
+    const hideTranslationClass = (!this.hints.isTranslationEnabled)
+      ? 'linguist__hidden'
+      : '';
+
+    const hideWordTranslationClass = (!this.userSettings.optional.isTranslation)
+      ? 'display-none'
+      : '';
+
+    const hideMeaningClass = (!this.userSettings.optional.isMeaningSentence)
+      ? 'display-none'
+      : '';
+
+    const hideExampleClass = (!this.userSettings.optional.isExampleSentence)
+      ? 'display-none'
+      : '';
+
+    const hideTranscriptionClass = (!this.userSettings.optional.isTranscription)
+      ? 'display-none'
+      : '';
+
+    const firstWord = wordData.word[0].toUpperCase() + wordData.word.slice(1);
+    const textExample = wordData.textExample
+      .replace(wordData.word, '[...]')
+      .replace(firstWord, '[...]');
+
+    const textMeaning = wordData.textMeaning
+      .replace(wordData.word, '[...]')
+      .replace(firstWord, '[...]');
+
+    return `
+      <p class="linguist-main-card__word">${this.renderWord(wordData.word)}</p>
+      <p class="linguist-main-card__transcription linguist-main-card__description ${hideTranscriptionClass}">${wordData.transcription}</p>
+      <p class="linguist-main-card__word_translate linguist-main-card__description ${hideTranslationClass} ${hideWordTranslationClass}">${wordData.wordTranslate}</p>
+      <p class="linguist-main-card__example linguist-main-card__description ${hideExampleClass}">${textExample}</p>
+      <p class="linguist-main-card__example_translate linguist-main-card__description ${hideTranslationClass} ${hideExampleClass}">${wordData.textExampleTranslate}</p>
+      <p class="linguist-main-card__meaning linguist-main-card__description ${hideMeaningClass}">${textMeaning}</p>
+      <p class="linguist-main-card__meaning_translate linguist-main-card__description ${hideTranslationClass} ${hideMeaningClass}">${wordData.textMeaningTranslate}</p>
+    `;
+  }
+
+  renderFullSentences(wordData = this.currentCard) {
+    this.elements.card.example.innerHTML = wordData.textExample;
+    this.elements.card.meaning.innerHTML = wordData.textMeaning;
+  }
+
+  renderWord(word = this.currentCard.word) {
+    return word
+      .split('')
+      .map((letter) => `<span class="linguist-main-card__letter" data-letter="${letter}">${letter}</span>`)
+      .join('');
   }
 
   render() {
     return `
-      <div class="card-container">
-        <div class="navigate prev hidden"></div>
-
-        <div class="card">
-          <div class="card-header">
-            <div class="card-header__block">
-              <div class="card-header__move-diff">
-              </div>
-              <div class="card-header__delete-word">
-              </div>
-              <div class="card-header__again-word">
-              </div>
+      <div class="linguist__wrapper">
+        <div class="linguist__main">
+          <div class="linguist__controls-wrapper">
+            <div class="linguist__game-controls-wrapper">
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_delete display-none">delete</button>
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_hards display-none">To difficult</button>
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_show display-none">Show answer</button>
+              <button class="linguist__button linguist__game-controls-button linguist__game-controls-button_check">Check</button>
             </div>
-
-            <div class="card-header__block">
-              <div class="card-header__diff-diff">
-              </div>
-              <div class="card-header__diff-good">
-              </div>
-              <div class="card-header__diff-easy">
-              </div>
+            <div class="linguist__categories-controls-wrapper display-none">
+              <button class="linguist__button linguist__categories-button linguist__categories-button_again" data-category="new">again</button>
+              <button class="linguist__button linguist__categories-button linguist__categories-button_hard" data-category="hard">hard</button>
+              <button class="linguist__button linguist__categories-button linguist__categories-button_good" data-category="normal">normal</button>
+              <button class="linguist__button linguist__categories-button linguist__categories-button_easy" data-category="good">good</button>
             </div>
           </div>
-
-          <div class="card-main">
-            <div class="learn-content">
-              <div class="learn-content__container">
-              </div>
+          <div class="linguist__hints-wrapper">
+            <button class="linguist__button linguist__hints-button linguist__hints-button_translation" title="Show/hide translation"></button>
+            <button class="linguist__button linguist__hints-button linguist__hints-button_auto-spelling" title="On/off auto-spelling"></button>
+          </div>
+          <div class="linguist-progress-wrapper">
+            <span class="linguist-progress-passed">0</span>
+            <div class="linguist-progress-bar">
+              <div class="linguist-progress-bar-display"></div>
             </div>
-
-            <div class="learn-content__translation">
-            </div>
-            <div class="learn-content__meaning">
+            <span class="linguist-progress-count">50</span>
+          </div>
+          <div class="linguist-main-card__wrapper">
+            <div class="linguist-main-card">
             </div>
           </div>
-
-          <div class="card-footer">
-            <div class="card-footer__answer-button">
-            </div>
+          <img class="linguist-main-card__image display-none">
+        </div>
+        <div class="linguist__statistic display-none">
+          <div class="linguist__statistic-description-container">
+            <h3 class="linguist__statistic-title">Stage statistics:</h3>
+            <p class="linguist__statistic-cards-finished">
+              <span class="statistic-cards-finished__title">Cards finished: </span>
+              <span class="statistic-cards-finished__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-correct">
+              <span class="statistic-correct__title">Correct answers: </span>
+              <span class="statistic-correct__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-new">
+              <span class="statistic-new__title">New words: </span>
+              <span class="statistic-new__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-combo">
+              <span class="statistic-combo__title">Longest correct combo: </span>
+              <span class="statistic-combo__result"></span>
+            </p>
+            <hr class="linguist__statistic-line">
+            <p class="linguist__statistic-description">
+              It's enough for today. But, if you want, you can repeat it again or change settings.
+            </p>
+          </div>
+          <div class="linguist__statistic-controls">
+            <button class="linguist__button" onclick="location.href = '#/settings'">Settings</button>
+            <button class="linguist__button" onclick="location.href = '#/'">Main page</button>
           </div>
         </div>
-
-        <div class="navigate next"></div>
-      </div>
-
-      <div class="card-helper">
-        <div class="translate"></div>
-        <div class="text-example"></div>
-        <div class="transcription"></div>
-        <div class="card-image"></div>
       </div>
     `;
+  }
+
+  init(userSettings, englishLevel) {
+    if (!userSettings) {
+      this.userSettings = DEFAULT_SETTINGS;
+      this.userSettings.optional.englishLevel = englishLevel;
+    } else this.userSettings = userSettings;
+
+    this.combo = 0;
+    this.maxCombo = 0;
+    this.correctAnswers = 0;
+    this.errorAnswers = 0;
+    this.progress = 0;
+
+    this.elements = {
+      picture: document.querySelector('.linguist-main-card__image'),
+      containers: {
+        card: document.querySelector('.linguist-main-card'),
+        gameControls: document.querySelector('.linguist__game-controls-wrapper'),
+        categories: document.querySelector('.linguist__categories-controls-wrapper'),
+        statistic: document.querySelector('.linguist__statistic'),
+        main: document.querySelector('.linguist__main'),
+      },
+      buttons: {
+        delete: document.querySelector('.linguist__game-controls-button_delete'),
+        hards: document.querySelector('.linguist__game-controls-button_hards'),
+        show: document.querySelector('.linguist__game-controls-button_show'),
+        check: document.querySelector('.linguist__game-controls-button_check'),
+        again: document.querySelector('.linguist__game-controls-button_again'),
+        hard: document.querySelector('.linguist__game-controls-button_hard'),
+        good: document.querySelector('.linguist__game-controls-button_good'),
+        easy: document.querySelector('.linguist__game-controls-button_easy'),
+        translation: document.querySelector('.linguist__hints-button_translation'),
+        autoSpelling: document.querySelector('.linguist__hints-button_auto-spelling'),
+      },
+      results: {
+        cards: document.querySelector('.statistic-cards-finished__result'),
+        correct: document.querySelector('.statistic-correct__result'),
+        new: document.querySelector('.statistic-new__result'),
+        combo: document.querySelector('.statistic-combo__result'),
+      },
+      progress: {
+        passed: document.querySelector('.linguist-progress-passed'),
+        count: document.querySelector('.linguist-progress-count'),
+        bar: document.querySelector('.linguist-progress-bar-display'),
+      },
+    };
+
+    if (this.userSettings.optional.isPicture) {
+      this.elements.picture.classList.remove('display-none');
+    }
+
+    if (this.userSettings.optional.isDeleteButton) {
+      this.elements.buttons.delete.classList.remove('display-none');
+    }
+    this.elements.buttons.delete.addEventListener('click', this.moveWordToDeleted);
+
+    if (this.userSettings.optional.isMoveToDifficultiesButton) {
+      this.elements.buttons.hards.classList.remove('display-none');
+    }
+    this.elements.buttons.hards.addEventListener('click', this.moveWordToDifficulties);
+
+    if (this.userSettings.optional.isAnswerButton) {
+      this.elements.buttons.show.classList.remove('display-none');
+    }
+    this.elements.buttons.show.addEventListener('click', this.showCorrectAnswer);
+
+    this.elements.buttons.check.addEventListener('click', this.checkAnswer);
+    document.body.addEventListener('keyup', this.checkAnswerByKey);
+
+    this.hints.isTranslationEnabled = this.userSettings.optional.isTranslation;
+    if (this.hints.isTranslationEnabled) {
+      this.elements.buttons.translation.classList.add('active');
+    }
+    this.elements.buttons.translation.addEventListener('click', this.onHintTranslationButtonClickHandler);
+
+    this.hints.isAutoSpellingEnabled = this.userSettings.optional.isVoiceSpelling;
+    if (this.hints.isAutoSpellingEnabled) {
+      this.elements.buttons.autoSpelling.classList.add('active');
+    }
+    this.elements.buttons.autoSpelling.addEventListener('click', this.onHintAutoSpellingButtonClickHandler);
+
+    if (this.userSettings.optional.isPicture) {
+      this.elements.picture.classList.remove('display-none');
+    }
+
+    if (this.userSettings.optional.isCategoriesButtons) {
+      this.elements.containers.categories.addEventListener('click', this.onCategoryButtonClickHandler);
+    }
+
+    this.showNextCard();
   }
 }
 

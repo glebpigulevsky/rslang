@@ -10,6 +10,7 @@ export const speakItPageComponent = {
             <div class="navigation__box navigation__box_left">
               <span class="navigation__description level__description">Level:</span>
             </div>
+            <button class="game__button game__button-user-words speakit-button">My words</button>
             <div class="navigation__box navigation__box_right">
               <span class="navigation__description round__description">Round:</span>
             </div>

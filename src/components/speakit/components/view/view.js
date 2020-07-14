@@ -187,6 +187,10 @@ class View {
     this.addListener(this.resultsLongStatisticButton, EVENTS.CLICK, onResultsLongStatisticClick);
   }
 
+  initUserWordsButton(onUserWordsButtonClick) {
+    this.addListener(this.userWordsGameButton, EVENTS.CLICK, onUserWordsButtonClick);
+  }
+
   addStar() {
     const star = createStar(starWin);
     this.statusBar.append(star);
@@ -228,6 +232,7 @@ class View {
     this.translation = document.querySelector('.main-card__translation');
     this.introButton = document.querySelector('.introduction__button');
     this.gameButton = document.querySelector('.game__button-start');
+    this.userWordsGameButton = document.querySelector('.game__button-user-words');
     this.speechInput = document.querySelector('.main-card__speech-input');
     this.stopButton = document.querySelector('.game__button-stop');
     this.newButton = document.querySelector('.game__button-new');

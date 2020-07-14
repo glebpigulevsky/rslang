@@ -5,6 +5,20 @@
   flex-wrap: wrap;
 }
 
+.navigation .game__button-user-words {
+  @include media-mobile {
+    margin: 0 auto;
+    margin-top: 20px;
+    order: 3;
+  }
+}
+
+.speakit-main .navigation {
+  @include media-mobile {
+    padding-bottom: 10px;
+  }
+}
+
 .speakit-body .game__controls,
 .speakit-body .button__container,
 .speakit-body .button__container-results {

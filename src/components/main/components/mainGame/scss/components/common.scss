@@ -1,0 +1,24 @@
+.linguist__wrapper {
+  @include segoe-additional($color: $color-text, $weight: 400);
+
+  font-size: px-to-rem(14px);
+  line-height: px-to-rem(18px);
+
+  @include media-tablet {
+    font-size: px-to-rem(12px);
+    line-height: px-to-rem(16px);
+  }
+}
+
+.display-none {
+  display: none;
+}
+
+.linguist__statistic-description {
+  text-align: center;
+}
+
+.linguist__correct {
+  color: $color-correct;
+  text-decoration: underline;
+}
