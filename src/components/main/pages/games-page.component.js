@@ -17,7 +17,7 @@ export const gamesPageComponent = {
                 <div class="cards__item">
                     <img src="./assets/main/img/savannah.png" class="cards__img" alt="savannah">
                     <p class="cards__name">savannah</p>
-                    <button class="cards__btn btn__icon"><img src="./assets/main/img/icon/play.svg" class="icon-btn" alt="play"><span class="btn__title">play</span></button>
+                    <button class="cards__btn btn__icon" onclick="location.href = '#/savannah'"><img src="./assets/main/img/icon/play.svg" class="icon-btn" alt="play"><span class="btn__title">play</span></button>
                 </div>
             </div>
             <div class="cards__inner">

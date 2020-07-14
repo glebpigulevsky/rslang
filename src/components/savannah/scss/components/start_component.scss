@@ -1,0 +1,77 @@
+.savannah__start {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: $color-dark-brown;
+  height: 100%;
+  justify-content: flex-start;
+  position: relative;
+}
+
+.savannah__start_title {
+  @include segoe-title($color-dark-brown);
+
+  text-transform: uppercase;
+  padding-bottom: 1%;
+  padding-top: 2%;
+}
+
+.savannah__start_button,
+.savannah__start_learning {
+  outline: none;
+  margin-top: 1rem;
+  background: $color-btn;
+  border-radius: px-to-rem(30px);
+  text-transform: uppercase;
+  text-align: center;
+  cursor: pointer;
+  border: 1px solid $color-border;
+  transition: color .15s ease-in-out, background-color .15s ease-in-out, border-color .15s ease-in-out, box-shadow .15s ease-in-out;
+  width: px-to-rem(150px);
+  height: px-to-rem(20px);
+  justify-self: center;
+  @include segoe-subtitle($color-light, 400);
+}
+
+.savannah__start_button:active,
+.savannah__start_learning:active {
+  background: $color-dark-blue;
+}
+
+.savannah__start_button {
+  margin-left: 1rem;
+  width: px-to-rem(120px);
+}
+
+.savannah__start_button:hover,
+.savannah__start_learning:hover {
+  background-color: $color-hovered;
+  border-color: transparent;
+
+  @include transition($time: .4s, $property: all, $method: ease-out);
+}
+
+#savannah__level,
+#savannah__round {
+  background: $color-light-grey;
+  color: $color-text-additional;
+  cursor: pointer;
+  border-radius: 3px;
+  width: 45px;
+  height: 30px;
+  border: 1px solid $color-border;
+}
+
+.savannah__start_controls {
+  margin: 1rem;
+
+  @include media-mobile {
+    margin: 1rem 0 0 3rem;
+  }
+}
+
+.savannah__start_phar {
+  border-radius: 5px;
+  padding: 1%;
+  text-align: center;
+}

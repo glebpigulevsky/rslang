@@ -4,7 +4,7 @@ import UsersApi from './main/endpoints/services.main.endpoints.users';
 import UserWordsApi from './main/endpoints/services.main.endpoints.user_words';
 import WordsApi from './main/endpoints/services.main.endpoints.words';
 import UserAggregatedWords from './main/endpoints/services.main.endpoints.user_aggregated_words';
-import { ERRORS_DESCRIPTION, USER_AGGREGATED_WORDS_FILTER } from './common/services.common.constants';
+import { ERRORS_DESCRIPTION, USER_AGGREGATED_WORDS_FILTER, GET_RANDOM } from './common/services.common.constants';
 
 export {
   SettingsApi,
@@ -15,4 +15,5 @@ export {
   UserAggregatedWords,
   ERRORS_DESCRIPTION,
   USER_AGGREGATED_WORDS_FILTER,
+  GET_RANDOM,
 };

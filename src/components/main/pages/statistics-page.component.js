@@ -1,5 +1,6 @@
+import learningWords from '../components/learningWords/learningWords';
+
 export const statisticsPageComponent = {
-  render: () => `
-        <h1 style="text-align:center">statistics</h1>
-    `,
+  init: learningWords.init,
+  render: learningWords.render,
 };
