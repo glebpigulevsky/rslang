@@ -3,9 +3,9 @@ import router from './components/router/router';
 import './scss/main.styles.scss';
 
 class Main {
-  init() {
-    router.init();
+  async init() {
     mainStorage.init();
+    router.init();
   }
 }
 

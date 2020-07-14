@@ -1,5 +1,7 @@
 import mainController from '../controller/main.controller';
 import mainGame from '../mainGame/mainGame';
+import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
+import { DEFAULT_SETTINGS } from '../../../../services/common/services.common.constants';
 
 import { EMPTY } from '../../../../common/common.constants';
 
@@ -17,7 +19,7 @@ class IntroMainGame {
     this.beforeUnloadHandler = this.beforeUnloadHandler.bind(this);
   }
 
-  appendIntoDom(container = document.querySelector('.main')) {
+  appendIntoDom(container = this.elements.container) {
     container.innerHTML = '';
     container.insertAdjacentHTML('afterbegin', this.render());
   }
@@ -30,9 +32,34 @@ class IntroMainGame {
     this.elements.englishLevelInput.removeEventListener('change', mainController.onChangeEnglishLevelHandler);
   }
 
-  onMainGameStartClickHandler() {
+  async onMainGameStartClickHandler() {
+    const userEnglishLevel = this.elements.englishLevelInput.value || 0;
+
+    mainController.isNewUser = false;
     this.removeHandlers();
-    mainGame.init(mainController.settingsBack, mainController.englishLevel);
+
+    let userSettings = await mainController.getUserSettings();
+    if (!userSettings) {
+      userSettings = {
+        wordsPerDay: DEFAULT_SETTINGS.wordsPerDay,
+        optional: DEFAULT_SETTINGS.optional,
+      };
+    }
+    mainController.userSettings = userSettings;
+    mainController.englishLevel = userEnglishLevel;
+    mainController.userSettings.optional.englishLevel = userEnglishLevel;
+
+    mainController.spinner.show();
+    await Promise.all([
+      mainController.updateUserSettings(mainController.userSettings),
+      spacedRepetitions.init(userEnglishLevel),
+      spacedRepetitions.updateUserWords(),
+    ]).then(() => {
+      mainController.spinner.hide();
+      this.elements.container.innerHTML = '';
+      this.elements.container.insertAdjacentHTML('afterbegin', mainGame.render());
+      mainGame.init(mainController.userSettings, userEnglishLevel);
+    });
   }
 
   addMainGameStartButtonHandler() {
@@ -59,6 +86,7 @@ class IntroMainGame {
   }
 
   init() {
+    this.elements.container = document.querySelector('.main');
     this.elements.mainGameStartButton = document.querySelector('.main__game-start__button');
     this.elements.englishLevelInput = document.querySelector('#englishlevel');
 
@@ -70,14 +98,13 @@ class IntroMainGame {
     return `
       <div class="main__game-start">
         <div class="main__game-start__description">
-          "English words" game.<br>
-          <span>Based on russian</span>
+          Train 3600 essential english words. Based on russian
         </div>
-        <button class="main__game-start__button">Start lesson</button>
+        <button class="main__game-start__button linguist__button">Start studying</button>
       </div>
 
       <div class="main__game-level">
-        <div class="main__game-level__description">Выберите свой уровень для тренировки:</div>
+        <div class="main__game-level__description">Choose you current english level:</div>
         
         <datalist id="levellist">
           <option value="0" label="A0">
@@ -88,11 +115,6 @@ class IntroMainGame {
           <option value="5" label="C1">
         </datalist>
         <input id="englishlevel" type="range" min="0" max="5" step="1" list="levellist">
-      </div>
-
-      <div class="main__game-stat">
-        <div class="main__game-stat__today">Today</div>
-        <div class="main__game-stat__week">Weekly progress</div>
       </div>
     `;
   }

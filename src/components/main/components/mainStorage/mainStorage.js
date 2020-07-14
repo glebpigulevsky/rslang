@@ -1,8 +1,11 @@
 import mainController from '../controller/main.controller';
+import spacedRepetitions from '../spacedRepetitions/spacedRepetitions';
+
 import { checkUserInfo } from '../../../../services/common/services.common.api_service.helper';
 
-import { EMPTY, EMPTY_ARRAY } from '../../../../common/common.constants';
+import { EMPTY } from '../../../../common/common.constants';
 import { MINI_GAMES_NAMES } from '../../common/main.constants';
+import { WORD_CATEGORY_TO_INDEX } from '../spacedRepetitions/common/constants';
 
 class MainStorage {
   constructor() {
@@ -10,28 +13,28 @@ class MainStorage {
 
     this.miniGamesResults = {
       englishPuzzle: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
       speakIt: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
       savanna: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
       audioCall: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
       sprint: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
       drop: {
-        wrong: EMPTY_ARRAY,
-        correct: EMPTY_ARRAY,
+        wrong: [],
+        correct: [],
       },
     };
 
@@ -74,8 +77,7 @@ class MainStorage {
   loadMiniGamesResults() {
     try {
       const { userId } = checkUserInfo();
-      const loadedMiniGamesResults = JSON.parse(localStorage.getItem(`miniGamesResults-${userId}`));
-      if (loadedMiniGamesResults) this.miniGamesResults = loadedMiniGamesResults;
+      this.miniGamesResults = JSON.parse(localStorage.getItem(`miniGamesResults-${userId}`)) || this.miniGamesResults;
     } catch (error) {
       console.info(error.message);
     }
@@ -86,17 +88,32 @@ class MainStorage {
     window.removeEventListener('beforeunload', this.beforeUnloadHandler);
   }
 
-  async getWordsToLearn() {
-    mainController.spinner.show();
-    this.wordsToLearn = await mainController.getAllUserAggregatedWords({ group: '3', wordsPerPage: '27' });
-    mainController.spinner.hide();
-    return this.wordsToLearn;
+  getUserEnglishLevel() {
+    return mainController.englishLevel;
   }
 
-  async init() {
+  getWordsToLearn() {
+    spacedRepetitions.userWordsCollection.sort(
+      (wordDataA, wordDataB) => WORD_CATEGORY_TO_INDEX[wordDataA.userWord.difficulty]
+        - WORD_CATEGORY_TO_INDEX[wordDataB.userWord.difficulty],
+    );
+
+    spacedRepetitions.userWordsCollection.sort(
+      (wordDataA, wordDataB) => {
+        if (wordDataA.userWord.difficulty === wordDataB.userWord.difficulty) {
+          return wordDataA.userWord.optional.repeatDate
+            - wordDataB.userWord.optional.repeatDate;
+        }
+        return false;
+      },
+    );
+
+    return spacedRepetitions.userWordsCollection;
+  }
+
+  init() {
     this.loadMiniGamesResults();
     window.addEventListener('beforeunload', this.beforeUnloadHandler);
-    return this.wordsToLearn;
   }
 }
 

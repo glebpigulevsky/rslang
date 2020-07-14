@@ -1,4 +1,4 @@
-const DEFAULT_ENGLISH_LEVEL = 0;
+const DEFAULT_ENGLISH_LEVEL = 3;
 
 const MINI_GAMES_NAMES = {
   ENGLISH_PUZZLE: 'englishPuzzle',
