@@ -26,7 +26,7 @@ class Promo {
   }
 
   showPromoVideo() {
-const promoContainer = document.querySelector('.prvideo');
+    const promoContainer = document.querySelector('.prvideo');
     const spinner = new Spinner(promoContainer);
     spinner.render();
     document.querySelector('.prvideo').insertAdjacentHTML('beforeend', getPromoVideo());
@@ -40,10 +40,11 @@ const promoContainer = document.querySelector('.prvideo');
       spinner.remove();
     });
   }
+
   removePromoVideo() {
     document.querySelector('.prvideo').removeChild(document.querySelector('#promovideo__modal'));
   }
-  
+
   init() {
     this.submitBtn = document.querySelector('.login__submitBtn');
     this.openLoginPopup();
