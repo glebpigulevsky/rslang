@@ -3,36 +3,40 @@
   justify-content: space-around;
   align-items: center;
   margin: px-to-rem(65px) auto;
-  padding: 0 40px;
-  text-decoration: none;
+  padding: 0 56px;
+  font-size: px-to-rem(16px);
+  line-height: px-to-rem(20px);
   vertical-align: center;
   text-transform: uppercase;
+  text-decoration: none;
   border: none;
   box-shadow: 0 4px 22px rgba(0, 0, 0, .3);
 
-  @include button($color: $color-text, $background: $color-orange, $width: 300px, $height: 55px, $radius: 30px);
+  @include button($color: $color-light, $background: $color-btn, $width: 300px, $height: 55px, $radius: 30px);
+  @include segoe-subtitle($color: $color-light, $weight: bold);
+  @include media-tablet {
+    padding: 0 25px;
+    font-size: px-to-rem(12px);
+    line-height: px-to-rem(20px);
 
-  @include segoe-additional($color: $color-text, $weight: bold);
+    @include button($color: $color-light, $background: $color-btn, $width: 250px, $height: 55px, $radius: 30px);
+  }
+  @include media-mobile {
+    padding: 0 25px;
+    font-size: px-to-rem(12px);
+    line-height: px-to-rem(20px);
 
-  font-size: px-to-rem(16px);
-  line-height: px-to-rem(20px);
+    @include button($color: $color-light, $background: $color-btn, $width: 220px, $height: 55px, $radius: 30px);
+  }
 
   &:focus {
     outline: none;
   }
 
   &:hover {
-    background-color: $color-dark-orange;
+    background-color: $color-hovered;
     border-color: transparent;
 
     @include transition($time: .4s, $property: all, $method: ease-out);
-  }
-
-  @include media-tablet {
-    @include button($color: $color-text, $background: $color-orange, $width: 175px, $height: 55px, $radius: 30px);
-
-    font-size: px-to-rem(12px);
-    line-height: px-to-rem(20px);
-    padding: 0 25px;
   }
 }

@@ -253,6 +253,11 @@ class View {
       EVENTS.CLICK, onStatisticLongStatisticClick);
   }
 
+  initUserWordsButton(onUserWordsButtonClick) {
+    this.addListener(this.elements.buttons.userWordsGameButton,
+      EVENTS.CLICK, onUserWordsButtonClick);
+  }
+
   hideCheckButton() {
     hideElement(this.elements.buttons.check);
   }
@@ -323,6 +328,7 @@ class View {
           autoSpelling: document.querySelector('.game-hints_auto-spelling'),
         },
         repeatSpelling: document.querySelector('.button-repeat-spelling'),
+        userWordsGameButton: document.querySelector('.game__button-user-words'),
       },
       description: {
         picture: document.querySelector('.picture__description'),
