@@ -130,7 +130,6 @@ class Menu {
   hasAccessUser() {
     const auth = new AuthenticateUserService();
     if (auth.checkUserAccess()) {
-      console.info('userHasAccess');
       const mainHeader = document.querySelector('.main-header');
       const mainHeaderLogoutNode = document.querySelector('.main-header__logout');
       const mainHeaderNavigationNode = document.querySelector('.main-header__navigation');
