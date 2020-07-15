@@ -86,7 +86,9 @@ export class SavannahGame {
     });
     const answersBtns = document.querySelector('#js-savannah__answears');
     answersBtns.addEventListener('click', (e) => {
-      this.answerHandle(e.target);
+      if (e.target.classList.contains('savannah__answear') || e.target.classList.contains('savannah__answear_number')) {
+        this.answerHandle(e.target);
+      }
     });
   }
 
