@@ -1,5 +1,4 @@
 .audio-block {
-  // height: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -49,7 +48,6 @@
   animation: gradient-2 .9s ease-in-out;
   background: linear-gradient(45deg, rgba(236, 229, 229, .561), rgba(71, 45, 144, .623), rgba(236, 229, 229, .315));
   background-size: 800% 800%;
-  // box-shadow: 0 5px 23px 40px rgba(0,0,0,0.8);
 }
 
 @keyframes gradient-2 {
