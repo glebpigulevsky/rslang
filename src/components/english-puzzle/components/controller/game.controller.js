@@ -194,7 +194,8 @@ class GameController {
 
     if (this.currentSentence === MAX_SENTENCES_IN_ROUND - 1) {
       if (!this.isPictureShown) {
-        if (!this.completedRoundsByLevels[this.currentLevel].includes(this.currentRound)) {
+        if (!this.completedRoundsByLevels[this.currentLevel].includes(this.currentRound)
+          && !model.isUserWordsGame) {
           this.completedRoundsByLevels[this.currentLevel].push(this.currentRound);
         }
         view.menu.elements.selectors.round.remove();
@@ -234,7 +235,7 @@ class GameController {
       view.hidePicture();
       view.clearPictureDescription();
       this.isPictureShown = false;
-      this.setCurrentRound(this.currentRound + 1);
+      if (!model.isUserWordsGame) this.setCurrentRound(this.currentRound + 1);
       this.newRound(this.currentLevel, this.currentRound);
       return;
     }

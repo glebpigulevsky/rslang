@@ -18,7 +18,6 @@ export default class StatisticsApi {
   }
 
   async updateStatistics({ learnedWords, optional = {} }, { token, userId } = checkUserInfo()) {
-    this._learnedWordsValidator({ learnedWords });
     const res = await this._apiService.putResourse({
       url: `/users/${userId}/statistics`,
       params: { learnedWords, optional },
@@ -26,12 +25,6 @@ export default class StatisticsApi {
       token,
     });
     return this._transformUserStatistics(res);
-  }
-
-  _learnedWordsValidator({ learnedWords }) {
-    if (!Number.isInteger(learnedWords)) {
-      console.info("Statictics: 'learnedWords' should be integer (equal or greater then 0)");
-    }
   }
 
   _transformUserStatistics({ id, learnedWords, optional }) {
