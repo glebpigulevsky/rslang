@@ -104,6 +104,34 @@
     width: 35px;
   }
 
+  @media (max-width: 600px) {
+    .audio-block {
+      justify-content: flex-start;
+      height: 30%;
+    }
+
+    .speaker-block {
+      width: 70px;
+      height: 70px;
+      transition-duration: 0s;
+    }
+
+    .answer-image {
+      width: 50px;
+      height: 50px;
+      object-fit: cover;
+    }
+
+    .answer-word-eng {
+      font-size: .7em;
+    }
+
+    .speaker-block-answer {
+      height: 30px;
+      width: 30px;
+    }
+  }
+
   @keyframes gradient-2 {
     0% {
       background-position: 0 50%;

@@ -1,8 +1,9 @@
 const statsTemplate = `
 <div class="results">
 <div class="start-game">
-          <button class="main-button__start start">TRY AGAIN</button>
-        </div>
+  <button class="main-button__start start">TRY AGAIN</button>
+  <button class="main-button__start long-stats">Show long stats</button>
+</div>
 <div class="mistakes-block">
   <p class="mistakes">Ошибок <span class="mistakes-count"></span></p>
   <ul class="mistakes-list">

@@ -74,6 +74,17 @@
 
 @media (max-width: 900px) {
   .audio-game-wrapper {
+    top: 70px;
+  }
+
+  .audio-call-container {
+    height: 70vh;
+    justify-content: flex-start;
+  }
+}
+
+@media (max-width: 900px) {
+  .audio-game-wrapper {
     top: 40px;
   }
 

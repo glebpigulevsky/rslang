@@ -59,6 +59,14 @@
   margin: 0 !important;
 }
 
+.long-stats {
+  display: flex !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  width: 140px !important;
+  margin: 0 !important;
+}
+
 .level-block {
   display: flex;
   align-items: center;
@@ -93,6 +101,14 @@
 
   .start {
     font-size: .8em !important;
+    padding: 0 !important;
+    width: 100px !important;
+    height: 40px !important;
+    margin: 0 !important;
+  }
+
+  .long-stats {
+    font-size: .7em !important;
     padding: 0 !important;
     width: 100px !important;
     height: 40px !important;

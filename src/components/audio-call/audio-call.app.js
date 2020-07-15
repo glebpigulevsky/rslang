@@ -1,7 +1,7 @@
 import { WordsApi } from '../../services/services.methods';
 import StartScreenClass from './components/startScreen';
 import { statsTemplate, gameTemplate, roundCalc } from './components/templates/templates';
-import { MINI_GAMES_NAMES, mainStorage } from '../main/components/mainStorage/mainStorage';
+import { MINI_GAMES_NAMES, mainStorage, mainController } from '../main/components/mainStorage/mainStorage';
 import './scss/audio-call.scss';
 
 const wordsGetter = new WordsApi();
@@ -14,11 +14,14 @@ class AudioCall {
     this.globalWord = 0;
     this.wordsArray = [];
     this.resultsCorrectArray = [];
+    this.longStatsArray = [];
     this.resultsWrongArray = [];
     this.resultsDontKnowArray = [];
     this.progress = 0;
     this.wordsClickHandlerBinded = this.wordsClickHandler.bind(this);
     this.dontKnowButtonBinded = this.dontKnowButton.bind(this);
+    this.showLongStatsBinded = this.showLongStats.bind(this);
+    this.showShortStatsAgainBinded = this.showShortStatsAgain.bind(this);
     this.enterCount = 0;
     this.keyCount = 0;
     this.roundState = 'game';
@@ -115,7 +118,7 @@ class AudioCall {
   }
 
   renderData(res) {
-    if (this.round < 1) {
+    if (this.round < 10) {
       this.playRound(res);
     } else {
       this.showStats();
@@ -302,6 +305,47 @@ class AudioCall {
     });
   }
 
+  async getLongstats() {
+    const allResults = await mainController.getUserStatistics();
+    const longResults = JSON.parse(allResults.optional[MINI_GAMES_NAMES.AUDIO_CALL]);
+    const currentResult = {
+      resultsCorrectArrayLength: this.resultsCorrectArray.length,
+      resultsWrongArray: this.resultsWrongArray.length,
+      currentTime: new Date().toLocaleString(),
+    };
+    longResults.push(currentResult);
+    this.longStatsArray = longResults;
+    allResults.optional[MINI_GAMES_NAMES.AUDIO_CALL] = JSON.stringify(longResults);
+    await mainController.updateUserStatistics(allResults);
+  }
+
+  showShortStatsAgain() {
+    this.showShortStats();
+    document.querySelector('.long-stats').innerHTML = 'Show long stats';
+    document.querySelector('.main-button__start').addEventListener('click', () => {
+      this.startScreen();
+    });
+    this.renderShortStatsData();
+    document.querySelector('.long-stats').addEventListener('click', this.showLongStatsBinded);
+  }
+
+  showLongStats() {
+    document.querySelector('.long-stats').removeEventListener('click', this.showLongStatsBinded);
+    document.querySelector('.long-stats').innerHTML = 'Show short stats';
+    document.querySelector('.long-stats').addEventListener('click', this.showShortStatsAgainBinded);
+    document.querySelector('.mistakes-block').remove();
+    document.querySelector('.correct-block').remove();
+    document.querySelector('.dont-know-block').remove();
+    document.querySelector('.results').insertAdjacentHTML('beforeend', '<div class="long-stats-block"></div>');
+    for (let i = 0; i < this.longStatsArray.length; i++) {
+      document.querySelector('.long-stats-block').insertAdjacentHTML('beforeend', `
+      <p class="long-stats-info">
+      ${this.longStatsArray[i].currentTime} I know: ${this.longStatsArray[i].resultsCorrectArrayLength}, I don't know: ${this.longStatsArray[i].resultsWrongArray}
+      </p>
+      `);
+    }
+  }
+
   showStats() {
     document.onkeydown = null;
     this.showShortStats();
@@ -323,6 +367,15 @@ class AudioCall {
       wordsDataArray: this.resultsWrongArray,
     });
 
+    this.getLongstats()
+      .then(() => {
+        document.querySelector('.long-stats').addEventListener('click', this.showLongStatsBinded);
+      });
+
+    this.renderShortStatsData();
+  }
+
+  renderShortStatsData() {
     document.querySelector('.correct-count').innerHTML = `${this.resultsCorrectArray.length}`;
     document.querySelector('.mistakes-count').innerHTML = `${this.resultsWrongArray.length}`;
     document.querySelector('.dont-know-count').innerHTML = `${this.resultsDontKnowArray.length}`;
