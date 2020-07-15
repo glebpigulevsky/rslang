@@ -141,16 +141,6 @@ export class SavannahGame {
   showLearningWord() {
     const wrongAnswers = this.staticticsRound.wrong.reduce((acc, word) => acc + getSavannahResultAnswer(this._transformAnswer(word)), '');
     const correctAnswers = this.staticticsRound.correct.reduce((acc, word) => acc + getSavannahResultAnswer(this._transformAnswer(word)), '');
-    mainStorage.addMiniGameResults({
-      miniGameName: MINI_GAMES_NAMES.SAVANNA,
-      isCorrect: true,
-      wordsDataArray: correctAnswers,
-    });
-    mainStorage.addMiniGameResults({
-      miniGameName: MINI_GAMES_NAMES.SAVANNA,
-      isCorrect: false,
-      wordsDataArray: wrongAnswers,
-    });
     const answersNode = document.querySelector('.savannah__start_final_answears');
     answersNode.innerHTML = null;
     answersNode.insertAdjacentHTML('beforeend', getSavannahCurrentWords(this.staticticsRound.wrong.length, this.staticticsRound.correct.length));
@@ -193,9 +183,19 @@ export class SavannahGame {
         answerNode.classList.add('savannah__answear_correct');
       }
       this.staticticsRound.correct.push(this.currentWord);
+      mainStorage.addMiniGameResult({
+        miniGameName: MINI_GAMES_NAMES.SAVANNA,
+        isCorrect: true,
+        wordData: this.currentWord,
+      });
       this.initGameLoop(isCorrectAnswer);
     } else {
       this.staticticsRound.wrong.push(this.currentWord);
+      mainStorage.addMiniGameResult({
+        miniGameName: MINI_GAMES_NAMES.SAVANNA,
+        isCorrect: false,
+        wordData: this.currentWord,
+      });
       if (answerNode) {
         answerNode.classList.add('savannah__answear_wrong');
       }
