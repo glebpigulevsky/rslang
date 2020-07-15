@@ -32,4 +32,9 @@ To run tests:
 $ npm run test
 ```
 
+To run EsLint:
+```sh
+$ npm run lint
+```
+
 Make code in ```/src``` folder
