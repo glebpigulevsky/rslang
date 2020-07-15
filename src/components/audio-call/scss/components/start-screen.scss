@@ -1,0 +1,123 @@
+.start-screen {
+  width: 500px;
+  height: 400px;
+  border-bottom: 20px;
+  background: rgba(70, 68, 68, .274);
+  padding: 5px 60px 30px 60px;
+  border-radius: 30px;
+  color: rgb(255, 255, 255);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.game-name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: justify;
+  margin-top: 40px;
+}
+
+.select-round {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.select-round .level {
+  margin-right: 5px;
+}
+
+.round {
+  margin-right: 5px;
+}
+
+.select-round select {
+  border-radius: 5px;
+  background: rgba(0, 0, 0, .63);
+  height: 34px;
+  padding: 5px;
+  border: 0;
+  font-size: 16px;
+  line-height: 1;
+}
+
+.start-game {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+}
+
+.start {
+  display: flex !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  width: 140px !important;
+  margin: 0 !important;
+}
+
+.long-stats {
+  display: flex !important;
+  justify-content: center !important;
+  padding: 0 !important;
+  width: 140px !important;
+  margin: 0 !important;
+}
+
+.level-block {
+  display: flex;
+  align-items: center;
+}
+
+.round-block {
+  display: flex;
+  align-items: center;
+}
+
+@media (max-width: 690px) {
+  .start-screen {
+    width: 450px;
+    height: 350px;
+    padding: 5px 20px 30px 20px;
+    font-size: .8em;
+  }
+}
+
+@media (max-width: 540px) {
+  .start-screen {
+    width: 290px;
+    height: 350px;
+    padding: 5px 4px 30px 4px;
+    font-size: .7em;
+  }
+
+  .game-name {
+    padding: 0 50px;
+    margin-top: 15px;
+  }
+
+  .start {
+    font-size: .8em !important;
+    padding: 0 !important;
+    width: 100px !important;
+    height: 40px !important;
+    margin: 0 !important;
+  }
+
+  .long-stats {
+    font-size: .7em !important;
+    padding: 0 !important;
+    width: 100px !important;
+    height: 40px !important;
+    margin: 0 !important;
+  }
+
+  .select-round select {
+    height: 28px;
+    padding: 5px;
+    font-size: 10px;
+    line-height: 1;
+  }
+}

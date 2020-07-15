@@ -1,0 +1,36 @@
+.progress-block {
+  width: 60%;
+  height: 20px;
+  display: flex;
+  justify-content: flex-start;
+  border-radius: 5px;
+  border: 1px solid rgba(255, 255, 255, .383);
+}
+
+.progress-block:hover {
+  border: 1px solid rgba(255, 255, 255, .794);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .3);
+}
+
+.progress-bar {
+  background: linear-gradient(90deg, rgba(255, 255, 255, .171), rgb(255, 255, 255));
+  height: 100%;
+  border-radius: 5px;
+  animation: gradient-3 5s ease infinite;
+  background-size: 10% 10%;
+  opacity: .2;
+}
+
+@keyframes gradient-3 {
+  0% {
+    background-position: 0 50%;
+  }
+
+  50% {
+    background-position: 25% 25%;
+  }
+
+  100% {
+    background-position: 50% 0%;
+  }
+}
