@@ -1,0 +1,70 @@
+.promo {
+  width: 100%;
+  max-height: 600px;
+  background: #00a39b;
+  background-image: url("../assets/img/pattern.png");
+  background-repeat: no-repeat;
+
+  @include media-mobile {
+    background-image: none;
+  }
+}
+
+.promo__container {
+  position: relative;
+  display: flex;
+  min-height: 600px;
+  overflow: hidden;
+}
+
+.promo__img {
+  z-index: 10;
+  width: 280px;
+  height: 280px;
+  margin-right: 50px;
+  background-image: url("../assets/img/globus.png");
+  background-repeat: no-repeat;
+
+  @include media-tablet {
+    margin: 0 auto;
+    margin-right: 23px;
+  }
+}
+
+.promo-content {
+  position: absolute;
+  top: 27%;
+  z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20px;
+  text-align: center;
+
+  @include media-tablet {
+    padding: 0 10px;
+  }
+  @include media-mobile {
+    top: 15%;
+    margin: 0 auto;
+  }
+}
+
+.promo__title {
+  font-size: 2.8rem;
+  line-height: px-to-rem(40px);
+
+  @include segoe-title($color-light);
+  @include media-tablet {
+    font-size: 1.7rem;
+    line-height: px-to-rem(30px);
+  }
+  @include media-mobile {
+    margin-left: 10px;
+    font-size: 1.3rem;
+    line-height: 2rem;
+  }
+}
+
+.login__form {
+  margin-top: -65px;
+}

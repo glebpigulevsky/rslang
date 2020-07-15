@@ -1,0 +1,14 @@
+.difficult-words__wrapper {
+  width: calc(100% - 20px);
+  min-height: 100vh;
+  padding: 0 10px;
+
+  @include segoe-additional($color: $color-text, $weight: 400);
+
+  background-color: #f0e0e0;
+}
+
+.difficult-words__main {
+  width: 100%;
+  padding: 20px 0;
+}

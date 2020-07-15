@@ -1,0 +1,36 @@
+.capabilities {
+  background: $color-light;
+}
+
+.capabilities__container {
+  @include padding-between-pages;
+}
+
+.title__content {
+  @include flex-center;
+  @include media-tablet {
+    flex-direction: column;
+  }
+}
+
+.title {
+  margin: 0 30px;
+  font-size: px-to-rem(16px);
+  line-height: px-to-rem(20px);
+  text-align: center;
+  color: $color-light;
+
+  @include segoe-subtitle($color-text, bold);
+}
+
+.title__text {
+  width: 80%;
+  margin: auto;
+  font-size: px-to-rem(16px);
+  line-height: px-to-rem(20px);
+  text-align: center;
+  color: $color-text;
+  letter-spacing: .41px;
+
+  @include segoe-additional($color-text, 400);
+}

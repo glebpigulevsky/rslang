@@ -1,0 +1,23 @@
+@font-face {
+  font-weight: 400;
+  font-size: normal;
+  font-family: "Segoe";
+
+  src: url("../assets/fonts/SegoeUI.ttf") format("opentype");
+}
+
+@font-face {
+  font-weight: 600;
+  font-size: normal;
+  font-family: "Segoe";
+
+  src: url("../assets/fonts/SegoeUI-SemiBold.ttf") format("opentype");
+}
+
+@font-face {
+  font-weight: bold;
+  font-size: normal;
+  font-family: "Segoe";
+
+  src: url("../assets/fonts/SegoeUI-Bold.ttf") format("opentype");
+}

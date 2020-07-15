@@ -1,0 +1,164 @@
+.speakit-cards__list {
+  @include flex-center;
+
+  flex-wrap: wrap;
+  margin: 0;
+}
+
+.speakit-cards__item {
+  min-width: 240px;
+  margin: 10px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  border: 1px solid $color-dark-blue;
+  border-radius: 10px;
+  transition: .2s ease-in;
+
+  &:focus,
+  &:hover,
+  &:active {
+    transform: scale(1.05);
+  }
+}
+
+.speakit-card__link {
+  @include flex-center;
+
+  flex-direction: column;
+  min-height: 60px;
+  padding: 5px;
+  font-size: 16px;
+  line-height: 24px;
+  color: $color-text-additional;
+  border-radius: 10px;
+  background-color: $color-light;
+  background-image: url('../assets/img/dinamic-icon.png');
+  background-repeat: no-repeat;
+  background-position: 11px, 0;
+  background-size: 36px;
+
+  &:focus,
+  &:hover,
+  &:active {
+    color: $color-light;
+    background-color: $color-hovered;
+  }
+}
+
+.speakit-card__link.speakit-active {
+  color: $color-light;
+  background-color: $color-orange;
+}
+
+.speakit-body {
+  .card__word,
+  .card__transcription,
+  .card__translation {
+    margin: 0;
+    line-height: px-to-rem(16px);
+    text-align: center;
+  }
+
+  .main-card {
+    position: relative;
+    margin: 10px auto;
+    @include flex-center;
+
+    flex-wrap: wrap;
+  }
+
+  .picture__container {
+    @include flex-center;
+
+    width: 500px;
+    margin: 10px;
+
+    @include media-tablet {
+      width: 300px;
+    }
+  }
+
+  .main-card__picture {
+    display: block;
+    width: 400px;
+    height: 300px;
+    margin-bottom: 20px;
+    border-radius: 40px;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    transition: background-image .3s;
+    box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+
+    @include media-tablet {
+      width: 300px;
+    }
+  }
+
+  .main-card__description {
+    @include flex-center;
+
+    flex-direction: column;
+  }
+
+  .main-card__translation {
+    width: 360px;
+    min-height: 40px;
+    margin: 20px;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border-radius: 10px;
+    font-size: px-to-rem(14px);
+    text-align: center;
+    line-height: 40px;
+    color: $color-text-additional;
+    background-color: $color-light;
+    background-image: url('./../assets/img/dictionary.png');
+    background-repeat: no-repeat;
+    background-position: 10px 50%;
+    background-size: 32px;
+    box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+
+    @include media-tablet {
+      margin: 10px;
+    }
+
+    @media (max-width: 400px) {
+      width: 300px;
+      font-size: px-to-rem(12px);
+    }
+  }
+
+  .main-card__speech-input {
+    width: 350px;
+    margin: 20px;
+    padding: 5px;
+    font-size: px-to-rem(14px);
+    color: $color-text-additional;
+    overflow: hidden;
+    text-align: center;
+    border: none;
+    border-radius: 10px;
+    background-color: $color-light;
+    background-image: url('./../assets/img/micro.png');
+    background-repeat: no-repeat;
+    background-position: 10px 50%;
+    background-size: 28px;
+    box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+
+    &:focus,
+    &:hover,
+    &:active {
+      outline: none;
+    }
+
+    @include media-tablet {
+      margin: 10px;
+    }
+
+    @media (max-width: 400px) {
+      width: 290px;
+      font-size: px-to-rem(12px);
+    }
+  }
+}

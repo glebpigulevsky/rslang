@@ -1,0 +1,13 @@
+.savannah__start_final_countdown {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  color: $color-dark-brown;
+  justify-content: center;
+  height: 100vh;
+  margin: 2rem;
+}
+
+.savannah__start_final_countdown_count {
+  font-size: 90px;
+}

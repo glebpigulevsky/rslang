@@ -1,0 +1,157 @@
+@import '../../../../../scss/mixins.scss';
+@import '../../../../../scss/constants.scss';
+@import './constants.scss';
+
+.settings__page {
+  padding-bottom: 20px;
+}
+
+.settings {
+  width: 80%;
+  max-width: 1000px;
+  margin: 0 auto;
+  background-color: $color-light-grey;
+  @include border-radius(10px, 10px, 10px, 10px);
+
+  box-shadow: 0 5px 15px 0 $color-shadow-light, 3px 10px 20px 0 $color-shadow-normal;
+  border: 2px solid $color-border;
+
+  @include segoe-additional($color: $color-text, $weight: 400);
+
+  color: $color-text-additional;
+  font-size: px-to-rem(14px);
+  line-height: px-to-rem(18px);
+
+  .raw__container-descr {
+    padding: 5px;
+
+    @include media-mobile {
+      width: 100%;
+      text-align: center;
+    }
+  }
+
+  .settings_raw {
+    border-bottom: 2px solid $color-border;
+
+    @include media-tablet {
+      font-size: px-to-rem(12px);
+      line-height: px-to-rem(14px);
+    }
+  }
+
+  .no-border {
+    border-bottom: none;
+  }
+
+  hr {
+    border: 1px solid $color-border;
+    margin-top: 10px;
+    margin-bottom: 0;
+  }
+}
+
+.settings_raw .raw__container {
+  min-height: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0 20px;
+
+  .raw__container-input {
+    @include border-radius(2px, 2px, 2px, 2px);
+
+    .input-words__day,
+    .input-cards__day {
+      width: 55px;
+      color: $color-text-additional;
+      text-align: center;
+      border: 2px solid $color-border;
+      border-radius: 5px;
+      background-color: $color-bg;
+
+      &:hover,
+      &:active,
+      &:focus {
+        outline: none;
+      }
+    }
+
+    .switch-btn {
+      display: inline-block;
+      width: 60px;
+      height: 25px;
+      border-radius: 12.5px;
+      background: $color-dark-grey;
+      z-index: 0;
+      margin: 0;
+      padding: 0;
+      cursor: pointer;
+      position: relative;
+      transition-duration: 300ms;
+      border: 1px solid $color-border;
+    }
+
+    .switch-btn:after {
+      content: '';
+      height: 25px;
+      width: 25px;
+      border-radius: 25px;
+      background: $color-border;
+      transition-duration: 300ms;
+      position: absolute;
+      z-index: 1;
+    }
+
+    .switch-btn:hover:after {
+      background: $color-orange;
+    }
+
+    .switch-on {
+      background: $color-btn;
+    }
+
+    .switch-on:after {
+      left: 37px;
+    }
+  }
+
+  @include media-tablet {
+    margin: 0 10px;
+  }
+}
+
+.save__settings {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 20px auto;
+  padding: 0 60px;
+  vertical-align: center;
+  text-transform: uppercase;
+  border: 1px solid $color-border;
+  box-shadow: 0 4px 22px rgba(0, 0, 0, .3);
+
+  @include button($color: $color-light, $background: $color-btn, $width: 50px, $height: 55px, $radius: 30px);
+
+  @include segoe-additional($color: $color-light, $weight: bold);
+
+  cursor: pointer;
+
+  &:focus {
+    outline: none;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+    border-color: transparent;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+  }
+}
+
+.settings_description {
+  margin: 10px;
+  text-align: center;
+  font-weight: bold;
+}

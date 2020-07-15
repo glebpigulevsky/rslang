@@ -1,0 +1,32 @@
+.hamburger-menu__button {
+  position: fixed;
+  top: px-to-rem(8px);
+  left: px-to-rem(20px);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  width: px-to-rem(20px);
+  height: px-to-rem(20px);
+  padding: px-to-rem(4px) (8px);
+  background: rgba(0, 0, 0, .2);
+  border-radius: px-to-rem(5px);
+  cursor: pointer;
+
+  @include media-mobile {
+    left: .8rem;
+  }
+
+  &:hover {
+    background-color: $color-hovered;
+
+    @include transition($time: .4s, $property: all, $method: ease-out);
+  }
+}
+
+.hamburger-menu__line {
+  width: 100%;
+  height: .25rem;
+  background-color: $color-light;
+  border-radius: px-to-rem(3px);
+  transition: .2s ease-out;
+}
