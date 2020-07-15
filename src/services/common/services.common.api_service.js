@@ -116,8 +116,7 @@ export default class ApiService {
     }
   }
 
-  getError(status, apiMessage, techMessage) {
-    console.info(techMessage);
+  getError(status, apiMessage) {
     switch (status) {
       case 0:
         throw new ApiError(apiMessage);

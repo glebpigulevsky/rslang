@@ -15,12 +15,10 @@ const checkUserInfo = () => {
     const storage = new LocalStorageService();
     const userInfo = storage.getUserInfo();
     if (!userInfo) {
-      console.info('no userInfo in LocalStorage');
       throw new Error();
     }
     const { userId, token, expiredTime } = userInfo;
     const now = Date.now();
-    console.info(`expiredTimeUTC${new Date(expiredTime).toUTCString()}, nowUTC${new Date(now).toUTCString()}`);
     if (expiredTime < now) {
       throw new Error();
     }

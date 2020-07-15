@@ -18,7 +18,6 @@ export default class SettingsApi {
   }
 
   async updateSettings({ wordsPerDay, optional = {} }, { token, userId } = checkUserInfo()) {
-    this._wordsPerDayValidator(wordsPerDay);
     const res = await this._apiService.putResourse({
       url: `/users/${userId}/settings`,
       params: { wordsPerDay, optional },
@@ -26,12 +25,6 @@ export default class SettingsApi {
       token,
     });
     return this._transformUserSettings(res);
-  }
-
-  _wordsPerDayValidator({ wordsPerDay }) {
-    if (wordsPerDay < 1) {
-      console.info("'wordsPerDay' should be greather then 0");
-    }
   }
 
   _transformUserSettings({ id, wordsPerDay, optional }) {
