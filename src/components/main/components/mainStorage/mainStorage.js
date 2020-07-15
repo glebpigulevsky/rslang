@@ -59,9 +59,11 @@ class MainStorage {
     wordsDataArray,
   }) {
     if (isCorrect) {
-      this.miniGamesResults[miniGameName].correct.concat(wordsDataArray);
+      this.miniGamesResults[miniGameName].correct = this
+        .miniGamesResults[miniGameName].correct.concat(wordsDataArray);
     } else {
-      this.miniGamesResults[miniGameName].wrong.concat(wordsDataArray);
+      this.miniGamesResults[miniGameName].wrong = this
+        .miniGamesResults[miniGameName].wrong.concat(wordsDataArray);
     }
   }
 

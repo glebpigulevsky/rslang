@@ -12,6 +12,14 @@
   flex-direction: row;
 }
 
+.english-puzzle-body .navigation .game__button-user-words {
+  @include media-mobile {
+    margin: 0 auto;
+    margin-top: 20px;
+    order: 3;
+  }
+}
+
 .english-puzzle-body .button {
   margin: 10px;
   text-transform: uppercase;

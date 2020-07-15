@@ -70,6 +70,7 @@ class GameController {
   }
 
   async onLevelChangeHandler(evt) {
+    model.isUserWordsGame = false;
     this.setCurrentLevel(+evt.target.value);
     this.setCurrentRound();
 
@@ -89,6 +90,7 @@ class GameController {
   }
 
   onRoundChangeHandler(evt) {
+    model.isUserWordsGame = false;
     showSpinner();
     this.setCurrentRound(+evt.target.value);
     this.newRound(this.currentLevel, this.currentRound);

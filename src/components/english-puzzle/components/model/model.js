@@ -1,4 +1,4 @@
-import { MINI_GAMES_NAMES, mainController } from '../../../main/components/mainStorage/mainStorage';
+import { MINI_GAMES_NAMES, mainController, mainStorage } from '../../../main/components/mainStorage/mainStorage';
 import { WordsApi } from '../../../../services/services.methods';
 import { getPreloadedImage } from '../../common/english-puzzle.utils';
 import { EMPTY, MAX_LONG_STATISTICS_ITEMS } from '../../../../common/common.constants';
@@ -14,9 +14,24 @@ class Model {
     this.longResults = EMPTY;
     this.allResults = EMPTY;
     this.wordsAPI = new WordsApi();
+
+    this.userWords = EMPTY;
+    this.userWordsLastIndex = EMPTY;
+    this.isUserWordsGame = false;
   }
 
   fetchCardsPage(difficult, page) {
+    if (this.isUserWordsGame) {
+      if (this.userWordsLastIndex + MAX_SENTENCES_IN_ROUND <= this.userWords.length) {
+        this.userWordsLastIndex += MAX_SENTENCES_IN_ROUND;
+        return Promise.resolve(this.userWords.slice(
+          this.userWordsLastIndex - MAX_SENTENCES_IN_ROUND,
+          this.userWordsLastIndex,
+        ));
+      }
+      this.isUserWordsGame = false;
+    }
+
     return this.wordsAPI.getWordsCollection({
       group: difficult,
       page,
@@ -36,10 +51,18 @@ class Model {
   }
 
   getCurrentPictureDescription(difficult, page) {
+    if (this.isUserWordsGame) {
+      return levels[Math.floor(Math.random() * 6)][Math.floor(Math.random() * 24)];
+    }
+
     return levels[difficult][page];
   }
 
   getPreloadedCurrentPicture(difficult, page) {
+    if (this.isUserWordsGame) {
+      return getPreloadedImage(`${PICTURE_URL}${levels[Math.floor(Math.random() * 6)][Math.floor(Math.random() * 24)].imageSrc}`);
+    }
+
     return getPreloadedImage(`${PICTURE_URL}${levels[difficult][page].imageSrc}`);
   }
 
@@ -102,6 +125,11 @@ class Model {
 
   init() {
     this.loadResults();
+
+    this.userWords = mainStorage.getWordsToLearn()
+      .filter((wordData) => wordData.wordsPerExampleSentence <= MAX_WORDS_IN_SENTENCE);
+    if (this.userWords.length >= MAX_SENTENCES_IN_ROUND) this.isUserWordsGame = true;
+    this.userWordsLastIndex = 0;
   }
 }
 

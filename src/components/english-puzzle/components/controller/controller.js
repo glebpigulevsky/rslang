@@ -37,6 +37,7 @@ class Controller {
     this.onStatisticContinueButtonClickBinded = this.onStatisticContinueButtonClick.bind(this);
     this.onStatisticLongStatisticButtonClickBinded = this
       .onStatisticLongStatisticButtonClick.bind(this);
+    this.onUserWordsButtonClickBinded = this.onUserWordsButtonClick.bind(this);
 
     this.beforeUnloadHandlerBinded = this.beforeUnloadHandler.bind(this);
   }
@@ -126,7 +127,7 @@ class Controller {
 
     document.querySelectorAll(`.${CLASS_NAMES.CANVAS_ROW}-${gameController.currentSentence + 1}`)
       .forEach((puzzle, index) => {
-        if (+puzzle.dataset.item.slice(-1) === index + 1) {
+        if (+puzzle.dataset.item.slice(-2).replace('-', '') === index + 1) {
           const correctPuzzle = gameController.getCanvasElement({
             currentSentence: gameController.currentSentence,
             isImage: gameController.hints.isBgImage,
@@ -277,6 +278,11 @@ class Controller {
     window.removeEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
   }
 
+  onUserWordsButtonClick() {
+    model.isUserWordsGame = true;
+    gameController.newRound(gameController.currentLevel, gameController.currentRound);
+  }
+
   async init() {
     this.elements = {
       wrapper: document.querySelector('.english-puzzle-wrapper'),
@@ -292,6 +298,8 @@ class Controller {
     view.initResultsButton(this.onResultsButtonClickBinded);
     view.initStatisticContinueButton(this.onStatisticContinueButtonClickBinded);
     view.initStatisticLongStatisticButton(this.onStatisticLongStatisticButtonClickBinded);
+
+    view.initUserWordsButton(this.onUserWordsButtonClickBinded);
 
     window.addEventListener(EVENTS.BEFORE_UNLOAD, this.beforeUnloadHandlerBinded);
   }
