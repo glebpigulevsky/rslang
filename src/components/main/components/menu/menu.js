@@ -91,8 +91,7 @@ class Menu {
     } else {
       const loginUser = new LoginUser();
       loginUser.showLoginPopup();
-      observable.subscribe('Authenticate', (data) => {
-        console.info(`observer got result: ${data}`);
+      observable.subscribe('Authenticate', () => {
         this.hasAccessUser();
       });
     }
@@ -119,7 +118,6 @@ class Menu {
     if (window.location.hash !== '') {
       window.location.replace(`${window.location.origin}/main.index.html#`);
     }
-    console.info('UserDoesNotHaveAccess');
   }
 
   addMainButtonEventListener() {
