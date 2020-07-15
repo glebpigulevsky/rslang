@@ -3,9 +3,51 @@
 }
 
 .prvideo__container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  font-size: 2.8rem;
+  line-height: px-to-rem(40px);
+
+  @include segoe-title($color-text);
   @include padding-between-pages;
+  @include media-mobilesmall {
+    font-size: 2rem;
+  }
 }
 
 .prvideo__image {
   width: 100%;
+}
+
+.prvideo__btn {
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 60px;
+  height: 60px;
+  margin: 0 20px;
+  color: #00a39b;
+  background: #fff;
+  border-radius: 50%;
+  cursor: pointer;
+  animation: radial-pulse 1.3s infinite;
+}
+
+.prvideo__icon {
+  position: absolute;
+  top: -8px;
+  left: -5px;
+}
+
+@keyframes radial-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(51, 228, 228, .5);
+  }
+
+  100% {
+    box-shadow: 0 0 0 10px rgb(51, 228, 228);
+  }
 }
