@@ -1,59 +1,70 @@
 .promo {
-  @include background-section;
+  width: 100%;
+  max-height: 600px;
+  background: #00a39b;
+  background-image: url("../assets/img/pattern.png");
+  background-repeat: no-repeat;
+
+  @include media-mobile {
+    background-image: none;
+  }
 }
 
 .promo__container {
   position: relative;
+  display: flex;
+  min-height: 600px;
   overflow: hidden;
-  height: 1335px;
+}
 
-  &:before {
-    content: '';
-    display: block;
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-    height: 1335px;
-    background-image: url('../assets/img/background__main.png');
-    background-repeat: no-repeat;
-    background-position: top right;
-    @include media-tablet {
-      display: none;
-    }
-  }
+.promo__img {
+  z-index: 10;
+  width: 280px;
+  height: 280px;
+  margin-right: 50px;
+  background-image: url("../assets/img/globus.png");
+  background-repeat: no-repeat;
 
-  &:after {
-    content: '';
-    display: block;
-    position: absolute;
-    z-index: 1;
-    width: 100%;
-    height: 1335px;
-    background-image: url('../assets/img/backgroundOne__main.png');
-    background-repeat: no-repeat;
-    background-position: top left;
-    @include media-tablet {
-      background-position: 30% 3%;
-    }
+  @include media-tablet {
+    margin: 0 auto;
+    margin-right: 23px;
   }
 }
 
 .promo-content {
-  width: 60%;
-  text-align: center;
   position: absolute;
-  top: 30%;
-  left: 17%;
+  top: 27%;
   z-index: 2;
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0 20px;
+  text-align: center;
+
+  @include media-tablet {
+    padding: 0 10px;
+  }
+  @include media-mobile {
+    top: 15%;
+    margin: 0 auto;
+  }
 }
 
 .promo__title {
-  @include segoe-title($color-text);
-
-  font-size: px-to-rem(48px);
+  font-size: 2.8rem;
   line-height: px-to-rem(40px);
+
+  @include segoe-title($color-light);
   @include media-tablet {
-    font-size: px-to-rem(30px);
-    line-height: px-to-rem(40px);
+    font-size: 1.7rem;
+    line-height: px-to-rem(30px);
   }
+  @include media-mobile {
+    margin-left: 10px;
+    font-size: 1.3rem;
+    line-height: 2rem;
+  }
+}
+
+.login__form {
+  margin-top: -65px;
 }
